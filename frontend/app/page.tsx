@@ -92,21 +92,39 @@ const steps = [
 
 const testimonials = [
   {
-    quote: "Built a full invoicing SaaS backend in under 5 minutes. Saved me weeks of boilerplate.",
-    author: "Sarah K.",
-    role: "Indie Developer",
+    quote: "I described a multi-tenant invoicing app and got a fully working NestJS backend with Prisma in under 4 minutes. Would have taken me 2 days manually.",
+    author: "James L.",
+    role: "Freelance Full-Stack Developer",
     stars: 5,
   },
   {
-    quote: "The schema generation is eerily accurate. It understood exactly what I meant by 'multi-tenant CRM'.",
-    author: "Marcus R.",
-    role: "Startup Founder",
+    quote: "The relation detection blew my mind. I typed 'users have many projects, projects have many tasks' and it generated the exact schema I had in my head.",
+    author: "Priya M.",
+    role: "CTO, Fintech Startup",
     stars: 5,
   },
   {
-    quote: "PromptForge is now part of every new project kickoff. Cuts our scaffolding time by 80%.",
-    author: "Aisha T.",
-    role: "Lead Engineer",
+    quote: "We use PromptForge to prototype new features before committing to a full build. Our sprint velocity has improved noticeably since we started.",
+    author: "Thomas B.",
+    role: "Lead Backend Engineer",
+    stars: 5,
+  },
+  {
+    quote: "As a solo founder I can't afford to spend 3 days on boilerplate. PromptForge gets me to a working API in minutes. It's become part of my standard workflow.",
+    author: "Elif S.",
+    role: "Indie Hacker",
+    stars: 5,
+  },
+  {
+    quote: "Skeptical at first, but the generated code is actually clean. Proper DTOs, validation, auth guards — not just a toy scaffold.",
+    author: "David O.",
+    role: "Senior Software Engineer",
+    stars: 4,
+  },
+  {
+    quote: "We evaluated 3 different tools for our agency. PromptForge was the only one that actually understood our prompts and produced production-ready structure.",
+    author: "Mia C.",
+    role: "Tech Lead, Digital Agency",
     stars: 5,
   },
 ];
@@ -293,12 +311,12 @@ export default function LandingPage() {
             <h2 className="text-4xl font-bold mb-4">Loved by developers</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {testimonials.map((t) => (
               <div key={t.author} className="glass-card p-6">
                 <div className="flex gap-0.5 mb-4">
-                  {Array.from({ length: t.stars }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className={`w-4 h-4 ${i < t.stars ? "fill-yellow-400 text-yellow-400" : "text-slate-700"}`} />
                   ))}
                 </div>
                 <p className="text-slate-300 text-sm leading-relaxed mb-5">
@@ -314,27 +332,78 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── CTA ── */}
+      {/* ── Pricing ── */}
       <section id="pricing" className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="glass-card p-12 glow-indigo-lg">
-            <h2 className="text-4xl font-bold mb-4">
-              Ready to forge your SaaS?
-            </h2>
-            <p className="text-slate-400 text-lg mb-8">
-              Join thousands of developers shipping faster with AI-generated
-              code. Free to start, no credit card required.
-            </p>
-            <Link
-              href="/register"
-              className="btn-primary text-base px-10 py-4 glow-indigo"
-            >
-              Start building for free
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-            <p className="text-slate-500 text-sm mt-4">
-              Free plan includes 3 generations per month
-            </p>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Simple, transparent pricing</h2>
+            <p className="text-slate-400 text-lg">Start free. Upgrade when you need more.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+            {/* Free */}
+            <div className="glass-card p-8">
+              <h3 className="text-xl font-bold text-white mb-1">Free</h3>
+              <p className="text-slate-400 text-sm mb-6">Try it out, no credit card needed.</p>
+              <div className="mb-6">
+                <span className="text-5xl font-bold text-white">$0</span>
+                <span className="text-slate-400 text-sm ml-2">/ month</span>
+              </div>
+              <Link href="/register" className="btn-ghost w-full flex items-center justify-center gap-2 mb-8">
+                Get started free
+              </Link>
+              <ul className="space-y-3">
+                {["3 app generations / month", "Up to 5 entities per app", "Prisma schema generation", "REST API scaffolding", "Community support"].map(f => (
+                  <li key={f} className="flex items-start gap-2 text-sm text-slate-300">
+                    <CheckCircle2 className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* Starter */}
+            <div className="glass-card p-8 border-indigo-600/50 glow-indigo-lg relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span className="bg-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full">Most Popular</span>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-1">Starter</h3>
+              <p className="text-slate-400 text-sm mb-6">For indie devs shipping real products.</p>
+              <div className="mb-6">
+                <span className="text-5xl font-bold text-white">$29</span>
+                <span className="text-slate-400 text-sm ml-2">/ month</span>
+              </div>
+              <Link href="/pricing" className="btn-primary w-full flex items-center justify-center gap-2 mb-8">
+                Get Starter
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <ul className="space-y-3">
+                {["50 app generations / month", "Unlimited entities per app", "Full 1:N & M:N relation support", "AI relation detection", "Docker & CI/CD configs", "Email support (48h)"].map(f => (
+                  <li key={f} className="flex items-start gap-2 text-sm text-slate-300">
+                    <CheckCircle2 className="w-4 h-4 text-indigo-400 mt-0.5 flex-shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* Pro */}
+            <div className="glass-card p-8">
+              <h3 className="text-xl font-bold text-white mb-1">Pro</h3>
+              <p className="text-slate-400 text-sm mb-6">For teams and agencies building at scale.</p>
+              <div className="mb-6">
+                <span className="text-5xl font-bold text-white">$99</span>
+                <span className="text-slate-400 text-sm ml-2">/ month</span>
+              </div>
+              <Link href="/pricing" className="btn-ghost w-full flex items-center justify-center gap-2 mb-8">
+                Get Pro
+              </Link>
+              <ul className="space-y-3">
+                {["Unlimited app generations", "Everything in Starter", "Priority generation queue", "Advanced AI fine-tuning", "Team collaboration", "Priority support (4h)"].map(f => (
+                  <li key={f} className="flex items-start gap-2 text-sm text-slate-300">
+                    <CheckCircle2 className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>

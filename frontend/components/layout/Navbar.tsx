@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import {
   Zap,
   Bell,
-  Settings,
   LogOut,
   ChevronDown,
   User,
@@ -92,7 +91,7 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
                 {user?.name ?? "User"}
               </p>
               <p className="text-xs text-slate-500 leading-tight">
-                {user?.plan === "pro" ? "Pro" : "Free"} plan
+                {user?.plan === "pro" ? "Pro" : user?.plan === "starter" ? "Starter" : "Free"} plan
               </p>
             </div>
             <ChevronDown
@@ -117,20 +116,12 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
                 </div>
                 <div className="py-1">
                   <Link
-                    href="/dashboard/profile"
-                    className="flex items-center gap-3 px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-slate-700/50 transition-colors"
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    <User className="w-4 h-4" />
-                    Profile
-                  </Link>
-                  <Link
                     href="/dashboard/settings"
                     className="flex items-center gap-3 px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-slate-700/50 transition-colors"
                     onClick={() => setDropdownOpen(false)}
                   >
-                    <Settings className="w-4 h-4" />
-                    Settings
+                    <User className="w-4 h-4" />
+                    Profile & Settings
                   </Link>
                 </div>
                 <div className="py-1 border-t border-slate-700/60">

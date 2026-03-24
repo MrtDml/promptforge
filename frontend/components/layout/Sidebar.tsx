@@ -179,7 +179,7 @@ export default function Sidebar() {
               {user?.name ?? "User"}
             </p>
             <p className="text-xs text-slate-500 truncate">
-              {user?.plan === "pro" ? "Pro plan" : "Free plan"}
+              {user?.plan === "pro" ? "Pro plan" : user?.plan === "starter" ? "Starter plan" : "Free plan"}
             </p>
           </div>
           <button

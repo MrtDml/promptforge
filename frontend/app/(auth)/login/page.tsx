@@ -139,13 +139,6 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Demo hint */}
-      <div className="mt-4 glass rounded-lg px-4 py-3 text-center">
-        <p className="text-slate-500 text-xs">
-          Demo: <span className="text-slate-400">demo@promptforge.dev</span> /{" "}
-          <span className="text-slate-400">demo1234</span>
-        </p>
-      </div>
     </div>
   );
 }

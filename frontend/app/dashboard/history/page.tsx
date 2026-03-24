@@ -77,13 +77,16 @@ function RowActions({
   const [downloading, setDownloading] = useState(false);
   const [regenerating, setRegenerating] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [downloadError, setDownloadError] = useState(false);
 
   async function handleDownload() {
+    setDownloadError(false);
     try {
       setDownloading(true);
       await generatorApi.downloadProject(project.id, `${project.name}.zip`);
     } catch {
-      // silent
+      setDownloadError(true);
+      setTimeout(() => setDownloadError(false), 3000);
     } finally {
       setDownloading(false);
     }
@@ -132,8 +135,12 @@ function RowActions({
         <button
           onClick={handleDownload}
           disabled={busy}
-          title="Download ZIP"
-          className="p-1.5 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-slate-700/60 transition-colors disabled:opacity-40"
+          title={downloadError ? "Download failed — try again" : "Download ZIP"}
+          className={`p-1.5 rounded-lg transition-colors disabled:opacity-40 ${
+            downloadError
+              ? "text-red-400 hover:text-red-300 hover:bg-red-500/10"
+              : "text-slate-500 hover:text-slate-200 hover:bg-slate-700/60"
+          }`}
         >
           {downloading ? (
             <RefreshCw className="w-4 h-4 animate-spin" />

@@ -1,0 +1,96 @@
+// This is the PromptForge Prisma schema
+// Learn more about it at https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String    @id @default(cuid())
+  email              String    @unique
+  password           String
+  name               String
+  bio                String?
+  isActive           Boolean   @default(true)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  // Stripe / subscription fields
+  stripeCustomerId   String?
+  subscriptionId     String?
+  subscriptionStatus String?   @default("free")
+  planType           String?   @default("free")
+  generationsUsed    Int       @default(0)
+  generationsLimit   Int       @default(3)
+
+  projects      Project[]
+  subscriptions Subscription[]
+
+  @@map("users")
+}
+
+enum ProjectStatus {
+  PENDING
+  GENERATING
+  COMPLETED
+  FAILED
+}
+
+model Project {
+  id             String        @id @default(cuid())
+  name           String
+  description    String?
+  prompt         String        @db.Text
+  status         ProjectStatus @default(PENDING)
+  appName        String?
+  entityCount    Int?
+  fileCount      Int?
+  features       String[]
+  parsedSchema   Json?
+  generatedFiles Json?
+  errorMessage   String?
+
+  // Deployment fields
+  deployUrl         String?
+  deployStatus      String?   @default("not_deployed")
+  railwayProjectId  String?
+  deployedAt        DateTime?
+  lastDeployAt      DateTime?
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@map("projects")
+}
+
+model Subscription {
+  id                   String   @id @default(cuid())
+  userId               String
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  stripeSubscriptionId String   @unique
+  stripePriceId        String
+  status               String
+  planType             String
+
+  currentPeriodStart   DateTime
+  currentPeriodEnd     DateTime
+  cancelAtPeriodEnd    Boolean  @default(false)
+
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@index([userId])
+  @@index([stripeSubscriptionId])
+  @@map("subscriptions")
+}

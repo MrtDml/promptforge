@@ -1,0 +1,103 @@
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  Logger,
+} from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
+import { CreateUserDto } from './dto/create-user.dto';
+
+@Injectable()
+export class UsersService {
+  private readonly prisma = new PrismaClient();
+  private readonly logger = new Logger(UsersService.name);
+
+  async create(createUserDto: CreateUserDto) {
+    try {
+      const user = await this.prisma.user.create({
+        data: {
+          email: createUserDto.email,
+          password: createUserDto.password,
+          name: createUserDto.name,
+          bio: createUserDto.bio ?? null,
+        },
+      });
+      return user;
+    } catch (error: any) {
+      if (error.code === 'P2002') {
+        throw new ConflictException('A user with this email already exists');
+      }
+      throw error;
+    }
+  }
+
+  async findAll() {
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        bio: true,
+        isActive: true,
+        createdAt: true,
+        updatedAt: true,
+        _count: {
+          select: { projects: true },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async findById(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+      include: {
+        _count: {
+          select: { projects: true },
+        },
+      },
+    });
+    return user;
+  }
+
+  async findByEmail(email: string) {
+    return this.prisma.user.findUnique({
+      where: { email },
+    });
+  }
+
+  async update(id: string, data: Partial<{ name: string; bio: string; isActive: boolean }>) {
+    const user = await this.findById(id);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    return this.prisma.user.update({
+      where: { id },
+      data,
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        bio: true,
+        isActive: true,
+        planType: true,
+        generationsUsed: true,
+        generationsLimit: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  }
+
+  async remove(id: string) {
+    const user = await this.findById(id);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    await this.prisma.user.delete({ where: { id } });
+    return { message: 'User deleted successfully' };
+  }
+}

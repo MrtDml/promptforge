@@ -1,0 +1,228 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+/* ─── CSS Variables ─────────────────────────────────────────────────────── */
+
+:root {
+  --background: #0f172a;
+  --foreground: #f1f5f9;
+  --card: #1e293b;
+  --card-foreground: #f1f5f9;
+  --border: #334155;
+  --input: #1e293b;
+  --ring: #6366f1;
+  --muted: #475569;
+  --muted-foreground: #94a3b8;
+  --accent: #6366f1;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --success: #22c55e;
+  --warning: #f59e0b;
+}
+
+/* ─── Base reset & defaults ─────────────────────────────────────────────── */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: "Inter", system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+/* ─── Scrollbar styling ─────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6366f1;
+}
+
+/* ─── Selection ─────────────────────────────────────────────────────────── */
+
+::selection {
+  background-color: rgba(99, 102, 241, 0.4);
+  color: #f1f5f9;
+}
+
+/* ─── Focus visible ─────────────────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+/* ─── Custom utility classes ────────────────────────────────────────────── */
+
+@layer components {
+  .glass {
+    @apply bg-slate-800/50 backdrop-blur-sm border border-slate-700/50;
+  }
+
+  .glass-card {
+    @apply bg-slate-800/60 backdrop-blur-md border border-slate-700/60 rounded-xl;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent;
+  }
+
+  .glow-indigo {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  }
+
+  .glow-indigo-lg {
+    box-shadow: 0 0 40px rgba(99, 102, 241, 0.2), 0 0 80px rgba(99, 102, 241, 0.1);
+  }
+
+  .input-base {
+    @apply w-full bg-slate-800 border border-slate-600 rounded-lg px-4 py-2.5
+           text-slate-100 placeholder-slate-400
+           focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
+           transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700
+           text-white font-semibold
+           px-5 py-2.5 rounded-lg
+           transition-all duration-200
+           disabled:opacity-50 disabled:cursor-not-allowed
+           focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           bg-slate-700 hover:bg-slate-600 active:bg-slate-800
+           text-slate-100 font-semibold
+           px-5 py-2.5 rounded-lg
+           transition-all duration-200
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2
+           bg-transparent hover:bg-slate-800
+           text-slate-400 hover:text-slate-100
+           px-4 py-2 rounded-lg
+           transition-all duration-200;
+  }
+
+  .code-block {
+    @apply bg-slate-900 border border-slate-700 rounded-lg p-4
+           font-mono text-sm text-slate-300
+           overflow-auto;
+  }
+
+  .nav-link {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg
+           text-slate-400 hover:text-slate-100 hover:bg-slate-800
+           transition-all duration-150 cursor-pointer;
+  }
+
+  .nav-link-active {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg
+           text-indigo-400 bg-indigo-950/60 border border-indigo-800/40
+           font-medium;
+  }
+}
+
+/* ─── Syntax highlighting for JSON preview ──────────────────────────────── */
+
+.json-key {
+  color: #a5b4fc;
+}
+
+.json-string {
+  color: #86efac;
+}
+
+.json-number {
+  color: #fb923c;
+}
+
+.json-boolean {
+  color: #f472b6;
+}
+
+.json-null {
+  color: #94a3b8;
+}
+
+/* ─── Loading skeleton ──────────────────────────────────────────────────── */
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #1e293b 25%,
+    #293548 50%,
+    #1e293b 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+/* ─── Page transitions ──────────────────────────────────────────────────── */
+
+.page-enter {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* ─── Gradient background for hero ─────────────────────────────────────── */
+
+.hero-bg {
+  background: radial-gradient(
+      ellipse 80% 80% at 50% -20%,
+      rgba(99, 102, 241, 0.3) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 40% 40% at 80% 80%,
+      rgba(139, 92, 246, 0.15) 0%,
+      transparent 60%
+    ),
+    #0f172a;
+}
+
+/* ─── Textarea auto-grow ────────────────────────────────────────────────── */
+
+textarea {
+  field-sizing: content;
+}

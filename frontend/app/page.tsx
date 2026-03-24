@@ -1,0 +1,369 @@
+import Link from "next/link";
+import {
+  ArrowRight,
+  Zap,
+  Code2,
+  Database,
+  Shield,
+  Layers,
+  Terminal,
+  ChevronRight,
+  Star,
+  CheckCircle2,
+} from "lucide-react";
+
+const features = [
+  {
+    icon: Zap,
+    title: "Instant Generation",
+    description:
+      "Describe your SaaS idea in plain English and get a complete, working application in seconds.",
+    color: "text-yellow-400",
+    bg: "bg-yellow-400/10",
+  },
+  {
+    icon: Database,
+    title: "Smart Schema Design",
+    description:
+      "Automatically designs your database schema with proper relationships, indexes, and constraints.",
+    color: "text-blue-400",
+    bg: "bg-blue-400/10",
+  },
+  {
+    icon: Code2,
+    title: "Full-Stack Code",
+    description:
+      "Generates REST APIs, database migrations, and frontend components all from one prompt.",
+    color: "text-green-400",
+    bg: "bg-green-400/10",
+  },
+  {
+    icon: Shield,
+    title: "Auth Built-In",
+    description:
+      "Every generated app comes with JWT authentication, role-based access control, and security best practices.",
+    color: "text-purple-400",
+    bg: "bg-purple-400/10",
+  },
+  {
+    icon: Layers,
+    title: "Production Ready",
+    description:
+      "Generated code follows industry best practices with Docker, CI/CD configs, and environment management.",
+    color: "text-indigo-400",
+    bg: "bg-indigo-400/10",
+  },
+  {
+    icon: Terminal,
+    title: "Developer Friendly",
+    description:
+      "Clean, readable code with comprehensive README, API documentation, and setup instructions.",
+    color: "text-pink-400",
+    bg: "bg-pink-400/10",
+  },
+];
+
+const steps = [
+  {
+    number: "01",
+    title: "Describe Your App",
+    description:
+      "Type a natural language description of the SaaS product you want to build.",
+  },
+  {
+    number: "02",
+    title: "AI Parses Your Intent",
+    description:
+      "Our AI extracts entities, relationships, endpoints, and features from your description.",
+  },
+  {
+    number: "03",
+    title: "Review the Schema",
+    description:
+      "Preview the generated data model, API design, and application architecture before generating.",
+  },
+  {
+    number: "04",
+    title: "Generate & Download",
+    description:
+      "Get production-ready code for your entire stack, ready to run locally or deploy to the cloud.",
+  },
+];
+
+const testimonials = [
+  {
+    quote: "Built a full invoicing SaaS backend in under 5 minutes. Saved me weeks of boilerplate.",
+    author: "Sarah K.",
+    role: "Indie Developer",
+    stars: 5,
+  },
+  {
+    quote: "The schema generation is eerily accurate. It understood exactly what I meant by 'multi-tenant CRM'.",
+    author: "Marcus R.",
+    role: "Startup Founder",
+    stars: 5,
+  },
+  {
+    quote: "PromptForge is now part of every new project kickoff. Cuts our scaffolding time by 80%.",
+    author: "Aisha T.",
+    role: "Lead Engineer",
+    stars: 5,
+  },
+];
+
+export default function LandingPage() {
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      {/* ── Navbar ── */}
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
+                <Zap className="w-5 h-5 text-white" />
+              </div>
+              <span className="font-bold text-xl text-white tracking-tight">
+                PromptForge
+              </span>
+            </div>
+            <div className="hidden md:flex items-center gap-8">
+              <a href="#features" className="text-slate-400 hover:text-white transition-colors text-sm">
+                Features
+              </a>
+              <a href="#how-it-works" className="text-slate-400 hover:text-white transition-colors text-sm">
+                How it works
+              </a>
+              <a href="#pricing" className="text-slate-400 hover:text-white transition-colors text-sm">
+                Pricing
+              </a>
+            </div>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/login"
+                className="text-slate-300 hover:text-white transition-colors text-sm font-medium px-4 py-2"
+              >
+                Sign in
+              </Link>
+              <Link
+                href="/register"
+                className="btn-primary text-sm px-4 py-2"
+              >
+                Get started free
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* ── Hero ── */}
+      <section className="hero-bg pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-950 border border-indigo-800/60 text-indigo-300 text-sm font-medium mb-8">
+            <Zap className="w-3.5 h-3.5" />
+            AI-Powered SaaS Builder
+            <ChevronRight className="w-3.5 h-3.5" />
+          </div>
+
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight mb-6">
+            Build your SaaS app{" "}
+            <span className="gradient-text">from one sentence</span>
+          </h1>
+
+          <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+            PromptForge transforms your natural language description into a
+            complete, production-ready SaaS application — backend, database
+            schema, APIs, and more.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+            <Link
+              href="/register"
+              className="btn-primary text-base px-8 py-3.5 glow-indigo"
+            >
+              Start building for free
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link
+              href="/login"
+              className="btn-secondary text-base px-8 py-3.5"
+            >
+              Sign in to dashboard
+            </Link>
+          </div>
+
+          {/* Demo prompt preview */}
+          <div className="glass-card max-w-3xl mx-auto p-6 text-left glow-indigo-lg">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-3 h-3 rounded-full bg-red-500" />
+              <div className="w-3 h-3 rounded-full bg-yellow-500" />
+              <div className="w-3 h-3 rounded-full bg-green-500" />
+              <span className="ml-2 text-slate-500 text-xs font-mono">promptforge.dev</span>
+            </div>
+            <p className="text-slate-300 text-sm font-mono mb-4 leading-relaxed">
+              <span className="text-indigo-400">$</span>{" "}
+              <span className="text-slate-200">
+                &quot;Build a multi-tenant project management SaaS with teams, tasks,
+                comments, file attachments, and role-based access. Include
+                Stripe billing with free and pro tiers.&quot;
+              </span>
+            </p>
+            <div className="border-t border-slate-700/60 pt-4">
+              <div className="flex items-center gap-2 text-green-400 text-xs font-mono">
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                Generated 14 entities · 42 API endpoints · 18 files · Docker ready
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Features ── */}
+      <section id="features" className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-900/50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">
+              Everything you need to ship faster
+            </h2>
+            <p className="text-slate-400 text-lg max-w-xl mx-auto">
+              PromptForge handles the entire scaffolding process so you can
+              focus on what makes your product unique.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((feature) => (
+              <div
+                key={feature.title}
+                className="glass-card p-6 hover:border-slate-600/80 transition-all duration-300 group"
+              >
+                <div
+                  className={`w-11 h-11 rounded-xl ${feature.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
+                >
+                  <feature.icon className={`w-5 h-5 ${feature.color}`} />
+                </div>
+                <h3 className="font-semibold text-lg text-white mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── How it works ── */}
+      <section id="how-it-works" className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">How it works</h2>
+            <p className="text-slate-400 text-lg">
+              From idea to code in four simple steps.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {steps.map((step, i) => (
+              <div key={step.number} className="flex gap-5">
+                <div className="flex-shrink-0">
+                  <span className="text-4xl font-black text-indigo-600/40 font-mono">
+                    {step.number}
+                  </span>
+                </div>
+                <div className={`pt-1 ${i < steps.length - 1 ? "border-b border-slate-800 pb-8 md:border-0 md:pb-0" : ""}`}>
+                  <h3 className="font-semibold text-xl text-white mb-2">
+                    {step.title}
+                  </h3>
+                  <p className="text-slate-400 leading-relaxed">
+                    {step.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Testimonials ── */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-900/50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Loved by developers</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {testimonials.map((t) => (
+              <div key={t.author} className="glass-card p-6">
+                <div className="flex gap-0.5 mb-4">
+                  {Array.from({ length: t.stars }).map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <p className="text-slate-300 text-sm leading-relaxed mb-5">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <div>
+                  <p className="font-semibold text-white text-sm">{t.author}</p>
+                  <p className="text-slate-500 text-xs">{t.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section id="pricing" className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto text-center">
+          <div className="glass-card p-12 glow-indigo-lg">
+            <h2 className="text-4xl font-bold mb-4">
+              Ready to forge your SaaS?
+            </h2>
+            <p className="text-slate-400 text-lg mb-8">
+              Join thousands of developers shipping faster with AI-generated
+              code. Free to start, no credit card required.
+            </p>
+            <Link
+              href="/register"
+              className="btn-primary text-base px-10 py-4 glow-indigo"
+            >
+              Start building for free
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <p className="text-slate-500 text-sm mt-4">
+              Free plan includes 3 generations per month
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Footer ── */}
+      <footer className="border-t border-slate-800 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded bg-indigo-600 flex items-center justify-center">
+              <Zap className="w-4 h-4 text-white" />
+            </div>
+            <span className="font-semibold text-white">PromptForge</span>
+          </div>
+          <p className="text-slate-500 text-sm">
+            © {new Date().getFullYear()} PromptForge. All rights reserved.
+          </p>
+          <div className="flex items-center gap-6">
+            <a href="#" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
+              Privacy
+            </a>
+            <a href="#" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
+              Terms
+            </a>
+            <a href="#" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
+              Contact
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}

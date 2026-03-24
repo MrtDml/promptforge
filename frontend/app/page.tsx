@@ -1,4 +1,25 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "PromptForge – Build SaaS Apps from a Single Prompt",
+  description:
+    "Turn your SaaS idea into production-ready code in under 5 minutes. PromptForge generates a complete NestJS backend, Prisma schema, REST API, and Docker setup from plain English.",
+  keywords: ["AI code generator", "SaaS builder", "NestJS generator", "Prisma schema generator", "no-code backend", "AI SaaS"],
+  alternates: { canonical: "https://promptforgeai.dev" },
+  openGraph: {
+    title: "PromptForge – Build SaaS Apps from a Single Prompt",
+    description: "Turn your SaaS idea into production-ready code in under 5 minutes.",
+    url: "https://promptforgeai.dev",
+    siteName: "PromptForge",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PromptForge – Build SaaS Apps from a Single Prompt",
+    description: "Turn your SaaS idea into production-ready code in under 5 minutes.",
+  },
+};
 import {
   ArrowRight,
   Zap,

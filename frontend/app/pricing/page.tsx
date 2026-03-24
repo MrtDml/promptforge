@@ -584,15 +584,15 @@ export default function PricingPage() {
             © {new Date().getFullYear()} PromptForge. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
+            <Link href="/privacy" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
               Privacy
-            </a>
-            <a href="#" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
+            </Link>
+            <Link href="/terms" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
               Terms
-            </a>
-            <a href="mailto:support@promptforge.dev" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
+            </Link>
+            <Link href="/contact" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
               Contact
-            </a>
+            </Link>
           </div>
         </div>
       </footer>

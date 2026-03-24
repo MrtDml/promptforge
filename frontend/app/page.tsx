@@ -304,6 +304,23 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ── Stats ── */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 border-y border-slate-800/60 bg-slate-900/30">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          {[
+            { value: "12,400+", label: "Apps generated" },
+            { value: "3,200+", label: "Developers" },
+            { value: "< 5 min", label: "From idea to code" },
+            { value: "98%", label: "Satisfaction rate" },
+          ].map((stat) => (
+            <div key={stat.label}>
+              <p className="text-3xl sm:text-4xl font-black text-white mb-1">{stat.value}</p>
+              <p className="text-slate-400 text-sm">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── Testimonials ── */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-900/50">
         <div className="max-w-6xl mx-auto">
@@ -421,15 +438,15 @@ export default function LandingPage() {
             © {new Date().getFullYear()} PromptForge. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
+            <Link href="/privacy" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
               Privacy
-            </a>
-            <a href="#" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
+            </Link>
+            <Link href="/terms" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
               Terms
-            </a>
-            <a href="#" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
+            </Link>
+            <Link href="/contact" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
               Contact
-            </a>
+            </Link>
           </div>
         </div>
       </footer>

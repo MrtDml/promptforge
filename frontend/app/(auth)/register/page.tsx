@@ -238,13 +238,13 @@ export default function RegisterPage() {
 
           <p className="text-slate-500 text-xs text-center">
             By creating an account, you agree to our{" "}
-            <a href="#" className="text-indigo-400 hover:underline">
+            <Link href="/terms" className="text-indigo-400 hover:underline">
               Terms of Service
-            </a>{" "}
+            </Link>{" "}
             and{" "}
-            <a href="#" className="text-indigo-400 hover:underline">
+            <Link href="/privacy" className="text-indigo-400 hover:underline">
               Privacy Policy
-            </a>
+            </Link>
             .
           </p>
         </form>

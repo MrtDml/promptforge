@@ -16,36 +16,36 @@ import {
 
 const faqs = [
   {
-    q: "Üretilen kod gerçekten çalışıyor mu?",
-    a: "Evet. PromptForge eksiksiz bir NestJS projesi üretir — Prisma şeması, CRUD API'leri, auth modülü, Dockerfile ve README dahil. İndirip npm install ile kurabilirsin.",
+    q: "Does the generated code actually work?",
+    a: "Yes. PromptForge generates a complete, runnable NestJS project — including Prisma schema, CRUD APIs, auth module, Dockerfile, and README. Download it, run npm install, and it's ready to go.",
   },
   {
-    q: "Kaç entity destekleniyor?",
-    a: "Free planda 5, Starter'da 15, Pro'da sınırsız entity. Entity sayısı arttıkça üretilen dosya sayısı da artar.",
+    q: "How many entities are supported?",
+    a: "The Free plan supports up to 5 entities per app. Starter supports unlimited entities. The number of entities directly affects how many files and modules are generated.",
   },
   {
-    q: "Hangi veritabanını kullanıyor?",
-    a: "Tüm planlar PostgreSQL + Prisma ORM kullanır. Üretilen docker-compose.yml ile yerel geliştirme için otomatik PostgreSQL konteyneri kurulur.",
+    q: "Which database does it use?",
+    a: "All plans use PostgreSQL with Prisma ORM. The generated docker-compose.yml automatically sets up a local PostgreSQL container for development.",
   },
   {
-    q: "Railway deploy çalışmıyor, ne yapmalıyım?",
-    a: "Önce RAILWAY_API_TOKEN'ının .env dosyasında doğru ayarlı olduğundan emin ol. Token için railway.app → Account → API Tokens yolunu izle.",
+    q: "Railway deploy isn't working — what should I do?",
+    a: "First, make sure your RAILWAY_API_TOKEN is correctly set. You can generate a token at railway.app → Account → API Tokens. Then paste it into Dashboard → Settings.",
   },
   {
-    q: "Planımı nasıl iptal ederim?",
-    a: "Dashboard → Settings → Subscription bölümünden 'Aboneliği İptal Et' butonuna tıkla. İptal dönem sonunda geçerli olur.",
+    q: "How do I cancel my subscription?",
+    a: "Go to Dashboard → Settings → Subscription and click \"Cancel Subscription\". Cancellation takes effect at the end of your current billing period.",
   },
   {
-    q: "Üretilen kodu ticari projede kullanabilir miyim?",
-    a: "Evet, üretilen tüm kodun tam hakları sana aittir. Herhangi bir kullanım kısıtlaması yoktur.",
+    q: "Can I use the generated code in a commercial project?",
+    a: "Absolutely. You own 100% of the generated code. There are no licensing restrictions or royalties of any kind.",
   },
   {
-    q: "Türkçe prompt yazabilir miyim?",
-    a: "Evet. PromptForge Türkçe ve İngilizce promptları destekler. Ancak üretilen kodun içindeki yorum ve değişken isimleri İngilizce olur.",
+    q: "Can I write prompts in languages other than English?",
+    a: "Yes — PromptForge understands prompts in English, Turkish, and most major languages. Generated code comments and variable names will be in English.",
   },
   {
-    q: "Generation limiti sıfırlanıyor mu?",
-    a: "Evet, her ayın başında otomatik sıfırlanır. Sıfırlama tarihi abonelik başlangıç tarihine göre belirlenir.",
+    q: "When does my generation limit reset?",
+    a: "Limits reset automatically at the start of each billing cycle. The reset date is based on your subscription start date, not the calendar month.",
   },
 ];
 
@@ -56,14 +56,28 @@ export default function SupportPage() {
   const [message, setMessage] = useState("");
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSending(true);
-    // Simüle edilmiş gönderim — gerçek entegrasyon için backend endpoint ekle
-    await new Promise((r) => setTimeout(r, 1200));
-    setSent(true);
-    setSending(false);
+    setError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+      if (!res.ok) throw new Error();
+      setSent(true);
+    } catch {
+      // Fallback: open email client
+      const mailtoLink = `mailto:support@promptforgeai.dev?subject=${encodeURIComponent(`Support request from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
+      window.location.href = mailtoLink;
+      setSent(true);
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -74,9 +88,9 @@ export default function SupportPage() {
           <div className="w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-600/30 flex items-center justify-center mx-auto mb-4">
             <HeadphonesIcon className="w-7 h-7 text-indigo-400" />
           </div>
-          <h1 className="text-3xl font-bold mb-3">Yardım & Destek</h1>
+          <h1 className="text-3xl font-bold mb-3">Help & Support</h1>
           <p className="text-slate-400">
-            Sorununu çözemezsen bize ulaş, en kısa sürede dönelim.
+            Can&apos;t find an answer? Reach out and we&apos;ll get back to you quickly.
           </p>
         </div>
 
@@ -90,22 +104,22 @@ export default function SupportPage() {
               <BookOpen className="w-5 h-5 text-indigo-400" />
             </div>
             <div>
-              <p className="font-medium text-white text-sm">Dokümantasyon</p>
-              <p className="text-slate-400 text-xs mt-0.5">Kullanım rehberi ve ipuçları</p>
+              <p className="font-medium text-white text-sm">Documentation</p>
+              <p className="text-slate-400 text-xs mt-0.5">Guides and usage tips</p>
             </div>
             <ExternalLink className="w-4 h-4 text-slate-600 ml-auto group-hover:text-slate-400 transition-colors" />
           </Link>
 
           <a
-            href="mailto:support@promptforge.dev"
+            href="mailto:support@promptforgeai.dev"
             className="flex items-center gap-4 p-4 rounded-xl bg-slate-800/60 border border-slate-700/60 hover:border-indigo-500/40 hover:bg-slate-800 transition-all group"
           >
             <div className="w-10 h-10 rounded-lg bg-indigo-600/10 border border-indigo-600/20 flex items-center justify-center flex-shrink-0">
               <Mail className="w-5 h-5 text-indigo-400" />
             </div>
             <div>
-              <p className="font-medium text-white text-sm">E-posta Desteği</p>
-              <p className="text-slate-400 text-xs mt-0.5">support@promptforge.dev</p>
+              <p className="font-medium text-white text-sm">Email Support</p>
+              <p className="text-slate-400 text-xs mt-0.5">support@promptforgeai.dev</p>
             </div>
             <ExternalLink className="w-4 h-4 text-slate-600 ml-auto group-hover:text-slate-400 transition-colors" />
           </a>
@@ -115,7 +129,7 @@ export default function SupportPage() {
         <div className="mb-12">
           <h2 className="text-xl font-semibold mb-5 flex items-center gap-2">
             <MessageCircle className="w-5 h-5 text-indigo-400" />
-            Sık Sorulan Sorular
+            Frequently Asked Questions
           </h2>
           <div className="space-y-2">
             {faqs.map((faq, i) => (
@@ -146,59 +160,62 @@ export default function SupportPage() {
 
         {/* Contact form */}
         <div className="bg-slate-900/60 border border-slate-700/60 rounded-2xl p-6">
-          <h2 className="text-lg font-semibold mb-1">Bize Yaz</h2>
+          <h2 className="text-lg font-semibold mb-1">Send us a message</h2>
           <p className="text-slate-400 text-sm mb-6">
-            SSS'de cevap bulamadıysan formu doldur, 24 saat içinde dönelim.
+            Didn&apos;t find an answer above? Fill in the form and we&apos;ll respond within 24 hours.
           </p>
 
           {sent ? (
             <div className="flex flex-col items-center py-8 text-center">
               <CheckCircle2 className="w-12 h-12 text-green-400 mb-3" />
-              <p className="text-white font-medium">Mesajın alındı!</p>
+              <p className="text-white font-medium">Message received!</p>
               <p className="text-slate-400 text-sm mt-1">
-                En kısa sürede <strong>{email}</strong> adresine dönüş yapacağız.
+                We&apos;ll get back to you at <strong>{email}</strong> as soon as possible.
               </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <p className="text-sm text-red-400">{error}</p>
+              )}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm text-slate-300 mb-1.5 font-medium">
-                    İsim
+                    Your name
                   </label>
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    placeholder="Adın"
+                    placeholder="John Doe"
                     className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/60 transition-colors"
                   />
                 </div>
                 <div>
                   <label className="block text-sm text-slate-300 mb-1.5 font-medium">
-                    E-posta
+                    Email address
                   </label>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    placeholder="email@ornek.com"
+                    placeholder="you@example.com"
                     className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/60 transition-colors"
                   />
                 </div>
               </div>
               <div>
                 <label className="block text-sm text-slate-300 mb-1.5 font-medium">
-                  Mesaj
+                  Message
                 </label>
                 <textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   required
                   rows={5}
-                  placeholder="Sorununu veya sorunuzu detaylı anlat..."
+                  placeholder="Describe your issue or question in detail..."
                   className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/60 transition-colors resize-none"
                 />
               </div>
@@ -213,7 +230,7 @@ export default function SupportPage() {
                   ) : (
                     <Mail className="w-4 h-4" />
                   )}
-                  Gönder
+                  {sending ? "Sending..." : "Send message"}
                 </button>
               </div>
             </form>

@@ -141,7 +141,9 @@ export default function ContactPage() {
                   GitHub
                 </a>
                 <a
-                  href="#"
+                  href="https://x.com/promptforgeai"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-sm transition-colors"
                 >
                   <Twitter className="w-4 h-4" />

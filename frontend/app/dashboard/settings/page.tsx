@@ -24,8 +24,8 @@ import type { User as UserType } from "@/types";
 
 const PLAN_LIMITS: Record<string, number> = {
   free: 3,
-  starter: 25,
-  pro: 100,
+  starter: 50,
+  pro: Infinity,
   enterprise: Infinity,
 };
 
@@ -201,13 +201,11 @@ export default function SettingsPage() {
   const [user, setUser] = useState<UserType | null>(null);
 
   useEffect(() => {
-    // Önce localStorage'dan yükle
     const stored = getStoredUser();
     if (stored) {
       setUser(stored);
       setName(stored.name ?? "");
     }
-    // API'den taze veri al
     usersApi
       .getMe()
       .then((res) => {
@@ -284,7 +282,7 @@ export default function SettingsPage() {
     } catch {
       setBillingToast({
         type: "error",
-        message: "Fatura portalı açılamadı. Lütfen tekrar deneyin.",
+        message: "Could not open billing portal. Please try again.",
       });
       setIsPortalLoading(false);
     }
@@ -302,12 +300,12 @@ export default function SettingsPage() {
       setShowCancelConfirm(false);
       setBillingToast({
         type: "success",
-        message: "Aboneliğiniz iptal edildi. Free plana geçtiniz.",
+        message: "Your subscription has been cancelled. You've been moved to the Free plan.",
       });
     } catch {
       setBillingToast({
         type: "error",
-        message: "Abonelik iptal edilemedi. Lütfen tekrar deneyin.",
+        message: "Failed to cancel subscription. Please try again.",
       });
     } finally {
       setIsCancelling(false);
@@ -520,7 +518,7 @@ export default function SettingsPage() {
                   className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors"
                 >
                   <ArrowUpRight className="w-4 h-4" />
-                  Planı Yükselt
+                  Upgrade Plan
                 </Link>
               )}
               {plan !== "free" && !showCancelConfirm && (
@@ -529,13 +527,13 @@ export default function SettingsPage() {
                   className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-red-500/40 text-red-400 hover:bg-red-500/10 text-sm font-medium transition-colors"
                 >
                   <CreditCard className="w-4 h-4" />
-                  Aboneliği İptal Et
+                  Cancel Subscription
                 </button>
               )}
               {plan !== "free" && showCancelConfirm && (
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-red-500/10 border border-red-500/30">
                   <p className="text-sm text-red-300 flex-1">
-                    Aboneliği iptal etmek istediğinizden emin misiniz?
+                    Are you sure you want to cancel your subscription?
                   </p>
                   <button
                     onClick={handleCancelSubscription}
@@ -543,13 +541,13 @@ export default function SettingsPage() {
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-medium transition-colors disabled:opacity-50"
                   >
                     {isCancelling ? <Loader2 className="w-3 h-3 animate-spin" /> : null}
-                    Evet, İptal Et
+                    Yes, Cancel
                   </button>
                   <button
                     onClick={() => setShowCancelConfirm(false)}
                     className="px-3 py-1.5 rounded-lg border border-slate-600 text-slate-400 text-xs font-medium hover:text-white transition-colors"
                   >
-                    Vazgeç
+                    Keep Plan
                   </button>
                 </div>
               )}

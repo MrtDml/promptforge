@@ -19,9 +19,11 @@ model User {
   generationsLimit   Int            @default(3)
   generationsUsed    Int            @default(0)
   planType           String?        @default("free")
-  stripeCustomerId   String?
-  subscriptionId     String?
-  subscriptionStatus String?        @default("free")
+  stripeCustomerId      String?
+  subscriptionId        String?
+  subscriptionStatus    String?        @default("free")
+  passwordResetToken    String?
+  passwordResetExpiry   DateTime?
   projects           Project[]
   subscriptions      Subscription[]
 

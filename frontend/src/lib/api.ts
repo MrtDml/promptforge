@@ -107,6 +107,12 @@ export const authApi = {
 
   refresh: (refreshToken: string): Promise<AxiosResponse<{ token: string }>> =>
     apiClient.post("/api/v1/auth/refresh", { refreshToken }),
+
+  forgotPassword: (email: string): Promise<AxiosResponse<{ message: string; resetUrl?: string }>> =>
+    apiClient.post("/api/v1/auth/forgot-password", { email }),
+
+  resetPassword: (token: string, newPassword: string): Promise<AxiosResponse<{ message: string }>> =>
+    apiClient.post("/api/v1/auth/reset-password", { token, newPassword }),
 };
 
 // ─── Parser endpoints ────────────────────────────────────────────────────────

@@ -87,7 +87,7 @@ export default function DashboardPage() {
               <span
                 className={`text-xs px-2.5 py-1 rounded-full border font-medium capitalize ${PLAN_COLORS[plan]}`}
               >
-                {plan === "enterprise" ? "Enterprise" : plan === "pro" ? "Pro" : "Free"} plan
+                {plan === "enterprise" ? "Enterprise" : plan === "pro" ? "Pro" : plan === "starter" ? "Starter" : "Free"} plan
               </span>
             )}
           </div>

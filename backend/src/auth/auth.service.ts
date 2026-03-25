@@ -2,13 +2,17 @@ import {
   Injectable,
   ConflictException,
   UnauthorizedException,
+  BadRequestException,
   Logger,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
 import { UsersService } from '../users/users.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 const BCRYPT_SALT_ROUNDS = 12;
 
@@ -91,6 +95,48 @@ export class AuthService {
     }
     const { password: _password, ...userWithoutPassword } = user;
     return { ...userWithoutPassword, plan: userWithoutPassword.planType ?? 'free' };
+  }
+
+  async forgotPassword(dto: ForgotPasswordDto) {
+    const { email } = dto;
+    const user = await this.usersService.findByEmail(email);
+
+    // Always return success to prevent user enumeration
+    if (!user) {
+      return { message: 'If an account with that email exists, a reset link has been sent.' };
+    }
+
+    const token = crypto.randomBytes(32).toString('hex');
+    const expiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+    await this.usersService.setPasswordResetToken(user.id, token, expiry);
+
+    const frontendUrl = process.env.FRONTEND_URL ?? 'http://localhost:3000';
+    const resetUrl = `${frontendUrl}/reset-password?token=${token}`;
+
+    this.logger.log(`Password reset requested for ${email}`);
+    this.logger.log(`Reset URL: ${resetUrl}`);
+
+    return {
+      message: 'If an account with that email exists, a reset link has been sent.',
+      // Only expose in non-production for testing (remove in prod if email provider is set up)
+      ...(process.env.NODE_ENV !== 'production' && { resetUrl }),
+    };
+  }
+
+  async resetPassword(dto: ResetPasswordDto) {
+    const { token, newPassword } = dto;
+
+    const user = await this.usersService.findByPasswordResetToken(token);
+    if (!user) {
+      throw new BadRequestException('Reset token is invalid or has expired.');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
+    await this.usersService.updatePassword(user.id, hashedPassword);
+
+    this.logger.log(`Password reset completed for ${user.email}`);
+    return { message: 'Password updated successfully. You can now log in.' };
   }
 
   private generateToken(userId: string, email: string): string {

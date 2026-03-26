@@ -1,7 +1,7 @@
 /**
  * Generates a complete package.json for a NestJS project produced by PromptForge.
  */
-export function generatePackageJson(appName: string): string {
+export function generatePackageJson(appName: string, opts: { includeSwagger?: boolean } = {}): string {
   const kebab = appName
     .toLowerCase()
     .replace(/\s+/g, '-')
@@ -38,6 +38,7 @@ export function generatePackageJson(appName: string): string {
       '@nestjs/platform-express': '^10.3.0',
       '@nestjs/config': '^3.2.0',
       '@nestjs/throttler': '^5.1.2',
+      ...(opts.includeSwagger ? { '@nestjs/swagger': '^7.3.0' } : {}),
       '@prisma/client': '^5.10.0',
       bcrypt: '^5.1.1',
       'class-transformer': '^0.5.1',

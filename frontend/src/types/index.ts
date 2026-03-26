@@ -200,6 +200,12 @@ export interface GenerateRequest {
     includeTests?: boolean;
     includeDocker?: boolean;
     includeCI?: boolean;
+    includeSwagger?: boolean;
+    includeFrontend?: boolean;
+    includeIyzico?: boolean;
+    includeEFatura?: boolean;
+    includeKVKK?: boolean;
+    framework?: "nestjs" | "express";
   };
 }
 

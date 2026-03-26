@@ -24,10 +24,19 @@ function getTypeScriptType(type: string): string {
   return map[type] || 'string';
 }
 
-function generateDtoField(field: ParsedField): string {
+function generateDtoField(field: ParsedField, includeSwagger = false): string {
   const tsType = getTypeScriptType(field.type);
   const isOptional = field.required === false;
   const decorators: string[] = [];
+
+  if (includeSwagger) {
+    const example = field.type === 'number' ? '42' : field.type === 'boolean' ? 'true' : `"${field.name} value"`;
+    if (isOptional) {
+      decorators.push(`  @ApiPropertyOptional({ description: '${field.name}', example: ${example} })`);
+    } else {
+      decorators.push(`  @ApiProperty({ description: '${field.name}', example: ${example} })`);
+    }
+  }
 
   if (isOptional) {
     decorators.push('  @IsOptional()');
@@ -56,39 +65,48 @@ function generateDtoField(field: ParsedField): string {
   return `${decorators.join('\n')}\n  ${field.name}${optionalMark}: ${tsType};`;
 }
 
-function generateCreateDto(entity: ParsedEntity): string {
+function generateCreateDto(entity: ParsedEntity, includeSwagger = false): string {
   const entityName = toPascalCase(entity.name);
   // Filter out auto-managed fields
   const userFields = entity.fields.filter(
     (f) => !['id', 'createdAt', 'updatedAt'].includes(f.name),
   );
 
-  const fieldLines = userFields.map(generateDtoField).join('\n\n');
+  const fieldLines = userFields.map((f) => generateDtoField(f, includeSwagger)).join('\n\n');
 
-  const imports = new Set<string>(['IsString', 'IsOptional']);
+  const validatorImports = new Set<string>(['IsString', 'IsOptional']);
   for (const field of userFields) {
-    if (field.required === false) imports.add('IsOptional');
+    if (field.required === false) validatorImports.add('IsOptional');
     switch (field.type) {
-      case 'string': imports.add('IsString'); break;
-      case 'number': imports.add('IsNumber'); break;
-      case 'boolean': imports.add('IsBoolean'); break;
-      case 'date': imports.add('IsDateString'); break;
+      case 'string': validatorImports.add('IsString'); break;
+      case 'number': validatorImports.add('IsNumber'); break;
+      case 'boolean': validatorImports.add('IsBoolean'); break;
+      case 'date': validatorImports.add('IsDateString'); break;
     }
   }
 
-  return `import { ${[...imports].join(', ')} } from 'class-validator';
+  const swaggerImport = includeSwagger
+    ? `import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';\n`
+    : '';
+
+  const updateFieldLines = userFields
+    .map((f) => {
+      const tsType = getTypeScriptType(f.type);
+      const swaggerDec = includeSwagger
+        ? `  @ApiPropertyOptional({ description: '${f.name}' })\n`
+        : '';
+      return `${swaggerDec}  @IsOptional()\n  ${f.name}?: ${tsType};`;
+    })
+    .join('\n\n');
+
+  return `${swaggerImport}import { ${[...validatorImports].join(', ')} } from 'class-validator';
 
 export class Create${entityName}Dto {
 ${fieldLines}
 }
 
 export class Update${entityName}Dto {
-${userFields
-    .map((f) => {
-      const tsType = getTypeScriptType(f.type);
-      return `  @IsOptional()\n  ${f.name}?: ${tsType};`;
-    })
-    .join('\n\n')}
+${updateFieldLines}
 }
 `;
 }
@@ -168,10 +186,24 @@ export class ${entityName}Service {
 `;
 }
 
-function generateController(entity: ParsedEntity): string {
+function generateController(entity: ParsedEntity, includeSwagger = false): string {
   const entityName = toPascalCase(entity.name);
   const varName = toCamelCase(entity.name);
   const routePath = toKebabCase(entityName) + 's';
+
+  const swaggerImport = includeSwagger
+    ? `import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';\n`
+    : '';
+  const swaggerClassDec = includeSwagger
+    ? `@ApiTags('${routePath}')\n@ApiBearerAuth()\n`
+    : '';
+
+  const op = (summary: string) => includeSwagger
+    ? `\n  @ApiOperation({ summary: '${summary}' })`
+    : '';
+  const res = (status: number, desc: string) => includeSwagger
+    ? `\n  @ApiResponse({ status: ${status}, description: '${desc}' })`
+    : '';
 
   return `import {
   Controller,
@@ -186,21 +218,21 @@ function generateController(entity: ParsedEntity): string {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+${swaggerImport}import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ${entityName}Service } from './${toKebabCase(entityName)}.service';
 import { Create${entityName}Dto, Update${entityName}Dto } from './dto/create-${toKebabCase(entityName)}.dto';
 
-@Controller('${routePath}')
+${swaggerClassDec}@Controller('${routePath}')
 @UseGuards(JwtAuthGuard)
 export class ${entityName}Controller {
   constructor(private readonly ${varName}Service: ${entityName}Service) {}
-
+${op(`Create a new ${entityName}`)}${res(201, `${entityName} created successfully`)}
   @Post()
   @HttpCode(HttpStatus.CREATED)
   create(@Body() create${entityName}Dto: Create${entityName}Dto) {
     return this.${varName}Service.create(create${entityName}Dto);
   }
-
+${op(`List all ${entityName}s (paginated)`)}${res(200, 'Returns paginated list')}
   @Get()
   findAll(
     @Query('page') page = 1,
@@ -208,12 +240,12 @@ export class ${entityName}Controller {
   ) {
     return this.${varName}Service.findAll(+page, +limit);
   }
-
+${op(`Get a single ${entityName} by ID`)}${res(200, `${entityName} found`)}${res(404, `${entityName} not found`)}
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.${varName}Service.findOne(id);
   }
-
+${op(`Update a ${entityName}`)}${res(200, `${entityName} updated`)}
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -221,7 +253,7 @@ export class ${entityName}Controller {
   ) {
     return this.${varName}Service.update(id, update${entityName}Dto);
   }
-
+${op(`Delete a ${entityName}`)}${res(200, 'Deleted successfully')}
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   remove(@Param('id') id: string) {
@@ -238,7 +270,10 @@ export interface GeneratedCrudFiles {
   controllerFile: { name: string; content: string };
 }
 
-export function generateCrudFiles(entity: ParsedEntity): GeneratedCrudFiles {
+export function generateCrudFiles(
+  entity: ParsedEntity,
+  opts: { includeSwagger?: boolean } = {},
+): GeneratedCrudFiles {
   const entityName = toPascalCase(entity.name);
   const kebab = toKebabCase(entityName);
 
@@ -246,7 +281,7 @@ export function generateCrudFiles(entity: ParsedEntity): GeneratedCrudFiles {
     entityName,
     dtoFile: {
       name: `dto/create-${kebab}.dto.ts`,
-      content: generateCreateDto(entity),
+      content: generateCreateDto(entity, opts.includeSwagger),
     },
     serviceFile: {
       name: `${kebab}.service.ts`,
@@ -254,7 +289,7 @@ export function generateCrudFiles(entity: ParsedEntity): GeneratedCrudFiles {
     },
     controllerFile: {
       name: `${kebab}.controller.ts`,
-      content: generateController(entity),
+      content: generateController(entity, opts.includeSwagger),
     },
   };
 }

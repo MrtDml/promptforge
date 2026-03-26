@@ -17,6 +17,9 @@ import {
   generateDockerEnv,
 } from './templates/docker.template';
 import { generateFrontendFiles } from './templates/frontend.template';
+import { generateExpressProject } from './templates/express.template';
+import { generateGitHubActionsCI, generateGitHubActionsRelease, generateDependabotConfig } from './templates/ci.template';
+import { generatePostmanCollection } from './templates/postman.template';
 import {
   generateIyzicoService,
   generateIyzicoModule,
@@ -33,10 +36,12 @@ export interface GenerateOptions {
   includeTests?: boolean;
   includeDocker?: boolean;
   includeCI?: boolean;
+  includeSwagger?: boolean;
   includeFrontend?: boolean;
   includeIyzico?: boolean;
   includeEFatura?: boolean;
   includeKVKK?: boolean;
+  framework?: 'nestjs' | 'express';
 }
 
 export interface GeneratedFile {
@@ -65,7 +70,23 @@ function toKebabCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 }
 
-function generateMainTs(): string {
+function generateMainTs(appName: string, includeSwagger = false): string {
+  const swaggerSetup = includeSwagger
+    ? `
+  // Swagger / OpenAPI
+  const { SwaggerModule, DocumentBuilder } = await import('@nestjs/swagger');
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('${appName} API')
+    .setDescription('Auto-generated REST API documentation for ${appName}')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('api', app, document);
+  logger.log(\`Swagger UI: http://localhost:\${port}/api\`);
+`
+    : '';
+
   return `import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
@@ -88,7 +109,7 @@ async function bootstrap() {
     origin: process.env.ALLOWED_ORIGINS?.split(',') ?? '*',
     credentials: true,
   });
-
+${swaggerSetup}
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
   logger.log(\`Application running on http://localhost:\${port}\`);
@@ -282,13 +303,33 @@ export class GeneratorService {
    * The returned array can be zipped and handed directly to the user.
    */
   generateProjectFiles(schema: ParsedSchema, options: GenerateOptions = {}): GeneratedFile[] {
+    // ── Express.js branch ─────────────────────────────────────────────────────
+    if (options.framework === 'express') {
+      const expressFiles = generateExpressProject(schema);
+      this.logger.log(`Express.js project: ${expressFiles.length} files for "${schema.app_name}"`);
+
+      // Optionally append CI and Postman to Express projects too
+      const extras: GeneratedFile[] = [];
+      if (options.includeCI) {
+        extras.push({ path: '.github/workflows/ci.yml', content: generateGitHubActionsCI(schema.app_name) });
+        extras.push({ path: '.github/workflows/release.yml', content: generateGitHubActionsRelease() });
+        extras.push({ path: '.github/dependabot.yml', content: generateDependabotConfig() });
+      }
+      const hasAuth = schema.features.includes('auth');
+      extras.push({
+        path: 'postman_collection.json',
+        content: generatePostmanCollection(schema.app_name, schema.entities, hasAuth),
+      });
+      return [...expressFiles, ...extras];
+    }
+
     const hasAuth = schema.features.includes('auth');
     const files: GeneratedFile[] = [];
 
     // ── package.json ────────────────────────────────────────────────────────
     files.push({
       path: 'package.json',
-      content: generatePackageJson(schema.app_name),
+      content: generatePackageJson(schema.app_name, { includeSwagger: options.includeSwagger }),
     });
 
     // ── tsconfig.json ───────────────────────────────────────────────────────
@@ -389,6 +430,14 @@ Thumbs.db
       content: generateDockerCompose(schema.app_name),
     });
 
+    // ── GitHub Actions CI/CD ─────────────────────────────────────────────────
+    if (options.includeCI) {
+      files.push({ path: '.github/workflows/ci.yml', content: generateGitHubActionsCI(schema.app_name) });
+      files.push({ path: '.github/workflows/release.yml', content: generateGitHubActionsRelease() });
+      files.push({ path: '.github/dependabot.yml', content: generateDependabotConfig() });
+      this.logger.log('GitHub Actions CI/CD files added');
+    }
+
     // ── prisma/schema.prisma ─────────────────────────────────────────────────
     files.push({
       path: 'prisma/schema.prisma',
@@ -396,7 +445,7 @@ Thumbs.db
     });
 
     // ── src/main.ts ──────────────────────────────────────────────────────────
-    files.push({ path: 'src/main.ts', content: generateMainTs() });
+    files.push({ path: 'src/main.ts', content: generateMainTs(schema.app_name, options.includeSwagger) });
 
     // ── src/app.module.ts ────────────────────────────────────────────────────
     files.push({
@@ -408,7 +457,7 @@ Thumbs.db
     for (const entity of schema.entities) {
       const pascal = toPascalCase(entity.name);
       const kebab = toKebabCase(pascal);
-      const crud = generateCrudFiles(entity);
+      const crud = generateCrudFiles(entity, { includeSwagger: options.includeSwagger });
 
       files.push({
         path: `src/${kebab}/dto/create-${kebab}.dto.ts`,
@@ -466,6 +515,12 @@ Thumbs.db
       files.push({ path: 'docs/kvkk-aydinlatma-metni.md', content: generateKVKKPrivacyText() });
       this.logger.log('KVKK compliance files added');
     }
+
+    // ── Postman Collection (always included) ──────────────────────────────────
+    files.push({
+      path: 'postman_collection.json',
+      content: generatePostmanCollection(schema.app_name, schema.entities, hasAuth),
+    });
 
     // ── Next.js Frontend ─────────────────────────────────────────────────────
     if (options.includeFrontend) {

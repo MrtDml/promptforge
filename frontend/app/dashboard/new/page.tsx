@@ -6,7 +6,8 @@ import { parserApi, generatorApi } from "@/lib/api";
 import type { AppSchema, GenerateResponse } from "@/types";
 import PromptForm from "@components/prompt/PromptForm";
 import SchemaPreview from "@components/prompt/SchemaPreview";
-import { CheckCircle2, AlertCircle, Loader2, ChevronRight, Globe, CreditCard, FileText, Shield } from "lucide-react";
+import StarterTemplates from "@components/prompt/StarterTemplates";
+import { CheckCircle2, AlertCircle, Loader2, ChevronRight, Globe, CreditCard, FileText, Shield, Braces, GitBranch, Zap } from "lucide-react";
 import { AxiosError } from "axios";
 
 type Step = "input" | "preview" | "generating" | "done";
@@ -22,10 +23,13 @@ export default function NewProjectPage() {
   const [isParsing, setIsParsing] = useState(false);
   const [includeTests, setIncludeTests] = useState(false);
   const [includeDocker, setIncludeDocker] = useState(true);
+  const [includeSwagger, setIncludeSwagger] = useState(false);
+  const [includeCI, setIncludeCI] = useState(false);
   const [includeFrontend, setIncludeFrontend] = useState(false);
   const [includeIyzico, setIncludeIyzico] = useState(false);
   const [includeEFatura, setIncludeEFatura] = useState(false);
   const [includeKVKK, setIncludeKVKK] = useState(false);
+  const [framework, setFramework] = useState<"nestjs" | "express">("nestjs");
 
   // Step 1 → 2: parse prompt
   async function handleParse(userPrompt: string) {
@@ -60,11 +64,13 @@ export default function NewProjectPage() {
         options: {
           includeTests,
           includeDocker,
-          includeCI: false,
+          includeSwagger,
+          includeCI,
           includeFrontend,
           includeIyzico,
           includeEFatura,
           includeKVKK,
+          framework,
         },
       });
       setGenerateResult(response.data);
@@ -77,6 +83,28 @@ export default function NewProjectPage() {
       );
       setStep("preview");
     }
+  }
+
+  function handleTemplateSelect(
+    templatePrompt: string,
+    options?: {
+      includeSwagger?: boolean;
+      includeCI?: boolean;
+      includeFrontend?: boolean;
+      includeIyzico?: boolean;
+      includeEFatura?: boolean;
+      includeKVKK?: boolean;
+    },
+    fw?: "nestjs" | "express",
+  ) {
+    setPrompt(templatePrompt);
+    if (options?.includeSwagger !== undefined) setIncludeSwagger(options.includeSwagger);
+    if (options?.includeCI !== undefined) setIncludeCI(options.includeCI);
+    if (options?.includeFrontend !== undefined) setIncludeFrontend(options.includeFrontend);
+    if (options?.includeIyzico !== undefined) setIncludeIyzico(options.includeIyzico);
+    if (options?.includeEFatura !== undefined) setIncludeEFatura(options.includeEFatura);
+    if (options?.includeKVKK !== undefined) setIncludeKVKK(options.includeKVKK);
+    if (fw) setFramework(fw);
   }
 
   function handleViewProject() {
@@ -140,12 +168,15 @@ export default function NewProjectPage() {
 
       {/* Step 1: Prompt input */}
       {(step === "input" || (step === "preview" && !schema)) && (
-        <PromptForm
-          onSubmit={handleParse}
-          isLoading={isParsing}
-          error={parseError}
-          initialValue={prompt}
-        />
+        <>
+          <StarterTemplates onSelect={handleTemplateSelect} />
+          <PromptForm
+            onSubmit={handleParse}
+            isLoading={isParsing}
+            error={parseError}
+            initialValue={prompt}
+          />
+        </>
       )}
 
       {/* Step 2: Schema preview + generate button */}
@@ -159,6 +190,44 @@ export default function NewProjectPage() {
               <p className="text-red-400 text-sm">{generateError}</p>
             </div>
           )}
+
+          {/* Framework selector */}
+          <div className="glass-card p-5">
+            <h3 className="font-semibold text-white mb-1">Framework</h3>
+            <p className="text-slate-500 text-xs mb-4">Choose the backend framework for your generated project.</p>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setFramework("nestjs")}
+                className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all text-left ${
+                  framework === "nestjs"
+                    ? "border-indigo-500 bg-indigo-950/40"
+                    : "border-slate-700 hover:border-slate-600"
+                }`}
+              >
+                <Zap className={`w-5 h-5 flex-shrink-0 ${framework === "nestjs" ? "text-indigo-400" : "text-slate-500"}`} />
+                <div>
+                  <p className={`text-sm font-semibold ${framework === "nestjs" ? "text-white" : "text-slate-300"}`}>NestJS</p>
+                  <p className="text-slate-500 text-xs">Recommended — decorators, modules, DI</p>
+                </div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setFramework("express")}
+                className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all text-left ${
+                  framework === "express"
+                    ? "border-indigo-500 bg-indigo-950/40"
+                    : "border-slate-700 hover:border-slate-600"
+                }`}
+              >
+                <Braces className={`w-5 h-5 flex-shrink-0 ${framework === "express" ? "text-indigo-400" : "text-slate-500"}`} />
+                <div>
+                  <p className={`text-sm font-semibold ${framework === "express" ? "text-white" : "text-slate-300"}`}>Express.js</p>
+                  <p className="text-slate-500 text-xs">Lightweight — Zod, Helmet, rate-limit</p>
+                </div>
+              </button>
+            </div>
+          </div>
 
           {/* Generation options */}
           <div className="glass-card p-5 space-y-6">
@@ -219,6 +288,46 @@ export default function NewProjectPage() {
                     </div>
                     <p className="text-slate-500 text-xs mt-0.5">
                       Full Next.js 14 dashboard + auth pages
+                    </p>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3 cursor-pointer group p-3 rounded-lg hover:bg-slate-800/50 transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={includeSwagger}
+                    onChange={(e) => setIncludeSwagger(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 rounded border-slate-600 bg-slate-800 text-indigo-600 focus:ring-indigo-500 flex-shrink-0"
+                  />
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <Braces className="w-3.5 h-3.5 text-yellow-400" />
+                      <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
+                        Swagger / OpenAPI
+                      </span>
+                    </div>
+                    <p className="text-slate-500 text-xs mt-0.5">
+                      Auto-generated API docs at /api
+                    </p>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3 cursor-pointer group p-3 rounded-lg hover:bg-slate-800/50 transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={includeCI}
+                    onChange={(e) => setIncludeCI(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 rounded border-slate-600 bg-slate-800 text-indigo-600 focus:ring-indigo-500 flex-shrink-0"
+                  />
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <GitBranch className="w-3.5 h-3.5 text-orange-400" />
+                      <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
+                        GitHub Actions CI/CD
+                      </span>
+                    </div>
+                    <p className="text-slate-500 text-xs mt-0.5">
+                      Lint, test, build & Docker push
                     </p>
                   </div>
                 </label>
@@ -338,15 +447,18 @@ export default function NewProjectPage() {
             <div className="space-y-3">
               {[
                 "Analyzing schema",
-                "Generating entities",
+                framework === "express" ? "Generating Express.js routes" : "Generating NestJS modules",
                 "Creating API endpoints",
                 "Building service layer",
+                includeSwagger ? "Adding Swagger/OpenAPI docs" : null,
                 includeDocker ? "Setting up Docker" : null,
+                includeCI ? "Adding GitHub Actions CI/CD" : null,
                 includeTests ? "Writing unit tests" : null,
                 includeFrontend ? "Generating Next.js frontend" : null,
                 includeIyzico ? "Adding iyzico payment service" : null,
                 includeEFatura ? "Adding e-Fatura UBL-TR service" : null,
                 includeKVKK ? "Adding KVKK compliance layer" : null,
+                "Building Postman collection",
                 "Finalizing output",
               ]
                 .filter(Boolean)

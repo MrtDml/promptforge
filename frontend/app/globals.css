@@ -226,3 +226,31 @@ body {
 textarea {
   field-sizing: content;
 }
+
+/* ─── highlight.js overrides ────────────────────────────────────────────── */
+
+.hljs {
+  background: transparent !important;
+  padding: 0 !important;
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+/* Line numbers */
+.code-line {
+  display: table-row;
+}
+
+.code-line-number {
+  display: table-cell;
+  user-select: none;
+  text-align: right;
+  padding-right: 1.25rem;
+  color: #334155;
+  min-width: 2.5rem;
+}
+
+.code-line-content {
+  display: table-cell;
+  white-space: pre;
+}

@@ -1,6 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import "highlight.js/styles/atom-one-dark.css";
+import { useState, useEffect, useRef, useMemo } from "react";
+import hljs from "highlight.js/lib/core";
+import typescript from "highlight.js/lib/languages/typescript";
+import javascript from "highlight.js/lib/languages/javascript";
+import json from "highlight.js/lib/languages/json";
+import yaml from "highlight.js/lib/languages/yaml";
+import markdown from "highlight.js/lib/languages/markdown";
+import sql from "highlight.js/lib/languages/sql";
+import bash from "highlight.js/lib/languages/bash";
+import xml from "highlight.js/lib/languages/xml";
+import css from "highlight.js/lib/languages/css";
+import plaintext from "highlight.js/lib/languages/plaintext";
+
+hljs.registerLanguage("typescript", typescript);
+hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("json", json);
+hljs.registerLanguage("yaml", yaml);
+hljs.registerLanguage("markdown", markdown);
+hljs.registerLanguage("sql", sql);
+hljs.registerLanguage("bash", bash);
+hljs.registerLanguage("xml", xml);
+hljs.registerLanguage("css", css);
+hljs.registerLanguage("plaintext", plaintext);
+
+const HLJS_LANG: Record<string, string> = {
+  typescript: "typescript",
+  javascript: "javascript",
+  json: "json",
+  yaml: "yaml",
+  markdown: "markdown",
+  sql: "sql",
+  bash: "bash",
+  dockerfile: "bash",
+  css: "css",
+  html: "xml",
+  prisma: "plaintext",
+  graphql: "plaintext",
+  text: "plaintext",
+};
 import {
   FileCode2,
   Database,
@@ -65,6 +104,25 @@ function FileTreeItem({
 
 function CodeViewer({ file }: { file: GeneratedFile }) {
   const [copied, setCopied] = useState(false);
+  const codeRef = useRef<HTMLElement>(null);
+
+  const language = file.language ?? getLanguageFromPath(file.path);
+  const hlLang = HLJS_LANG[language] ?? "plaintext";
+
+  // Re-highlight whenever file or language changes
+  useEffect(() => {
+    const el = codeRef.current;
+    if (!el) return;
+    el.removeAttribute("data-highlighted");
+    el.textContent = file.content;
+    hljs.highlightElement(el);
+  }, [file.content, hlLang]);
+
+  // Line count for display
+  const lineCount = useMemo(
+    () => file.content.split("\n").length,
+    [file.content]
+  );
 
   async function handleCopy() {
     try {
@@ -80,16 +138,19 @@ function CodeViewer({ file }: { file: GeneratedFile }) {
     <div className="flex flex-col h-full">
       {/* File header */}
       <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-700/60 bg-slate-800/60">
-        <div className="flex items-center gap-2">
-          <FileCode2 className="w-4 h-4 text-indigo-400" />
-          <span className="text-sm text-slate-300 font-mono">{file.path}</span>
-          <span className="text-xs px-2 py-0.5 rounded bg-slate-700 text-slate-400">
-            {file.language ?? getLanguageFromPath(file.path)}
+        <div className="flex items-center gap-2 min-w-0">
+          <FileCode2 className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+          <span className="text-sm text-slate-300 font-mono truncate">{file.path}</span>
+          <span className="text-xs px-2 py-0.5 rounded bg-slate-700 text-slate-400 flex-shrink-0">
+            {language}
+          </span>
+          <span className="text-xs text-slate-600 flex-shrink-0">
+            {lineCount} lines
           </span>
         </div>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white transition-all text-xs"
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white transition-all text-xs flex-shrink-0 ml-2"
         >
           {copied ? (
             <>
@@ -105,10 +166,12 @@ function CodeViewer({ file }: { file: GeneratedFile }) {
         </button>
       </div>
 
-      {/* Code content */}
-      <div className="flex-1 overflow-auto">
-        <pre className="p-4 text-xs font-mono text-slate-300 leading-relaxed whitespace-pre">
-          {file.content}
+      {/* Code content with syntax highlighting */}
+      <div className="flex-1 overflow-auto bg-slate-900/80">
+        <pre className="p-4 m-0 font-mono leading-relaxed">
+          <code ref={codeRef} className={`language-${hlLang} hljs`}>
+            {file.content}
+          </code>
         </pre>
       </div>
     </div>

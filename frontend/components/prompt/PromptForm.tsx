@@ -11,14 +11,29 @@ import {
 
 const examplePrompts = [
   {
-    title: "Project Management SaaS",
+    title: "🇹🇷 Randevu & Rezervasyon Sistemi",
     prompt:
-      "Build a multi-tenant project management app with workspaces, projects, tasks, subtasks, due dates, priorities, assignees, comments, file attachments, and activity logs. Include role-based access (admin, manager, member) and Stripe billing with free and pro tiers.",
+      "Türk işletmeler için randevu yönetim sistemi: müşteri kayıtları, personel/hizmet tanımları, randevu takvimi, otomatik SMS/e-posta hatırlatmaları, iyzico ile aylık abonelik paketleri (temel/premium). KVKK uyumlu veri saklama.",
   },
   {
-    title: "E-commerce Platform",
+    title: "🇹🇷 E-ticaret (iyzico Ödeme)",
     prompt:
-      "Create an e-commerce platform with product catalog, categories, inventory management, shopping cart, order management, customer accounts, address book, multiple payment methods, discount coupons, and email notifications.",
+      "Türkiye odaklı e-ticaret platformu: ürün kataloğu, kategori yönetimi, stok takibi, sepet, sipariş yönetimi, müşteri hesapları, adres defteri, iyzico ile taksitli ödeme, e-Fatura/e-Arşiv fatura kesimi, kargo entegrasyonu, indirim kuponu. KVKK metinleri dahil.",
+  },
+  {
+    title: "🇹🇷 Fatura & Muhasebe SaaS",
+    prompt:
+      "Türk KOBİ'ler için muhasebe SaaS: müşteri ve tedarikçi yönetimi, e-Fatura (UBL-TR) ve e-Arşiv fatura oluşturma, gelir/gider takibi, KDV raporları, banka hesabı entegrasyonu, PDF fatura indirme, çoklu kullanıcı rolü (muhasebeci, yönetici), iyzico abonelik sistemi.",
+  },
+  {
+    title: "🇹🇷 Restoran / Kafe Yönetimi",
+    prompt:
+      "Restoran yönetim sistemi: masa rezervasyonu, online sipariş (QR menü), mutfak ekranı, ürün ve menü yönetimi, stok takibi, personel çizelgesi, günlük/haftalık satış raporları, müşteri sadakat programı, iyzico ile online ödeme ve paket servis ödemesi.",
+  },
+  {
+    title: "Project Management SaaS",
+    prompt:
+      "Build a multi-tenant project management app with workspaces, projects, tasks, subtasks, due dates, priorities, assignees, comments, file attachments, and activity logs. Include role-based access (admin, manager, member) and subscription billing with free and pro tiers.",
   },
   {
     title: "CRM System",

@@ -6,7 +6,7 @@ import { parserApi, generatorApi } from "@/lib/api";
 import type { AppSchema, GenerateResponse } from "@/types";
 import PromptForm from "@components/prompt/PromptForm";
 import SchemaPreview from "@components/prompt/SchemaPreview";
-import { CheckCircle2, AlertCircle, Loader2, ChevronRight } from "lucide-react";
+import { CheckCircle2, AlertCircle, Loader2, ChevronRight, Globe, CreditCard, FileText, Shield } from "lucide-react";
 import { AxiosError } from "axios";
 
 type Step = "input" | "preview" | "generating" | "done";
@@ -22,6 +22,10 @@ export default function NewProjectPage() {
   const [isParsing, setIsParsing] = useState(false);
   const [includeTests, setIncludeTests] = useState(false);
   const [includeDocker, setIncludeDocker] = useState(true);
+  const [includeFrontend, setIncludeFrontend] = useState(false);
+  const [includeIyzico, setIncludeIyzico] = useState(false);
+  const [includeEFatura, setIncludeEFatura] = useState(false);
+  const [includeKVKK, setIncludeKVKK] = useState(false);
 
   // Step 1 → 2: parse prompt
   async function handleParse(userPrompt: string) {
@@ -53,7 +57,15 @@ export default function NewProjectPage() {
     try {
       const response = await generatorApi.generate({
         schema,
-        options: { includeTests, includeDocker, includeCI: false },
+        options: {
+          includeTests,
+          includeDocker,
+          includeCI: false,
+          includeFrontend,
+          includeIyzico,
+          includeEFatura,
+          includeKVKK,
+        },
       });
       setGenerateResult(response.data);
       setStep("done");
@@ -85,10 +97,10 @@ export default function NewProjectPage() {
       </div>
 
       {/* Progress steps */}
-      <div className="flex items-center gap-2 mb-8">
+      <div className="flex items-center gap-1.5 mb-8 overflow-x-auto pb-1 scrollbar-none">
         {[
           { id: "input", label: "Describe" },
-          { id: "preview", label: "Review Schema" },
+          { id: "preview", label: "Review" },
           { id: "generating", label: "Generate" },
           { id: "done", label: "Done" },
         ].map((s, i, arr) => {
@@ -99,9 +111,9 @@ export default function NewProjectPage() {
           const isDone = currentIdx > sIdx;
 
           return (
-            <div key={s.id} className="flex items-center gap-2">
+            <div key={s.id} className="flex items-center gap-1.5 flex-shrink-0">
               <div
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all ${
                   isActive
                     ? "bg-indigo-600 text-white"
                     : isDone
@@ -110,16 +122,16 @@ export default function NewProjectPage() {
                 }`}
               >
                 {isDone ? (
-                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <CheckCircle2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 ) : (
-                  <span className="w-4 h-4 flex items-center justify-center text-xs">
+                  <span className="w-3.5 h-3.5 flex items-center justify-center text-xs">
                     {i + 1}
                   </span>
                 )}
                 {s.label}
               </div>
               {i < arr.length - 1 && (
-                <ChevronRight className="w-4 h-4 text-slate-600 flex-shrink-0" />
+                <ChevronRight className="w-3.5 h-3.5 text-slate-600 flex-shrink-0" />
               )}
             </div>
           );
@@ -149,41 +161,141 @@ export default function NewProjectPage() {
           )}
 
           {/* Generation options */}
-          <div className="glass-card p-5">
-            <h3 className="font-semibold text-white mb-4">Generation options</h3>
-            <div className="flex flex-wrap gap-6">
-              <label className="flex items-center gap-3 cursor-pointer group">
-                <input
-                  type="checkbox"
-                  checked={includeDocker}
-                  onChange={(e) => setIncludeDocker(e.target.checked)}
-                  className="w-4 h-4 rounded border-slate-600 bg-slate-800 text-indigo-600 focus:ring-indigo-500"
-                />
-                <div>
-                  <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
-                    Docker & Docker Compose
-                  </span>
-                  <p className="text-slate-500 text-xs">
-                    Include containerization config
-                  </p>
-                </div>
-              </label>
-              <label className="flex items-center gap-3 cursor-pointer group">
-                <input
-                  type="checkbox"
-                  checked={includeTests}
-                  onChange={(e) => setIncludeTests(e.target.checked)}
-                  className="w-4 h-4 rounded border-slate-600 bg-slate-800 text-indigo-600 focus:ring-indigo-500"
-                />
-                <div>
-                  <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
-                    Unit Tests
-                  </span>
-                  <p className="text-slate-500 text-xs">
-                    Generate test files for all modules
-                  </p>
-                </div>
-              </label>
+          <div className="glass-card p-5 space-y-6">
+            <div>
+              <h3 className="font-semibold text-white mb-1">Generation options</h3>
+              <p className="text-slate-500 text-xs mb-4">Customize what gets included in your generated project.</p>
+
+              {/* Standard options */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <label className="flex items-start gap-3 cursor-pointer group p-3 rounded-lg hover:bg-slate-800/50 transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={includeDocker}
+                    onChange={(e) => setIncludeDocker(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 rounded border-slate-600 bg-slate-800 text-indigo-600 focus:ring-indigo-500 flex-shrink-0"
+                  />
+                  <div>
+                    <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
+                      Docker & Docker Compose
+                    </span>
+                    <p className="text-slate-500 text-xs mt-0.5">
+                      Containerization config + health checks
+                    </p>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3 cursor-pointer group p-3 rounded-lg hover:bg-slate-800/50 transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={includeTests}
+                    onChange={(e) => setIncludeTests(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 rounded border-slate-600 bg-slate-800 text-indigo-600 focus:ring-indigo-500 flex-shrink-0"
+                  />
+                  <div>
+                    <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
+                      Unit Tests
+                    </span>
+                    <p className="text-slate-500 text-xs mt-0.5">
+                      Jest test files for all modules
+                    </p>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3 cursor-pointer group p-3 rounded-lg hover:bg-slate-800/50 transition-colors border border-dashed border-indigo-600/30 bg-indigo-950/20">
+                  <input
+                    type="checkbox"
+                    checked={includeFrontend}
+                    onChange={(e) => setIncludeFrontend(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 rounded border-slate-600 bg-slate-800 text-indigo-600 focus:ring-indigo-500 flex-shrink-0"
+                  />
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <Globe className="w-3.5 h-3.5 text-indigo-400" />
+                      <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
+                        Frontend (Next.js)
+                      </span>
+                      <span className="text-xs bg-indigo-600/30 text-indigo-300 px-1.5 py-0.5 rounded-full">New</span>
+                    </div>
+                    <p className="text-slate-500 text-xs mt-0.5">
+                      Full Next.js 14 dashboard + auth pages
+                    </p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            {/* Turkish integrations section */}
+            <div className="border-t border-slate-700/60 pt-5">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-base">🇹🇷</span>
+                <h4 className="font-semibold text-white text-sm">Turkish Integrations</h4>
+              </div>
+              <p className="text-slate-500 text-xs mb-4">
+                Ready-to-use Türkiye-specific service files — no other platform offers these.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <label className="flex items-start gap-3 cursor-pointer group p-3 rounded-lg hover:bg-slate-800/50 transition-colors border border-slate-700/50">
+                  <input
+                    type="checkbox"
+                    checked={includeIyzico}
+                    onChange={(e) => setIncludeIyzico(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 rounded border-slate-600 bg-slate-800 text-indigo-600 focus:ring-indigo-500 flex-shrink-0"
+                  />
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <CreditCard className="w-3.5 h-3.5 text-green-400" />
+                      <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
+                        iyzico Ödeme
+                      </span>
+                    </div>
+                    <p className="text-slate-500 text-xs mt-0.5">
+                      Ödeme + taksit + checkout form
+                    </p>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3 cursor-pointer group p-3 rounded-lg hover:bg-slate-800/50 transition-colors border border-slate-700/50">
+                  <input
+                    type="checkbox"
+                    checked={includeEFatura}
+                    onChange={(e) => setIncludeEFatura(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 rounded border-slate-600 bg-slate-800 text-indigo-600 focus:ring-indigo-500 flex-shrink-0"
+                  />
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <FileText className="w-3.5 h-3.5 text-blue-400" />
+                      <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
+                        e-Fatura / e-Arşiv
+                      </span>
+                    </div>
+                    <p className="text-slate-500 text-xs mt-0.5">
+                      GİB UBL-TR XML generator
+                    </p>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3 cursor-pointer group p-3 rounded-lg hover:bg-slate-800/50 transition-colors border border-slate-700/50">
+                  <input
+                    type="checkbox"
+                    checked={includeKVKK}
+                    onChange={(e) => setIncludeKVKK(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 rounded border-slate-600 bg-slate-800 text-indigo-600 focus:ring-indigo-500 flex-shrink-0"
+                  />
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <Shield className="w-3.5 h-3.5 text-purple-400" />
+                      <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
+                        KVKK Uyum
+                      </span>
+                    </div>
+                    <p className="text-slate-500 text-xs mt-0.5">
+                      Middleware + gizlilik şablonları
+                    </p>
+                  </div>
+                </label>
+              </div>
             </div>
           </div>
 
@@ -231,6 +343,10 @@ export default function NewProjectPage() {
                 "Building service layer",
                 includeDocker ? "Setting up Docker" : null,
                 includeTests ? "Writing unit tests" : null,
+                includeFrontend ? "Generating Next.js frontend" : null,
+                includeIyzico ? "Adding iyzico payment service" : null,
+                includeEFatura ? "Adding e-Fatura UBL-TR service" : null,
+                includeKVKK ? "Adding KVKK compliance layer" : null,
                 "Finalizing output",
               ]
                 .filter(Boolean)

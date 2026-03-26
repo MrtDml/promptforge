@@ -68,7 +68,7 @@ export class GeneratorController {
       auth_entity: raw._parsed?.auth_entity ?? raw.auth_entity,
     };
 
-    const result = this.generatorService.generateFromSchema(parsedSchema);
+    const result = this.generatorService.generateFromSchema(parsedSchema, body.options);
 
     // Persist to DB so the project detail page can retrieve it
     const project = await this.prisma.project.create({

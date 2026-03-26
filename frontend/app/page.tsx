@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import LandingNav from "@components/layout/LandingNav";
 
 export const metadata: Metadata = {
   title: "PromptForge – Build SaaS Apps from a Single Prompt",
@@ -31,6 +32,8 @@ import {
   ChevronRight,
   Star,
   CheckCircle2,
+  CreditCard,
+  FileText,
 } from "lucide-react";
 
 const features = [
@@ -154,57 +157,18 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       {/* ── Navbar ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
-                <Zap className="w-5 h-5 text-white" />
-              </div>
-              <span className="font-bold text-xl text-white tracking-tight">
-                PromptForge
-              </span>
-            </div>
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-slate-400 hover:text-white transition-colors text-sm">
-                Features
-              </a>
-              <a href="#how-it-works" className="text-slate-400 hover:text-white transition-colors text-sm">
-                How it works
-              </a>
-              <a href="#pricing" className="text-slate-400 hover:text-white transition-colors text-sm">
-                Pricing
-              </a>
-            </div>
-            <div className="flex items-center gap-3">
-              <Link
-                href="/login"
-                className="text-slate-300 hover:text-white transition-colors text-sm font-medium px-4 py-2"
-              >
-                Sign in
-              </Link>
-              <Link
-                href="/register"
-                className="btn-primary text-sm px-4 py-2"
-              >
-                Get started free
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <LandingNav />
 
       {/* ── Hero ── */}
       <section className="hero-bg pt-32 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-950 border border-indigo-800/60 text-indigo-300 text-sm font-medium mb-8">
             <Zap className="w-3.5 h-3.5" />
-            AI-Powered SaaS Builder
+            AI-Powered SaaS Builder — 🇹🇷 iyzico · e-Fatura · KVKK
             <ChevronRight className="w-3.5 h-3.5" />
           </div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight mb-6">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold leading-tight tracking-tight mb-6">
             Build your SaaS app{" "}
             <span className="gradient-text">from one sentence</span>
           </h1>
@@ -321,6 +285,112 @@ export default function LandingPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Turkish Market Section ── */}
+      <section id="turkey" className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-900/30">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-950/60 border border-red-800/40 text-red-300 text-sm font-medium mb-6">
+              <span className="text-base">🇹🇷</span>
+              Türk Girişimciler için
+            </div>
+            <h2 className="text-4xl font-bold mb-4">
+              Başka hiçbir platform bunu{" "}
+              <span className="gradient-text">yapamaz</span>
+            </h2>
+            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+              Lovable, Bolt, v0 — bunlar iyzico&apos;yu bilmez, e-Fatura&apos;yı tanımaz,
+              KVKK&apos;yı bilmez. PromptForge Türkiye&apos;ye özel entegrasyonları otomatik üretir.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            {[
+              {
+                icon: CreditCard,
+                title: "iyzico Ödeme Sistemi",
+                description:
+                  "Türkiye'de Stripe çalışmıyor. PromptForge iyzico payment service, taksit desteği ve checkout form'u hazır olarak üretir. Ödeme sistemi için tek satır yazmana gerek yok.",
+                color: "text-green-400",
+                bg: "bg-green-400/10",
+                badge: "Hazır entegrasyon",
+              },
+              {
+                icon: FileText,
+                title: "e-Fatura / e-Arşiv",
+                description:
+                  "GİB uyumlu UBL-TR 2.1 XML fatura üreteci dahil. Muhasebe, e-ticaret veya SaaS uygulamanız için e-fatura servisi otomatik oluşturulur.",
+                color: "text-blue-400",
+                bg: "bg-blue-400/10",
+                badge: "GİB uyumlu",
+              },
+              {
+                icon: Shield,
+                title: "KVKK Uyum Şablonları",
+                description:
+                  "Middleware, aydınlatma metni, gizlilik politikası ve VERBİS rehberi otomatik oluşturulur. Her Türk startup'ın ihtiyacı olan KVKK temelini hazır al.",
+                color: "text-purple-400",
+                bg: "bg-purple-400/10",
+                badge: "6698 sayılı Kanun",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="glass-card p-6 hover:border-slate-600/80 transition-all duration-300 group"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div
+                    className={`w-11 h-11 rounded-xl ${item.bg} flex items-center justify-center group-hover:scale-110 transition-transform`}
+                  >
+                    <item.icon className={`w-5 h-5 ${item.color}`} />
+                  </div>
+                  <span className="text-xs px-2 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">
+                    {item.badge}
+                  </span>
+                </div>
+                <h3 className="font-semibold text-lg text-white mb-2">{item.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Comparison callout */}
+          <div className="glass-card p-6 md:p-8 border-indigo-600/30 bg-indigo-950/20">
+            <div className="flex flex-col md:flex-row md:items-center gap-6">
+              <div className="flex-1">
+                <h3 className="text-xl font-bold text-white mb-2">
+                  Rakiplere karşı net fark
+                </h3>
+                <p className="text-slate-400 text-sm">
+                  Diğer AI SaaS oluşturucular genel amaçlıdır. PromptForge Türkiye pazarının
+                  ihtiyaçlarını anlayan tek araç.
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-3 md:w-80">
+                {[
+                  { label: "iyzico desteği", pf: true, others: false },
+                  { label: "e-Fatura üretimi", pf: true, others: false },
+                  { label: "KVKK şablonları", pf: true, others: false },
+                  { label: "Kodun sende kalır", pf: true, others: "kısmen" },
+                ].map((row) => (
+                  <div
+                    key={row.label}
+                    className="bg-slate-800/60 rounded-lg px-3 py-2 flex items-center justify-between gap-2"
+                  >
+                    <span className="text-slate-300 text-xs">{row.label}</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-green-400 text-xs font-bold">✓</span>
+                      <span className="text-red-400 text-xs">
+                        {row.others === false ? "✗" : "~"}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>

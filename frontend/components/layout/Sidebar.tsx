@@ -13,6 +13,7 @@ import {
   HelpCircle,
   BookOpen,
   Clock,
+  X,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -70,7 +71,7 @@ const bottomNav: NavItem[] = [
   },
 ];
 
-function NavLink({ item }: { item: NavItem }) {
+function NavLink({ item, onClick }: { item: NavItem; onClick?: () => void }) {
   const pathname = usePathname();
   const isActive = item.exact
     ? pathname === item.href
@@ -79,6 +80,7 @@ function NavLink({ item }: { item: NavItem }) {
   return (
     <Link
       href={item.href}
+      onClick={onClick}
       className={cn(
         "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150",
         isActive
@@ -98,7 +100,11 @@ function NavLink({ item }: { item: NavItem }) {
   );
 }
 
-export default function Sidebar() {
+interface SidebarProps {
+  onClose?: () => void;
+}
+
+export default function Sidebar({ onClose }: SidebarProps = {}) {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
 
@@ -128,8 +134,8 @@ export default function Sidebar() {
   return (
     <aside className="w-60 flex-shrink-0 flex flex-col h-full bg-slate-900 border-r border-slate-800">
       {/* Logo */}
-      <div className="p-4 border-b border-slate-800">
-        <Link href="/dashboard" className="flex items-center gap-2.5">
+      <div className="p-4 border-b border-slate-800 flex items-center justify-between">
+        <Link href="/dashboard" className="flex items-center gap-2.5" onClick={onClose}>
           <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
             <Zap className="w-5 h-5 text-white" />
           </div>
@@ -137,6 +143,15 @@ export default function Sidebar() {
             PromptForge
           </span>
         </Link>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="md:hidden p-1.5 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors"
+            aria-label="Close menu"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        )}
       </div>
 
       {/* Main navigation */}
@@ -146,13 +161,14 @@ export default function Sidebar() {
             Workspace
           </p>
           {mainNav.map((item) => (
-            <NavLink key={item.href} item={item} />
+            <NavLink key={item.href} item={item} onClick={onClose} />
           ))}
         </div>
 
         {/* Quick new project CTA */}
         <Link
           href="/dashboard/new"
+          onClick={onClose}
           className="flex items-center gap-2 w-full px-3 py-2 rounded-lg bg-indigo-600/20 border border-indigo-600/30 hover:bg-indigo-600/30 transition-all text-indigo-300 text-sm font-medium group"
         >
           <Plus className="w-4 h-4" />
@@ -164,7 +180,7 @@ export default function Sidebar() {
       {/* Bottom section */}
       <div className="p-3 space-y-1 border-t border-slate-800">
         {bottomNav.map((item) => (
-          <NavLink key={item.href} item={item} />
+          <NavLink key={item.href} item={item} onClick={onClose} />
         ))}
       </div>
 

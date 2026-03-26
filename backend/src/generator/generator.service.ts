@@ -16,6 +16,28 @@ import {
   generateDockerCompose,
   generateDockerEnv,
 } from './templates/docker.template';
+import { generateFrontendFiles } from './templates/frontend.template';
+import {
+  generateIyzicoService,
+  generateIyzicoModule,
+  generateIyzicoController,
+  generateEFaturaService,
+  generateEFaturaModule,
+  generateEFaturaController,
+  generateKVKKMiddleware,
+  generateKVKKDoc,
+  generateKVKKPrivacyText,
+} from './templates/turkish.template';
+
+export interface GenerateOptions {
+  includeTests?: boolean;
+  includeDocker?: boolean;
+  includeCI?: boolean;
+  includeFrontend?: boolean;
+  includeIyzico?: boolean;
+  includeEFatura?: boolean;
+  includeKVKK?: boolean;
+}
 
 export interface GeneratedFile {
   path: string;
@@ -237,11 +259,11 @@ export class GeneratorService {
     return result;
   }
 
-  generateFromSchema(schema: ParsedSchema): {
+  generateFromSchema(schema: ParsedSchema, options?: GenerateOptions): {
     files: GeneratedFile[];
     summary: GeneratedProject['summary'];
   } {
-    const allFiles = this.generateProjectFiles(schema);
+    const allFiles = this.generateProjectFiles(schema, options);
     const project = this.generateProject(schema);
 
     return {
@@ -259,7 +281,7 @@ export class GeneratorService {
    * Produces every file needed for a complete, runnable NestJS project.
    * The returned array can be zipped and handed directly to the user.
    */
-  generateProjectFiles(schema: ParsedSchema): GeneratedFile[] {
+  generateProjectFiles(schema: ParsedSchema, options: GenerateOptions = {}): GeneratedFile[] {
     const hasAuth = schema.features.includes('auth');
     const files: GeneratedFile[] = [];
 
@@ -419,6 +441,41 @@ Thumbs.db
         path: 'src/auth/guards/jwt-auth.guard.ts',
         content: generateJwtAuthGuard(),
       });
+    }
+
+    // ── iyzico Payment (Turkish) ──────────────────────────────────────────────
+    if (options.includeIyzico) {
+      files.push({ path: 'src/payment/iyzico.service.ts', content: generateIyzicoService() });
+      files.push({ path: 'src/payment/iyzico.module.ts', content: generateIyzicoModule() });
+      files.push({ path: 'src/payment/iyzico.controller.ts', content: generateIyzicoController() });
+      this.logger.log('iyzico payment files added');
+    }
+
+    // ── e-Fatura / e-Arşiv (Turkish GİB) ─────────────────────────────────────
+    if (options.includeEFatura) {
+      files.push({ path: 'src/einvoice/efatura.service.ts', content: generateEFaturaService() });
+      files.push({ path: 'src/einvoice/efatura.module.ts', content: generateEFaturaModule() });
+      files.push({ path: 'src/einvoice/efatura.controller.ts', content: generateEFaturaController() });
+      this.logger.log('e-Fatura files added');
+    }
+
+    // ── KVKK Compliance (Turkish GDPR) ────────────────────────────────────────
+    if (options.includeKVKK) {
+      files.push({ path: 'src/common/middleware/kvkk.middleware.ts', content: generateKVKKMiddleware() });
+      files.push({ path: 'docs/KVKK.md', content: generateKVKKDoc() });
+      files.push({ path: 'docs/kvkk-aydinlatma-metni.md', content: generateKVKKPrivacyText() });
+      this.logger.log('KVKK compliance files added');
+    }
+
+    // ── Next.js Frontend ─────────────────────────────────────────────────────
+    if (options.includeFrontend) {
+      const frontendFiles = generateFrontendFiles(
+        schema.app_name,
+        schema.entities,
+        hasAuth,
+      );
+      files.push(...frontendFiles);
+      this.logger.log(`Next.js frontend: ${frontendFiles.length} files added`);
     }
 
     // ── README.md ────────────────────────────────────────────────────────────

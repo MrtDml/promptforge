@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
           </div>
           <h2 className="text-xl font-semibold text-white mb-2">Check your email</h2>
           <p className="text-slate-400 text-sm mb-6">
-            If an account exists for <strong className="text-slate-300">{email}</strong>, we've
+            If an account exists for <strong className="text-slate-300">{email}</strong>, we&apos;ve
             sent a password reset link. It expires in 1 hour.
           </p>
           <Link
@@ -61,7 +61,7 @@ export default function ForgotPasswordPage() {
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">Forgot password?</h1>
         <p className="text-slate-400">
-          Enter your email and we'll send you a reset link.
+          Enter your email and we&apos;ll send you a reset link.
         </p>
       </div>
 

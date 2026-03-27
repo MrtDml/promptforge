@@ -540,6 +540,15 @@ export default function LandingPage() {
             </Link>
           </div>
         </div>
+        {/* ── Payment Logos ── */}
+        <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-slate-800/60 flex flex-col items-center gap-3">
+          <p className="text-slate-600 text-xs uppercase tracking-widest font-medium">Güvenli Ödeme</p>
+          <img
+            src="/payment/iyzico-logo-band-white.svg"
+            alt="iyzico ile Öde — Visa — Mastercard"
+            className="h-8 w-auto opacity-80"
+          />
+        </div>
       </footer>
     </div>
   );

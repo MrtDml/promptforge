@@ -476,6 +476,16 @@ export default function PricingPage() {
             <span className="text-slate-400 font-medium">14-day money-back guarantee</span>.
             No questions asked.
           </p>
+
+          {/* ── Secure Payment Logos ── */}
+          <div className="mt-10 flex flex-col items-center gap-4">
+            <p className="text-slate-500 text-xs uppercase tracking-widest font-medium">Güvenli Ödeme</p>
+            <img
+              src="/payment/iyzico-logo-band-white.svg"
+              alt="iyzico ile Öde — Visa — Mastercard"
+              className="h-8 w-auto"
+            />
+          </div>
         </div>
       </section>
 
@@ -594,6 +604,15 @@ export default function PricingPage() {
               Contact
             </Link>
           </div>
+        </div>
+        {/* ── Payment Logos ── */}
+        <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-slate-800/60 flex flex-col items-center gap-3">
+          <p className="text-slate-600 text-xs uppercase tracking-widest font-medium">Güvenli Ödeme</p>
+          <img
+            src="/payment/iyzico-logo-band-white.svg"
+            alt="iyzico ile Öde — Visa — Mastercard"
+            className="h-8 w-auto opacity-80"
+          />
         </div>
       </footer>
     </div>

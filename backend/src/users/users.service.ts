@@ -118,6 +118,29 @@ export class UsersService {
     });
   }
 
+  async setEmailVerifyToken(id: string, token: string, expiry: Date) {
+    return this.prisma.user.update({
+      where: { id },
+      data: { emailVerifyToken: token, emailVerifyExpiry: expiry },
+    });
+  }
+
+  async findByEmailVerifyToken(token: string) {
+    return this.prisma.user.findFirst({
+      where: {
+        emailVerifyToken: token,
+        emailVerifyExpiry: { gt: new Date() },
+      },
+    });
+  }
+
+  async markEmailVerified(id: string) {
+    return this.prisma.user.update({
+      where: { id },
+      data: { emailVerified: true, emailVerifyToken: null, emailVerifyExpiry: null },
+    });
+  }
+
   async remove(id: string) {
     const user = await this.findById(id);
     if (!user) {

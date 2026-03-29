@@ -3,11 +3,13 @@ import {
   Post,
   Get,
   Body,
+  Query,
   UseGuards,
   Request,
   HttpCode,
   HttpStatus,
   UnauthorizedException,
+  BadRequestException,
 } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
@@ -59,6 +61,20 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async resetPassword(@Body() dto: ResetPasswordDto) {
     return this.authService.resetPassword(dto);
+  }
+
+  @Get('verify-email')
+  @HttpCode(HttpStatus.OK)
+  async verifyEmail(@Query('token') token: string) {
+    if (!token) throw new BadRequestException('Token is required');
+    return this.authService.verifyEmail(token);
+  }
+
+  @Post('resend-verification')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  async resendVerification(@Request() req: any) {
+    return this.authService.resendVerificationEmail(req.user.id);
   }
 
   @Get('me')

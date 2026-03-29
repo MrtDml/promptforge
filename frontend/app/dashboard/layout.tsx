@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { isAuthenticated } from "@/lib/auth";
+import { isAuthenticated, getStoredUser } from "@/lib/auth";
 import Sidebar from "@components/layout/Sidebar";
-import { Menu, Zap } from "lucide-react";
+import { Menu, Zap, MailWarning, X, Loader2 } from "lucide-react";
 import Link from "next/link";
+import apiClient from "@/lib/api";
 
 export default function DashboardLayout({
   children,
@@ -14,12 +15,32 @@ export default function DashboardLayout({
 }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showVerifyBanner, setShowVerifyBanner] = useState(false);
+  const [resending, setResending] = useState(false);
+  const [resent, setResent] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated()) {
       router.replace("/login");
+      return;
+    }
+    const user = getStoredUser();
+    if (user && user.emailVerified === false) {
+      setShowVerifyBanner(true);
     }
   }, [router]);
+
+  async function handleResend() {
+    setResending(true);
+    try {
+      await apiClient.post("/api/v1/auth/resend-verification");
+      setResent(true);
+    } catch {
+      // ignore
+    } finally {
+      setResending(false);
+    }
+  }
 
   // Close sidebar on route change (mobile)
   useEffect(() => {
@@ -63,6 +84,34 @@ export default function DashboardLayout({
             <span className="font-bold text-white tracking-tight">PromptForge</span>
           </Link>
         </header>
+
+        {/* Email verification banner */}
+        {showVerifyBanner && (
+          <div className="bg-amber-950/60 border-b border-amber-800/50 px-4 py-2.5 flex items-center gap-3 flex-shrink-0">
+            <MailWarning className="w-4 h-4 text-amber-400 flex-shrink-0" />
+            <p className="text-amber-200 text-sm flex-1">
+              Please verify your email address to unlock all features.{" "}
+              {resent ? (
+                <span className="text-green-400 font-medium">Verification email sent!</span>
+              ) : (
+                <button
+                  onClick={handleResend}
+                  disabled={resending}
+                  className="underline text-amber-300 hover:text-amber-100 transition-colors disabled:opacity-50 inline-flex items-center gap-1"
+                >
+                  {resending && <Loader2 className="w-3 h-3 animate-spin" />}
+                  Resend verification email
+                </button>
+              )}
+            </p>
+            <button
+              onClick={() => setShowVerifyBanner(false)}
+              className="text-amber-500 hover:text-amber-300 transition-colors flex-shrink-0"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        )}
 
         <main className="flex-1 overflow-y-auto">
           <div className="min-h-full">{children}</div>

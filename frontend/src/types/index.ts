@@ -12,6 +12,7 @@ export interface User {
   planType?: string;
   generationsUsed?: number;
   generationsLimit?: number;
+  emailVerified?: boolean;
 }
 
 export interface AuthTokens {

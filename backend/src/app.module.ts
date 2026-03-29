@@ -12,6 +12,7 @@ import { StripeModule } from './stripe/stripe.module';
 import { DeployModule } from './deploy/deploy.module';
 import { GithubModule } from './github/github.module';
 import { ChatModule } from './chat/chat.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ChatModule } from './chat/chat.module';
     DeployModule,
     GithubModule,
     ChatModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

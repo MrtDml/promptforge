@@ -8,7 +8,7 @@ import { PrismaClient } from '@prisma/client';
 import { ParserService } from '../parser/parser.service';
 import { GeneratorService } from '../generator/generator.service';
 import { CreateProjectDto, UpdateProjectDto, ProjectStatus } from './dto/create-project.dto';
-
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class ProjectsService {
@@ -18,6 +18,7 @@ export class ProjectsService {
   constructor(
     private readonly parserService: ParserService,
     private readonly generatorService: GeneratorService,
+    private readonly mailService: MailService,
   ) {}
 
   async create(userId: string, createProjectDto: CreateProjectDto) {
@@ -78,11 +79,24 @@ export class ProjectsService {
 
       // Increment the user's generation counter (only for non-unlimited plans)
       if (userId) {
-        await this.prisma.user.update({
+        const updatedUser = await this.prisma.user.update({
           where: { id: userId },
           data: { generationsUsed: { increment: 1 } },
         });
         this.logger.log(`Incremented generationsUsed for user ${userId}`);
+
+        // Send project complete email
+        const project = await this.prisma.project.findUnique({ where: { id: projectId }, select: { name: true } });
+        this.mailService.sendProjectCompleteEmail(updatedUser.email, updatedUser.name, project?.name ?? 'Your project', projectId)
+          .catch((err) => this.logger.error(`Failed to send project complete email: ${err.message}`));
+
+        // Warn if approaching limit (80% used)
+        const limit = updatedUser.generationsLimit;
+        const used = updatedUser.generationsUsed;
+        if (limit > 0 && used / limit >= 0.8 && used < limit) {
+          this.mailService.sendLimitWarningEmail(updatedUser.email, updatedUser.name, used, limit)
+            .catch((err) => this.logger.error(`Failed to send limit warning email: ${err.message}`));
+        }
       }
 
       this.logger.log(`Project ${projectId} generation completed`);

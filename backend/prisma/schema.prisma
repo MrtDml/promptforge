@@ -24,6 +24,9 @@ model User {
   subscriptionStatus    String?        @default("free")
   passwordResetToken    String?
   passwordResetExpiry   DateTime?
+  emailVerified         Boolean        @default(false)
+  emailVerifyToken      String?
+  emailVerifyExpiry     DateTime?
   projects           Project[]
   subscriptions      Subscription[]
 

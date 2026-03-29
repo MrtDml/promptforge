@@ -47,6 +47,12 @@ export default function LandingNav() {
             >
               Pricing
             </a>
+            <Link
+              href="/blog"
+              className="text-slate-400 hover:text-white transition-colors text-sm"
+            >
+              Blog
+            </Link>
           </div>
 
           {/* Desktop CTA buttons */}

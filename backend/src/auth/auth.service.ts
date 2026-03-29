@@ -9,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import { UsersService } from '../users/users.service';
+import { MailService } from '../mail/mail.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
@@ -23,6 +24,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
   ) {}
 
   async register(registerDto: RegisterDto) {
@@ -38,6 +40,14 @@ export class AuthService {
 
     this.logger.log(`New user registered: ${email}`);
 
+    // Send verification email
+    const verifyToken = crypto.randomBytes(32).toString('hex');
+    const verifyExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+    await this.usersService.setEmailVerifyToken(user.id, verifyToken, verifyExpiry);
+    this.mailService.sendVerificationEmail(email, name, verifyToken).catch((err) =>
+      this.logger.error(`Failed to send verification email: ${err.message}`),
+    );
+
     const token = this.generateToken(user.id, user.email);
     const refreshToken = this.generateRefreshToken(user.id, user.email);
 
@@ -46,6 +56,7 @@ export class AuthService {
       user: { ...userWithoutPassword, plan: userWithoutPassword.planType ?? 'free' },
       token,
       refreshToken,
+      emailVerificationSent: true,
     };
   }
 
@@ -117,17 +128,44 @@ export class AuthService {
 
     await this.usersService.setPasswordResetToken(user.id, token, expiry);
 
-    const frontendUrl = process.env.FRONTEND_URL ?? 'http://localhost:3000';
-    const resetUrl = `${frontendUrl}/reset-password?token=${token}`;
-
     this.logger.log(`Password reset requested for ${email}`);
-    this.logger.log(`Reset URL: ${resetUrl}`);
+
+    // Send reset email
+    this.mailService.sendPasswordResetEmail(email, user.name, token).catch((err) =>
+      this.logger.error(`Failed to send password reset email: ${err.message}`),
+    );
 
     return {
       message: 'If an account with that email exists, a reset link has been sent.',
-      // Only expose in non-production for testing (remove in prod if email provider is set up)
-      ...(process.env.NODE_ENV !== 'production' && { resetUrl }),
     };
+  }
+
+  async verifyEmail(token: string) {
+    const user = await this.usersService.findByEmailVerifyToken(token);
+    if (!user) {
+      throw new BadRequestException('Verification link is invalid or has expired.');
+    }
+    await this.usersService.markEmailVerified(user.id);
+    // Send welcome email after verification
+    this.mailService.sendWelcomeEmail(user.email, user.name).catch((err) =>
+      this.logger.error(`Failed to send welcome email: ${err.message}`),
+    );
+    return { message: 'Email verified successfully. Welcome to PromptForge!' };
+  }
+
+  async resendVerificationEmail(userId: string) {
+    const user = await this.usersService.findById(userId);
+    if (!user) throw new UnauthorizedException('User not found');
+    if (user.emailVerified) {
+      return { message: 'Email is already verified.' };
+    }
+    const verifyToken = crypto.randomBytes(32).toString('hex');
+    const verifyExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    await this.usersService.setEmailVerifyToken(user.id, verifyToken, verifyExpiry);
+    this.mailService.sendVerificationEmail(user.email, user.name, verifyToken).catch((err) =>
+      this.logger.error(`Failed to resend verification email: ${err.message}`),
+    );
+    return { message: 'Verification email sent.' };
   }
 
   async resetPassword(dto: ResetPasswordDto) {

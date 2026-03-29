@@ -5,20 +5,44 @@ import LandingNav from "@components/layout/LandingNav";
 export const metadata: Metadata = {
   title: "PromptForge – Build SaaS Apps from a Single Prompt",
   description:
-    "Turn your SaaS idea into production-ready code in under 5 minutes. PromptForge generates a complete NestJS backend, Prisma schema, REST API, and Docker setup from plain English.",
-  keywords: ["AI code generator", "SaaS builder", "NestJS generator", "Prisma schema generator", "no-code backend", "AI SaaS"],
+    "Turn your SaaS idea into production-ready code in under 5 minutes. PromptForge generates a complete NestJS backend, Prisma schema, REST API, and Docker setup from plain English. No coding required.",
+  keywords: [
+    "AI SaaS builder",
+    "build SaaS with AI",
+    "generate SaaS from prompt",
+    "AI code generator",
+    "NestJS generator",
+    "Prisma schema generator",
+    "REST API generator",
+    "no-code backend",
+    "AI app builder",
+    "SaaS boilerplate generator",
+    "Lovable alternative",
+    "Bolt.new alternative",
+  ],
   alternates: { canonical: "https://promptforgeai.dev" },
   openGraph: {
     title: "PromptForge – Build SaaS Apps from a Single Prompt",
-    description: "Turn your SaaS idea into production-ready code in under 5 minutes.",
+    description:
+      "Turn your SaaS idea into production-ready code in under 5 minutes. NestJS backend, Prisma schema, REST API, Docker — all from plain English.",
     url: "https://promptforgeai.dev",
     siteName: "PromptForge",
     type: "website",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "PromptForge – Build SaaS Apps with AI",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "PromptForge – Build SaaS Apps from a Single Prompt",
-    description: "Turn your SaaS idea into production-ready code in under 5 minutes.",
+    description:
+      "Turn your SaaS idea into production-ready code in under 5 minutes.",
+    images: ["/twitter-image"],
   },
 };
 import {

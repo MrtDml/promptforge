@@ -77,6 +77,12 @@ export class ProjectsController {
 export class PublicProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  listPublic() {
+    return this.projectsService.listPublicProjects();
+  }
+
   @Get(':shareToken')
   @HttpCode(HttpStatus.OK)
   findPublic(@Param('shareToken') shareToken: string) {

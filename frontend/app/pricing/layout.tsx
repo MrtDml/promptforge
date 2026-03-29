@@ -3,12 +3,26 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Pricing – PromptForge",
   description:
-    "Simple, transparent pricing. Start free with 3 app generations per month. Upgrade to Starter ($29/mo) or Pro ($99/mo) for more power.",
+    "Start free with 3 AI-generated apps per month. Upgrade to Starter ($29/mo) or Pro ($99/mo) for unlimited generations, GitHub export, public showcase, and AI chat.",
+  keywords: [
+    "PromptForge pricing",
+    "AI SaaS builder pricing",
+    "AI code generator plans",
+    "SaaS app generator free",
+  ],
   alternates: { canonical: "https://promptforgeai.dev/pricing" },
   openGraph: {
     title: "Pricing – PromptForge",
-    description: "Free, Starter ($29/mo), and Pro ($99/mo) plans. Start building today.",
+    description:
+      "Start free. Upgrade for unlimited AI-generated SaaS apps, GitHub export, and more.",
     url: "https://promptforgeai.dev/pricing",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "PromptForge Pricing" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pricing – PromptForge",
+    description: "Start free. Upgrade for unlimited AI-generated SaaS apps.",
+    images: ["/twitter-image"],
   },
 };
 

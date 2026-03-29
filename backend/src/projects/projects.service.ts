@@ -240,6 +240,15 @@ export class ProjectsService {
     return { isPublic: updated.isPublic, shareToken: updated.shareToken };
   }
 
+  async listPublicProjects() {
+    return this.prisma.project.findMany({
+      where: { isPublic: true },
+      select: { shareToken: true, updatedAt: true },
+      orderBy: { updatedAt: 'desc' },
+      take: 500,
+    });
+  }
+
   async findByShareToken(shareToken: string) {
     const project = await this.prisma.project.findFirst({
       where: { shareToken, isPublic: true },

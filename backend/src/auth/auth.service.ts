@@ -28,64 +28,70 @@ export class AuthService {
   async register(registerDto: RegisterDto) {
     const { email, password, name, bio } = registerDto;
 
-    // Check if user already exists
     const existingUser = await this.usersService.findByEmail(email);
     if (existingUser) {
       throw new ConflictException('An account with this email already exists');
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
-
-    // Create user
-    const user = await this.usersService.create({
-      email,
-      password: hashedPassword,
-      name,
-      bio,
-    });
+    const user = await this.usersService.create({ email, password: hashedPassword, name, bio });
 
     this.logger.log(`New user registered: ${email}`);
 
-    // Generate token
     const token = this.generateToken(user.id, user.email);
+    const refreshToken = this.generateRefreshToken(user.id, user.email);
 
     const { password: _password, ...userWithoutPassword } = user;
     return {
       user: { ...userWithoutPassword, plan: userWithoutPassword.planType ?? 'free' },
       token,
+      refreshToken,
     };
   }
 
   async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
 
-    // Find user
     const user = await this.usersService.findByEmail(email);
-    if (!user) {
-      throw new UnauthorizedException('Invalid email or password');
-    }
+    if (!user) throw new UnauthorizedException('Invalid email or password');
+    if (!user.isActive) throw new UnauthorizedException('Account is deactivated. Please contact support.');
 
-    if (!user.isActive) {
-      throw new UnauthorizedException('Account is deactivated. Please contact support.');
-    }
-
-    // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid email or password');
-    }
+    if (!isPasswordValid) throw new UnauthorizedException('Invalid email or password');
 
     this.logger.log(`User logged in: ${email}`);
 
-    // Generate token
     const token = this.generateToken(user.id, user.email);
+    const refreshToken = this.generateRefreshToken(user.id, user.email);
 
     const { password: _password, ...userWithoutPassword } = user;
     return {
       user: { ...userWithoutPassword, plan: userWithoutPassword.planType ?? 'free' },
       token,
+      refreshToken,
     };
+  }
+
+  async refreshAccessToken(refreshToken: string): Promise<{ token: string }> {
+    try {
+      const payload = this.jwtService.verify(refreshToken, {
+        secret: process.env.JWT_SECRET || 'fallback-secret-change-in-production',
+      }) as { sub: string; email: string; type: string };
+
+      if (payload.type !== 'refresh') {
+        throw new UnauthorizedException('Invalid refresh token');
+      }
+
+      const user = await this.usersService.findById(payload.sub);
+      if (!user || !user.isActive) {
+        throw new UnauthorizedException('User not found or inactive');
+      }
+
+      const token = this.generateToken(user.id, user.email);
+      return { token };
+    } catch {
+      throw new UnauthorizedException('Refresh token is invalid or expired');
+    }
   }
 
   async getProfile(userId: string) {
@@ -140,7 +146,12 @@ export class AuthService {
   }
 
   private generateToken(userId: string, email: string): string {
-    const payload = { sub: userId, email };
+    const payload = { sub: userId, email, type: 'access' };
     return this.jwtService.sign(payload);
+  }
+
+  private generateRefreshToken(userId: string, email: string): string {
+    const payload = { sub: userId, email, type: 'refresh' };
+    return this.jwtService.sign(payload, { expiresIn: '30d' });
   }
 }

@@ -74,7 +74,9 @@ export function removeStoredUser(): void {
 // ─── Auth state ─────────────────────────────────────────────────────────────
 
 export function isAuthenticated(): boolean {
-  return !!getToken();
+  const token = getToken();
+  if (!token) return false;
+  return !isTokenExpired(token);
 }
 
 export function clearAuthState(): void {

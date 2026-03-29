@@ -71,14 +71,16 @@ export function useAuth(): UseAuthReturn {
         isAuthenticated: true,
         error: null,
       });
-    } catch {
-      clearAuthState();
-      setState({
-        user: null,
-        isLoading: false,
-        isAuthenticated: false,
-        error: null,
-      });
+    } catch (err: any) {
+      // Only clear auth on 401 (invalid token), not on network errors
+      const status = err?.response?.status;
+      if (status === 401) {
+        clearAuthState();
+        setState({ user: null, isLoading: false, isAuthenticated: false, error: null });
+      } else {
+        // Network error or server error — keep existing auth state
+        setState((prev) => ({ ...prev, isLoading: false }));
+      }
     }
   }, []);
 

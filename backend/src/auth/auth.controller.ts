@@ -9,6 +9,7 @@ import {
   HttpStatus,
   UnauthorizedException,
 } from '@nestjs/common';
+
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -41,9 +42,11 @@ export class AuthController {
 
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  async refresh() {
-    // Refresh tokens not implemented; throw 401 so client redirects to login
-    throw new UnauthorizedException('Session expired, please log in again');
+  async refresh(@Body() body: { refreshToken: string }) {
+    if (!body?.refreshToken) {
+      throw new UnauthorizedException('Refresh token is required');
+    }
+    return this.authService.refreshAccessToken(body.refreshToken);
   }
 
   @Post('forgot-password')

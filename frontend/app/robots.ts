@@ -6,7 +6,15 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/dashboard/", "/api/"],
+        disallow: [
+          "/dashboard",
+          "/dashboard/",
+          "/api/",
+          "/login",
+          "/register",
+          "/forgot-password",
+          "/reset-password",
+        ],
       },
     ],
     sitemap: "https://promptforgeai.dev/sitemap.xml",

@@ -14,6 +14,7 @@ import {
   BookOpen,
   Clock,
   X,
+  ArrowUpCircle,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -184,6 +185,46 @@ export default function Sidebar({ onClose }: SidebarProps = {}) {
         ))}
       </div>
 
+      {/* Upgrade card — only for free/starter */}
+      {user?.plan !== "pro" && user?.plan !== "enterprise" && (
+        <div className="px-3 pb-2">
+          <div className="rounded-xl bg-indigo-950/60 border border-indigo-800/40 p-3">
+            {/* Usage bar */}
+            {user?.generationsLimit != null && (
+              <div className="mb-3">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-xs text-slate-400">Generations</span>
+                  <span className="text-xs text-slate-500">
+                    {user.generationsUsed ?? 0} / {user.generationsLimit}
+                  </span>
+                </div>
+                <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                  <div
+                    className={cn(
+                      "h-1.5 rounded-full transition-all duration-500",
+                      ((user.generationsUsed ?? 0) / user.generationsLimit) >= 0.8
+                        ? "bg-red-500"
+                        : "bg-indigo-500"
+                    )}
+                    style={{
+                      width: `${Math.min(100, Math.round(((user.generationsUsed ?? 0) / user.generationsLimit) * 100))}%`,
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+            <Link
+              href="/pricing"
+              onClick={onClose}
+              className="flex items-center justify-center gap-2 w-full py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 transition-colors text-white text-xs font-semibold"
+            >
+              <ArrowUpCircle className="w-3.5 h-3.5" />
+              Upgrade to Pro
+            </Link>
+          </div>
+        </div>
+      )}
+
       {/* User profile strip */}
       <div className="p-3 border-t border-slate-800">
         <div className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-slate-800 transition-colors group">
@@ -194,9 +235,18 @@ export default function Sidebar({ onClose }: SidebarProps = {}) {
             <p className="text-sm font-medium text-white truncate">
               {user?.name ?? "User"}
             </p>
-            <p className="text-xs text-slate-500 truncate">
-              {user?.plan === "pro" ? "Pro plan" : user?.plan === "starter" ? "Starter plan" : "Free plan"}
-            </p>
+            <Link
+              href="/pricing"
+              onClick={onClose}
+              className={cn(
+                "text-xs truncate hover:underline",
+                user?.plan === "pro" || user?.plan === "enterprise"
+                  ? "text-indigo-400"
+                  : "text-slate-500 hover:text-indigo-400"
+              )}
+            >
+              {user?.plan === "pro" ? "Pro plan" : user?.plan === "starter" ? "Starter plan" : "Free plan — Upgrade"}
+            </Link>
           </div>
           <button
             onClick={handleLogout}

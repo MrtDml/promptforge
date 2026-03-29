@@ -13,15 +13,25 @@ export default function ContactPage() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error();
+      setSubmitted(true);
+    } catch {
+      // Fallback to mailto
       const mailtoLink = `mailto:hello@promptforgeai.dev?subject=${encodeURIComponent(form.subject || "Contact from promptforgeai.dev")}&body=${encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`)}`;
       window.location.href = mailtoLink;
-      setLoading(false);
       setSubmitted(true);
-    }, 600);
+    } finally {
+      setLoading(false);
+    }
   }
 
   const allFilled = form.name.trim() && form.email.trim() && form.message.trim();
@@ -162,7 +172,7 @@ export default function ContactPage() {
                 </div>
                 <h3 className="text-2xl font-bold text-white">Message sent!</h3>
                 <p className="text-slate-400 max-w-sm">
-                  Your email client should have opened. We&apos;ll get back to you at <span className="text-white">{form.email}</span> within 24 hours.
+                  We received your message and will get back to you at <span className="text-white">{form.email}</span> within 24 hours.
                 </p>
                 <button
                   onClick={() => { setSubmitted(false); setForm({ name: "", email: "", subject: "", message: "" }); }}
@@ -242,7 +252,7 @@ export default function ContactPage() {
                   {loading ? (
                     <>
                       <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Opening email client...
+                      Sending...
                     </>
                   ) : (
                     <>
@@ -252,7 +262,7 @@ export default function ContactPage() {
                   )}
                 </button>
                 <p className="text-xs text-slate-500 text-center">
-                  By submitting this form, your email client will open with the message pre-filled.
+                  We respond to all messages within 24 hours.
                 </p>
               </form>
             )}

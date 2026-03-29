@@ -1,6 +1,5 @@
 "use client";
 
-import { use } from "react";
 import Link from "next/link";
 import { ArrowLeft, AlertCircle } from "lucide-react";
 import { useSingleProject } from "@/hooks/useProjects";
@@ -9,9 +8,9 @@ import ProjectDetail from "@components/project/ProjectDetail";
 export default function ProjectDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-  const { id } = use(params);
+  const { id } = params;
   const { project, isLoading, error, refreshProject } = useSingleProject(id);
 
   return (

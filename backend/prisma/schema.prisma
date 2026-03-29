@@ -51,6 +51,9 @@ model Project {
   deployedAt       DateTime?
   lastDeployAt     DateTime?
   railwayProjectId String?
+  isPublic         Boolean       @default(false)
+  shareToken       String?       @unique
+  tags             String[]
   user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])

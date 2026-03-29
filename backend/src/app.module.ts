@@ -10,6 +10,8 @@ import { GeneratorModule } from './generator/generator.module';
 import { ProjectsModule } from './projects/projects.module';
 import { StripeModule } from './stripe/stripe.module';
 import { DeployModule } from './deploy/deploy.module';
+import { GithubModule } from './github/github.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { DeployModule } from './deploy/deploy.module';
     ProjectsModule,
     StripeModule,
     DeployModule,
+    GithubModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],

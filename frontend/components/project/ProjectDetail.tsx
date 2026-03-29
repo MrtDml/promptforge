@@ -58,13 +58,21 @@ import {
   HardDrive,
   AlertCircle,
   Rocket,
+  Github,
+  Share2,
+  Link as LinkIcon,
+  MessageSquare,
 } from "lucide-react";
 import type { Project, GeneratedFile } from "@/types";
 import { StatusBadge } from "@components/ui/Badge";
 import SchemaPreview from "@components/prompt/SchemaPreview";
 import DeployPanel from "@components/project/DeployPanel";
+import GitHubExportModal from "@components/project/GitHubExportModal";
+import AIChatPanel from "@components/project/AIChatPanel";
+import TagInput from "@components/project/TagInput";
 import { formatDate, formatRelativeTime, getLanguageFromPath, cn } from "@/lib/utils";
 import { generatorApi } from "@/lib/api";
+import apiClient from "@/lib/api";
 
 interface ProjectDetailProps {
   project: Project;
@@ -214,7 +222,7 @@ export default function ProjectDetail({
   onProjectUpdate,
 }: ProjectDetailProps) {
   const [activeTab, setActiveTab] = useState<
-    "files" | "schema" | "readme" | "info" | "deploy"
+    "files" | "schema" | "readme" | "info" | "deploy" | "chat"
   >("files");
   const [selectedFile, setSelectedFile] = useState<GeneratedFile | null>(
     project.generatedOutput?.files[0] ?? null
@@ -224,6 +232,11 @@ export default function ProjectDetail({
   );
   const [downloading, setDownloading] = useState(false);
   const [downloadError, setDownloadError] = useState<string | null>(null);
+  const [showGithubModal, setShowGithubModal] = useState(false);
+  const [isPublic, setIsPublic] = useState(project.isPublic ?? false);
+  const [shareToken, setShareToken] = useState(project.shareToken ?? null);
+  const [shareLoading, setShareLoading] = useState(false);
+  const [shareCopied, setShareCopied] = useState(false);
 
   const files = project.generatedOutput?.files ?? [];
   const fileGroups = groupFilesByDirectory(files);
@@ -257,12 +270,35 @@ export default function ProjectDetail({
 
   const isCompleted = project.status === "completed";
 
+  async function handleToggleShare() {
+    setShareLoading(true);
+    try {
+      const res = await apiClient.post(`/api/v1/projects/${project.id}/share`);
+      const { isPublic: newIsPublic, shareToken: newToken } = res.data.data ?? res.data;
+      setIsPublic(newIsPublic);
+      setShareToken(newToken);
+    } catch {
+      // ignore
+    } finally {
+      setShareLoading(false);
+    }
+  }
+
+  async function handleCopyShareLink() {
+    if (!shareToken) return;
+    const link = `${window.location.origin}/share/${shareToken}`;
+    await navigator.clipboard.writeText(link);
+    setShareCopied(true);
+    setTimeout(() => setShareCopied(false), 2000);
+  }
+
   const tabs = [
     { id: "files" as const, label: "Files", icon: FileCode2, count: files.length },
     { id: "schema" as const, label: "Schema", icon: Database, show: !!project.schema },
     { id: "readme" as const, label: "Readme", icon: BookOpen, show: !!project.generatedOutput?.readme },
     { id: "info" as const, label: "Info", icon: Layers },
     { id: "deploy" as const, label: "Deploy", icon: Rocket, show: isCompleted },
+    { id: "chat" as const, label: "AI Chat", icon: MessageSquare, show: isCompleted },
   ].filter((t) => t.show !== false);
 
   return (
@@ -294,29 +330,65 @@ export default function ProjectDetail({
                 <span className="hidden sm:inline">Refresh</span>
               </button>
             )}
-            {files.length > 0 && (
-              <button
-                onClick={handleDownloadZip}
-                disabled={downloading}
-                className={cn(
-                  "flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm transition-all",
-                  downloading
-                    ? "bg-indigo-700/50 text-indigo-300 cursor-not-allowed"
-                    : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40"
-                )}
-              >
-                {downloading ? (
-                  <>
+            {isCompleted && (
+              <div className="flex items-center gap-2">
+                {/* Share toggle */}
+                <button
+                  onClick={handleToggleShare}
+                  disabled={shareLoading}
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-2 rounded-xl font-semibold text-sm border transition-all",
+                    isPublic
+                      ? "bg-green-900/40 border-green-700/60 text-green-300 hover:bg-green-900/60"
+                      : "border-slate-600 hover:border-slate-400 bg-slate-800 hover:bg-slate-700 text-slate-300"
+                  )}
+                  title={isPublic ? "Make private" : "Make public & get share link"}
+                >
+                  {shareLoading ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Preparing ZIP…</span>
-                  </>
-                ) : (
-                  <>
-                    <Download className="w-4 h-4" />
-                    <span>Download ZIP</span>
-                  </>
+                  ) : (
+                    <Share2 className="w-4 h-4" />
+                  )}
+                  <span className="hidden sm:inline">{isPublic ? "Public" : "Share"}</span>
+                </button>
+                {/* Copy link (only when public) */}
+                {isPublic && shareToken && (
+                  <button
+                    onClick={handleCopyShareLink}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm border border-slate-600 hover:border-slate-400 bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all"
+                    title="Copy share link"
+                  >
+                    {shareCopied ? <CheckCheck className="w-4 h-4 text-green-400" /> : <LinkIcon className="w-4 h-4" />}
+                  </button>
                 )}
-              </button>
+              </div>
+            )}
+            {files.length > 0 && (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowGithubModal(true)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm border border-slate-600 hover:border-slate-400 bg-slate-800 hover:bg-slate-700 text-white transition-all"
+                >
+                  <Github className="w-4 h-4" />
+                  <span>Push to GitHub</span>
+                </button>
+                <button
+                  onClick={handleDownloadZip}
+                  disabled={downloading}
+                  className={cn(
+                    "flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm transition-all",
+                    downloading
+                      ? "bg-indigo-700/50 text-indigo-300 cursor-not-allowed"
+                      : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40"
+                  )}
+                >
+                  {downloading ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" /><span>Preparing ZIP…</span></>
+                  ) : (
+                    <><Download className="w-4 h-4" /><span>Download ZIP</span></>
+                  )}
+                </button>
+              </div>
             )}
           </div>
 
@@ -529,6 +601,9 @@ export default function ProjectDetail({
               )}
             </div>
 
+            {/* Tags */}
+            <TagInput projectId={project.id} initialTags={project.tags ?? []} />
+
             {/* Original prompt */}
             <div>
               <h4 className="text-sm font-semibold text-slate-300 mb-3">
@@ -545,7 +620,27 @@ export default function ProjectDetail({
         {activeTab === "deploy" && isCompleted && (
           <DeployPanel project={project} onProjectUpdate={onProjectUpdate} />
         )}
+
+        {/* AI Chat tab */}
+        {activeTab === "chat" && isCompleted && (
+          <AIChatPanel
+            projectId={project.id}
+            onFilesUpdated={(updatedFiles) => {
+              // Notify parent to refresh project data
+              onRefresh?.();
+            }}
+          />
+        )}
       </div>
+
+      {/* GitHub Export Modal */}
+      {showGithubModal && (
+        <GitHubExportModal
+          projectId={project.id}
+          projectName={project.name}
+          onClose={() => setShowGithubModal(false)}
+        />
+      )}
     </div>
   );
 }

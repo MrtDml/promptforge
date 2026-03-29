@@ -145,6 +145,11 @@ export interface Project {
   railwayProjectId?: string;
   deployedAt?: string;
   lastDeployAt?: string;
+  // Sharing fields
+  isPublic?: boolean;
+  shareToken?: string | null;
+  // Tagging
+  tags?: string[];
 }
 
 export interface DeployResult {

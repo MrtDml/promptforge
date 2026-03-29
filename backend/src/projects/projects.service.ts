@@ -218,4 +218,49 @@ export class ProjectsService {
 
     return { message: 'Regeneration started', projectId: id };
   }
+
+  async toggleShare(id: string, userId: string) {
+    const project = await this.prisma.project.findFirst({
+      where: { id, userId },
+    });
+    if (!project) {
+      throw new NotFoundException('Project not found');
+    }
+
+    const newIsPublic = !project.isPublic;
+    const shareToken = newIsPublic
+      ? require('crypto').randomBytes(16).toString('hex')
+      : null;
+
+    const updated = await this.prisma.project.update({
+      where: { id },
+      data: { isPublic: newIsPublic, shareToken },
+    });
+
+    return { isPublic: updated.isPublic, shareToken: updated.shareToken };
+  }
+
+  async findByShareToken(shareToken: string) {
+    const project = await this.prisma.project.findFirst({
+      where: { shareToken, isPublic: true },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        appName: true,
+        entityCount: true,
+        fileCount: true,
+        features: true,
+        parsedSchema: true,
+        generatedFiles: true,
+        status: true,
+        createdAt: true,
+        user: { select: { name: true } },
+      },
+    });
+    if (!project) {
+      throw new NotFoundException('Shared project not found');
+    }
+    return project;
+  }
 }

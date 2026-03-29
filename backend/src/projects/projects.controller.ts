@@ -64,4 +64,22 @@ export class ProjectsController {
   regenerate(@Param('id') id: string, @Request() req: any) {
     return this.projectsService.regenerate(id, req.user.id);
   }
+
+  @Post(':id/share')
+  @HttpCode(HttpStatus.OK)
+  toggleShare(@Param('id') id: string, @Request() req: any) {
+    return this.projectsService.toggleShare(id, req.user.id);
+  }
+
+}
+
+@Controller('projects/public')
+export class PublicProjectsController {
+  constructor(private readonly projectsService: ProjectsService) {}
+
+  @Get(':shareToken')
+  @HttpCode(HttpStatus.OK)
+  findPublic(@Param('shareToken') shareToken: string) {
+    return this.projectsService.findByShareToken(shareToken);
+  }
 }

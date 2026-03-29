@@ -19,6 +19,7 @@ import type { User } from "@/types";
 import ProjectCard from "@components/project/ProjectCard";
 import { StatusBadge } from "@components/ui/Badge";
 import { formatRelativeTime } from "@/lib/utils";
+import { CreditCard, FileText, Shield, Braces } from "lucide-react";
 
 // ─── Plan config ─────────────────────────────────────────────────────────────
 
@@ -40,10 +41,20 @@ export default function DashboardPage() {
   const { projects, isLoading, error, total, refreshProjects, deleteProject } =
     useProjects();
   const [user, setUser] = useState<User | null>(null);
+  const [activeTag, setActiveTag] = useState<string | null>(null);
 
   useEffect(() => {
     setUser(getStoredUser());
   }, []);
+
+  // Collect all unique tags across projects
+  const allTags = Array.from(
+    new Set(projects.flatMap((p) => p.tags ?? []))
+  ).sort();
+
+  const filteredProjects = activeTag
+    ? projects.filter((p) => p.tags?.includes(activeTag))
+    : projects;
 
   const greeting = () => {
     const hour = new Date().getHours();
@@ -220,21 +231,43 @@ export default function DashboardPage() {
 
       {/* ── Empty state ───────────────────────────────────────────────────── */}
       {!isLoading && !error && projects.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-24 text-center">
+        <div className="flex flex-col items-center justify-center py-16 text-center">
           <div className="w-20 h-20 rounded-2xl bg-indigo-600/10 border border-indigo-600/20 flex items-center justify-center mb-6">
             <Zap className="w-10 h-10 text-indigo-400" />
           </div>
-          <h3 className="text-xl font-semibold text-white mb-2">
-            No projects yet
-          </h3>
+          <h3 className="text-xl font-semibold text-white mb-2">No projects yet</h3>
           <p className="text-slate-400 max-w-sm mb-8">
-            Generate your first SaaS application by describing what you want to
-            build in plain English.
+            Describe your SaaS idea in plain English and get production-ready code in seconds.
           </p>
-          <Link href="/dashboard/new" className="btn-primary px-8 py-3">
+          <Link href="/dashboard/new" className="btn-primary px-8 py-3 mb-10">
             <Plus className="w-4 h-4" />
             Create your first project
           </Link>
+          <div className="w-full max-w-2xl">
+            <p className="text-xs text-slate-600 uppercase tracking-wider mb-4">Try one of these ideas</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+              {[
+                { icon: CreditCard, title: "Subscription SaaS", desc: "Multi-tenant SaaS with Stripe subscriptions, user management, and dashboard" },
+                { icon: FileText, title: "Invoice Manager", desc: "Invoice creation, PDF export, payment tracking, and client portal" },
+                { icon: Shield, title: "Auth Boilerplate", desc: "Complete auth system with JWT, refresh tokens, roles, and 2FA" },
+                { icon: Braces, title: "REST API Backend", desc: "CRUD API with NestJS, Postgres, validation, Swagger docs, and Docker" },
+              ].map(({ icon: Icon, title, desc }) => (
+                <Link
+                  key={title}
+                  href={`/dashboard/new`}
+                  className="glass-card p-4 flex gap-3 hover:border-slate-600/80 transition-all group"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-indigo-950/60 border border-indigo-800/40 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-4 h-4 text-indigo-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-white group-hover:text-indigo-300 transition-colors">{title}</p>
+                    <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{desc}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       )}
 
@@ -252,14 +285,48 @@ export default function DashboardPage() {
             </Link>
           </div>
 
+          {/* Tag filter bar */}
+          {allTags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-5">
+              <button
+                onClick={() => setActiveTag(null)}
+                className={`text-xs px-3 py-1 rounded-full border transition-colors ${
+                  activeTag === null
+                    ? "bg-indigo-600/30 border-indigo-500/60 text-indigo-300"
+                    : "border-slate-700 text-slate-500 hover:border-slate-600 hover:text-slate-300"
+                }`}
+              >
+                All
+              </button>
+              {allTags.map((tag) => (
+                <button
+                  key={tag}
+                  onClick={() => setActiveTag(activeTag === tag ? null : tag)}
+                  className={`text-xs px-3 py-1 rounded-full border transition-colors ${
+                    activeTag === tag
+                      ? "bg-indigo-600/30 border-indigo-500/60 text-indigo-300"
+                      : "border-slate-700 text-slate-500 hover:border-slate-600 hover:text-slate-300"
+                  }`}
+                >
+                  #{tag}
+                </button>
+              ))}
+            </div>
+          )}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
-            {projects.map((project) => (
+            {filteredProjects.map((project) => (
               <ProjectCard
                 key={project.id}
                 project={project}
                 onDelete={deleteProject}
               />
             ))}
+            {filteredProjects.length === 0 && activeTag && (
+              <div className="col-span-full text-center py-12 text-slate-500 text-sm">
+                No projects with tag <span className="text-slate-400 font-medium">#{activeTag}</span>.
+              </div>
+            )}
           </div>
 
           {/* ── Recent Activity ─────────────────────────────────────────── */}

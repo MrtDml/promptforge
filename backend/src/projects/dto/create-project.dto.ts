@@ -5,6 +5,7 @@ import {
   MaxLength,
   IsObject,
   IsEnum,
+  IsArray,
 } from 'class-validator';
 
 export enum ProjectStatus {
@@ -50,4 +51,9 @@ export class UpdateProjectDto {
   @IsOptional()
   @IsObject()
   schema?: Record<string, any>;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  tags?: string[];
 }

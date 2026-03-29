@@ -351,14 +351,14 @@ export default function ProjectDetail({
             {
               icon: Database,
               label: "Entities",
-              value: project.schema.entities.length,
+              value: project.schema.entities?.length ?? 0,
               color: "text-blue-400",
               bg: "bg-blue-400/10",
             },
             {
               icon: Globe,
               label: "Endpoints",
-              value: project.schema.endpoints.length,
+              value: project.schema.endpoints?.length ?? 0,
               color: "text-green-400",
               bg: "bg-green-400/10",
             },
@@ -372,7 +372,7 @@ export default function ProjectDetail({
             {
               icon: Terminal,
               label: "Features",
-              value: project.schema.features.length,
+              value: project.schema.features?.length ?? 0,
               color: "text-purple-400",
               bg: "bg-purple-400/10",
             },

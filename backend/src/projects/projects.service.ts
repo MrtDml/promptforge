@@ -150,10 +150,31 @@ export class ProjectsService {
     }
 
     // Normalize for frontend compatibility
+    const rawSchema = project.parsedSchema as any;
+    const normalizedSchema = rawSchema
+      ? {
+          appName: rawSchema.appName ?? rawSchema.app_name ?? '',
+          description: rawSchema.description ?? '',
+          entities: Array.isArray(rawSchema.entities) ? rawSchema.entities : [],
+          endpoints: Array.isArray(rawSchema.endpoints)
+            ? rawSchema.endpoints
+            : Array.isArray(rawSchema.relations)
+            ? rawSchema.relations
+            : [],
+          features: Array.isArray(rawSchema.features) ? rawSchema.features : [],
+          techStack: rawSchema.techStack ?? {
+            backend: 'NestJS',
+            database: 'PostgreSQL',
+            auth: 'JWT',
+          },
+          rawPrompt: rawSchema.rawPrompt,
+        }
+      : null;
+
     return {
       ...project,
       status: (project.status as string).toLowerCase(),
-      schema: project.parsedSchema ?? null,
+      schema: normalizedSchema,
       generatedOutput: project.generatedFiles
         ? { files: project.generatedFiles as any[] }
         : null,

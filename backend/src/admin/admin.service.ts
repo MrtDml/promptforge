@@ -350,6 +350,11 @@ export class AdminService {
       { key: 'pro_plan_limit', value: '999', label: 'Pro Plan — Generation Limit' },
       { key: 'maintenance_mode', value: 'false', label: 'Maintenance Mode (true/false)' },
       { key: 'allow_registrations', value: 'true', label: 'Allow New Registrations (true/false)' },
+      // Announcement banner
+      { key: 'announcement_active', value: 'false', label: 'Announcement — Active (true/false)' },
+      { key: 'announcement_type', value: 'info', label: 'Announcement — Type (info/warning/success)' },
+      { key: 'announcement_message', value: '', label: 'Announcement — Message' },
+      { key: 'announcement_link', value: '', label: 'Announcement — Link (optional)' },
     ];
 
     await this.prisma.siteSetting.createMany({ data: defaults, skipDuplicates: true });

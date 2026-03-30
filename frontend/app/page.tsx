@@ -45,6 +45,7 @@ export const metadata: Metadata = {
     images: ["/twitter-image"],
   },
 };
+import AnnouncementBanner from "@components/layout/AnnouncementBanner";
 import {
   ArrowRight,
   Zap,
@@ -180,6 +181,8 @@ const testimonials = [
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
+      {/* ── Announcement Banner ── */}
+      <AnnouncementBanner />
       {/* ── Navbar ── */}
       <LandingNav />
 
@@ -188,7 +191,7 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-950 border border-indigo-800/60 text-indigo-300 text-sm font-medium mb-8">
             <Zap className="w-3.5 h-3.5" />
-            AI-Powered SaaS Builder — 🇹🇷 iyzico · e-Fatura · KVKK
+            AI-Powered SaaS Builder — Production-ready in minutes
             <ChevronRight className="w-3.5 h-3.5" />
           </div>
 

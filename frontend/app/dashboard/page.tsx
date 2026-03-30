@@ -94,7 +94,11 @@ export default function DashboardPage() {
             <h1 className="text-2xl font-bold text-white">
               {greeting()}, {user?.name?.split(" ")[0] ?? "there"}
             </h1>
-            {user?.plan && (
+            {user?.role === "ADMIN" ? (
+              <span className="text-xs px-2.5 py-1 rounded-full border font-medium bg-rose-950/60 border-rose-800/50 text-rose-300">
+                Administrator
+              </span>
+            ) : user?.plan && (
               <span
                 className={`text-xs px-2.5 py-1 rounded-full border font-medium capitalize ${PLAN_COLORS[plan]}`}
               >
@@ -126,8 +130,8 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* ── Usage bar (non-enterprise) ────────────────────────────────────── */}
-      {plan !== "enterprise" && (
+      {/* ── Usage bar (non-enterprise, non-admin) ────────────────────────── */}
+      {user?.role !== "ADMIN" && plan !== "enterprise" && (
         <div className="glass-card px-5 py-4 mb-6">
           <div className="flex items-center justify-between mb-2">
             <p className="text-sm text-slate-300 font-medium">

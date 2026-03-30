@@ -12,41 +12,35 @@ export default function LandingNav() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
             <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
               <Zap className="w-5 h-5 text-white" />
             </div>
             <span className="font-bold text-xl text-white tracking-tight">
               PromptForge
             </span>
-          </div>
+          </Link>
 
           {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-8">
-            <a
-              href="#features"
+            <Link
+              href="/#features"
               className="text-slate-400 hover:text-white transition-colors text-sm"
             >
               Features
-            </a>
-            <a
-              href="#how-it-works"
+            </Link>
+            <Link
+              href="/#how-it-works"
               className="text-slate-400 hover:text-white transition-colors text-sm"
             >
               How it works
-            </a>
-            <a
-              href="#turkey"
-              className="text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-1"
-            >
-              <span>🇹🇷</span> Türkiye
-            </a>
-            <a
-              href="#pricing"
+            </Link>
+            <Link
+              href="/pricing"
               className="text-slate-400 hover:text-white transition-colors text-sm"
             >
               Pricing
-            </a>
+            </Link>
             <Link
               href="/blog"
               className="text-slate-400 hover:text-white transition-colors text-sm"
@@ -94,34 +88,34 @@ export default function LandingNav() {
         {/* Mobile dropdown menu */}
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-slate-800/80 py-3 space-y-1">
-            <a
-              href="#features"
+            <Link
+              href="/#features"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm"
             >
               Features
-            </a>
-            <a
-              href="#how-it-works"
+            </Link>
+            <Link
+              href="/#how-it-works"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm"
             >
               How it works
-            </a>
-            <a
-              href="#turkey"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm"
-            >
-              🇹🇷 Türkiye
-            </a>
-            <a
-              href="#pricing"
+            </Link>
+            <Link
+              href="/pricing"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm"
             >
               Pricing
-            </a>
+            </Link>
+            <Link
+              href="/blog"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm"
+            >
+              Blog
+            </Link>
             <div className="pt-2 pb-1 border-t border-slate-800/60 mt-2">
               <Link
                 href="/register"

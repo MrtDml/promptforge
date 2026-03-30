@@ -13,6 +13,8 @@ import {
   ChevronRight,
   X,
   Shield,
+  Star,
+  Megaphone,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { clearAuthState } from "@/lib/auth";
@@ -30,6 +32,7 @@ const navItems: NavItem[] = [
   { label: "Users", href: "/admin/users", icon: Users },
   { label: "Projects", href: "/admin/projects", icon: FolderOpen },
   { label: "Blog", href: "/admin/blog", icon: BookOpen },
+  { label: "Testimonials", href: "/admin/testimonials", icon: Star },
   { label: "Settings", href: "/admin/settings", icon: Settings },
 ];
 

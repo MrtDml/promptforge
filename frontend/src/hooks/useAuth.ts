@@ -102,7 +102,7 @@ export function useAuth(): UseAuthReturn {
           error: null,
         });
 
-        router.push("/dashboard");
+        router.push(user.role === "ADMIN" ? "/admin" : "/dashboard");
       } catch (err) {
         const axiosError = err as AxiosError<{ message: string }>;
         const message =

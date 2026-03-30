@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { posts, getPost } from "../posts";
 import LandingNav from "@components/layout/LandingNav";
+import LandingFooter from "@components/layout/LandingFooter";
+import AnnouncementBanner from "@components/layout/AnnouncementBanner";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 
 interface Props {
@@ -62,6 +64,7 @@ export default function BlogPostPage({ params }: Props) {
 
   return (
     <>
+      <AnnouncementBanner />
       <LandingNav />
       <script
         type="application/ld+json"
@@ -168,6 +171,7 @@ export default function BlogPostPage({ params }: Props) {
           </nav>
         </div>
       </main>
+      <LandingFooter />
     </>
   );
 }

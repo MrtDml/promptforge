@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { posts } from "./posts";
 import LandingNav from "@components/layout/LandingNav";
+import LandingFooter from "@components/layout/LandingFooter";
+import AnnouncementBanner from "@components/layout/AnnouncementBanner";
 import { Calendar, Clock, ArrowRight, Tag } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -45,6 +47,7 @@ export default function BlogPage() {
 
   return (
     <>
+      <AnnouncementBanner />
       <LandingNav />
       <main className="min-h-screen bg-[#0a0b14] text-white pt-20">
         <div className="max-w-4xl mx-auto px-4 py-12">
@@ -134,6 +137,7 @@ export default function BlogPage() {
           </div>
         </div>
       </main>
+      <LandingFooter />
     </>
   );
 }

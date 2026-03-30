@@ -4,13 +4,14 @@ import {
   ConflictException,
   Logger,
 } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UsersService {
-  private readonly prisma = new PrismaClient();
   private readonly logger = new Logger(UsersService.name);
+
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {
     try {

@@ -4,15 +4,16 @@ import {
   ConflictException,
   Logger,
 } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
 import { AdminUpdateUserDto } from './dto/update-user.dto';
 import { CreateBlogPostDto, UpdateBlogPostDto } from './dto/blog-post.dto';
 import { SettingItemDto } from './dto/update-setting.dto';
 
 @Injectable()
 export class AdminService {
-  private readonly prisma = new PrismaClient();
   private readonly logger = new Logger(AdminService.name);
+
+  constructor(private readonly prisma: PrismaService) {}
 
   // ─── Stats ────────────────────────────────────────────────────────────────
 

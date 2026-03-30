@@ -4,7 +4,7 @@ import {
   ForbiddenException,
   Logger,
 } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
 import { ParserService } from '../parser/parser.service';
 import { GeneratorService } from '../generator/generator.service';
 import { CreateProjectDto, UpdateProjectDto, ProjectStatus } from './dto/create-project.dto';
@@ -12,10 +12,10 @@ import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class ProjectsService {
-  private readonly prisma = new PrismaClient();
   private readonly logger = new Logger(ProjectsService.name);
 
   constructor(
+    private readonly prisma: PrismaService,
     private readonly parserService: ParserService,
     private readonly generatorService: GeneratorService,
     private readonly mailService: MailService,

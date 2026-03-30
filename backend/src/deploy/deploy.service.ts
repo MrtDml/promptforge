@@ -7,7 +7,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
 
 export interface DeployResult {
   deployUrl: string;
@@ -23,10 +23,12 @@ interface RailwayGraphQLResponse<T> {
 @Injectable()
 export class DeployService {
   private readonly logger = new Logger(DeployService.name);
-  private readonly prisma = new PrismaClient();
   private readonly railwayApiUrl = 'https://backboard.railway.app/graphql/v2';
 
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly prisma: PrismaService,
+  ) {}
 
   private get railwayToken(): string {
     const token = this.configService.get<string>('RAILWAY_API_TOKEN');

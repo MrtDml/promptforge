@@ -18,7 +18,7 @@ import {
 import * as bcrypt from 'bcrypt';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
 
 class UpdateProfileDto {
   @IsOptional()
@@ -44,9 +44,10 @@ class ChangePasswordDto {
 @Controller('users')
 @UseGuards(JwtAuthGuard)
 export class UsersController {
-  private readonly prisma = new PrismaClient();
-
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly prisma: PrismaService,
+  ) {}
 
   @Get('me')
   async getMe(@Request() req: any) {

@@ -3,7 +3,7 @@ import {
   Logger,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
 import { PLANS, PlanType } from './plans.config';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -12,7 +12,6 @@ const Iyzipay = require('iyzipay');
 @Injectable()
 export class StripeService {
   private readonly iyzipay: any;
-  private readonly prisma = new PrismaClient();
   private readonly logger = new Logger('IyzicoService');
 
   private readonly baseUrl =
@@ -26,7 +25,7 @@ export class StripeService {
   private readonly frontendUrl =
     process.env.FRONTEND_URL || 'http://localhost:3000';
 
-  constructor() {
+  constructor(private readonly prisma: PrismaService) {
     const apiKey = process.env.IYZICO_API_KEY;
     const secretKey = process.env.IYZICO_SECRET_KEY;
 

@@ -15,6 +15,8 @@ import { ChatModule } from './chat/chat.module';
 import { MailModule } from './mail/mail.module';
 import { AdminModule } from './admin/admin.module';
 import { BlogModule } from './blog/blog.module';
+import { PrismaModule } from './prisma/prisma.module';
+import { SubscriptionGuard } from './common/guards/subscription.guard';
 
 @Module({
   imports: [
@@ -40,8 +42,9 @@ import { BlogModule } from './blog/blog.module';
     MailModule,
     AdminModule,
     BlogModule,
+    PrismaModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SubscriptionGuard],
 })
 export class AppModule {}

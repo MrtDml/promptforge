@@ -14,14 +14,16 @@ import { Request } from 'express';
 import { StripeService } from './stripe.service';
 import { CreateCheckoutDto } from './dto/create-checkout.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Controller('stripe')
 export class StripeController {
-  private readonly prisma = new PrismaClient();
   private readonly logger = new Logger(StripeController.name);
 
-  constructor(private readonly stripeService: StripeService) {}
+  constructor(
+    private readonly stripeService: StripeService,
+    private readonly prisma: PrismaService,
+  ) {}
 
   /**
    * POST /api/v1/stripe/checkout

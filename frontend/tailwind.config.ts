@@ -28,8 +28,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "Fira Code", "monospace"],
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "Fira Code", "monospace"],
       },
       animation: {
         "fade-in": "fadeIn 0.3s ease-in-out",

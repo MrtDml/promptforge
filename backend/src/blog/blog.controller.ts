@@ -4,11 +4,11 @@ import {
   Param,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Controller('blog')
 export class BlogController {
-  private readonly prisma = new PrismaClient();
+  constructor(private readonly prisma: PrismaService) {}
 
   @Get()
   async getPublishedPosts() {

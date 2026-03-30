@@ -18,7 +18,8 @@ import * as archiver from 'archiver';
 import { GeneratorService } from './generator.service';
 import { ParsedSchema } from '../parser/dto/parse-prompt.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
+import { Throttle } from '@nestjs/throttler';
 
 class GenerateFromSchemaDto {
   @IsObject()
@@ -31,11 +32,14 @@ class GenerateFromSchemaDto {
 
 @Controller('generator')
 @UseGuards(JwtAuthGuard)
+@Throttle({ default: { limit: 5, ttl: 60000 } })
 export class GeneratorController {
-  private readonly prisma = new PrismaClient();
   private readonly logger = new Logger(GeneratorController.name);
 
-  constructor(private readonly generatorService: GeneratorService) {}
+  constructor(
+    private readonly generatorService: GeneratorService,
+    private readonly prisma: PrismaService,
+  ) {}
 
   /**
    * POST /generator/generate

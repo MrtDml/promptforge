@@ -11,14 +11,15 @@ import {
 } from '@nestjs/common';
 import { GithubService } from './github.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Controller('projects')
 @UseGuards(JwtAuthGuard)
 export class GithubController {
-  private readonly prisma = new PrismaClient();
-
-  constructor(private readonly githubService: GithubService) {}
+  constructor(
+    private readonly githubService: GithubService,
+    private readonly prisma: PrismaService,
+  ) {}
 
   @Post(':id/export/github')
   @HttpCode(HttpStatus.OK)

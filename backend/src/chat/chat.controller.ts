@@ -12,7 +12,8 @@ import {
 } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
+import { Throttle } from '@nestjs/throttler';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -21,10 +22,12 @@ interface ChatMessage {
 
 @Controller('projects/:id/chat')
 @UseGuards(JwtAuthGuard)
+@Throttle({ default: { limit: 10, ttl: 60000 } })
 export class ChatController {
-  private readonly prisma = new PrismaClient();
-
-  constructor(private readonly chatService: ChatService) {}
+  constructor(
+    private readonly chatService: ChatService,
+    private readonly prisma: PrismaService,
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.OK)

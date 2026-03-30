@@ -1,5 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import { withSentryConfig } from "@sentry/nextjs";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
@@ -31,4 +32,10 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  org: "promptforge-gm",
+  project: "promptforge-frontend",
+  silent: true,
+  disableLogger: true,
+  automaticVercelMonitors: false,
+});

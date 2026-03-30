@@ -10,9 +10,68 @@ export interface User {
   updatedAt: string;
   plan: "free" | "starter" | "pro" | "enterprise";
   planType?: string;
+  role?: "USER" | "ADMIN";
   generationsUsed?: number;
   generationsLimit?: number;
   emailVerified?: boolean;
+  isActive?: boolean;
+}
+
+// ─── Admin ───────────────────────────────────────────────────────────────────
+
+export interface AdminStats {
+  users: { total: number; active: number; newThisWeek: number };
+  projects: { total: number; completed: number; newThisWeek: number };
+  blog: { total: number; published: number };
+  planBreakdown: { plan: string; count: number }[];
+}
+
+export interface AdminUser {
+  id: string;
+  email: string;
+  name: string;
+  isActive: boolean;
+  role: "USER" | "ADMIN";
+  planType: string | null;
+  generationsUsed: number;
+  generationsLimit: number;
+  emailVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
+  _count?: { projects: number };
+  projects?: Array<{ id: string; name: string; status: string; createdAt: string; tags: string[] }>;
+}
+
+export interface AdminProject {
+  id: string;
+  name: string;
+  status: string;
+  tags: string[];
+  deployStatus: string | null;
+  isPublic: boolean;
+  createdAt: string;
+  updatedAt: string;
+  user: { id: string; email: string; name: string };
+}
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  content: string;
+  category: string;
+  readTime: number;
+  published: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SiteSetting {
+  key: string;
+  value: string;
+  label: string;
+  updatedAt: string;
 }
 
 export interface AuthTokens {

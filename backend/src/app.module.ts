@@ -13,6 +13,8 @@ import { DeployModule } from './deploy/deploy.module';
 import { GithubModule } from './github/github.module';
 import { ChatModule } from './chat/chat.module';
 import { MailModule } from './mail/mail.module';
+import { AdminModule } from './admin/admin.module';
+import { BlogModule } from './blog/blog.module';
 
 @Module({
   imports: [
@@ -36,6 +38,8 @@ import { MailModule } from './mail/mail.module';
     GithubModule,
     ChatModule,
     MailModule,
+    AdminModule,
+    BlogModule,
   ],
   controllers: [AppController],
   providers: [AppService],

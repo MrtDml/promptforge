@@ -79,6 +79,11 @@ export function isAuthenticated(): boolean {
   return !isTokenExpired(token);
 }
 
+export function isAdmin(): boolean {
+  const user = getStoredUser();
+  return user?.role === 'ADMIN';
+}
+
 export function clearAuthState(): void {
   clearTokens();
   removeStoredUser();

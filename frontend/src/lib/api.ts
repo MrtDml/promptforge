@@ -257,4 +257,38 @@ export const stripeApi = {
     apiClient.post("/api/v1/stripe/cancel"),
 };
 
+// ─── Admin endpoints ─────────────────────────────────────────────────────────
+
+export const adminApi = {
+  // Stats
+  getStats: () => apiClient.get('/api/v1/admin/stats'),
+
+  // Users
+  getUsers: (page = 1, limit = 20, search?: string) =>
+    apiClient.get('/api/v1/admin/users', { params: { page, limit, search } }),
+  getUserById: (id: string) => apiClient.get(`/api/v1/admin/users/${id}`),
+  updateUser: (id: string, data: Record<string, unknown>) =>
+    apiClient.patch(`/api/v1/admin/users/${id}`, data),
+  deleteUser: (id: string) => apiClient.delete(`/api/v1/admin/users/${id}`),
+
+  // Projects
+  getProjects: (page = 1, limit = 20, status?: string, search?: string) =>
+    apiClient.get('/api/v1/admin/projects', { params: { page, limit, status, search } }),
+  deleteProject: (id: string) => apiClient.delete(`/api/v1/admin/projects/${id}`),
+
+  // Blog
+  getBlogPosts: (page = 1, limit = 20) =>
+    apiClient.get('/api/v1/admin/blog', { params: { page, limit } }),
+  getBlogPostById: (id: string) => apiClient.get(`/api/v1/admin/blog/${id}`),
+  createBlogPost: (data: Record<string, unknown>) => apiClient.post('/api/v1/admin/blog', data),
+  updateBlogPost: (id: string, data: Record<string, unknown>) =>
+    apiClient.patch(`/api/v1/admin/blog/${id}`, data),
+  deleteBlogPost: (id: string) => apiClient.delete(`/api/v1/admin/blog/${id}`),
+
+  // Settings
+  getSettings: () => apiClient.get('/api/v1/admin/settings'),
+  updateSettings: (settings: Array<{ key: string; value: string; label: string }>) =>
+    apiClient.patch('/api/v1/admin/settings', { settings }),
+};
+
 export default apiClient;

@@ -14,6 +14,7 @@ model User {
   name               String
   bio                String?
   isActive           Boolean        @default(true)
+  role               UserRole       @default(USER)
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
   generationsLimit   Int            @default(3)
@@ -88,4 +89,33 @@ enum ProjectStatus {
   GENERATING
   COMPLETED
   FAILED
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String
+  content     String   @db.Text
+  category    String
+  readTime    Int      @default(5)
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("blog_posts")
+}
+
+model SiteSetting {
+  key       String   @id
+  value     String   @db.Text
+  label     String
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
 }

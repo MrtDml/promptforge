@@ -3,7 +3,13 @@ import {
   NotFoundException,
   ForbiddenException,
   Logger,
+  Optional,
+  Inject,
 } from '@nestjs/common';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 import { PrismaService } from '../prisma/prisma.service';
 import { ParserService } from '../parser/parser.service';
 import { GeneratorService } from '../generator/generator.service';
@@ -19,6 +25,8 @@ export class ProjectsService {
     private readonly parserService: ParserService,
     private readonly generatorService: GeneratorService,
     private readonly mailService: MailService,
+    @Optional() @InjectQueue('generation') private readonly generationQueue: Queue | null,
+    @Inject(CACHE_MANAGER) private readonly cache: Cache,
   ) {}
 
   async create(userId: string, createProjectDto: CreateProjectDto) {
@@ -37,13 +45,23 @@ export class ProjectsService {
 
     this.logger.log(`Project created: ${project.id} by user ${userId}`);
 
-    // Asynchronously parse and generate — update project in background
-    this.parseAndGenerate(project.id, prompt, userId).catch((err) => {
-      this.logger.error(
-        `Background generation failed for project ${project.id}: ${err.message}`,
-        err.stack,
-      );
-    });
+    if (this.generationQueue) {
+      // Persistent job — survives restarts, auto-retries on failure
+      await this.generationQueue.add('generate', {
+        projectId: project.id,
+        prompt,
+        userId,
+      });
+      this.logger.log(`Generation job queued for project ${project.id}`);
+    } else {
+      // Fallback: fire-and-forget (no Redis)
+      this.parseAndGenerate(project.id, prompt, userId).catch((err) => {
+        this.logger.error(
+          `Background generation failed for project ${project.id}: ${err.message}`,
+          err.stack,
+        );
+      });
+    }
 
     return project;
   }
@@ -222,13 +240,20 @@ export class ProjectsService {
 
     this.logger.log(`Re-generating project ${id}`);
 
-    // Trigger regeneration in background
-    this.parseAndGenerate(id, project.prompt, userId).catch((err) => {
-      this.logger.error(
-        `Re-generation failed for project ${id}: ${err.message}`,
-        err.stack,
-      );
-    });
+    if (this.generationQueue) {
+      await this.generationQueue.add('generate', {
+        projectId: id,
+        prompt: project.prompt,
+        userId,
+      });
+    } else {
+      this.parseAndGenerate(id, project.prompt, userId).catch((err) => {
+        this.logger.error(
+          `Re-generation failed for project ${id}: ${err.message}`,
+          err.stack,
+        );
+      });
+    }
 
     return { message: 'Regeneration started', projectId: id };
   }
@@ -255,12 +280,19 @@ export class ProjectsService {
   }
 
   async listPublicProjects() {
-    return this.prisma.project.findMany({
+    const CACHE_KEY = 'projects:public';
+    const cached = await this.cache.get(CACHE_KEY);
+    if (cached) return cached;
+
+    const result = await this.prisma.project.findMany({
       where: { isPublic: true },
       select: { shareToken: true, updatedAt: true },
       orderBy: { updatedAt: 'desc' },
       take: 500,
     });
+
+    await this.cache.set(CACHE_KEY, result, 300_000); // 5 dakika
+    return result;
   }
 
   async findByShareToken(shareToken: string) {

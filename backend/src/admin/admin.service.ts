@@ -4,6 +4,9 @@ import {
   ConflictException,
   Logger,
 } from '@nestjs/common';
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Inject } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AdminUpdateUserDto } from './dto/update-user.dto';
 import { CreateBlogPostDto, UpdateBlogPostDto } from './dto/blog-post.dto';
@@ -13,11 +16,18 @@ import { SettingItemDto } from './dto/update-setting.dto';
 export class AdminService {
   private readonly logger = new Logger(AdminService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    @Inject(CACHE_MANAGER) private readonly cache: Cache,
+  ) {}
 
   // ─── Stats ────────────────────────────────────────────────────────────────
 
   async getStats() {
+    const CACHE_KEY = 'admin:stats';
+    const cached = await this.cache.get(CACHE_KEY);
+    if (cached) return cached;
+
     const now = new Date();
     const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
 
@@ -46,7 +56,7 @@ export class AdminService {
       }),
     ]);
 
-    return {
+    const result = {
       users: {
         total: totalUsers,
         active: activeUsers,
@@ -66,6 +76,9 @@ export class AdminService {
         count: p._count.planType,
       })),
     };
+
+    await this.cache.set(CACHE_KEY, result, 30_000); // 30 saniye
+    return result;
   }
 
   // ─── Users ────────────────────────────────────────────────────────────────

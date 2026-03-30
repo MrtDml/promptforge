@@ -17,6 +17,8 @@ import { AdminModule } from './admin/admin.module';
 import { BlogModule } from './blog/blog.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { SubscriptionGuard } from './common/guards/subscription.guard';
+import { AppCacheModule } from './cache/app-cache.module';
+import { BullModule } from '@nestjs/bull';
 
 @Module({
   imports: [
@@ -30,6 +32,10 @@ import { SubscriptionGuard } from './common/guards/subscription.guard';
         limit: parseInt(process.env.THROTTLE_LIMIT || '100', 10),
       },
     ]),
+    BullModule.forRoot({
+      redis: process.env.REDIS_URL || 'redis://localhost:6379',
+    }),
+    AppCacheModule,
     AuthModule,
     UsersModule,
     ParserModule,

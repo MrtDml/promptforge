@@ -3,11 +3,14 @@
 import { useState, useRef, useEffect } from "react";
 import { Send, Loader2, Bot, User, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
-import apiClient from "@/lib/api";
+import { getToken } from "@/lib/auth";
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
+  streaming?: boolean;
 }
 
 interface AIChatPanelProps {
@@ -28,36 +31,115 @@ export default function AIChatPanel({ projectId, onFilesUpdated }: AIChatPanelPr
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, loading]);
+  }, [messages]);
 
   async function send(text: string) {
     const trimmed = text.trim();
     if (!trimmed || loading) return;
 
     const userMsg: Message = { role: "user", content: trimmed };
-    const newHistory = [...messages, userMsg];
-    setMessages(newHistory);
+    const historySnapshot = messages.slice(-10);
+    setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setLoading(true);
     setError(null);
 
+    // Placeholder for the streaming assistant reply
+    const assistantIndex = messages.length + 1;
+    setMessages((prev) => [
+      ...prev,
+      { role: "assistant", content: "", streaming: true },
+    ]);
+
     try {
-      const res = await apiClient.post(`/api/v1/projects/${projectId}/chat`, {
-        message: trimmed,
-        history: messages.slice(-10), // send last 10 messages for context
-      });
-      const { reply, updatedFiles } = res.data.data ?? res.data;
-      setMessages([...newHistory, { role: "assistant", content: reply }]);
-      if (updatedFiles && Object.keys(updatedFiles).length > 0) {
-        onFilesUpdated?.(updatedFiles);
+      const token = getToken();
+      const response = await fetch(
+        `${API_BASE}/api/v1/projects/${projectId}/chat/stream`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({
+            message: trimmed,
+            history: historySnapshot,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const json = await response.json().catch(() => ({}));
+        throw new Error(json?.message ?? `Request failed: ${response.status}`);
+      }
+
+      const reader = response.body!.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      let assistantContent = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        // Keep the incomplete last line in the buffer
+        buffer = lines.pop() ?? "";
+
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const rawData = line.slice(6).trim();
+          if (!rawData) continue;
+
+          let chunk: any;
+          try {
+            chunk = JSON.parse(rawData);
+          } catch {
+            continue;
+          }
+
+          if (chunk.type === "text") {
+            assistantContent += chunk.delta;
+            setMessages((prev) => {
+              const updated = [...prev];
+              updated[updated.length - 1] = {
+                role: "assistant",
+                content: assistantContent,
+                streaming: true,
+              };
+              return updated;
+            });
+          } else if (chunk.type === "done") {
+            // Mark streaming complete
+            setMessages((prev) => {
+              const updated = [...prev];
+              updated[updated.length - 1] = {
+                role: "assistant",
+                content: assistantContent,
+                streaming: false,
+              };
+              return updated;
+            });
+            if (chunk.updatedFiles && Object.keys(chunk.updatedFiles).length > 0) {
+              onFilesUpdated?.(chunk.updatedFiles);
+            }
+          } else if (chunk.type === "error") {
+            throw new Error(chunk.message ?? "Streaming error");
+          }
+        }
       }
     } catch (err: any) {
-      setError(err?.response?.data?.message ?? "AI request failed. Please try again.");
-      setMessages(newHistory); // keep user message
+      setError(err?.message ?? "AI request failed. Please try again.");
+      // Remove the empty placeholder on error
+      setMessages((prev) => {
+        const updated = [...prev];
+        if (updated[updated.length - 1]?.streaming) updated.pop();
+        return updated;
+      });
     } finally {
       setLoading(false);
     }
@@ -129,21 +211,19 @@ export default function AIChatPanel({ projectId, onFilesUpdated }: AIChatPanelPr
                   : "bg-slate-800/80 text-slate-200 border border-slate-700/60 rounded-tl-sm"
               )}
             >
-              {msg.content}
+              {msg.content || (msg.streaming && (
+                <span className="inline-flex gap-1 items-center">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce [animation-delay:0ms]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce [animation-delay:150ms]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce [animation-delay:300ms]" />
+                </span>
+              ))}
+              {msg.streaming && msg.content && (
+                <span className="inline-block w-0.5 h-3.5 bg-indigo-400 ml-0.5 animate-pulse align-middle" />
+              )}
             </div>
           </div>
         ))}
-
-        {loading && (
-          <div className="flex gap-3">
-            <div className="w-7 h-7 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center flex-shrink-0">
-              <Bot className="w-3.5 h-3.5 text-indigo-400" />
-            </div>
-            <div className="bg-slate-800/80 border border-slate-700/60 rounded-xl rounded-tl-sm px-3 py-2">
-              <Loader2 className="w-4 h-4 text-indigo-400 animate-spin" />
-            </div>
-          </div>
-        )}
 
         {error && (
           <div className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
@@ -158,7 +238,6 @@ export default function AIChatPanel({ projectId, onFilesUpdated }: AIChatPanelPr
       <div className="border-t border-slate-700/60 p-3">
         <div className="flex gap-2">
           <textarea
-            ref={textareaRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}

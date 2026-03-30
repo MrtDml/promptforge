@@ -7,55 +7,116 @@ import {
 import Anthropic from '@anthropic-ai/sdk';
 import { ParsePromptDto, ParsedSchema, ParsedRelation } from './dto/parse-prompt.dto';
 
-// ─── Prompt builders (inlined from ai-engine) ────────────────────────────────
+// ─── Tool definitions ─────────────────────────────────────────────────────────
 
-function buildIntentParserPrompt(userPrompt: string): { system: string; user: string } {
-  const system = `You are a strict JSON generator. Your only job is to convert a natural-language description of a software application into a valid JSON object.
+const APP_SCHEMA_TOOL: Anthropic.Tool = {
+  name: 'create_app_schema',
+  description:
+    'Converts a natural-language application description into a structured schema for code generation.',
+  input_schema: {
+    type: 'object' as const,
+    properties: {
+      app_name: {
+        type: 'string',
+        description: 'Concise PascalCase application name, e.g. "TaskManager"',
+      },
+      description: {
+        type: 'string',
+        description: 'Brief one-sentence description of the application',
+      },
+      entities: {
+        type: 'array',
+        description: 'Data models for the application',
+        items: {
+          type: 'object',
+          properties: {
+            name: { type: 'string', description: 'PascalCase entity name' },
+            fields: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string', description: 'camelCase field name' },
+                  type: { type: 'string', enum: ['string', 'number', 'boolean', 'date'] },
+                  required: { type: 'boolean' },
+                  unique: { type: 'boolean' },
+                },
+                required: ['name', 'type'],
+              },
+            },
+          },
+          required: ['name', 'fields'],
+        },
+      },
+      relations: {
+        type: 'array',
+        description: 'Relationships between entities. Do NOT add foreign-key fields to entities — express them here instead.',
+        items: {
+          type: 'object',
+          properties: {
+            type: { type: 'string', enum: ['1:N', 'N:1', 'M:N'] },
+            from: { type: 'string', description: 'Source entity name (PascalCase)' },
+            to: { type: 'string', description: 'Target entity name (PascalCase)' },
+            fieldName: { type: 'string', description: 'camelCase relation field name on the "from" entity, e.g. "posts"' },
+          },
+          required: ['type', 'from', 'to', 'fieldName'],
+        },
+      },
+      features: {
+        type: 'array',
+        items: {
+          type: 'string',
+          enum: ['auth', 'dashboard', 'crud', 'api', 'deploy', 'payments', 'notifications'],
+        },
+        description: 'Always include "crud" and "api". Include "auth" only when user authentication is described.',
+      },
+      auth_entity: {
+        type: 'string',
+        description: 'PascalCase entity that represents the authenticated user. Only set when "auth" is in features.',
+      },
+    },
+    required: ['app_name', 'entities', 'features'],
+  },
+};
+
+const RELATIONS_TOOL: Anthropic.Tool = {
+  name: 'extract_relations',
+  description: 'Infers relationships between entities based on the application description.',
+  input_schema: {
+    type: 'object' as const,
+    properties: {
+      relations: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            type: { type: 'string', enum: ['1:N', 'N:1', 'M:N'] },
+            from: { type: 'string', description: 'Source entity name (PascalCase)' },
+            to: { type: 'string', description: 'Target entity name (PascalCase)' },
+            fieldName: { type: 'string', description: 'camelCase field name' },
+          },
+          required: ['type', 'from', 'to', 'fieldName'],
+        },
+      },
+    },
+    required: ['relations'],
+  },
+};
+
+// ─── System prompts ───────────────────────────────────────────────────────────
+
+const INTENT_PARSER_SYSTEM = `You are an application schema architect. Your job is to convert a natural-language description of a software application into a structured schema.
 
 Rules:
-1. Output ONLY raw JSON. No markdown code fences, no explanations.
-2. Root keys: "app_name", "description", "entities", "relations", "features", optionally "auth_entity".
-3. "app_name": concise PascalCase string (e.g. "TaskManager").
-4. "entities": array of objects with "name" (PascalCase) and "fields" (non-empty array).
-5. Each field: "name" (camelCase), "type" (string|number|boolean|date), optional "required" and "unique".
-6. Every entity must include: id (string, required, unique), createdAt (date), updatedAt (date).
-7. Do NOT add foreign-key fields — use "relations" array instead.
-8. "relations": array of { "type": "1:N"|"N:1"|"M:N", "from": EntityName, "to": EntityName, "fieldName": camelCase }.
-9. "features": array from ["auth","dashboard","crud","api","deploy","payments","notifications"].
-10. Always include "crud" and "api" when entities are present.
-11. "auth_entity": PascalCase entity name representing authenticated user (only when "auth" is a feature).
+- Every entity MUST include: id (string, required, unique), createdAt (date, required), updatedAt (date, required)
+- Do NOT add foreign-key fields to entities — use the relations array instead
+- Always include "crud" and "api" in features when entities are present
+- Only include "auth" in features when user authentication is explicitly described
+- Set auth_entity only when "auth" is a feature`;
 
-Example output:
-{
-  "app_name": "TaskManager",
-  "description": "A task management app with user authentication.",
-  "entities": [
-    { "name": "User", "fields": [{"name":"id","type":"string","required":true,"unique":true},{"name":"email","type":"string","required":true,"unique":true},{"name":"name","type":"string","required":true},{"name":"createdAt","type":"date","required":true},{"name":"updatedAt","type":"date","required":true}] },
-    { "name": "Task", "fields": [{"name":"id","type":"string","required":true,"unique":true},{"name":"title","type":"string","required":true},{"name":"completed","type":"boolean","required":true},{"name":"createdAt","type":"date","required":true},{"name":"updatedAt","type":"date","required":true}] }
-  ],
-  "relations": [{ "type": "1:N", "from": "User", "to": "Task", "fieldName": "tasks" }],
-  "features": ["auth","crud","api","dashboard"],
-  "auth_entity": "User"
-}
+const RELATION_EXTRACTION_SYSTEM = `You are a database architect. Given entity names and an app description, infer the relationships between those entities. If no meaningful relationships can be inferred, return an empty relations array.`;
 
-Respond with ONLY the JSON object.`;
-  return { system, user: userPrompt.trim() };
-}
-
-function buildRelationExtractionPrompt(
-  appName: string,
-  entityNames: string[],
-  originalPrompt: string,
-): { system: string; user: string } {
-  const system = `You are a database architect. Given entity names and an app description, infer relationships.
-Output ONLY a raw JSON array. No markdown, no explanations.
-Each item: { "type": "1:N"|"N:1"|"M:N", "from": EntityName, "to": EntityName, "fieldName": camelCase }
-If no relationships can be inferred, return [].`;
-  const user = `Application: ${appName}\nEntities: ${entityNames.join(', ')}\nDescription: ${originalPrompt}\n\nReturn the relationships as a JSON array.`;
-  return { system, user };
-}
-
-// ─── Valid value sets ─────────────────────────────────────────────────────────
+// ─── Valid value sets (used in normalization) ─────────────────────────────────
 
 const VALID_FEATURES = new Set([
   'auth', 'dashboard', 'crud', 'api', 'payments', 'notifications', 'deploy',
@@ -104,10 +165,9 @@ export class ParserService {
 
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       try {
-        this.logger.log(`[Parse] Attempt ${attempt}/${maxAttempts} — starting primary parse`);
+        this.logger.log(`[Parse] Attempt ${attempt}/${maxAttempts} — primary parse`);
         const attemptStart = Date.now();
 
-        // ── Step 1: Primary parse ───────────────────────────────────────────
         const schema = await this.runPrimaryParse(prompt, attempt);
         const primaryMs = Date.now() - attemptStart;
         this.logger.log(
@@ -116,7 +176,6 @@ export class ParserService {
           `relations=${schema.relations?.length ?? 0}, features=${schema.features.length}`,
         );
 
-        // ── Step 2: Relation extraction (if entities > 1 and no relations) ──
         const enrichedSchema = await this.maybeEnrichRelations(schema, prompt);
 
         const totalMs = Date.now() - overallStart;
@@ -130,9 +189,7 @@ export class ParserService {
         lastError = error;
 
         if (error instanceof BadRequestException) {
-          this.logger.warn(
-            `[Parse] Attempt ${attempt} failed with validation error: ${error.message}`,
-          );
+          this.logger.warn(`[Parse] Attempt ${attempt} validation error: ${error.message}`);
           if (attempt === maxAttempts) {
             throw new BadRequestException(
               `Failed to parse prompt after ${maxAttempts} attempts. Last error: ${error.message}`,
@@ -141,11 +198,8 @@ export class ParserService {
           continue;
         }
 
-        // Non-retryable errors (API auth, network, etc.)
         this.logger.error(`[Parse] Anthropic API error: ${error.message}`, error.stack);
-        throw new ServiceUnavailableException(
-          `AI service error: ${error.message}`,
-        );
+        throw new ServiceUnavailableException(`AI service error: ${error.message}`);
       }
     }
 
@@ -154,175 +208,98 @@ export class ParserService {
     );
   }
 
-  // ── Primary parse call ──────────────────────────────────────────────────────
+  // ── Primary parse — uses tool use for guaranteed structured output ───────────
 
   private async runPrimaryParse(prompt: string, attempt: number): Promise<ParsedSchema> {
-    const { system, user } = buildIntentParserPrompt(prompt);
-
     const userContent =
       attempt === 1
-        ? user
-        : `The previous response was not valid JSON. Please try again and return ONLY valid JSON.\n\n${user}\n\nRemember: respond with ONLY the JSON object, no markdown, no code fences, no explanations.`;
+        ? prompt.trim()
+        : `Previous attempt failed validation. Please try again more carefully.\n\n${prompt.trim()}`;
 
     const response = await this.anthropic.messages.create({
       model: 'claude-sonnet-4-6',
       max_tokens: 4096,
-      system,
+      system: [
+        {
+          type: 'text',
+          text: INTENT_PARSER_SYSTEM,
+          cache_control: { type: 'ephemeral' },
+        },
+      ] as any,
+      tools: [APP_SCHEMA_TOOL],
+      tool_choice: { type: 'tool', name: 'create_app_schema' },
       messages: [{ role: 'user', content: userContent }],
-      temperature: attempt === 1 ? 0.2 : 0.1,
-    } as any);
+    });
 
-    const content = response.content[0];
-    if (content.type !== 'text') {
-      throw new Error('Unexpected response type from Anthropic API');
+    const toolUseBlock = response.content.find((c) => c.type === 'tool_use');
+    if (!toolUseBlock || toolUseBlock.type !== 'tool_use') {
+      throw new BadRequestException('AI did not return structured tool output');
     }
 
-    return this.extractAndValidateJson(content.text.trim());
+    return this.validateAndNormalizeSchema(toolUseBlock.input);
   }
 
-  // ── Relation enrichment (second Claude call) ────────────────────────────────
+  // ── Relation enrichment — runs only when primary parse found no relations ────
 
   private async maybeEnrichRelations(
     schema: ParsedSchema,
     originalPrompt: string,
   ): Promise<ParsedSchema> {
-    // Skip if there is only one entity or if relations were already detected
     const hasRelations = Array.isArray(schema.relations) && schema.relations.length > 0;
-    if (schema.entities.length <= 1 || hasRelations) {
-      return schema;
-    }
+    if (schema.entities.length <= 1 || hasRelations) return schema;
 
     this.logger.log(
-      `[Relations] No relations detected in primary parse — running relation extraction for ${schema.entities.length} entities`,
+      `[Relations] No relations in primary parse — running enrichment for ${schema.entities.length} entities`,
     );
 
     const start = Date.now();
 
     try {
       const entityNames = schema.entities.map((e) => e.name);
-      const { system, user } = buildRelationExtractionPrompt(
-        schema.app_name,
-        entityNames,
-        originalPrompt,
-      );
+      const userContent = `Application: ${schema.app_name}\nEntities: ${entityNames.join(', ')}\nDescription: ${originalPrompt}`;
 
       const response = await this.anthropic.messages.create({
         model: 'claude-sonnet-4-6',
         max_tokens: 1024,
-        system,
-        messages: [{ role: 'user', content: user }],
-        temperature: 0.1,
-      } as any);
+        system: [
+          {
+            type: 'text',
+            text: RELATION_EXTRACTION_SYSTEM,
+            cache_control: { type: 'ephemeral' },
+          },
+        ] as any,
+        tools: [RELATIONS_TOOL],
+        tool_choice: { type: 'tool', name: 'extract_relations' },
+        messages: [{ role: 'user', content: userContent }],
+      });
 
-      const content = response.content[0];
-      if (content.type !== 'text') {
-        this.logger.warn('[Relations] Unexpected response type — skipping relation enrichment');
+      const toolUseBlock = response.content.find((c) => c.type === 'tool_use');
+      if (!toolUseBlock || toolUseBlock.type !== 'tool_use') {
+        this.logger.warn('[Relations] No tool use block returned — skipping');
         return schema;
       }
 
-      const relations = this.extractAndValidateRelations(
-        content.text.trim(),
-        new Set(entityNames),
-      );
+      const input = toolUseBlock.input as { relations?: any[] };
+      const knownNames = new Set(entityNames);
+      const relations = this.normalizeRelations(input.relations ?? [], knownNames);
 
       const elapsedMs = Date.now() - start;
-      this.logger.log(
-        `[Relations] Extracted ${relations.length} relation(s) in ${elapsedMs}ms`,
-      );
+      this.logger.log(`[Relations] Extracted ${relations.length} relation(s) in ${elapsedMs}ms`);
 
       return { ...schema, relations };
     } catch (error: any) {
-      // Relation extraction is best-effort — never fail the whole parse
-      this.logger.warn(
-        `[Relations] Relation extraction failed (non-fatal): ${error.message}`,
-      );
+      this.logger.warn(`[Relations] Enrichment failed (non-fatal): ${error.message}`);
       return schema;
     }
-  }
-
-  // ── JSON extraction & schema validation ─────────────────────────────────────
-
-  private extractAndValidateJson(rawText: string): ParsedSchema {
-    let jsonText = rawText;
-
-    // Strip markdown code fences if present
-    const codeBlockMatch = rawText.match(/```(?:json)?\s*([\s\S]*?)```/);
-    if (codeBlockMatch) {
-      jsonText = codeBlockMatch[1].trim();
-    }
-
-    // Find the outermost JSON object in case of surrounding prose
-    const jsonMatch = jsonText.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      jsonText = jsonMatch[0];
-    }
-
-    let parsed: any;
-    try {
-      parsed = JSON.parse(jsonText);
-    } catch (e) {
-      throw new BadRequestException(
-        `Invalid JSON in AI response: ${(e as Error).message}`,
-      );
-    }
-
-    return this.validateAndNormalizeSchema(parsed);
-  }
-
-  private extractAndValidateRelations(
-    rawText: string,
-    knownEntityNames: Set<string>,
-  ): ParsedRelation[] {
-    let jsonText = rawText;
-
-    // Strip markdown code fences
-    const codeBlockMatch = rawText.match(/```(?:json)?\s*([\s\S]*?)```/);
-    if (codeBlockMatch) {
-      jsonText = codeBlockMatch[1].trim();
-    }
-
-    // Find a JSON array
-    const arrayMatch = jsonText.match(/\[[\s\S]*\]/);
-    if (arrayMatch) {
-      jsonText = arrayMatch[0];
-    }
-
-    let parsed: any;
-    try {
-      parsed = JSON.parse(jsonText);
-    } catch {
-      this.logger.warn('[Relations] Could not parse relation JSON — returning empty array');
-      return [];
-    }
-
-    if (!Array.isArray(parsed)) return [];
-
-    return parsed
-      .filter((r: any) => {
-        if (!r || typeof r !== 'object') return false;
-        const type = this.normalizeRelationType(r.type);
-        if (!type) return false;
-        if (!knownEntityNames.has(r.from) || !knownEntityNames.has(r.to)) return false;
-        if (!r.fieldName || typeof r.fieldName !== 'string') return false;
-        return true;
-      })
-      .map((r: any) => ({
-        type: this.normalizeRelationType(r.type) as '1:N' | 'N:1' | 'M:N',
-        from: r.from.trim(),
-        to: r.to.trim(),
-        fieldName: r.fieldName.trim(),
-      }));
   }
 
   // ── Schema normalization & validation ────────────────────────────────────────
 
   private validateAndNormalizeSchema(parsed: any): ParsedSchema {
-    // ── app_name ──────────────────────────────────────────────────────────
     if (!parsed.app_name || typeof parsed.app_name !== 'string') {
       throw new BadRequestException('Schema missing required field: app_name');
     }
 
-    // ── entities ──────────────────────────────────────────────────────────
     if (!Array.isArray(parsed.entities) || parsed.entities.length === 0) {
       throw new BadRequestException('Schema must contain at least one entity');
     }
@@ -336,16 +313,12 @@ export class ParserService {
       entityNames.add(entity.name);
 
       if (!Array.isArray(entity.fields) || entity.fields.length === 0) {
-        throw new BadRequestException(
-          `Entity "${entity.name}" must have at least one field`,
-        );
+        throw new BadRequestException(`Entity "${entity.name}" must have at least one field`);
       }
 
       for (const field of entity.fields) {
         if (!field.name || typeof field.name !== 'string') {
-          throw new BadRequestException(
-            `Each field in entity "${entity.name}" must have a name`,
-          );
+          throw new BadRequestException(`Each field in entity "${entity.name}" must have a name`);
         }
         if (!VALID_FIELD_TYPES.has(field.type)) {
           field.type = this.normalizeFieldType(field.type);
@@ -355,7 +328,6 @@ export class ParserService {
       }
     }
 
-    // ── features ──────────────────────────────────────────────────────────
     if (!Array.isArray(parsed.features)) {
       parsed.features = ['crud'];
     }
@@ -366,42 +338,10 @@ export class ParserService {
       })
       .filter(Boolean);
 
-    // ── relations (optional) ──────────────────────────────────────────────
-    if (Array.isArray(parsed.relations)) {
-      parsed.relations = parsed.relations
-        .filter((r: any) => {
-          if (!r || typeof r !== 'object') return false;
-          const type = this.normalizeRelationType(r.type);
-          if (!type) {
-            this.logger.warn(`[Validate] Dropping relation with unknown type: ${r.type}`);
-            return false;
-          }
-          r.type = type;
-          if (!entityNames.has(r.from)) {
-            this.logger.warn(`[Validate] Dropping relation — unknown entity "from": ${r.from}`);
-            return false;
-          }
-          if (!entityNames.has(r.to)) {
-            this.logger.warn(`[Validate] Dropping relation — unknown entity "to": ${r.to}`);
-            return false;
-          }
-          if (!r.fieldName || typeof r.fieldName !== 'string') {
-            this.logger.warn('[Validate] Dropping relation — missing fieldName');
-            return false;
-          }
-          return true;
-        })
-        .map((r: any) => ({
-          type: r.type as '1:N' | 'N:1' | 'M:N',
-          from: r.from.trim(),
-          to: r.to.trim(),
-          fieldName: r.fieldName.trim(),
-        }));
-    } else {
-      parsed.relations = undefined;
-    }
+    const relations = Array.isArray(parsed.relations)
+      ? this.normalizeRelations(parsed.relations, entityNames)
+      : undefined;
 
-    // ── description / auth_entity (optional, passthrough) ─────────────────
     const description =
       typeof parsed.description === 'string' ? parsed.description.trim() : undefined;
     const auth_entity =
@@ -414,13 +354,45 @@ export class ParserService {
     };
 
     if (description) result.description = description;
-    if (parsed.relations !== undefined) result.relations = parsed.relations;
+    if (relations !== undefined) result.relations = relations;
     if (auth_entity) result.auth_entity = auth_entity;
 
     return result;
   }
 
-  // ── Field / relation type normalization ──────────────────────────────────────
+  private normalizeRelations(raw: any[], knownEntityNames: Set<string>): ParsedRelation[] {
+    return raw
+      .filter((r: any) => {
+        if (!r || typeof r !== 'object') return false;
+        const type = this.normalizeRelationType(r.type);
+        if (!type) {
+          this.logger.warn(`[Validate] Dropping relation with unknown type: ${r.type}`);
+          return false;
+        }
+        r.type = type;
+        if (!knownEntityNames.has(r.from)) {
+          this.logger.warn(`[Validate] Dropping relation — unknown "from": ${r.from}`);
+          return false;
+        }
+        if (!knownEntityNames.has(r.to)) {
+          this.logger.warn(`[Validate] Dropping relation — unknown "to": ${r.to}`);
+          return false;
+        }
+        if (!r.fieldName || typeof r.fieldName !== 'string') {
+          this.logger.warn('[Validate] Dropping relation — missing fieldName');
+          return false;
+        }
+        return true;
+      })
+      .map((r: any) => ({
+        type: r.type as '1:N' | 'N:1' | 'M:N',
+        from: r.from.trim(),
+        to: r.to.trim(),
+        fieldName: r.fieldName.trim(),
+      }));
+  }
+
+  // ── Type normalization ────────────────────────────────────────────────────────
 
   private normalizeFieldType(type: string): 'string' | 'number' | 'boolean' | 'date' {
     if (typeof type !== 'string') return 'string';

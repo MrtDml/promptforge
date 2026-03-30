@@ -25,7 +25,7 @@ export default function DashboardLayout({
       return;
     }
     const user = getStoredUser();
-    if (user && user.emailVerified === false) {
+    if (user && user.emailVerified === false && user.role !== "ADMIN") {
       setShowVerifyBanner(true);
     }
   }, [router]);

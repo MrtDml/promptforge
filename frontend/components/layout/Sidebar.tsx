@@ -15,6 +15,7 @@ import {
   Clock,
   X,
   ArrowUpCircle,
+  ShieldCheck,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -183,10 +184,20 @@ export default function Sidebar({ onClose }: SidebarProps = {}) {
         {bottomNav.map((item) => (
           <NavLink key={item.href} item={item} onClick={onClose} />
         ))}
+        {user?.role === "ADMIN" && (
+          <Link
+            href="/admin"
+            onClick={onClose}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150 text-rose-400 hover:text-rose-300 hover:bg-rose-950/40"
+          >
+            <ShieldCheck className="w-4 h-4 flex-shrink-0" />
+            <span className="flex-1">Admin Panel</span>
+          </Link>
+        )}
       </div>
 
-      {/* Upgrade card — only for free/starter */}
-      {user?.plan !== "pro" && user?.plan !== "enterprise" && (
+      {/* Upgrade card — only for non-admin free/starter users */}
+      {user?.role !== "ADMIN" && user?.plan !== "pro" && user?.plan !== "enterprise" && (
         <div className="px-3 pb-2">
           <div className="rounded-xl bg-indigo-950/60 border border-indigo-800/40 p-3">
             {/* Usage bar */}
@@ -245,7 +256,7 @@ export default function Sidebar({ onClose }: SidebarProps = {}) {
                   : "text-slate-500 hover:text-indigo-400"
               )}
             >
-              {user?.plan === "pro" ? "Pro plan" : user?.plan === "starter" ? "Starter plan" : "Free plan — Upgrade"}
+              {user?.role === "ADMIN" ? "Administrator" : user?.plan === "pro" ? "Pro plan" : user?.plan === "starter" ? "Starter plan" : "Free plan — Upgrade"}
             </Link>
           </div>
           <button

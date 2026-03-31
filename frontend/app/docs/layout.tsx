@@ -1,27 +1,30 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Documentation – PromptForge",
+  title: "Documentation – Prompt Forge",
   description:
-    "Learn how to use PromptForge to generate full-stack SaaS applications from natural language prompts. Guides, API reference, and examples.",
+    "Learn how to use Prompt Forge to generate full-stack SaaS applications from natural language prompts. Quick start guides, prompt examples, and API reference.",
   keywords: [
-    "PromptForge documentation",
+    "prompt forge documentation",
+    "prompt forge guide",
+    "promptforge docs",
+    "how to use prompt forge",
     "AI code generator guide",
-    "how to use PromptForge",
     "SaaS generator tutorial",
   ],
   alternates: { canonical: "https://promptforgeai.dev/docs" },
   openGraph: {
-    title: "Documentation – PromptForge",
+    title: "Documentation – Prompt Forge",
     description:
-      "Learn how to generate full-stack SaaS apps from plain English. Guides, examples, and API reference.",
+      "Learn how to use Prompt Forge to generate full-stack SaaS apps from plain English. Guides, examples, and API reference.",
     url: "https://promptforgeai.dev/docs",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "PromptForge Docs" }],
+    siteName: "Prompt Forge",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Prompt Forge Documentation" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Documentation – PromptForge",
-    description: "Learn how to generate full-stack SaaS apps from plain English.",
+    title: "Documentation – Prompt Forge",
+    description: "Learn how to use Prompt Forge to generate full-stack SaaS apps from plain English.",
     images: ["/twitter-image"],
   },
 };

@@ -7,7 +7,7 @@ import AnnouncementBanner from "@components/layout/AnnouncementBanner";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Blog – PromptForge",
+  title: "Blog – Prompt Forge",
   description:
     "Guides, tutorials, and insights on AI code generation, NestJS, SaaS architecture, and building production-ready applications faster.",
   keywords: [
@@ -19,15 +19,15 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://promptforgeai.dev/blog" },
   openGraph: {
-    title: "Blog – PromptForge",
+    title: "Blog – Prompt Forge",
     description:
       "Guides, tutorials, and insights on AI code generation, NestJS, and SaaS architecture.",
     url: "https://promptforgeai.dev/blog",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "PromptForge Blog" }],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Prompt Forge Blog" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blog – PromptForge",
+    title: "Blog – Prompt Forge",
     description: "Guides, tutorials, and insights on AI code generation and SaaS development.",
     images: ["/twitter-image"],
   },

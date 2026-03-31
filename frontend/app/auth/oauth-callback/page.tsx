@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { setToken, setRefreshToken } from "@/lib/auth";
 import { authApi } from "@/lib/api";
 
-export default function OAuthCallbackPage() {
+function OAuthCallbackInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const handled = useRef(false);
@@ -31,7 +31,6 @@ export default function OAuthCallbackPage() {
     setToken(token);
     if (refreshToken) setRefreshToken(refreshToken);
 
-    // Fetch full user profile then redirect to dashboard
     authApi
       .me()
       .then((res) => {
@@ -39,7 +38,6 @@ export default function OAuthCallbackPage() {
         if (user) {
           localStorage.setItem("promptforge_user", JSON.stringify(user));
         }
-        // New user (no projects yet) → onboarding, existing user → dashboard
         const isNew = !user?.generationsUsed || user.generationsUsed === 0;
         router.replace(isNew ? "/onboarding" : "/dashboard");
       })
@@ -53,5 +51,19 @@ export default function OAuthCallbackPage() {
         <p className="text-slate-400 text-sm">Signing you in…</p>
       </div>
     </div>
+  );
+}
+
+export default function OAuthCallbackPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#0a0b14] flex items-center justify-center">
+          <div className="w-10 h-10 border-2 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <OAuthCallbackInner />
+    </Suspense>
   );
 }

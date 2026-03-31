@@ -926,7 +926,7 @@ DELETE /tasks/:id    → Delete a task</code></pre>
 
 <p><strong>6. Subscription management.</strong> Users need to be able to upgrade, downgrade, and cancel without emailing you. Automate it.</p>
 
-<p><strong>7. Billing receipt emails.</strong> Legal requirement in most jurisdictions. Most payment processors (iyzico, Stripe) send these automatically — make sure they're configured.</p>
+<p><strong>7. Billing receipt emails.</strong> Legal requirement in most jurisdictions. Most payment processors (Stripe, Paddle) send these automatically — make sure they&apos;re configured.</p>
 
 <h2>Error Handling & Monitoring</h2>
 

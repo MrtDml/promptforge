@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import LandingNav from "@components/layout/LandingNav";
+import LandingFooter from "@components/layout/LandingFooter";
 
 export const metadata: Metadata = {
   title: "PromptForge – Build SaaS Apps from a Single Prompt",
@@ -57,7 +58,6 @@ import {
   ChevronRight,
   Star,
   CheckCircle2,
-  CreditCard,
   FileText,
 } from "lucide-react";
 
@@ -316,52 +316,48 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Turkish Market Section ── */}
-      <section id="turkey" className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-900/30">
+      {/* ── Why PromptForge ── */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-900/30">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-950/60 border border-red-800/40 text-red-300 text-sm font-medium mb-6">
-              <span className="text-base">🇹🇷</span>
-              Türk Girişimciler için
-            </div>
             <h2 className="text-4xl font-bold mb-4">
-              Başka hiçbir platform bunu{" "}
-              <span className="gradient-text">yapamaz</span>
+              Why teams choose{" "}
+              <span className="gradient-text">PromptForge</span>
             </h2>
             <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-              Lovable, Bolt, v0 — bunlar iyzico&apos;yu bilmez, e-Fatura&apos;yı tanımaz,
-              KVKK&apos;yı bilmez. PromptForge Türkiye&apos;ye özel entegrasyonları otomatik üretir.
+              Other AI builders generate toy code. PromptForge generates production-grade
+              architecture that your engineers can actually ship.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             {[
               {
-                icon: CreditCard,
-                title: "iyzico Ödeme Sistemi",
+                icon: Zap,
+                title: "10x faster than manual",
                 description:
-                  "Türkiye'de Stripe çalışmıyor. PromptForge iyzico payment service, taksit desteği ve checkout form'u hazır olarak üretir. Ödeme sistemi için tek satır yazmana gerek yok.",
+                  "What takes a senior engineer 2 days to scaffold — entities, relations, endpoints, auth, Docker — PromptForge delivers in under 5 minutes.",
+                color: "text-yellow-400",
+                bg: "bg-yellow-400/10",
+                badge: "Speed",
+              },
+              {
+                icon: Code2,
+                title: "Real, clean code",
+                description:
+                  "Proper NestJS modules, DTOs, Zod validation, auth guards, Prisma migrations — not a toy scaffold. Engineers review and ship, not rewrite.",
                 color: "text-green-400",
                 bg: "bg-green-400/10",
-                badge: "Hazır entegrasyon",
+                badge: "Quality",
               },
               {
                 icon: FileText,
-                title: "e-Fatura / e-Arşiv",
+                title: "You own the code",
                 description:
-                  "GİB uyumlu UBL-TR 2.1 XML fatura üreteci dahil. Muhasebe, e-ticaret veya SaaS uygulamanız için e-fatura servisi otomatik oluşturulur.",
+                  "Every generated file is yours. No vendor lock-in, no proprietary runtime, no monthly fee to keep your app running. Download and deploy anywhere.",
                 color: "text-blue-400",
                 bg: "bg-blue-400/10",
-                badge: "GİB uyumlu",
-              },
-              {
-                icon: Shield,
-                title: "KVKK Uyum Şablonları",
-                description:
-                  "Middleware, aydınlatma metni, gizlilik politikası ve VERBİS rehberi otomatik oluşturulur. Her Türk startup'ın ihtiyacı olan KVKK temelini hazır al.",
-                color: "text-purple-400",
-                bg: "bg-purple-400/10",
-                badge: "6698 sayılı Kanun",
+                badge: "Ownership",
               },
             ].map((item) => (
               <div
@@ -389,19 +385,19 @@ export default function LandingPage() {
             <div className="flex flex-col md:flex-row md:items-center gap-6">
               <div className="flex-1">
                 <h3 className="text-xl font-bold text-white mb-2">
-                  Rakiplere karşı net fark
+                  PromptForge vs. the alternatives
                 </h3>
                 <p className="text-slate-400 text-sm">
-                  Diğer AI SaaS oluşturucular genel amaçlıdır. PromptForge Türkiye pazarının
-                  ihtiyaçlarını anlayan tek araç.
+                  Lovable, Bolt, and v0 are great for UI prototyping. PromptForge is built
+                  for backend-first teams who need production-ready APIs, not mockups.
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-3 md:w-80">
                 {[
-                  { label: "iyzico desteği", pf: true, others: false },
-                  { label: "e-Fatura üretimi", pf: true, others: false },
-                  { label: "KVKK şablonları", pf: true, others: false },
-                  { label: "Kodun sende kalır", pf: true, others: "kısmen" },
+                  { label: "Full backend output", pf: true, others: false },
+                  { label: "Prisma + migrations", pf: true, others: false },
+                  { label: "You own the code", pf: true, others: "partial" },
+                  { label: "No vendor lock-in", pf: true, others: false },
                 ].map((row) => (
                   <div
                     key={row.label}
@@ -543,40 +539,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="border-t border-slate-800 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded bg-indigo-600 flex items-center justify-center">
-              <Zap className="w-4 h-4 text-white" />
-            </div>
-            <span className="font-semibold text-white">PromptForge</span>
-          </div>
-          <p className="text-slate-500 text-sm">
-            © {new Date().getFullYear()} PromptForge. All rights reserved.
-          </p>
-          <div className="flex items-center gap-6">
-            <Link href="/privacy" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
-              Privacy
-            </Link>
-            <Link href="/terms" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
-              Terms
-            </Link>
-            <Link href="/contact" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
-              Contact
-            </Link>
-          </div>
-        </div>
-        {/* ── Payment Logos ── */}
-        <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-slate-800/60 flex flex-col items-center gap-3">
-          <p className="text-slate-600 text-xs uppercase tracking-widest font-medium">Secure Payment</p>
-          <img
-            src="/payment/iyzico-logo-band-white.svg"
-            alt="iyzico ile Öde — Visa — Mastercard"
-            className="h-8 w-auto opacity-80"
-          />
-        </div>
-      </footer>
+      <LandingFooter />
     </div>
   );
 }

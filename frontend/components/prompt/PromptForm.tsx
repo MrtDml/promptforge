@@ -11,24 +11,24 @@ import {
 
 const examplePrompts = [
   {
-    title: "🇹🇷 Randevu & Rezervasyon Sistemi",
+    title: "Appointment & Booking System",
     prompt:
-      "Türk işletmeler için randevu yönetim sistemi: müşteri kayıtları, personel/hizmet tanımları, randevu takvimi, otomatik SMS/e-posta hatırlatmaları, iyzico ile aylık abonelik paketleri (temel/premium). KVKK uyumlu veri saklama.",
+      "Build an appointment management system with Customer (name, email, phone), Service (name, description, duration, price), Staff (name, email, specialization, workingHours), and Appointment (customerId, serviceId, staffId, startTime, status: pending/confirmed/cancelled/completed). Include SMS/email reminders, calendar view, and subscription billing with basic and premium tiers.",
   },
   {
-    title: "🇹🇷 E-ticaret (iyzico Ödeme)",
+    title: "E-commerce Platform",
     prompt:
-      "Türkiye odaklı e-ticaret platformu: ürün kataloğu, kategori yönetimi, stok takibi, sepet, sipariş yönetimi, müşteri hesapları, adres defteri, iyzico ile taksitli ödeme, e-Fatura/e-Arşiv fatura kesimi, kargo entegrasyonu, indirim kuponu. KVKK metinleri dahil.",
+      "Build an e-commerce platform with Product (name, description, price, stock, sku, images, category), Category (name, slug, parent), Order (userId, status: pending/confirmed/shipped/delivered, total, shippingAddress), OrderItem (orderId, productId, quantity, unitPrice), Cart (userId, items), and Coupon (code, discountType, value, expiresAt). Include payment integration, invoice generation, and GDPR-compliant data storage.",
   },
   {
-    title: "🇹🇷 Fatura & Muhasebe SaaS",
+    title: "Accounting SaaS",
     prompt:
-      "Türk KOBİ'ler için muhasebe SaaS: müşteri ve tedarikçi yönetimi, e-Fatura (UBL-TR) ve e-Arşiv fatura oluşturma, gelir/gider takibi, KDV raporları, banka hesabı entegrasyonu, PDF fatura indirme, çoklu kullanıcı rolü (muhasebeci, yönetici), iyzico abonelik sistemi.",
+      "Build an accounting SaaS with Client (name, email, taxId, address), Supplier (name, email, taxId), Invoice (number, clientId, status: draft/sent/paid/cancelled, issuedAt, dueAt, subtotal, taxRate, total), InvoiceItem (invoiceId, description, quantity, unitPrice), and Expense (supplierId, amount, category, date, receiptUrl). Include income/expense tracking, tax reports, PDF generation, and multi-role access (accountant, manager, admin).",
   },
   {
-    title: "🇹🇷 Restoran / Kafe Yönetimi",
+    title: "Restaurant Management",
     prompt:
-      "Restoran yönetim sistemi: masa rezervasyonu, online sipariş (QR menü), mutfak ekranı, ürün ve menü yönetimi, stok takibi, personel çizelgesi, günlük/haftalık satış raporları, müşteri sadakat programı, iyzico ile online ödeme ve paket servis ödemesi.",
+      "Build a restaurant management system with Table (number, capacity, status: available/occupied/reserved), MenuItem (name, description, price, category, available), Order (tableId, status: open/preparing/ready/closed, total), OrderItem (orderId, menuItemId, quantity, notes), Reservation (name, email, phone, date, partySize, status), and Staff (name, role: waiter/chef/manager). Include QR menu, kitchen display, daily sales reports, and loyalty program.",
   },
   {
     title: "Project Management SaaS",

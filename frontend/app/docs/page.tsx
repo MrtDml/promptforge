@@ -13,6 +13,9 @@ import {
   Shield,
   Lightbulb,
 } from "lucide-react";
+import LandingNav from "@components/layout/LandingNav";
+import LandingFooter from "@components/layout/LandingFooter";
+import AnnouncementBanner from "@components/layout/AnnouncementBanner";
 
 const sections = [
   {
@@ -104,6 +107,8 @@ const sections = [
 export default function DocsPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-white">
+      <AnnouncementBanner />
+      <LandingNav />
       <div className="max-w-4xl mx-auto px-6 py-16">
         {/* Header */}
         <div className="mb-12">
@@ -175,6 +180,7 @@ export default function DocsPage() {
           </Link>
         </div>
       </div>
+      <LandingFooter />
     </div>
   );
 }

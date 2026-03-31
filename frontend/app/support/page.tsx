@@ -13,6 +13,9 @@ import {
   Loader2,
   ExternalLink,
 } from "lucide-react";
+import LandingNav from "@components/layout/LandingNav";
+import LandingFooter from "@components/layout/LandingFooter";
+import AnnouncementBanner from "@components/layout/AnnouncementBanner";
 
 const faqs = [
   {
@@ -41,7 +44,7 @@ const faqs = [
   },
   {
     q: "Can I write prompts in languages other than English?",
-    a: "Yes — PromptForge understands prompts in English, Turkish, and most major languages. Generated code comments and variable names will be in English.",
+    a: "Yes — PromptForge understands prompts in most major languages. Generated code, comments, and variable names will always be in English.",
   },
   {
     q: "When does my generation limit reset?",
@@ -82,6 +85,8 @@ export default function SupportPage() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
+      <AnnouncementBanner />
+      <LandingNav />
       <div className="max-w-3xl mx-auto px-6 py-16">
         {/* Header */}
         <div className="mb-12 text-center">
@@ -237,6 +242,7 @@ export default function SupportPage() {
           )}
         </div>
       </div>
+      <LandingFooter />
     </div>
   );
 }

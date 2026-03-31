@@ -67,19 +67,19 @@ const TEMPLATES: Template[] = [
       "Build an appointment booking API with Service (name, duration, price), Staff (name, email, bio), TimeSlot (staffId, startTime, endTime, available), and Appointment (userId, serviceId, staffId, slotId, status: pending/confirmed/cancelled, notes). Include JWT auth.",
   },
   {
-    title: "🇹🇷 E-ticaret (iyzico)",
-    description: "Türkiye odaklı — iyzico ödeme entegrasyonu",
-    tags: ["Turkey", "iyzico"],
+    title: "E-commerce + Payments",
+    description: "Products, orders, cart — with payment integration",
+    tags: ["commerce", "payments", "billing"],
     prompt:
-      "Türkiye odaklı e-ticaret API'si. Product (ad, açıklama, fiyat, stok, kategori), Order (kullanıcıId, durum: beklemede/onaylı/kargoda, toplam, teslimatAdresi), ve Customer (ad, soyad, email, telefon, tcKimlik) entity'leri. iyzico ödeme entegrasyonu ile. JWT auth dahil.",
-    options: { includeIyzico: true, includeKVKK: true },
+      "Build an e-commerce API with payment integration. Product (name, description, price, stock, sku, category), Order (userId, status: pending/confirmed/shipped/delivered, total, shippingAddress), OrderItem (orderId, productId, quantity, unitPrice), and Customer (name, email, phone). Include JWT auth and payment service.",
+    options: { includeIyzico: true, includeSwagger: true },
   },
   {
-    title: "🇹🇷 Fatura SaaS (e-Fatura)",
-    description: "GİB e-Fatura/e-Arşiv UBL-TR entegrasyonu",
-    tags: ["Turkey", "e-Fatura", "KVKK"],
+    title: "Invoice SaaS",
+    description: "Invoice management with PDF generation",
+    tags: ["billing", "invoices", "finance"],
     prompt:
-      "Türk KOBİ'ler için fatura yönetim sistemi. Invoice (faturaNo, alıcıAdı, alıcıVergiNo, tutar, kdv, durum: taslak/gönderildi/iptal), InvoiceItem (faturaId, açıklama, miktar, birimFiyat, kdvOranı), ve Company (unvan, vergiNo, vergiDairesi, adres) entity'leri. GİB e-Fatura entegrasyonu dahil.",
+      "Build an invoice management SaaS API. Invoice (number, status: draft/sent/paid/cancelled, issuedAt, dueAt, subtotal, taxRate, total), InvoiceItem (invoiceId, description, quantity, unitPrice, taxRate), Client (name, email, address, taxId), and Company (name, email, address, taxId, bankAccount). Include PDF invoice generation and JWT auth.",
     options: { includeEFatura: true, includeKVKK: true },
   },
 ];

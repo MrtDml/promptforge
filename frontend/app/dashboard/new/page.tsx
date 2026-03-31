@@ -334,14 +334,11 @@ export default function NewProjectPage() {
               </div>
             </div>
 
-            {/* Turkish integrations section */}
+            {/* Extended integrations */}
             <div className="border-t border-slate-700/60 pt-5">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-base">🇹🇷</span>
-                <h4 className="font-semibold text-white text-sm">Turkish Integrations</h4>
-              </div>
+              <h4 className="font-semibold text-white text-sm mb-1">Extended Integrations</h4>
               <p className="text-slate-500 text-xs mb-4">
-                Ready-to-use Türkiye-specific service files — no other platform offers these.
+                Optional service modules added on top of the generated project.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -356,11 +353,11 @@ export default function NewProjectPage() {
                     <div className="flex items-center gap-1.5">
                       <CreditCard className="w-3.5 h-3.5 text-green-400" />
                       <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
-                        iyzico Ödeme
+                        Payment Integration
                       </span>
                     </div>
                     <p className="text-slate-500 text-xs mt-0.5">
-                      Ödeme + taksit + checkout form
+                      Payment service, checkout & subscription handling
                     </p>
                   </div>
                 </label>
@@ -376,11 +373,11 @@ export default function NewProjectPage() {
                     <div className="flex items-center gap-1.5">
                       <FileText className="w-3.5 h-3.5 text-blue-400" />
                       <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
-                        e-Fatura / e-Arşiv
+                        Invoice Generator
                       </span>
                     </div>
                     <p className="text-slate-500 text-xs mt-0.5">
-                      GİB UBL-TR XML generator
+                      PDF invoice generation & billing records
                     </p>
                   </div>
                 </label>
@@ -396,11 +393,11 @@ export default function NewProjectPage() {
                     <div className="flex items-center gap-1.5">
                       <Shield className="w-3.5 h-3.5 text-purple-400" />
                       <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
-                        KVKK Uyum
+                        Privacy Compliance
                       </span>
                     </div>
                     <p className="text-slate-500 text-xs mt-0.5">
-                      Middleware + gizlilik şablonları
+                      GDPR middleware & privacy policy templates
                     </p>
                   </div>
                 </label>
@@ -455,9 +452,9 @@ export default function NewProjectPage() {
                 includeCI ? "Adding GitHub Actions CI/CD" : null,
                 includeTests ? "Writing unit tests" : null,
                 includeFrontend ? "Generating Next.js frontend" : null,
-                includeIyzico ? "Adding iyzico payment service" : null,
-                includeEFatura ? "Adding e-Fatura UBL-TR service" : null,
-                includeKVKK ? "Adding KVKK compliance layer" : null,
+                includeIyzico ? "Adding payment integration" : null,
+                includeEFatura ? "Adding invoice generator" : null,
+                includeKVKK ? "Adding privacy compliance layer" : null,
                 "Building Postman collection",
                 "Finalizing output",
               ]

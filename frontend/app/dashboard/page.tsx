@@ -11,6 +11,9 @@ import {
   CheckCircle2,
   XCircle,
   Loader2,
+  TrendingUp,
+  TrendingDown,
+  Minus,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useProjects } from "@/hooks/useProjects";
@@ -84,6 +87,32 @@ export default function DashboardPage() {
         new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
     )
     .slice(0, 5);
+
+  // ── Productivity insights ────────────────────────────────────────────────────
+  const now = new Date();
+  const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+
+  const thisMonthProjects = projects.filter(
+    (p) => new Date(p.createdAt) >= thisMonthStart
+  ).length;
+  const lastMonthProjects = projects.filter(
+    (p) =>
+      new Date(p.createdAt) >= lastMonthStart &&
+      new Date(p.createdAt) < thisMonthStart
+  ).length;
+
+  const monthDelta = thisMonthProjects - lastMonthProjects;
+
+  // Most used tags across all projects
+  const tagFreq: Record<string, number> = {};
+  projects.forEach((p) => (p.tags ?? []).forEach((t) => { tagFreq[t] = (tagFreq[t] ?? 0) + 1; }));
+  const topTags = Object.entries(tagFreq)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5);
+
+  const successRate =
+    total > 0 ? Math.round((completedCount / total) * 100) : 0;
 
   return (
     <div className="p-6 lg:p-8 max-w-7xl mx-auto animate-fade-in">
@@ -202,6 +231,76 @@ export default function DashboardPage() {
           </div>
         ))}
       </div>
+
+      {/* ── Productivity Insights ────────────────────────────────────────── */}
+      {total > 0 && !isLoading && (
+        <div className="glass-card px-5 py-4 mb-6">
+          <div className="flex items-center gap-2 mb-4">
+            <TrendingUp className="w-4 h-4 text-indigo-400" />
+            <h2 className="text-sm font-semibold text-white">This Month</h2>
+            <span className="text-xs text-slate-500 ml-1">{now.toLocaleString("default", { month: "long", year: "numeric" })}</span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {/* Projects this month */}
+            <div>
+              <p className="text-2xl font-bold text-white">{thisMonthProjects}</p>
+              <div className="flex items-center gap-1 mt-0.5">
+                {monthDelta > 0 ? (
+                  <TrendingUp className="w-3 h-3 text-green-400" />
+                ) : monthDelta < 0 ? (
+                  <TrendingDown className="w-3 h-3 text-red-400" />
+                ) : (
+                  <Minus className="w-3 h-3 text-slate-500" />
+                )}
+                <p className={`text-xs ${monthDelta > 0 ? "text-green-400" : monthDelta < 0 ? "text-red-400" : "text-slate-500"}`}>
+                  {monthDelta > 0 ? `+${monthDelta}` : monthDelta} vs last month
+                </p>
+              </div>
+              <p className="text-slate-500 text-xs mt-0.5">Projects created</p>
+            </div>
+
+            {/* Success rate */}
+            <div>
+              <p className="text-2xl font-bold text-white">{successRate}%</p>
+              <div className="w-full h-1.5 rounded-full bg-slate-800 mt-1.5 overflow-hidden">
+                <div
+                  className={`h-1.5 rounded-full transition-all ${successRate >= 80 ? "bg-green-500" : successRate >= 50 ? "bg-yellow-500" : "bg-red-500"}`}
+                  style={{ width: `${successRate}%` }}
+                />
+              </div>
+              <p className="text-slate-500 text-xs mt-1">Success rate</p>
+            </div>
+
+            {/* Last month */}
+            <div>
+              <p className="text-2xl font-bold text-white">{lastMonthProjects}</p>
+              <p className="text-slate-500 text-xs mt-0.5">Last month</p>
+            </div>
+
+            {/* Top tags */}
+            <div>
+              {topTags.length > 0 ? (
+                <>
+                  <div className="flex flex-wrap gap-1 mb-0.5">
+                    {topTags.slice(0, 3).map(([tag, count]) => (
+                      <span key={tag} className="inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-md bg-indigo-950/50 border border-indigo-800/40 text-indigo-300">
+                        #{tag}
+                        <span className="text-indigo-500 text-[10px]">{count}</span>
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-slate-500 text-xs mt-1">Top tags</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-2xl font-bold text-white">—</p>
+                  <p className="text-slate-500 text-xs mt-0.5">No tags yet</p>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Error state ───────────────────────────────────────────────────── */}
       {error && (

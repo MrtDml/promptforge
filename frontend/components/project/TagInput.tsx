@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, KeyboardEvent } from "react";
-import { X, Tag, Loader2 } from "lucide-react";
+import { X, Tag, Loader2, Wand2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import apiClient from "@/lib/api";
 
@@ -14,6 +14,8 @@ export default function TagInput({ projectId, initialTags = [] }: TagInputProps)
   const [tags, setTags] = useState<string[]>(initialTags);
   const [input, setInput] = useState("");
   const [saving, setSaving] = useState(false);
+  const [suggesting, setSuggesting] = useState(false);
+  const [suggestedTags, setSuggestedTags] = useState<string[]>([]);
 
   async function saveTags(newTags: string[]) {
     setSaving(true);
@@ -21,7 +23,7 @@ export default function TagInput({ projectId, initialTags = [] }: TagInputProps)
       await apiClient.patch(`/api/v1/projects/${projectId}`, { tags: newTags });
       setTags(newTags);
     } catch {
-      // revert
+      // revert on error
     } finally {
       setSaving(false);
     }
@@ -36,6 +38,7 @@ export default function TagInput({ projectId, initialTags = [] }: TagInputProps)
 
   function removeTag(tag: string) {
     saveTags(tags.filter((t) => t !== tag));
+    setSuggestedTags((prev) => prev.filter((t) => t !== tag));
   }
 
   function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
@@ -47,13 +50,51 @@ export default function TagInput({ projectId, initialTags = [] }: TagInputProps)
     }
   }
 
+  async function handleSuggest() {
+    setSuggesting(true);
+    setSuggestedTags([]);
+    try {
+      const res = await apiClient.get(`/api/v1/ai/projects/${projectId}/suggest-tags`);
+      const incoming: string[] = res.data.tags ?? [];
+      // Only show suggestions that aren't already applied
+      setSuggestedTags(incoming.filter((t) => !tags.includes(t)));
+    } catch {
+      // silent
+    } finally {
+      setSuggesting(false);
+    }
+  }
+
+  function applySuggestion(tag: string) {
+    if (tags.length >= 10) return;
+    saveTags([...tags, tag]);
+    setSuggestedTags((prev) => prev.filter((t) => t !== tag));
+  }
+
   return (
     <div>
       <div className="flex items-center gap-2 mb-2">
         <Tag className="w-3.5 h-3.5 text-slate-500" />
         <span className="text-xs font-medium text-slate-400">Tags</span>
         {saving && <Loader2 className="w-3 h-3 text-indigo-400 animate-spin" />}
+        {tags.length < 10 && (
+          <button
+            type="button"
+            onClick={handleSuggest}
+            disabled={suggesting || saving}
+            className="ml-auto flex items-center gap-1 text-xs text-violet-400 hover:text-violet-300 transition-colors disabled:opacity-40"
+            title="Let AI suggest relevant tags"
+          >
+            {suggesting ? (
+              <><Loader2 className="w-3 h-3 animate-spin" />Suggesting…</>
+            ) : (
+              <><Wand2 className="w-3 h-3" />AI Suggest</>
+            )}
+          </button>
+        )}
       </div>
+
+      {/* Applied tags */}
       <div className="flex flex-wrap gap-1.5 mb-2">
         {tags.map((tag) => (
           <span
@@ -70,6 +111,27 @@ export default function TagInput({ projectId, initialTags = [] }: TagInputProps)
           </span>
         ))}
       </div>
+
+      {/* AI suggested tags */}
+      {suggestedTags.length > 0 && (
+        <div className="mb-2">
+          <p className="text-xs text-slate-600 mb-1.5">Click to add:</p>
+          <div className="flex flex-wrap gap-1.5">
+            {suggestedTags.map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => applySuggestion(tag)}
+                disabled={tags.length >= 10}
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md border border-dashed border-violet-600/50 bg-violet-950/20 text-violet-400 text-xs hover:border-violet-500 hover:bg-violet-950/40 transition-all disabled:opacity-40"
+              >
+                + #{tag}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       <input
         type="text"
         value={input}

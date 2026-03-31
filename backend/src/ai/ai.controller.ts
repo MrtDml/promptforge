@@ -38,4 +38,10 @@ export class AiController {
     const summary = await this.aiService.getProjectSummary(id, req.user.id);
     return { summary };
   }
+
+  @Get('projects/:id/suggest-tags')
+  async suggestTags(@Param('id') id: string, @Request() req: any) {
+    const tags = await this.aiService.suggestTags(id, req.user.id);
+    return { tags };
+  }
 }

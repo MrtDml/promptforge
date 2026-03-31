@@ -37,6 +37,45 @@ Rules:
     return content.text.trim();
   }
 
+  // ── Tag Suggestions ─────────────────────────────────────────────────────────
+
+  async suggestTags(projectId: string, userId: string): Promise<string[]> {
+    const project = await this.prisma.project.findFirst({
+      where: { id: projectId, userId },
+      select: { name: true, description: true, prompt: true, features: true, parsedSchema: true },
+    });
+    if (!project) throw new NotFoundException('Project not found');
+
+    const schema = project.parsedSchema as any;
+    const entityNames = schema?.entities?.map((e: any) => e.name).join(', ') ?? '';
+
+    const response = await this.anthropic.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 256,
+      system: `Return only a JSON array of 5-8 lowercase kebab-case tags relevant to a software project. No explanation, no markdown, just the JSON array.`,
+      messages: [
+        {
+          role: 'user',
+          content: `Project: ${project.name}\nDescription: ${project.description ?? project.prompt}\nFeatures: ${(project.features ?? []).join(', ')}\nEntities: ${entityNames}`,
+        },
+      ],
+    });
+
+    const content = response.content[0];
+    if (content.type !== 'text') return [];
+
+    try {
+      const raw = content.text.trim().replace(/```json\n?|```/g, '');
+      const tags: string[] = JSON.parse(raw);
+      return tags
+        .filter((t) => typeof t === 'string')
+        .map((t) => t.toLowerCase().replace(/\s+/g, '-').slice(0, 30))
+        .slice(0, 8);
+    } catch {
+      return [];
+    }
+  }
+
   // ── Project AI Summary ──────────────────────────────────────────────────────
 
   async getProjectSummary(projectId: string, userId: string): Promise<string> {

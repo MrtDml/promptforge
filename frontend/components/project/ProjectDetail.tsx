@@ -823,6 +823,7 @@ export default function ProjectDetail({
         {activeTab === "chat" && isCompleted && (
           <AIChatPanel
             projectId={project.id}
+            features={project.schema?.features ?? []}
             onFilesUpdated={() => onRefresh?.()}
           />
         )}

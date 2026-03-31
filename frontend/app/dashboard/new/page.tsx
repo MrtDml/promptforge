@@ -10,9 +10,10 @@ import StarterTemplates from "@components/prompt/StarterTemplates";
 import {
   CheckCircle2, AlertCircle, Loader2, ChevronRight,
   Globe, CreditCard, FileText, Shield, Braces, GitBranch,
-  Zap, Tag, History, ArrowRight,
+  Zap, Tag, History, ArrowRight, Wand2,
 } from "lucide-react";
 import { AxiosError } from "axios";
+import apiClient from "@/lib/api";
 
 type Step = "input" | "preview" | "generating" | "done";
 
@@ -87,6 +88,7 @@ export default function NewProjectPage() {
   const [includeKVKK, setIncludeKVKK] = useState(false);
   const [framework, setFramework] = useState<"nestjs" | "express">("nestjs");
 
+  const [isFixingWithAI, setIsFixingWithAI] = useState(false);
   const [recentProjects, setRecentProjects] = useState<Project[]>([]);
   const [similarProjects, setSimilarProjects] = useState<Project[]>([]);
 
@@ -106,6 +108,23 @@ export default function NewProjectPage() {
     }
     setSimilarProjects(findSimilarProjects(recentProjects, prompt));
   }, [prompt, recentProjects]);
+
+  // Fix with AI: enhance the failed prompt and retry parse
+  async function handleFixWithAI() {
+    if (!prompt.trim() || isFixingWithAI) return;
+    setIsFixingWithAI(true);
+    try {
+      const res = await apiClient.post("/api/v1/ai/enhance-prompt", { prompt: prompt.trim() });
+      const fixed: string = res.data.enhanced;
+      setPrompt(fixed);
+      setParseError(null);
+      await handleParse(fixed);
+    } catch {
+      // silent — user can still edit and retry manually
+    } finally {
+      setIsFixingWithAI(false);
+    }
+  }
 
   // Step 1 → 2: parse prompt
   async function handleParse(userPrompt: string) {
@@ -254,10 +273,30 @@ export default function NewProjectPage() {
             </div>
           )}
 
+          {parseError && (
+            <div className="mb-4 flex items-start gap-3 bg-red-500/10 border border-red-500/30 rounded-xl px-5 py-4">
+              <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+              <div className="flex-1 min-w-0">
+                <p className="text-red-400 text-sm">{parseError}</p>
+                <p className="text-red-400/60 text-xs mt-0.5">Try simplifying your prompt or let AI fix it for you.</p>
+              </div>
+              <button
+                type="button"
+                onClick={handleFixWithAI}
+                disabled={isFixingWithAI || isParsing}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-violet-500/50 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20 text-xs font-medium transition-all disabled:opacity-50 flex-shrink-0"
+              >
+                {isFixingWithAI ? (
+                  <><Loader2 className="w-3 h-3 animate-spin" />Fixing…</>
+                ) : (
+                  <><Wand2 className="w-3 h-3" />Fix with AI & retry</>
+                )}
+              </button>
+            </div>
+          )}
           <PromptForm
             onSubmit={handleParse}
-            isLoading={isParsing}
-            error={parseError}
+            isLoading={isParsing || isFixingWithAI}
             initialValue={prompt}
           />
         </>

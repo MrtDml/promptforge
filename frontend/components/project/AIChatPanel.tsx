@@ -15,17 +15,37 @@ interface Message {
 
 interface AIChatPanelProps {
   projectId: string;
+  features?: string[];
   onFilesUpdated?: (files: Record<string, string>) => void;
 }
 
-const SUGGESTIONS = [
-  "Add input validation to all forms",
-  "Add pagination to the list endpoints",
-  "Create a dashboard with summary stats",
-  "Add email notifications on key events",
-];
+function getContextualSuggestions(features: string[]): string[] {
+  const list: string[] = [];
+  const has = (f: string) =>
+    features.some((x) => x.toLowerCase().includes(f));
 
-export default function AIChatPanel({ projectId, onFilesUpdated }: AIChatPanelProps) {
+  if (!has("auth") && !has("jwt"))
+    list.push("Add JWT authentication & role-based access guards");
+  if (!has("payment") && !has("stripe") && !has("billing"))
+    list.push("Add Stripe subscription billing & webhook handler");
+  if (!has("notif") && !has("email"))
+    list.push("Add email notifications on key events");
+  if (!has("docker"))
+    list.push("Add Docker & Docker Compose setup with health checks");
+  if (!has("swagger") && !has("openapi"))
+    list.push("Generate Swagger / OpenAPI documentation at /api");
+  if (!has("test") && !has("spec"))
+    list.push("Write Jest unit tests for all service methods");
+
+  // Always-useful fallbacks
+  list.push("Add pagination to all list endpoints");
+  list.push("Add input validation to all request bodies");
+
+  return list.slice(0, 4);
+}
+
+export default function AIChatPanel({ projectId, features = [], onFilesUpdated }: AIChatPanelProps) {
+  const suggestions = getContextualSuggestions(features);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -168,7 +188,7 @@ export default function AIChatPanel({ projectId, onFilesUpdated }: AIChatPanelPr
               </p>
             </div>
             <div className="flex flex-wrap gap-2 justify-center">
-              {SUGGESTIONS.map((s) => (
+              {suggestions.map((s) => (
                 <button
                   key={s}
                   onClick={() => send(s)}

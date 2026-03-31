@@ -1,22 +1,93 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { posts, getPost } from "../posts";
+import { posts as staticPosts, getPost as getStaticPost } from "../posts";
 import LandingNav from "@components/layout/LandingNav";
 import LandingFooter from "@components/layout/LandingFooter";
 import AnnouncementBanner from "@components/layout/AnnouncementBanner";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 
+interface NormalizedPost {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  readTime: number;
+  category: string;
+  content: string;
+}
+
+async function getApiPost(slug: string): Promise<NormalizedPost | null> {
+  try {
+    const base = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+    const res = await fetch(`${base}/api/v1/blog/${slug}`, {
+      next: { revalidate: 300 },
+    });
+    if (!res.ok) return null;
+    const p = await res.json();
+    return {
+      slug: p.slug,
+      title: p.title,
+      description: p.description,
+      date: p.createdAt,
+      readTime: p.readTime,
+      category: p.category,
+      content: p.content ?? "",
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function getApiPostList(): Promise<NormalizedPost[]> {
+  try {
+    const base = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+    const res = await fetch(`${base}/api/v1/blog`, { next: { revalidate: 300 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.map((p: { slug: string; title: string; description: string; createdAt: string; readTime: number; category: string }) => ({
+      slug: p.slug,
+      title: p.title,
+      description: p.description,
+      date: p.createdAt,
+      readTime: p.readTime,
+      category: p.category,
+      content: "",
+    }));
+  } catch {
+    return [];
+  }
+}
+
+async function resolvePost(slug: string): Promise<NormalizedPost | null> {
+  // Try static posts first
+  const staticPost = getStaticPost(slug);
+  if (staticPost) {
+    return {
+      slug: staticPost.slug,
+      title: staticPost.title,
+      description: staticPost.description,
+      date: staticPost.date,
+      readTime: staticPost.readTime,
+      category: staticPost.category,
+      content: staticPost.content,
+    };
+  }
+  // Fall back to API
+  return getApiPost(slug);
+}
+
 interface Props {
   params: { slug: string };
 }
 
+// Pre-render static posts at build time; API posts are rendered on demand
 export function generateStaticParams() {
-  return posts.map((p) => ({ slug: p.slug }));
+  return staticPosts.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = getPost(params.slug);
+  const post = await resolvePost(params.slug);
   if (!post) return { title: "Post Not Found – PromptForge" };
   return {
     title: `${post.title} – PromptForge Blog`,
@@ -40,16 +111,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function BlogPostPage({ params }: Props) {
-  const post = getPost(params.slug);
+export default async function BlogPostPage({ params }: Props) {
+  const post = await resolvePost(params.slug);
   if (!post) notFound();
 
-  const sorted = [...posts].sort(
+  // Build a merged sorted list for prev/next navigation
+  const apiList = await getApiPostList();
+  const apiSlugs = new Set(apiList.map((p) => p.slug));
+  const mergedStatic: NormalizedPost[] = staticPosts
+    .filter((p) => !apiSlugs.has(p.slug))
+    .map((p) => ({ ...p }));
+  const allSorted = [...apiList, ...mergedStatic].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
-  const idx = sorted.findIndex((p) => p.slug === post.slug);
-  const prev = sorted[idx + 1];
-  const next = sorted[idx - 1];
+
+  const idx = allSorted.findIndex((p) => p.slug === post.slug);
+  const prev = allSorted[idx + 1];
+  const next = allSorted[idx - 1];
 
   const jsonLd = {
     "@context": "https://schema.org",

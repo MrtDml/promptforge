@@ -8,6 +8,7 @@ const PUBLIC_KEYS = new Set([
   'announcement_type',
   'announcement_link',
   'site_name',
+  'testimonials_json',
 ]);
 
 @Controller('settings/public')

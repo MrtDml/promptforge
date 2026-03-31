@@ -178,7 +178,25 @@ const testimonials = [
   },
 ];
 
-export default function LandingPage() {
+async function fetchApiTestimonials(): Promise<typeof testimonials | null> {
+  try {
+    const base = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+    const res = await fetch(`${base}/api/v1/settings/public`, {
+      next: { revalidate: 300 },
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (data.testimonials_json) {
+      const parsed = JSON.parse(data.testimonials_json);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch {}
+  return null;
+}
+
+export default async function LandingPage() {
+  const apiTestimonials = await fetchApiTestimonials();
+  const displayTestimonials = apiTestimonials ?? testimonials;
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       {/* ── Announcement Banner ── */}
@@ -443,7 +461,7 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
+            {displayTestimonials.map((t) => (
               <div key={t.author} className="glass-card p-6">
                 <div className="flex gap-0.5 mb-4">
                   {Array.from({ length: 5 }).map((_, i) => (

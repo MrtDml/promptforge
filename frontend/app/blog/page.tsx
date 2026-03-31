@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { posts } from "./posts";
+import { posts as staticPosts } from "./posts";
 import LandingNav from "@components/layout/LandingNav";
 import LandingFooter from "@components/layout/LandingFooter";
 import AnnouncementBanner from "@components/layout/AnnouncementBanner";
-import { Calendar, Clock, ArrowRight, Tag } from "lucide-react";
+import { Calendar, Clock, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Blog – PromptForge",
@@ -33,17 +33,77 @@ export const metadata: Metadata = {
   },
 };
 
+interface NormalizedPost {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  readTime: number;
+  category: string;
+}
+
+async function fetchApiPosts(): Promise<NormalizedPost[]> {
+  try {
+    const base = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+    const res = await fetch(`${base}/api/v1/blog`, { next: { revalidate: 300 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.map((p: { slug: string; title: string; description: string; createdAt: string; readTime: number; category: string }) => ({
+      slug: p.slug,
+      title: p.title,
+      description: p.description,
+      date: p.createdAt,
+      readTime: p.readTime,
+      category: p.category,
+    }));
+  } catch {
+    return [];
+  }
+}
+
 const CATEGORY_COLORS: Record<string, string> = {
   Tutorial: "bg-indigo-950/60 border-indigo-800/50 text-indigo-300",
   Engineering: "bg-blue-950/60 border-blue-800/50 text-blue-300",
   Comparison: "bg-purple-950/60 border-purple-800/50 text-purple-300",
 };
 
-export default function BlogPage() {
-  const sorted = [...posts].sort(
+export default async function BlogPage() {
+  const apiPosts = await fetchApiPosts();
+
+  // API posts take priority; remove static posts that share a slug with API posts
+  const apiSlugs = new Set(apiPosts.map((p) => p.slug));
+  const mergedStatic: NormalizedPost[] = staticPosts
+    .filter((p) => !apiSlugs.has(p.slug))
+    .map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      description: p.description,
+      date: p.date,
+      readTime: p.readTime,
+      category: p.category,
+    }));
+
+  const all = [...apiPosts, ...mergedStatic].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
-  const [featured, ...rest] = sorted;
+
+  const [featured, ...rest] = all;
+
+  if (!featured) {
+    return (
+      <>
+        <AnnouncementBanner />
+        <LandingNav />
+        <main className="min-h-screen bg-[#0a0b14] text-white pt-20">
+          <div className="max-w-4xl mx-auto px-4 py-12">
+            <h1 className="text-4xl font-bold text-white mb-3 tracking-tight">Blog</h1>
+            <p className="text-slate-400">No posts yet.</p>
+          </div>
+        </main>
+        <LandingFooter />
+      </>
+    );
+  }
 
   return (
     <>
@@ -125,7 +185,11 @@ export default function BlogPage() {
                 <div className="flex items-center gap-3 text-xs text-slate-600">
                   <span className="flex items-center gap-1">
                     <Calendar className="w-3 h-3" />
-                    {new Date(post.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    {new Date(post.date).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
                   </span>
                   <span className="flex items-center gap-1">
                     <Clock className="w-3 h-3" />

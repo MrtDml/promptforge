@@ -6,11 +6,14 @@ import {
   Query,
   UseGuards,
   Request,
+  Res,
   HttpCode,
   HttpStatus,
   UnauthorizedException,
   BadRequestException,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Response } from 'express';
 
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -81,5 +84,49 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   async getProfile(@Request() req: any) {
     return this.authService.getProfile(req.user.id);
+  }
+
+  // ── Google OAuth ────────────────────────────────────────────────────────────
+
+  @Get('google')
+  @UseGuards(AuthGuard('google'))
+  googleAuth() {
+    // Passport redirects to Google — no body needed
+  }
+
+  @Get('google/callback')
+  @UseGuards(AuthGuard('google'))
+  async googleCallback(@Request() req: any, @Res() res: Response) {
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    try {
+      const { token, refreshToken } = await this.authService.oauthLogin(req.user);
+      return res.redirect(
+        `${frontendUrl}/auth/oauth-callback?token=${token}&refreshToken=${refreshToken}`,
+      );
+    } catch (err: any) {
+      return res.redirect(`${frontendUrl}/login?error=${encodeURIComponent(err.message)}`);
+    }
+  }
+
+  // ── GitHub OAuth ────────────────────────────────────────────────────────────
+
+  @Get('github')
+  @UseGuards(AuthGuard('github'))
+  githubAuth() {
+    // Passport redirects to GitHub — no body needed
+  }
+
+  @Get('github/callback')
+  @UseGuards(AuthGuard('github'))
+  async githubCallback(@Request() req: any, @Res() res: Response) {
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    try {
+      const { token, refreshToken } = await this.authService.oauthLogin(req.user);
+      return res.redirect(
+        `${frontendUrl}/auth/oauth-callback?token=${token}&refreshToken=${refreshToken}`,
+      );
+    } catch (err: any) {
+      return res.redirect(`${frontendUrl}/login?error=${encodeURIComponent(err.message)}`);
+    }
   }
 }

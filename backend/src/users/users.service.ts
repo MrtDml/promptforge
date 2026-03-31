@@ -142,6 +142,15 @@ export class UsersService {
     });
   }
 
+  async incrementGenerationsUsed(id: string): Promise<number> {
+    const user = await this.prisma.user.update({
+      where: { id },
+      data: { generationsUsed: { increment: 1 } },
+      select: { generationsUsed: true },
+    });
+    return user.generationsUsed;
+  }
+
   async remove(id: string) {
     const user = await this.findById(id);
     if (!user) {

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, UserPlus, AlertCircle, CheckCircle2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import OAuthButtons from "@components/ui/OAuthButtons";
 
 const passwordRequirements = [
   { label: "At least 8 characters", test: (p: string) => p.length >= 8 },
@@ -228,6 +229,11 @@ export default function RegisterPage() {
           .
         </p>
       </form>
+
+      {/* OAuth */}
+      <div className="mt-6">
+        <OAuthButtons label="sign up" />
+      </div>
 
       {/* Divider */}
       <div className="mt-6 pt-6 border-t border-slate-800/60 text-center">

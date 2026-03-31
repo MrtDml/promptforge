@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, LogIn, AlertCircle } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import OAuthButtons from "@components/ui/OAuthButtons";
 
 export default function LoginPage() {
   const { login, isLoading } = useAuth();
@@ -118,6 +119,11 @@ export default function LoginPage() {
           )}
         </button>
       </form>
+
+      {/* OAuth */}
+      <div className="mt-6">
+        <OAuthButtons label="sign in" />
+      </div>
 
       {/* Divider */}
       <div className="mt-6 pt-6 border-t border-slate-800/60 text-center">

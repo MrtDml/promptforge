@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -18,6 +19,8 @@ import { BlogModule } from './blog/blog.module';
 import { AiModule } from './ai/ai.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { SubscriptionGuard } from './common/guards/subscription.guard';
+import { PlanThrottlerGuard } from './common/guards/plan-throttler.guard';
+import { ReferralModule } from './referral/referral.module';
 import { AppCacheModule } from './cache/app-cache.module';
 import { BullModule } from '@nestjs/bull';
 
@@ -51,8 +54,13 @@ import { BullModule } from '@nestjs/bull';
     BlogModule,
     AiModule,
     PrismaModule,
+    ReferralModule,
   ],
   controllers: [AppController],
-  providers: [AppService, SubscriptionGuard],
+  providers: [
+    AppService,
+    SubscriptionGuard,
+    { provide: APP_GUARD, useClass: PlanThrottlerGuard },
+  ],
 })
 export class AppModule {}

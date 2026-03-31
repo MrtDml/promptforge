@@ -8,6 +8,7 @@ import {
   Request,
   Res,
   NotFoundException,
+  ForbiddenException,
   HttpCode,
   HttpStatus,
   Logger,
@@ -19,7 +20,8 @@ import { GeneratorService } from './generator.service';
 import { ParsedSchema } from '../parser/dto/parse-prompt.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { PrismaService } from '../prisma/prisma.service';
-import { Throttle } from '@nestjs/throttler';
+import { UsersService } from '../users/users.service';
+import { MailService } from '../mail/mail.service';
 
 class GenerateFromSchemaDto {
   @IsObject()
@@ -32,13 +34,14 @@ class GenerateFromSchemaDto {
 
 @Controller('generator')
 @UseGuards(JwtAuthGuard)
-@Throttle({ default: { limit: 5, ttl: 60000 } })
 export class GeneratorController {
   private readonly logger = new Logger(GeneratorController.name);
 
   constructor(
     private readonly generatorService: GeneratorService,
     private readonly prisma: PrismaService,
+    private readonly usersService: UsersService,
+    private readonly mailService: MailService,
   ) {}
 
   /**
@@ -52,6 +55,17 @@ export class GeneratorController {
   @Post('generate')
   @HttpCode(HttpStatus.OK)
   async generate(@Body() body: GenerateFromSchemaDto, @Request() req: any) {
+    // ── Quota check ──────────────────────────────────────────────────────────
+    const user = await this.usersService.findById(req.user.id);
+    if (!user) {
+      throw new ForbiddenException('User not found');
+    }
+    if (user.generationsUsed >= user.generationsLimit) {
+      throw new ForbiddenException(
+        `Generation limit reached (${user.generationsUsed}/${user.generationsLimit}). Please upgrade your plan to continue.`,
+      );
+    }
+
     // Normalise to ParsedSchema so the generator service always receives a
     // consistent input (handle both camelCase and snake_case from the client).
     const raw = body.schema;
@@ -94,6 +108,21 @@ export class GeneratorController {
     this.logger.log(
       `Project ${project.id} created with ${result.files.length} files for user ${req.user.id}`,
     );
+
+    // ── Increment quota + fire emails ────────────────────────────────────────
+    const newUsed = await this.usersService.incrementGenerationsUsed(req.user.id);
+
+    // Warn when 80 %+ of the limit is consumed
+    if (newUsed >= Math.ceil(user.generationsLimit * 0.8)) {
+      this.mailService
+        .sendLimitWarningEmail(user.email, user.name, newUsed, user.generationsLimit)
+        .catch((err) => this.logger.error(`Limit warning email failed: ${err.message}`));
+    }
+
+    // Notify the user that the project is ready
+    this.mailService
+      .sendProjectCompleteEmail(user.email, user.name, project.name, project.id)
+      .catch((err) => this.logger.error(`Project complete email failed: ${err.message}`));
 
     return {
       projectId: project.id,

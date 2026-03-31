@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import { UsersService } from '../users/users.service';
 import { MailService } from '../mail/mail.service';
+import { ReferralService } from '../referral/referral.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
@@ -25,10 +26,11 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly mailService: MailService,
+    private readonly referralService: ReferralService,
   ) {}
 
   async register(registerDto: RegisterDto) {
-    const { email, password, name, bio } = registerDto;
+    const { email, password, name, bio, referralCode } = registerDto;
 
     const existingUser = await this.usersService.findByEmail(email);
     if (existingUser) {
@@ -39,6 +41,13 @@ export class AuthService {
     const user = await this.usersService.create({ email, password: hashedPassword, name, bio });
 
     this.logger.log(`New user registered: ${email}`);
+
+    // Apply referral code if provided (silently ignore invalid codes)
+    if (referralCode) {
+      this.referralService.applyReferralCode(user.id, referralCode).catch((err) =>
+        this.logger.warn(`Referral code "${referralCode}" invalid: ${err.message}`),
+      );
+    }
 
     // Send verification email
     const verifyToken = crypto.randomBytes(32).toString('hex');
@@ -151,6 +160,31 @@ export class AuthService {
       this.logger.error(`Failed to send welcome email: ${err.message}`),
     );
     return { message: 'Email verified successfully. Welcome to PromptForge!' };
+  }
+
+  async oauthLogin(profile: { email: string; name: string; provider: string }) {
+    const { email, name, provider } = profile;
+    if (!email) {
+      throw new BadRequestException(`${provider} account has no public email. Please set a public email on ${provider} and try again.`);
+    }
+
+    let user = await this.usersService.findByEmail(email);
+
+    if (!user) {
+      // Auto-register via OAuth — no password needed
+      const placeholder = await bcrypt.hash(crypto.randomBytes(32).toString('hex'), BCRYPT_SALT_ROUNDS);
+      user = await this.usersService.create({ email, password: placeholder, name });
+      // Mark email as verified (OAuth provider already verified it)
+      await this.usersService.markEmailVerified(user.id);
+      this.mailService.sendWelcomeEmail(email, name).catch(() => {});
+      this.logger.log(`New user via ${provider} OAuth: ${email}`);
+    } else if (!user.isActive) {
+      throw new UnauthorizedException('Account is deactivated. Please contact support.');
+    }
+
+    const token = this.generateToken(user.id, user.email);
+    const refreshToken = this.generateRefreshToken(user.id, user.email);
+    return { token, refreshToken };
   }
 
   async resendVerificationEmail(userId: string) {

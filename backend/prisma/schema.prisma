@@ -30,7 +30,13 @@ model User {
   emailVerifyExpiry     DateTime?
   projects           Project[]
   subscriptions      Subscription[]
+  referralCode       String?        @unique
+  referredById       String?
+  referredBy         User?          @relation("Referrals", fields: [referredById], references: [id], onDelete: SetNull)
+  referrals          User[]         @relation("Referrals")
 
+  @@index([createdAt])
+  @@index([referralCode])
   @@map("users")
 }
 
@@ -62,6 +68,7 @@ model Project {
 
   @@index([userId])
   @@index([status])
+  @@index([createdAt])
   @@map("projects")
 }
 

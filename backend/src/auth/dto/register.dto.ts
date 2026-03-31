@@ -29,4 +29,9 @@ export class RegisterDto {
   @IsString()
   @MaxLength(500, { message: 'Bio must not exceed 500 characters' })
   bio?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(12)
+  referralCode?: string;
 }

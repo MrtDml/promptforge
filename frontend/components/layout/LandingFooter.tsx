@@ -48,14 +48,24 @@ export default function LandingFooter() {
             <ul className="space-y-2">
               <li><Link href="/privacy" className="text-slate-500 hover:text-slate-200 text-sm transition-colors">Privacy Policy</Link></li>
               <li><Link href="/terms" className="text-slate-500 hover:text-slate-200 text-sm transition-colors">Terms of Service</Link></li>
+              <li><Link href="/about" className="text-slate-500 hover:text-slate-200 text-sm transition-colors">About Us</Link></li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-slate-800/60 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-slate-600 text-xs">
-            © {year} PromptForge. All rights reserved.
-          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-2 text-center sm:text-left">
+            <p className="text-slate-600 text-xs">
+              © {year} Prompt Forge. All rights reserved.
+            </p>
+            <span className="hidden sm:inline text-slate-700 text-xs">·</span>
+            <p className="text-slate-700 text-xs">
+              A product of{" "}
+              <Link href="/about" className="hover:text-slate-500 transition-colors">
+                Nexlora Technologies
+              </Link>
+            </p>
+          </div>
           <div className="flex items-center gap-5">
             <Link href="/register" className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors font-medium">
               Get started free →

@@ -51,13 +51,17 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ─── Response interceptor – handle 401 ──────────────────────────────────────
+// ─── Response interceptor – handle 401 + network retry ──────────────────────
+
+const RETRY_STATUS_CODES = new Set([429, 502, 503, 504]);
+const MAX_RETRIES = 3;
 
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => response,
   async (error) => {
     const originalRequest = error.config;
 
+    // ── 401: attempt token refresh ──────────────────────────────────────────
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
@@ -84,6 +88,22 @@ apiClient.interceptors.response.use(
           window.location.href = "/login";
         }
       }
+    }
+
+    // ── Network errors & transient server errors: exponential backoff retry ─
+    const isNetworkError = !error.response;
+    const isRetryableStatus =
+      error.response && RETRY_STATUS_CODES.has(error.response.status);
+
+    if (
+      (isNetworkError || isRetryableStatus) &&
+      !originalRequest._retry &&
+      (originalRequest._retryCount ?? 0) < MAX_RETRIES
+    ) {
+      originalRequest._retryCount = (originalRequest._retryCount ?? 0) + 1;
+      const delay = 1000 * Math.pow(2, originalRequest._retryCount - 1); // 1s, 2s, 4s
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      return apiClient(originalRequest);
     }
 
     return Promise.reject(error);
@@ -289,6 +309,13 @@ export const adminApi = {
   getSettings: () => apiClient.get('/api/v1/admin/settings'),
   updateSettings: (settings: Array<{ key: string; value: string; label: string }>) =>
     apiClient.patch('/api/v1/admin/settings', { settings }),
+};
+
+// ─── Referral endpoints ───────────────────────────────────────────────────────
+
+export const referralApi = {
+  getMyReferral: () => apiClient.get('/api/v1/referral'),
+  applyCode: (code: string) => apiClient.post('/api/v1/referral/apply', { code }),
 };
 
 export default apiClient;

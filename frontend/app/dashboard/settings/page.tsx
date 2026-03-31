@@ -15,9 +15,12 @@ import {
   Shield,
   Zap,
   ArrowUpRight,
+  Gift,
+  Copy,
+  Check,
 } from "lucide-react";
 import { getStoredUser, setStoredUser, clearAuthState } from "@/lib/auth";
-import { usersApi, stripeApi } from "@/lib/api";
+import { usersApi, stripeApi, referralApi } from "@/lib/api";
 import type { User as UserType } from "@/types";
 
 // ─── Plan config ─────────────────────────────────────────────────────────────
@@ -197,6 +200,15 @@ export default function SettingsPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // ── Referral state ────────────────────────────────────────────────────────────
+  const [referralCode, setReferralCode] = useState<string | null>(null);
+  const [referralCount, setReferralCount] = useState(0);
+  const [referralBonus, setReferralBonus] = useState(0);
+  const [applyCode, setApplyCode] = useState("");
+  const [referralToast, setReferralToast] = useState<ToastState>(null);
+  const [isApplyingCode, setIsApplyingCode] = useState(false);
+  const [copied, setCopied] = useState(false);
+
   // ── User data ─────────────────────────────────────────────────────────────────
   const [user, setUser] = useState<UserType | null>(null);
 
@@ -214,6 +226,16 @@ export default function SettingsPage() {
         setStoredUser(res.data);
       })
       .catch(() => {});
+
+    referralApi
+      .getMyReferral()
+      .then((res) => {
+        const d = (res.data as any)?.data ?? res.data;
+        setReferralCode(d.referralCode);
+        setReferralCount(d.referralCount ?? 0);
+        setReferralBonus(d.bonusEarned ?? 0);
+      })
+      .catch(() => {});
   }, []);
 
   const plan = user?.plan ?? "free";
@@ -223,6 +245,35 @@ export default function SettingsPage() {
     generationsLimit === Infinity
       ? 0
       : Math.min(100, Math.round((generationsUsed / generationsLimit) * 100));
+
+  const referralLink = referralCode
+    ? `${typeof window !== "undefined" ? window.location.origin : "https://promptforgeai.dev"}/register?ref=${referralCode}`
+    : null;
+
+  function handleCopyReferral() {
+    if (!referralLink) return;
+    navigator.clipboard.writeText(referralLink).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
+  async function handleApplyCode(e: React.FormEvent) {
+    e.preventDefault();
+    if (!applyCode.trim()) return;
+    setIsApplyingCode(true);
+    setReferralToast(null);
+    try {
+      await referralApi.applyCode(applyCode.trim());
+      setReferralToast({ type: "success", message: "Referral code applied! Your friend earned bonus generations." });
+      setApplyCode("");
+    } catch (err: any) {
+      const msg = err?.response?.data?.message ?? err?.response?.data?.error ?? "Invalid referral code.";
+      setReferralToast({ type: "error", message: msg });
+    } finally {
+      setIsApplyingCode(false);
+    }
+  }
 
   // ── Handlers ──────────────────────────────────────────────────────────────────
 
@@ -553,6 +604,69 @@ export default function SettingsPage() {
               )}
             </div>
           </div>
+        </Section>
+
+        {/* ── Referral ──────────────────────────────────────────────────────── */}
+        <Section
+          icon={Gift}
+          title="Refer & Earn"
+          description="Invite friends and earn 3 extra generations for every successful sign-up."
+        >
+          <Toast toast={referralToast} onDismiss={() => setReferralToast(null)} />
+
+          {/* Stats row */}
+          <div className="grid grid-cols-2 gap-3 mb-5">
+            <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+              <p className="text-2xl font-bold text-white">{referralCount}</p>
+              <p className="text-xs text-slate-400 mt-0.5">Friends invited</p>
+            </div>
+            <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+              <p className="text-2xl font-bold text-indigo-400">+{referralBonus}</p>
+              <p className="text-xs text-slate-400 mt-0.5">Bonus generations earned</p>
+            </div>
+          </div>
+
+          {/* Referral link */}
+          {referralLink && (
+            <div className="mb-5">
+              <p className="text-sm text-slate-300 font-medium mb-2">Your referral link</p>
+              <div className="flex gap-2">
+                <input
+                  readOnly
+                  value={referralLink}
+                  className="flex-1 bg-slate-800/60 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-300 font-mono focus:outline-none truncate"
+                />
+                <button
+                  onClick={handleCopyReferral}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800/60 hover:bg-slate-700/60 text-slate-300 text-sm font-medium transition-colors flex-shrink-0"
+                >
+                  {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                  {copied ? "Copied!" : "Copy"}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Apply someone else's code */}
+          <form onSubmit={handleApplyCode}>
+            <p className="text-sm text-slate-300 font-medium mb-2">Have a referral code?</p>
+            <div className="flex gap-2">
+              <input
+                value={applyCode}
+                onChange={(e) => setApplyCode(e.target.value.toUpperCase())}
+                placeholder="Enter code (e.g. A1B2C3D4)"
+                maxLength={12}
+                className="flex-1 bg-slate-800/60 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/60 font-mono"
+              />
+              <button
+                type="submit"
+                disabled={isApplyingCode || !applyCode.trim()}
+                className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-semibold transition-colors flex-shrink-0"
+              >
+                {isApplyingCode ? <Loader2 className="w-4 h-4 animate-spin" /> : "Apply"}
+              </button>
+            </div>
+          </form>
         </Section>
 
         {/* ── Danger zone ──────────────────────────────────────────────────── */}

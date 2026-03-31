@@ -16,12 +16,17 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "PromptForge – Build SaaS Apps with AI",
-    template: "%s | PromptForge",
+    default: "Prompt Forge – AI SaaS Code Generator | PromptForge",
+    template: "%s | Prompt Forge",
   },
   description:
-    "Transform natural language prompts into fully functional SaaS applications. Generate backend APIs, database schemas, and frontend code instantly.",
+    "Prompt Forge is an AI-powered SaaS builder that transforms natural language prompts into production-ready full-stack applications. Generate NestJS backends, Prisma schemas, REST APIs, and Docker configs instantly.",
   keywords: [
+    "prompt forge",
+    "promptforge",
+    "prompt forge ai",
+    "prompt forge tool",
+    "prompt forge saas",
     "AI code generator",
     "SaaS builder",
     "SaaS app generator",
@@ -52,10 +57,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://promptforgeai.dev",
-    siteName: "PromptForge",
-    title: "PromptForge – Build SaaS Apps with AI",
+    siteName: "Prompt Forge",
+    title: "Prompt Forge – AI SaaS Code Generator | PromptForge",
     description:
-      "Transform natural language prompts into fully functional SaaS applications. Generate backend APIs, database schemas, and frontend code instantly.",
+      "Prompt Forge transforms natural language prompts into production-ready SaaS applications. Generate NestJS backends, Prisma schemas, REST APIs, and Docker configs instantly.",
     images: [
       {
         url: "/opengraph-image",
@@ -67,9 +72,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PromptForge – Build SaaS Apps with AI",
+    title: "Prompt Forge – AI SaaS Code Generator",
     description:
-      "Transform natural language prompts into fully functional SaaS applications.",
+      "Prompt Forge transforms natural language prompts into production-ready SaaS applications.",
     images: ["/twitter-image"],
   },
   icons: {
@@ -111,14 +116,35 @@ const jsonLdApp = {
 const jsonLdOrg = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "PromptForge",
+  name: "Prompt Forge",
+  alternateName: "PromptForge",
   url: "https://promptforgeai.dev",
   logo: "https://promptforgeai.dev/opengraph-image",
-  sameAs: [],
+  sameAs: [
+    "https://github.com/MrtDml/promptforge",
+    "https://twitter.com/promptforgeai",
+  ],
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer support",
     url: "https://promptforgeai.dev/contact",
+  },
+};
+
+const jsonLdWebsite = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Prompt Forge",
+  alternateName: "PromptForge",
+  url: "https://promptforgeai.dev",
+  description: "Prompt Forge is an AI-powered platform that generates production-ready SaaS applications from natural language prompts.",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: "https://promptforgeai.dev/blog?q={search_term_string}",
+    },
+    "query-input": "required name=search_term_string",
   },
 };
 
@@ -128,34 +154,34 @@ const jsonLdFaq = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "What is PromptForge?",
+      name: "What is Prompt Forge?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "PromptForge is an AI-powered platform that generates production-ready full-stack SaaS applications from plain English descriptions. It creates a NestJS backend, Prisma schema, REST API, Docker setup, and more in minutes.",
+        text: "Prompt Forge (also written as PromptForge) is an AI-powered platform that generates production-ready full-stack SaaS applications from plain English descriptions. It creates a NestJS backend, Prisma schema, REST API, Docker setup, and more in minutes.",
       },
     },
     {
       "@type": "Question",
-      name: "How does PromptForge work?",
+      name: "How does Prompt Forge work?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Simply describe your SaaS idea in plain English. PromptForge parses your description, generates a database schema, and creates complete production-ready code including backend API, database migrations, authentication, and Docker configuration.",
+        text: "Simply describe your SaaS idea in plain English. Prompt Forge parses your description, generates a database schema, and creates complete production-ready code including backend API, database migrations, authentication, and Docker configuration.",
       },
     },
     {
       "@type": "Question",
-      name: "Is PromptForge free?",
+      name: "Is Prompt Forge free?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes, PromptForge offers a free plan with 3 app generations per month. Paid plans start at $29/month for more generations and advanced features.",
+        text: "Yes, Prompt Forge offers a free plan with 3 app generations per month. Paid plans start at $29/month for more generations and advanced features.",
       },
     },
     {
       "@type": "Question",
-      name: "What tech stack does PromptForge generate?",
+      name: "What tech stack does Prompt Forge generate?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "PromptForge generates NestJS (Node.js) backends with Prisma ORM, PostgreSQL database, JWT authentication, REST API with Swagger documentation, and Docker configuration. It also supports Express.js as an alternative framework.",
+        text: "Prompt Forge generates NestJS (Node.js) backends with Prisma ORM, PostgreSQL database, JWT authentication, REST API with Swagger documentation, and Docker configuration. It also supports Express.js as an alternative framework.",
       },
     },
     {
@@ -163,7 +189,23 @@ const jsonLdFaq = {
       name: "Can I export my code to GitHub?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes, PromptForge allows you to push your generated code directly to a new GitHub repository with one click using your personal access token.",
+        text: "Yes, Prompt Forge allows you to push your generated code directly to a new GitHub repository with one click using your personal access token.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is Prompt Forge a Lovable or Bolt alternative?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Prompt Forge is a backend-first alternative to Lovable, Bolt.new, and v0. While those tools focus on UI generation, Prompt Forge specializes in generating production-grade NestJS backends, APIs, and database schemas that engineering teams can actually deploy.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Who is Prompt Forge for?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Prompt Forge is built for developers, startup founders, and engineering teams who want to rapidly prototype and ship SaaS backends. It is ideal for anyone who wants production-ready Node.js code without spending days on boilerplate.",
       },
     },
   ],
@@ -180,6 +222,7 @@ export default function RootLayout({
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdApp) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrg) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebsite) }} />
       </head>
       <body className="bg-slate-950 text-slate-100 antialiased min-h-screen font-sans">
         {children}

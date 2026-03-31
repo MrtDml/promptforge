@@ -4,10 +4,13 @@ import LandingNav from "@components/layout/LandingNav";
 import LandingFooter from "@components/layout/LandingFooter";
 
 export const metadata: Metadata = {
-  title: "PromptForge – Build SaaS Apps from a Single Prompt",
+  title: "Prompt Forge – Build SaaS Apps from a Single Prompt | PromptForge",
   description:
-    "Turn your SaaS idea into production-ready code in under 5 minutes. PromptForge generates a complete NestJS backend, Prisma schema, REST API, and Docker setup from plain English. No coding required.",
+    "Prompt Forge is an AI SaaS builder that turns your idea into production-ready code in under 5 minutes. Generate a complete NestJS backend, Prisma schema, REST API, and Docker setup from plain English. Free to try.",
   keywords: [
+    "prompt forge",
+    "promptforge",
+    "prompt forge ai",
     "AI SaaS builder",
     "build SaaS with AI",
     "generate SaaS from prompt",
@@ -23,26 +26,26 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://promptforgeai.dev" },
   openGraph: {
-    title: "PromptForge – Build SaaS Apps from a Single Prompt",
+    title: "Prompt Forge – Build SaaS Apps from a Single Prompt",
     description:
-      "Turn your SaaS idea into production-ready code in under 5 minutes. NestJS backend, Prisma schema, REST API, Docker — all from plain English.",
+      "Prompt Forge turns your SaaS idea into production-ready code in under 5 minutes. NestJS backend, Prisma schema, REST API, Docker — all from plain English.",
     url: "https://promptforgeai.dev",
-    siteName: "PromptForge",
+    siteName: "Prompt Forge",
     type: "website",
     images: [
       {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "PromptForge – Build SaaS Apps with AI",
+        alt: "Prompt Forge – Build SaaS Apps with AI",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "PromptForge – Build SaaS Apps from a Single Prompt",
+    title: "Prompt Forge – Build SaaS Apps from a Single Prompt",
     description:
-      "Turn your SaaS idea into production-ready code in under 5 minutes.",
+      "Prompt Forge turns your SaaS idea into production-ready code in under 5 minutes.",
     images: ["/twitter-image"],
   },
 };
@@ -295,7 +298,7 @@ export default async function LandingPage() {
         <div className="max-w-5xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-950 border border-indigo-800/60 text-indigo-300 text-sm font-medium mb-8">
             <Zap className="w-3.5 h-3.5" />
-            AI-Powered SaaS Builder — Production-ready in minutes
+            Prompt Forge — AI SaaS Code Generator
             <ChevronRight className="w-3.5 h-3.5" />
           </div>
 
@@ -305,7 +308,7 @@ export default async function LandingPage() {
           </h1>
 
           <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            PromptForge transforms your natural language description into a
+            <strong className="text-slate-300">Prompt Forge</strong> transforms your natural language description into a
             complete, production-ready SaaS application — backend, database
             schema, APIs, and more.
           </p>
@@ -536,6 +539,33 @@ export default async function LandingPage() {
               <p className="text-slate-400 text-sm">{stat.label}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── What is Prompt Forge ── (SEO anchor section) */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-white mb-6 text-center">
+            What is <span className="gradient-text">Prompt Forge</span>?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-slate-400 text-base leading-relaxed">
+            <div>
+              <p className="mb-4">
+                <strong className="text-slate-200">Prompt Forge</strong> is an AI-powered code generation platform designed for developers and startup founders who want to ship SaaS products faster. Instead of spending days writing boilerplate, you describe your application in plain English and Prompt Forge generates the entire backend stack for you.
+              </p>
+              <p>
+                The Prompt Forge engine parses your natural language description, identifies entities, relationships, and features, then produces a complete project including NestJS modules, Prisma database schema, REST endpoints, JWT authentication, Docker configuration, and more.
+              </p>
+            </div>
+            <div>
+              <p className="mb-4">
+                Unlike general-purpose AI tools, <strong className="text-slate-200">Prompt Forge</strong> is purpose-built for backend development. Every file it generates follows production best practices — proper error handling, input validation, role-based access control, and scalable architecture patterns.
+              </p>
+              <p>
+                Prompt Forge is the fastest way to go from a SaaS idea to working code. Teams use it to prototype in hours, accelerate development cycles, and avoid the repetitive work of setting up the same infrastructure patterns project after project.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -135,19 +135,33 @@ export default async function BlogPostPage({ params }: Props) {
     headline: post.title,
     description: post.description,
     datePublished: post.date,
-    author: { "@type": "Organization", name: "PromptForge" },
-    publisher: { "@type": "Organization", name: "PromptForge", url: "https://promptforgeai.dev" },
+    author: { "@type": "Organization", name: "Prompt Forge", url: "https://promptforgeai.dev" },
+    publisher: {
+      "@type": "Organization",
+      name: "Prompt Forge",
+      url: "https://promptforgeai.dev",
+      logo: { "@type": "ImageObject", url: "https://promptforgeai.dev/opengraph-image" },
+    },
     url: `https://promptforgeai.dev/blog/${post.slug}`,
+    mainEntityOfPage: { "@type": "WebPage", "@id": `https://promptforgeai.dev/blog/${post.slug}` },
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://promptforgeai.dev" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://promptforgeai.dev/blog" },
+      { "@type": "ListItem", position: 3, name: post.title, item: `https://promptforgeai.dev/blog/${post.slug}` },
+    ],
   };
 
   return (
     <>
       <AnnouncementBanner />
       <LandingNav />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <main className="min-h-screen bg-[#0a0b14] text-white pt-20">
         <div className="max-w-2xl mx-auto px-4 py-12">
           {/* Back */}

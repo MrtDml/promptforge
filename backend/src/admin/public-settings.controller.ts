@@ -7,6 +7,9 @@ const PUBLIC_KEYS = new Set([
   'announcement_message',
   'announcement_type',
   'announcement_link',
+  'announcement_start',
+  'announcement_end',
+  'announcement_image_url',
   'site_name',
   'testimonials_json',
 ]);

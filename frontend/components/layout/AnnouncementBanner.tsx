@@ -11,6 +11,9 @@ interface PublicSettings {
   announcement_type?: string;
   announcement_message?: string;
   announcement_link?: string;
+  announcement_start?: string;
+  announcement_end?: string;
+  announcement_image_url?: string;
 }
 
 const TYPE_STYLES = {
@@ -34,6 +37,13 @@ const TYPE_STYLES = {
   },
 };
 
+function isWithinDateRange(start?: string, end?: string): boolean {
+  const now = new Date();
+  if (start && new Date(start) > now) return false;
+  if (end && new Date(end) < now) return false;
+  return true;
+}
+
 export default function AnnouncementBanner() {
   const [settings, setSettings] = useState<PublicSettings | null>(null);
   const [dismissed, setDismissed] = useState(false);
@@ -45,14 +55,10 @@ export default function AnnouncementBanner() {
       .catch(() => {});
   }, []);
 
-  if (
-    dismissed ||
-    !settings ||
-    settings.announcement_active !== "true" ||
-    !settings.announcement_message?.trim()
-  ) {
-    return null;
-  }
+  if (dismissed || !settings) return null;
+  if (settings.announcement_active !== "true") return null;
+  if (!settings.announcement_message?.trim()) return null;
+  if (!isWithinDateRange(settings.announcement_start, settings.announcement_end)) return null;
 
   const type = (settings.announcement_type as keyof typeof TYPE_STYLES) ?? "info";
   const style = TYPE_STYLES[type] ?? TYPE_STYLES.info;
@@ -61,13 +67,22 @@ export default function AnnouncementBanner() {
   return (
     <div className={`w-full ${style.wrapper} backdrop-blur-sm`}>
       <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center gap-3">
-        <Icon className={`w-4 h-4 flex-shrink-0 ${style.iconClass}`} />
+        {settings.announcement_image_url ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={settings.announcement_image_url}
+            alt=""
+            className="h-5 w-auto flex-shrink-0 object-contain"
+          />
+        ) : (
+          <Icon className={`w-4 h-4 flex-shrink-0 ${style.iconClass}`} />
+        )}
         <p className={`flex-1 text-sm ${style.text}`}>
           {settings.announcement_message}
           {settings.announcement_link && (
             <Link
               href={settings.announcement_link}
-              className={`ml-2 inline-flex items-center gap-1 underline underline-offset-2 hover:opacity-80 transition-opacity`}
+              className="ml-2 inline-flex items-center gap-1 underline underline-offset-2 hover:opacity-80 transition-opacity"
             >
               Learn more <ArrowRight className="w-3 h-3" />
             </Link>

@@ -194,11 +194,97 @@ async function fetchApiTestimonials(): Promise<typeof testimonials | null> {
   return null;
 }
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "PromptForge",
+  url: "https://promptforgeai.dev",
+  logo: "https://promptforgeai.dev/logo.png",
+  description: "AI-powered SaaS builder — generate production-ready NestJS backends from plain English.",
+  sameAs: [],
+};
+
+const softwareJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "PromptForge",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web",
+  url: "https://promptforgeai.dev",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+    description: "Free plan available — no credit card required",
+  },
+  description: "Turn your SaaS idea into production-ready NestJS + Prisma + Docker code in under 5 minutes.",
+  featureList: [
+    "AI-powered schema generation",
+    "NestJS & Express.js code generation",
+    "Prisma ORM with migrations",
+    "JWT authentication",
+    "Docker & CI/CD configs",
+    "One-click Railway deployment",
+    "AI code assistant chat",
+  ],
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is PromptForge?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "PromptForge is an AI-powered code generator that turns your plain English description into a complete, production-ready NestJS or Express.js SaaS backend — with Prisma schema, REST APIs, JWT auth, Docker config, and more.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How long does it take to generate an app?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Most applications are generated in under 5 minutes. The AI parses your prompt, designs the data model, and writes all the code instantly.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do I own the generated code?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. All generated code is 100% yours. There is no vendor lock-in, no proprietary runtime, and no ongoing fee to keep your app running. Download and deploy anywhere.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What frameworks are supported?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "PromptForge supports NestJS (recommended — with decorators, dependency injection, and modules) and Express.js (lightweight with Zod validation and Helmet security). Both include Prisma ORM and PostgreSQL.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is there a free plan?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. The free plan includes 3 app generations per month with up to 5 entities. No credit card required. Paid plans start at $29/month for unlimited entities and 50 generations.",
+      },
+    },
+  ],
+};
+
 export default async function LandingPage() {
   const apiTestimonials = await fetchApiTestimonials();
   const displayTestimonials = apiTestimonials ?? testimonials;
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
+      {/* ── JSON-LD Structured Data ── */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       {/* ── Announcement Banner ── */}
       <AnnouncementBanner />
       {/* ── Navbar ── */}

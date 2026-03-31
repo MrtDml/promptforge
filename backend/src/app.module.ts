@@ -15,6 +15,7 @@ import { ChatModule } from './chat/chat.module';
 import { MailModule } from './mail/mail.module';
 import { AdminModule } from './admin/admin.module';
 import { BlogModule } from './blog/blog.module';
+import { AiModule } from './ai/ai.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { SubscriptionGuard } from './common/guards/subscription.guard';
 import { AppCacheModule } from './cache/app-cache.module';
@@ -48,6 +49,7 @@ import { BullModule } from '@nestjs/bull';
     MailModule,
     AdminModule,
     BlogModule,
+    AiModule,
     PrismaModule,
   ],
   controllers: [AppController],

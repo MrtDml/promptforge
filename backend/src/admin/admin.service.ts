@@ -355,6 +355,9 @@ export class AdminService {
       { key: 'announcement_type', value: 'info', label: 'Announcement — Type (info/warning/success)' },
       { key: 'announcement_message', value: '', label: 'Announcement — Message' },
       { key: 'announcement_link', value: '', label: 'Announcement — Link (optional)' },
+      { key: 'announcement_start', value: '', label: 'Announcement — Start Date (ISO, optional)' },
+      { key: 'announcement_end', value: '', label: 'Announcement — End Date (ISO, optional)' },
+      { key: 'announcement_image_url', value: '', label: 'Announcement — Image URL (optional)' },
     ];
 
     await this.prisma.siteSetting.createMany({ data: defaults, skipDuplicates: true });

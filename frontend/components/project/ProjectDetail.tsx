@@ -62,6 +62,9 @@ import {
   Share2,
   Link as LinkIcon,
   MessageSquare,
+  Sparkles,
+  ShieldCheck,
+  Star,
 } from "lucide-react";
 import type { Project, GeneratedFile } from "@/types";
 import { StatusBadge } from "@components/ui/Badge";
@@ -117,7 +120,6 @@ function CodeViewer({ file }: { file: GeneratedFile }) {
   const language = file.language ?? getLanguageFromPath(file.path);
   const hlLang = HLJS_LANG[language] ?? "plaintext";
 
-  // Re-highlight whenever file or language changes
   useEffect(() => {
     const el = codeRef.current;
     if (!el) return;
@@ -126,7 +128,6 @@ function CodeViewer({ file }: { file: GeneratedFile }) {
     hljs.highlightElement(el);
   }, [file.content, hlLang]);
 
-  // Line count for display
   const lineCount = useMemo(
     () => file.content.split("\n").length,
     [file.content]
@@ -144,7 +145,6 @@ function CodeViewer({ file }: { file: GeneratedFile }) {
 
   return (
     <div className="flex flex-col h-full">
-      {/* File header */}
       <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-700/60 bg-slate-800/60">
         <div className="flex items-center gap-2 min-w-0">
           <FileCode2 className="w-4 h-4 text-indigo-400 flex-shrink-0" />
@@ -161,20 +161,12 @@ function CodeViewer({ file }: { file: GeneratedFile }) {
           className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white transition-all text-xs flex-shrink-0 ml-2"
         >
           {copied ? (
-            <>
-              <CheckCheck className="w-3.5 h-3.5 text-green-400" />
-              Copied
-            </>
+            <><CheckCheck className="w-3.5 h-3.5 text-green-400" />Copied</>
           ) : (
-            <>
-              <Copy className="w-3.5 h-3.5" />
-              Copy
-            </>
+            <><Copy className="w-3.5 h-3.5" />Copy</>
           )}
         </button>
       </div>
-
-      {/* Code content with syntax highlighting */}
       <div className="flex-1 overflow-auto bg-slate-900/80">
         <pre className="p-4 m-0 font-mono leading-relaxed">
           <code ref={codeRef} className={`language-${hlLang} hljs`}>
@@ -216,13 +208,241 @@ function totalSizeBytes(files: GeneratedFile[]): number {
   }, 0);
 }
 
+// ── Quality Score ────────────────────────────────────────────────────────────
+
+interface QualityDimension {
+  label: string;
+  score: number; // 0-100
+  icon: React.ElementType;
+  color: string;
+  tip: string;
+}
+
+function computeQualityScore(project: Project, files: GeneratedFile[]): {
+  overall: number;
+  dimensions: QualityDimension[];
+} {
+  const features = project.schema?.features ?? [];
+  const entities = project.schema?.entities ?? [];
+  const endpoints = project.schema?.endpoints ?? [];
+
+  // Architecture completeness (auth, docker, swagger, tests, CI)
+  const archScore = Math.min(
+    100,
+    (features.includes("auth") ? 25 : 0) +
+    (files.some((f) => f.path.includes("docker")) ? 20 : 0) +
+    (files.some((f) => f.path.includes("swagger") || f.path.includes("openapi")) ? 15 : 0) +
+    (files.some((f) => f.path.includes(".spec.") || f.path.includes(".test.")) ? 20 : 0) +
+    (files.some((f) => f.path.includes(".github") || f.path.includes("ci.yml")) ? 20 : 0)
+  );
+
+  // Data model complexity (more entities + relations = richer model)
+  const relationCount = (project as any).schema?._parsed?.relations?.length ?? 0;
+  const modelScore = Math.min(
+    100,
+    Math.min(entities.length * 12, 60) + Math.min(relationCount * 10, 40)
+  );
+
+  // API coverage (endpoint count per entity)
+  const apiScore =
+    entities.length > 0
+      ? Math.min(100, Math.round((endpoints.length / (entities.length * 5)) * 100))
+      : 50;
+
+  // Code volume (more files = more complete)
+  const volumeScore = Math.min(100, Math.round((files.length / 20) * 100));
+
+  const overall = Math.round(
+    archScore * 0.35 + modelScore * 0.25 + apiScore * 0.2 + volumeScore * 0.2
+  );
+
+  return {
+    overall,
+    dimensions: [
+      {
+        label: "Architecture",
+        score: archScore,
+        icon: ShieldCheck,
+        color: "text-indigo-400",
+        tip: "Auth, Docker, Swagger, Tests, CI/CD",
+      },
+      {
+        label: "Data Model",
+        score: modelScore,
+        icon: Database,
+        color: "text-blue-400",
+        tip: "Entities, relations, and complexity",
+      },
+      {
+        label: "API Coverage",
+        score: apiScore,
+        icon: Globe,
+        color: "text-green-400",
+        tip: "Endpoints per entity",
+      },
+      {
+        label: "Code Volume",
+        score: volumeScore,
+        icon: FileCode2,
+        color: "text-purple-400",
+        tip: "Number of generated files",
+      },
+    ],
+  };
+}
+
+function QualityScorePanel({ project, files }: { project: Project; files: GeneratedFile[] }) {
+  const { overall, dimensions } = computeQualityScore(project, files);
+  const color =
+    overall >= 80 ? "text-green-400" : overall >= 55 ? "text-yellow-400" : "text-red-400";
+  const ringColor =
+    overall >= 80 ? "border-green-500/60" : overall >= 55 ? "border-yellow-500/60" : "border-red-500/60";
+
+  return (
+    <div className="p-5 space-y-5">
+      <div className="flex items-center gap-2 mb-1">
+        <Star className="w-4 h-4 text-yellow-400" />
+        <h3 className="font-semibold text-white text-sm">Project Quality Score</h3>
+        <span className="text-xs text-slate-500 ml-1">— based on generated output</span>
+      </div>
+
+      <div className="flex items-center gap-6">
+        {/* Ring */}
+        <div className={`w-20 h-20 rounded-full border-4 ${ringColor} flex items-center justify-center flex-shrink-0`}>
+          <span className={`text-2xl font-black ${color}`}>{overall}</span>
+        </div>
+        {/* Bar chart */}
+        <div className="flex-1 space-y-2.5">
+          {dimensions.map((d) => (
+            <div key={d.label} className="flex items-center gap-2">
+              <d.icon className={`w-3.5 h-3.5 flex-shrink-0 ${d.color}`} />
+              <span className="text-xs text-slate-400 w-24 flex-shrink-0">{d.label}</span>
+              <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                <div
+                  className={`h-full rounded-full transition-all duration-700 ${
+                    d.score >= 80 ? "bg-green-500" : d.score >= 55 ? "bg-yellow-500" : "bg-red-500"
+                  }`}
+                  style={{ width: `${d.score}%` }}
+                />
+              </div>
+              <span className="text-xs text-slate-500 w-8 text-right">{d.score}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p className="text-xs text-slate-500">
+        Score is computed from architecture patterns, data model richness, API coverage, and file count.
+        {overall < 70 && " Add tests, Docker, Swagger, or more entities to improve your score."}
+      </p>
+    </div>
+  );
+}
+
+// ── AI Summary Panel ─────────────────────────────────────────────────────────
+
+function AISummaryPanel({ projectId }: { projectId: string }) {
+  const [summary, setSummary] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function generate() {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await apiClient.get(`/api/v1/ai/projects/${projectId}/summary`);
+      setSummary(res.data.summary);
+    } catch {
+      setError("Failed to generate summary. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (!summary && !loading && !error) {
+    return (
+      <div className="p-8 flex flex-col items-center justify-center gap-4 text-center">
+        <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/30 flex items-center justify-center">
+          <Sparkles className="w-6 h-6 text-violet-400" />
+        </div>
+        <div>
+          <p className="font-semibold text-white mb-1">AI Project Summary</p>
+          <p className="text-slate-400 text-sm max-w-sm">
+            Generate a plain-English technical summary of this project — architecture, data model, API patterns, and getting started.
+          </p>
+        </div>
+        <button
+          onClick={generate}
+          className="flex items-center gap-2 px-5 py-2.5 bg-violet-600 hover:bg-violet-500 text-white rounded-xl font-semibold text-sm transition-colors"
+        >
+          <Sparkles className="w-4 h-4" />
+          Generate Summary
+        </button>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="p-8 flex flex-col items-center gap-3 text-slate-400">
+        <Loader2 className="w-6 h-6 animate-spin text-violet-400" />
+        <p className="text-sm">AI is analyzing your project…</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-5 space-y-3">
+        <div className="flex items-center gap-2 text-red-400 text-sm">
+          <AlertCircle className="w-4 h-4" />
+          {error}
+        </div>
+        <button onClick={generate} className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors">
+          Try again
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-5 space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Sparkles className="w-4 h-4 text-violet-400" />
+          <span className="text-sm font-semibold text-white">AI Summary</span>
+        </div>
+        <button
+          onClick={generate}
+          className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-300 transition-colors"
+        >
+          <RefreshCw className="w-3 h-3" />
+          Regenerate
+        </button>
+      </div>
+      <article
+        className="prose prose-invert prose-slate max-w-none text-sm
+          prose-h2:text-base prose-h2:font-bold prose-h2:text-white prose-h2:mt-6 prose-h2:mb-2
+          prose-p:text-slate-300 prose-p:leading-relaxed prose-p:my-2
+          prose-ul:text-slate-300 prose-ul:my-2 prose-ul:pl-5
+          prose-li:my-1 prose-li:leading-relaxed
+          prose-strong:text-white
+          prose-code:text-indigo-300 prose-code:bg-slate-800/60 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-xs"
+        dangerouslySetInnerHTML={{ __html: summary!.replace(/\n/g, "<br/>").replace(/#{1,6} (.+)/g, '<h2>$1</h2>').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/`(.+?)`/g, '<code>$1</code>') }}
+      />
+    </div>
+  );
+}
+
+// ── Main Component ────────────────────────────────────────────────────────────
+
 export default function ProjectDetail({
   project,
   onRefresh,
   onProjectUpdate,
 }: ProjectDetailProps) {
   const [activeTab, setActiveTab] = useState<
-    "files" | "schema" | "readme" | "info" | "deploy" | "chat"
+    "files" | "schema" | "readme" | "info" | "quality" | "summary" | "deploy" | "chat"
   >("files");
   const [selectedFile, setSelectedFile] = useState<GeneratedFile | null>(
     project.generatedOutput?.files[0] ?? null
@@ -245,11 +465,8 @@ export default function ProjectDetail({
   function toggleDir(dir: string) {
     setExpandedDirs((prev) => {
       const next = new Set(prev);
-      if (next.has(dir)) {
-        next.delete(dir);
-      } else {
-        next.add(dir);
-      }
+      if (next.has(dir)) next.delete(dir);
+      else next.add(dir);
       return next;
     });
   }
@@ -297,6 +514,8 @@ export default function ProjectDetail({
     { id: "schema" as const, label: "Schema", icon: Database, show: !!project.schema },
     { id: "readme" as const, label: "Readme", icon: BookOpen, show: !!project.generatedOutput?.readme },
     { id: "info" as const, label: "Info", icon: Layers },
+    { id: "quality" as const, label: "Quality", icon: Star, show: isCompleted && files.length > 0 },
+    { id: "summary" as const, label: "AI Summary", icon: Sparkles, show: isCompleted },
     { id: "deploy" as const, label: "Deploy", icon: Rocket, show: isCompleted },
     { id: "chat" as const, label: "AI Chat", icon: MessageSquare, show: isCompleted },
   ].filter((t) => t.show !== false);
@@ -332,7 +551,6 @@ export default function ProjectDetail({
             )}
             {isCompleted && (
               <div className="flex items-center gap-2">
-                {/* Share toggle */}
                 <button
                   onClick={handleToggleShare}
                   disabled={shareLoading}
@@ -351,7 +569,6 @@ export default function ProjectDetail({
                   )}
                   <span className="hidden sm:inline">{isPublic ? "Public" : "Share"}</span>
                 </button>
-                {/* Copy link (only when public) */}
                 {isPublic && shareToken && (
                   <button
                     onClick={handleCopyShareLink}
@@ -392,7 +609,6 @@ export default function ProjectDetail({
             )}
           </div>
 
-          {/* File count + size pill */}
           {files.length > 0 && (
             <div className="flex items-center gap-3 text-xs text-slate-500">
               <span className="flex items-center gap-1">
@@ -406,7 +622,6 @@ export default function ProjectDetail({
             </div>
           )}
 
-          {/* Download error */}
           {downloadError && (
             <div className="flex items-center gap-1.5 text-xs text-red-400 max-w-xs text-right">
               <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
@@ -420,34 +635,10 @@ export default function ProjectDetail({
       {project.schema && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
-            {
-              icon: Database,
-              label: "Entities",
-              value: project.schema.entities?.length ?? 0,
-              color: "text-blue-400",
-              bg: "bg-blue-400/10",
-            },
-            {
-              icon: Globe,
-              label: "Endpoints",
-              value: project.schema.endpoints?.length ?? 0,
-              color: "text-green-400",
-              bg: "bg-green-400/10",
-            },
-            {
-              icon: FileCode2,
-              label: "Files",
-              value: files.length,
-              color: "text-indigo-400",
-              bg: "bg-indigo-400/10",
-            },
-            {
-              icon: Terminal,
-              label: "Features",
-              value: project.schema.features?.length ?? 0,
-              color: "text-purple-400",
-              bg: "bg-purple-400/10",
-            },
+            { icon: Database, label: "Entities", value: project.schema.entities?.length ?? 0, color: "text-blue-400", bg: "bg-blue-400/10" },
+            { icon: Globe, label: "Endpoints", value: project.schema.endpoints?.length ?? 0, color: "text-green-400", bg: "bg-green-400/10" },
+            { icon: FileCode2, label: "Files", value: files.length, color: "text-indigo-400", bg: "bg-indigo-400/10" },
+            { icon: Terminal, label: "Features", value: project.schema.features?.length ?? 0, color: "text-purple-400", bg: "bg-purple-400/10" },
           ].map((stat) => (
             <div key={stat.label} className="glass-card px-4 py-3 flex items-center gap-3">
               <div className={`w-9 h-9 rounded-lg ${stat.bg} flex items-center justify-center flex-shrink-0`}>
@@ -464,13 +655,13 @@ export default function ProjectDetail({
 
       {/* Tabs */}
       <div className="glass-card overflow-hidden">
-        <div className="flex border-b border-slate-700/60 bg-slate-900/30">
+        <div className="flex border-b border-slate-700/60 bg-slate-900/30 overflow-x-auto scrollbar-none">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={cn(
-                "flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors border-b-2",
+                "flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors border-b-2 flex-shrink-0",
                 activeTab === tab.id
                   ? "text-indigo-400 border-indigo-500"
                   : "text-slate-500 hover:text-slate-300 border-transparent"
@@ -490,7 +681,6 @@ export default function ProjectDetail({
         {/* Files tab */}
         {activeTab === "files" && (
           <div className="flex h-[600px]">
-            {/* File tree sidebar */}
             <div className="w-64 flex-shrink-0 border-r border-slate-700/60 overflow-y-auto bg-slate-900/40">
               <div className="p-2">
                 {Object.entries(fileGroups).map(([dir, dirFiles]) => (
@@ -521,8 +711,6 @@ export default function ProjectDetail({
                 ))}
               </div>
             </div>
-
-            {/* Code viewer */}
             <div className="flex-1 overflow-hidden">
               {selectedFile ? (
                 <CodeViewer file={selectedFile} />
@@ -559,9 +747,7 @@ export default function ProjectDetail({
           <div className="p-5 space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
-                <h4 className="text-sm font-semibold text-slate-300 mb-3">
-                  Project details
-                </h4>
+                <h4 className="text-sm font-semibold text-slate-300 mb-3">Project details</h4>
                 <dl className="space-y-2 text-sm">
                   {[
                     { label: "Project ID", value: project.id },
@@ -570,45 +756,47 @@ export default function ProjectDetail({
                     { label: "Updated", value: formatDate(project.updatedAt) },
                   ].map((item) => (
                     <div key={item.label} className="flex gap-3">
-                      <dt className="text-slate-500 w-24 flex-shrink-0">
-                        {item.label}
-                      </dt>
-                      <dd className="text-slate-200 font-mono break-all">
-                        {item.value}
-                      </dd>
+                      <dt className="text-slate-500 w-24 flex-shrink-0">{item.label}</dt>
+                      <dd className="text-slate-200 font-mono break-all">{item.value}</dd>
                     </div>
                   ))}
                 </dl>
               </div>
               {project.schema?.techStack && (
                 <div>
-                  <h4 className="text-sm font-semibold text-slate-300 mb-3">
-                    Tech stack
-                  </h4>
+                  <h4 className="text-sm font-semibold text-slate-300 mb-3">Tech stack</h4>
                   <dl className="space-y-2 text-sm">
-                    {Object.entries(project.schema.techStack).map(
-                      ([key, value]) => (
-                        <div key={key} className="flex gap-3">
-                          <dt className="text-slate-500 capitalize w-24 flex-shrink-0">
-                            {key}
-                          </dt>
-                          <dd className="text-slate-200">{value as string}</dd>
-                        </div>
-                      )
-                    )}
+                    {Object.entries(project.schema.techStack).map(([key, value]) => (
+                      <div key={key} className="flex gap-3">
+                        <dt className="text-slate-500 capitalize w-24 flex-shrink-0">{key}</dt>
+                        <dd className="text-slate-200">{value as string}</dd>
+                      </div>
+                    ))}
                   </dl>
                 </div>
               )}
             </div>
 
-            {/* Tags */}
+            {project.schema?.features && project.schema.features.length > 0 && (
+              <div>
+                <h4 className="text-sm font-semibold text-slate-300 mb-3">Features</h4>
+                <div className="flex flex-wrap gap-2">
+                  {project.schema.features.map((f: string) => (
+                    <span
+                      key={f}
+                      className="text-xs px-2.5 py-1 rounded-full bg-indigo-950/60 border border-indigo-800/40 text-indigo-300"
+                    >
+                      {f}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <TagInput projectId={project.id} initialTags={project.tags ?? []} />
 
-            {/* Original prompt */}
             <div>
-              <h4 className="text-sm font-semibold text-slate-300 mb-3">
-                Original prompt
-              </h4>
+              <h4 className="text-sm font-semibold text-slate-300 mb-3">Original prompt</h4>
               <div className="code-block text-sm whitespace-pre-wrap leading-relaxed">
                 {project.prompt}
               </div>
@@ -616,7 +804,17 @@ export default function ProjectDetail({
           </div>
         )}
 
-        {/* Deploy tab — only rendered when project is COMPLETED */}
+        {/* Quality tab */}
+        {activeTab === "quality" && isCompleted && files.length > 0 && (
+          <QualityScorePanel project={project} files={files} />
+        )}
+
+        {/* AI Summary tab */}
+        {activeTab === "summary" && isCompleted && (
+          <AISummaryPanel projectId={project.id} />
+        )}
+
+        {/* Deploy tab */}
         {activeTab === "deploy" && isCompleted && (
           <DeployPanel project={project} onProjectUpdate={onProjectUpdate} />
         )}
@@ -625,15 +823,11 @@ export default function ProjectDetail({
         {activeTab === "chat" && isCompleted && (
           <AIChatPanel
             projectId={project.id}
-            onFilesUpdated={(updatedFiles) => {
-              // Notify parent to refresh project data
-              onRefresh?.();
-            }}
+            onFilesUpdated={() => onRefresh?.()}
           />
         )}
       </div>
 
-      {/* GitHub Export Modal */}
       {showGithubModal && (
         <GitHubExportModal
           projectId={project.id}

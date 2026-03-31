@@ -7,7 +7,10 @@ import {
   Lightbulb,
   ChevronDown,
   ChevronUp,
+  Wand2,
+  Loader2,
 } from "lucide-react";
+import apiClient from "@/lib/api";
 
 const examplePrompts = [
   {
@@ -67,6 +70,8 @@ export default function PromptForm({
 }: PromptFormProps) {
   const [prompt, setPrompt] = useState(initialValue);
   const [showExamples, setShowExamples] = useState(false);
+  const [isEnhancing, setIsEnhancing] = useState(false);
+  const [enhanceError, setEnhanceError] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -93,9 +98,27 @@ export default function PromptForm({
     textareaRef.current?.focus();
   }
 
+  async function handleEnhance() {
+    if (!prompt.trim() || isEnhancing || isLoading) return;
+    setIsEnhancing(true);
+    setEnhanceError(null);
+    try {
+      const res = await apiClient.post("/api/v1/ai/enhance-prompt", {
+        prompt: prompt.trim(),
+      });
+      setPrompt(res.data.enhanced);
+      setTimeout(() => textareaRef.current?.focus(), 50);
+    } catch {
+      setEnhanceError("Could not enhance prompt. Please try again.");
+    } finally {
+      setIsEnhancing(false);
+    }
+  }
+
   const charCount = prompt.length;
   const wordCount = prompt.trim() ? prompt.trim().split(/\s+/).length : 0;
   const isValid = prompt.trim().length >= 20;
+  const canEnhance = prompt.trim().length >= 10 && !isEnhancing && !isLoading;
 
   return (
     <div className="space-y-5 animate-fade-in">
@@ -126,7 +149,7 @@ export default function PromptForm({
               placeholder="Example: Build a multi-tenant SaaS invoicing app with customers, invoices, recurring billing, payments, and a client portal. Include role-based access for admin and accountant roles, Stripe integration, PDF generation, and email notifications..."
               className="w-full min-h-[160px] bg-slate-900/60 border border-slate-600 rounded-xl px-5 py-4 text-slate-100 placeholder-slate-500 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-sm leading-relaxed"
               rows={6}
-              disabled={isLoading}
+              disabled={isLoading || isEnhancing}
             />
             <div className="absolute bottom-3 right-3 flex items-center gap-3">
               <span
@@ -162,6 +185,14 @@ export default function PromptForm({
             </div>
           )}
 
+          {/* Enhance error */}
+          {enhanceError && (
+            <div className="mt-3 flex items-start gap-2 text-yellow-400 text-xs">
+              <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
+              {enhanceError}
+            </div>
+          )}
+
           {/* Error */}
           {error && (
             <div className="mt-4 flex items-start gap-3 bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-3">
@@ -170,18 +201,45 @@ export default function PromptForm({
             </div>
           )}
 
-          {/* Submit */}
-          <div className="mt-4 flex items-center justify-between gap-3">
-            <p className="text-slate-500 text-xs">
-              {!isValid && prompt.length > 0
-                ? `Add ${20 - prompt.trim().length} more characters for a better result`
-                : isValid
-                ? "Looking good! Click Parse to continue."
-                : "Describe your app in detail for the best results."}
-            </p>
+          {/* Actions row */}
+          <div className="mt-4 flex items-center justify-between gap-3 flex-wrap">
+            <div className="flex items-center gap-2">
+              {/* Enhance with AI button */}
+              <button
+                type="button"
+                onClick={handleEnhance}
+                disabled={!canEnhance}
+                title="Let AI expand and improve your prompt"
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium border transition-all ${
+                  canEnhance
+                    ? "border-violet-500/50 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20 hover:border-violet-400"
+                    : "border-slate-700 text-slate-600 cursor-not-allowed"
+                }`}
+              >
+                {isEnhancing ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    Enhancing…
+                  </>
+                ) : (
+                  <>
+                    <Wand2 className="w-3.5 h-3.5" />
+                    Enhance with AI
+                  </>
+                )}
+              </button>
+              <p className="text-slate-500 text-xs hidden sm:block">
+                {!isValid && prompt.length > 0
+                  ? `Add ${20 - prompt.trim().length} more characters`
+                  : isValid
+                  ? "Looking good! Click Parse to continue."
+                  : "Describe your app for best results."}
+              </p>
+            </div>
+
             <button
               type="submit"
-              disabled={!isValid || isLoading}
+              disabled={!isValid || isLoading || isEnhancing}
               className="btn-primary px-6 py-2.5"
             >
               {isLoading ? (

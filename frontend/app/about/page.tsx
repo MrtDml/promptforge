@@ -69,7 +69,7 @@ export default function AboutPage() {
           <div className="bg-gradient-to-br from-indigo-600/10 to-violet-600/5 border border-indigo-500/20 rounded-2xl p-8 md:p-10">
             <h2 className="text-2xl font-bold text-white mb-4">Our mission</h2>
             <p className="text-slate-300 leading-relaxed text-lg">
-              We believe the best ideas often come from people who can't code — and that's exactly who we build
+              We believe the best ideas often come from people who can&apos;t code — and that&apos;s exactly who we build
               for. Nexlora Technologies combines cutting-edge AI research with practical software engineering to
               remove the barrier between idea and product.
             </p>

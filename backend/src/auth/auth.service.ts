@@ -180,6 +180,8 @@ export class AuthService {
       this.logger.log(`New user via ${provider} OAuth: ${email}`);
     } else if (!user.isActive) {
       throw new UnauthorizedException('Account is deactivated. Please contact support.');
+    } else if (name && (!user.name || user.name === 'User')) {
+      await this.usersService.update(user.id, { name });
     }
 
     const token = this.generateToken(user.id, user.email);

@@ -426,6 +426,24 @@ export default function PricingPage() {
             <span className="text-slate-400 font-medium">14-day money-back guarantee</span>.
             No questions asked.
           </p>
+
+          {/* Secure payment strip */}
+          <div className="mt-10 flex flex-col items-center gap-3">
+            <p className="text-xs text-slate-500 uppercase tracking-widest font-medium">
+              Secure Payment
+            </p>
+            <div className="flex items-center gap-4 px-6 py-3 rounded-xl bg-slate-900/60 border border-slate-700/40">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/payment/iyzico-logo-band-white.svg"
+                alt="iyzico"
+                className="h-7 opacity-70 hover:opacity-100 transition-opacity"
+              />
+            </div>
+            <p className="text-xs text-slate-600">
+              Payments are processed securely via iyzico virtual POS
+            </p>
+          </div>
         </div>
       </section>
 

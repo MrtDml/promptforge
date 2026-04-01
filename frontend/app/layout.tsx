@@ -148,68 +148,6 @@ const jsonLdWebsite = {
   },
 };
 
-const jsonLdFaq = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "What is Prompt Forge?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Prompt Forge (also written as PromptForge) is an AI-powered platform that generates production-ready full-stack SaaS applications from plain English descriptions. It creates a NestJS backend, Prisma schema, REST API, Docker setup, and more in minutes.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "How does Prompt Forge work?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Simply describe your SaaS idea in plain English. Prompt Forge parses your description, generates a database schema, and creates complete production-ready code including backend API, database migrations, authentication, and Docker configuration.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is Prompt Forge free?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, Prompt Forge offers a free plan with 3 app generations per month. Paid plans start at $29/month for more generations and advanced features.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What tech stack does Prompt Forge generate?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Prompt Forge generates NestJS (Node.js) backends with Prisma ORM, PostgreSQL database, JWT authentication, REST API with Swagger documentation, and Docker configuration. It also supports Express.js as an alternative framework.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I export my code to GitHub?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, Prompt Forge allows you to push your generated code directly to a new GitHub repository with one click using your personal access token.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is Prompt Forge a Lovable or Bolt alternative?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Prompt Forge is a backend-first alternative to Lovable, Bolt.new, and v0. While those tools focus on UI generation, Prompt Forge specializes in generating production-grade NestJS backends, APIs, and database schemas that engineering teams can actually deploy.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Who is Prompt Forge for?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Prompt Forge is built for developers, startup founders, and engineering teams who want to rapidly prototype and ship SaaS backends. It is ideal for anyone who wants production-ready Node.js code without spending days on boilerplate.",
-      },
-    },
-  ],
-};
 
 export default function RootLayout({
   children,
@@ -221,7 +159,6 @@ export default function RootLayout({
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdApp) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrg) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebsite) }} />
       </head>
       <body className="bg-slate-950 text-slate-100 antialiased min-h-screen font-sans">

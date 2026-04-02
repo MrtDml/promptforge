@@ -12,6 +12,7 @@ import {
 import { GithubService } from './github.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { PrismaService } from '../prisma/prisma.service';
+import { JwtRequest } from '../common/types/jwt-request.type';
 
 @Controller('projects')
 @UseGuards(JwtAuthGuard)
@@ -25,7 +26,7 @@ export class GithubController {
   @HttpCode(HttpStatus.OK)
   async exportToGithub(
     @Param('id') id: string,
-    @Request() req: any,
+    @Request() req: JwtRequest,
     @Body() body: { token: string; repoName: string; isPrivate?: boolean },
   ) {
     const { token, repoName, isPrivate = false } = body;

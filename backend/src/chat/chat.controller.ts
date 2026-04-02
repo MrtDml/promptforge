@@ -16,6 +16,7 @@ import { ChatService, ChatMessage } from './chat.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { PrismaService } from '../prisma/prisma.service';
 import { Throttle } from '@nestjs/throttler';
+import { JwtRequest } from '../common/types/jwt-request.type';
 
 @Controller('projects/:id/chat')
 @UseGuards(JwtAuthGuard)
@@ -32,7 +33,7 @@ export class ChatController {
   @HttpCode(HttpStatus.OK)
   async chat(
     @Param('id') id: string,
-    @Request() req: any,
+    @Request() req: JwtRequest,
     @Body() body: { message: string; history?: ChatMessage[] },
   ) {
     const { message, history = [] } = body;
@@ -61,7 +62,7 @@ export class ChatController {
   @Post('stream')
   async chatStream(
     @Param('id') id: string,
-    @Request() req: any,
+    @Request() req: JwtRequest,
     @Body() body: { message: string; history?: ChatMessage[] },
     @Res() res: Response,
   ) {
@@ -100,8 +101,9 @@ export class ChatController {
           }
         }
       }
-    } catch (err: any) {
-      res.write(`data: ${JSON.stringify({ type: 'error', message: err.message })}\n\n`);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Stream error';
+      res.write(`data: ${JSON.stringify({ type: 'error', message })}\n\n`);
     } finally {
       res.end();
     }

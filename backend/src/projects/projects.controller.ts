@@ -16,6 +16,7 @@ import { ProjectsService } from './projects.service';
 import { CreateProjectDto, UpdateProjectDto } from './dto/create-project.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { SubscriptionGuard } from '../common/guards/subscription.guard';
+import { JwtRequest } from '../common/types/jwt-request.type';
 
 @Controller('projects')
 @UseGuards(JwtAuthGuard)
@@ -25,13 +26,13 @@ export class ProjectsController {
   @Post()
   @UseGuards(SubscriptionGuard)
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() createProjectDto: CreateProjectDto, @Request() req: any) {
+  create(@Body() createProjectDto: CreateProjectDto, @Request() req: JwtRequest) {
     return this.projectsService.create(req.user.id, createProjectDto);
   }
 
   @Get()
   findAll(
-    @Request() req: any,
+    @Request() req: JwtRequest,
     @Query('page') page = 1,
     @Query('limit') limit = 20,
   ) {
@@ -39,7 +40,7 @@ export class ProjectsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @Request() req: any) {
+  findOne(@Param('id') id: string, @Request() req: JwtRequest) {
     return this.projectsService.findOne(id, req.user.id);
   }
 
@@ -47,27 +48,27 @@ export class ProjectsController {
   update(
     @Param('id') id: string,
     @Body() updateProjectDto: UpdateProjectDto,
-    @Request() req: any,
+    @Request() req: JwtRequest,
   ) {
     return this.projectsService.update(id, req.user.id, updateProjectDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  remove(@Param('id') id: string, @Request() req: any) {
+  remove(@Param('id') id: string, @Request() req: JwtRequest) {
     return this.projectsService.remove(id, req.user.id);
   }
 
   @Post(':id/regenerate')
   @UseGuards(SubscriptionGuard)
   @HttpCode(HttpStatus.OK)
-  regenerate(@Param('id') id: string, @Request() req: any) {
+  regenerate(@Param('id') id: string, @Request() req: JwtRequest) {
     return this.projectsService.regenerate(id, req.user.id);
   }
 
   @Post(':id/share')
   @HttpCode(HttpStatus.OK)
-  toggleShare(@Param('id') id: string, @Request() req: any) {
+  toggleShare(@Param('id') id: string, @Request() req: JwtRequest) {
     return this.projectsService.toggleShare(id, req.user.id);
   }
 

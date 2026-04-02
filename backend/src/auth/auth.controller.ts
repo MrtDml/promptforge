@@ -16,19 +16,16 @@ import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 
 import { AuthService } from './auth.service';
-
-interface JwtRequest {
-  user: { id: string; email: string };
-}
-
-interface OAuthRequest {
-  user: { email: string; name: string; provider: string };
-}
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { JwtRequest } from '../common/types/jwt-request.type';
+
+interface OAuthRequest {
+  user: { email: string; name: string; provider: string };
+}
 
 @Controller('auth')
 export class AuthController {

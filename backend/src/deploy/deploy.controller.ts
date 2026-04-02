@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { DeployService } from './deploy.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { JwtRequest } from '../common/types/jwt-request.type';
 
 @Controller('deploy')
 @UseGuards(JwtAuthGuard)
@@ -23,7 +24,7 @@ export class DeployController {
    */
   @Post(':projectId')
   @HttpCode(HttpStatus.OK)
-  async deploy(@Param('projectId') projectId: string, @Request() req: any) {
+  async deploy(@Param('projectId') projectId: string, @Request() req: JwtRequest) {
     const result = await this.deployService.deployToRailway(projectId, req.user.id);
     return {
       success: true,
@@ -39,7 +40,7 @@ export class DeployController {
    */
   @Get(':projectId/status')
   @HttpCode(HttpStatus.OK)
-  async getStatus(@Param('projectId') projectId: string, @Request() req: any) {
+  async getStatus(@Param('projectId') projectId: string, @Request() req: JwtRequest) {
     const result = await this.deployService.getDeployStatus(projectId, req.user.id);
     return {
       success: true,

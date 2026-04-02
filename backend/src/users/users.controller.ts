@@ -19,6 +19,7 @@ import * as bcrypt from 'bcrypt';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { PrismaService } from '../prisma/prisma.service';
+import { JwtRequest } from '../common/types/jwt-request.type';
 
 class UpdateProfileDto {
   @IsOptional()
@@ -50,7 +51,7 @@ export class UsersController {
   ) {}
 
   @Get('me')
-  async getMe(@Request() req: any) {
+  async getMe(@Request() req: JwtRequest) {
     const user = await this.usersService.findById(req.user.id);
     if (!user) throw new UnauthorizedException('User not found');
     const { password: _password, ...rest } = user as any;
@@ -58,13 +59,13 @@ export class UsersController {
   }
 
   @Patch('me')
-  async updateMe(@Request() req: any, @Body() dto: UpdateProfileDto) {
+  async updateMe(@Request() req: JwtRequest, @Body() dto: UpdateProfileDto) {
     const updated = await this.usersService.update(req.user.id, dto);
     return { ...updated, plan: (updated as any).planType ?? 'free' };
   }
 
   @Patch('me/password')
-  async changePassword(@Request() req: any, @Body() dto: ChangePasswordDto) {
+  async changePassword(@Request() req: JwtRequest, @Body() dto: ChangePasswordDto) {
     const user = await this.usersService.findById(req.user.id);
     if (!user) throw new UnauthorizedException('User not found');
 
@@ -80,7 +81,7 @@ export class UsersController {
   }
 
   @Delete('me')
-  async deleteMe(@Request() req: any) {
+  async deleteMe(@Request() req: JwtRequest) {
     return this.usersService.remove(req.user.id);
   }
 }

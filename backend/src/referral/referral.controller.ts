@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, UseGuards, Request, HttpCode, HttpStatus }
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ReferralService } from './referral.service';
 import { IsString, MinLength, MaxLength } from 'class-validator';
+import { JwtRequest } from '../common/types/jwt-request.type';
 
 class ApplyReferralDto {
   @IsString()
@@ -17,14 +18,14 @@ export class ReferralController {
 
   /** GET /api/v1/referral — returns referral code + stats for the current user */
   @Get()
-  async getMyReferral(@Request() req: any) {
+  async getMyReferral(@Request() req: JwtRequest) {
     return this.referralService.getStats(req.user.id);
   }
 
   /** POST /api/v1/referral/apply — apply someone else's referral code */
   @Post('apply')
   @HttpCode(HttpStatus.OK)
-  async applyCode(@Request() req: any, @Body() dto: ApplyReferralDto) {
+  async applyCode(@Request() req: JwtRequest, @Body() dto: ApplyReferralDto) {
     await this.referralService.applyReferralCode(req.user.id, dto.code);
     return { message: 'Referral code applied successfully!' };
   }

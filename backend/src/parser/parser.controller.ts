@@ -3,7 +3,6 @@ import {
   Post,
   Body,
   UseGuards,
-  Request,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
@@ -18,7 +17,7 @@ export class ParserController {
 
   @Post('parse')
   @HttpCode(HttpStatus.OK)
-  async parsePrompt(@Body() parsePromptDto: ParsePromptDto, @Request() req: any) {
+  async parsePrompt(@Body() parsePromptDto: ParsePromptDto) {
     const result = await this.parserService.parsePrompt(parsePromptDto);
 
     // Build CRUD endpoints for each entity

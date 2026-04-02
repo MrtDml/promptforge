@@ -22,6 +22,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { PrismaService } from '../prisma/prisma.service';
 import { UsersService } from '../users/users.service';
 import { MailService } from '../mail/mail.service';
+import { JwtRequest } from '../common/types/jwt-request.type';
 
 class GenerateFromSchemaDto {
   @IsObject()
@@ -54,7 +55,7 @@ export class GeneratorController {
    */
   @Post('generate')
   @HttpCode(HttpStatus.OK)
-  async generate(@Body() body: GenerateFromSchemaDto, @Request() req: any) {
+  async generate(@Body() body: GenerateFromSchemaDto, @Request() req: JwtRequest) {
     // ── Quota check ──────────────────────────────────────────────────────────
     const user = await this.usersService.findById(req.user.id);
     if (!user) {
@@ -161,7 +162,7 @@ export class GeneratorController {
   @Get('download/:projectId')
   async downloadZip(
     @Param('projectId') projectId: string,
-    @Request() req: any,
+    @Request() req: JwtRequest,
     @Res() res: Response,
   ) {
     const project = await this.prisma.project.findUnique({

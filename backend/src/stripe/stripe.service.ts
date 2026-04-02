@@ -9,9 +9,32 @@ import { PLANS, PlanType } from './plans.config';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const Iyzipay = require('iyzipay');
 
+type IyzipayCallback<T> = (err: { message?: string } | null, result: T) => void;
+
+interface IyzipayFormResult {
+  status: string;
+  token?: string;
+  errorMessage?: string;
+  subscriptionStatus?: string;
+  subscriptionReferenceCode?: string;
+  pricingPlanReferenceCode?: string;
+  customerReferenceCode?: string;
+  conversationId?: string;
+}
+
+interface IyzipayClient {
+  subscriptionCheckoutForm: {
+    initialize: (params: Record<string, unknown>, cb: IyzipayCallback<IyzipayFormResult>) => void;
+    retrieve: (params: Record<string, unknown>, cb: IyzipayCallback<IyzipayFormResult>) => void;
+  };
+  subscription: {
+    cancel: (params: Record<string, unknown>, cb: IyzipayCallback<IyzipayFormResult>) => void;
+  };
+}
+
 @Injectable()
 export class StripeService {
-  private readonly iyzipay: any;
+  private readonly iyzipay: IyzipayClient | null;
   private readonly logger = new Logger('IyzicoService');
 
   private readonly baseUrl =
@@ -46,9 +69,11 @@ export class StripeService {
 
   // ─── Promise wrapper ────────────────────────────────────────────────────────
 
-  private call<T>(method: (cb: (err: any, result: T) => void) => void): Promise<T> {
+  private call<T extends IyzipayFormResult>(
+    method: (cb: IyzipayCallback<T>) => void,
+  ): Promise<T> {
     return new Promise((resolve, reject) => {
-      method((err, result: any) => {
+      method((err, result) => {
         if (err) {
           reject(new Error(err.message || 'iyzico isteği başarısız'));
           return;
@@ -101,8 +126,8 @@ export class StripeService {
     const firstName = nameParts[0] || 'Kullanıcı';
     const lastName = nameParts.slice(1).join(' ') || '-';
 
-    const result: any = await this.call((cb) =>
-      this.iyzipay.subscriptionCheckoutForm.initialize(
+    const result = await this.call((cb) =>
+      this.iyzipay!.subscriptionCheckoutForm.initialize(
         {
           locale: 'tr',
           conversationId: userId,
@@ -154,7 +179,7 @@ export class StripeService {
     }
 
     await this.call((cb) =>
-      this.iyzipay.subscription.cancel(
+      this.iyzipay!.subscription.cancel(
         { locale: 'tr', subscriptionReferenceCode: user.subscriptionId },
         cb,
       ),
@@ -198,13 +223,14 @@ export class StripeService {
       return;
     }
 
-    let result: any;
+    let result: IyzipayFormResult;
     try {
       result = await this.call((cb) =>
-        this.iyzipay.subscriptionCheckoutForm.retrieve({ locale: 'tr', token }, cb),
+        this.iyzipay!.subscriptionCheckoutForm.retrieve({ locale: 'tr', token }, cb),
       );
-    } catch (err: any) {
-      this.logger.error(`iyzico checkout formu doğrulanamadı: ${err.message}`);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      this.logger.error(`iyzico checkout formu doğrulanamadı: ${message}`);
       return;
     }
 

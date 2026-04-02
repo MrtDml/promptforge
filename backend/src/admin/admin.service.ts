@@ -7,6 +7,7 @@ import {
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject } from '@nestjs/common';
+import { UserRole } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { AdminUpdateUserDto } from './dto/update-user.dto';
 import { CreateBlogPostDto, UpdateBlogPostDto } from './dto/blog-post.dto';
@@ -173,7 +174,7 @@ export class AdminService {
         ...(dto.name !== undefined && { name: dto.name }),
         ...(dto.isActive !== undefined && { isActive: dto.isActive }),
         ...(dto.planType !== undefined && { planType: dto.planType }),
-        ...(dto.role !== undefined && { role: dto.role as any }),
+        ...(dto.role !== undefined && { role: dto.role as UserRole }),
         ...(dto.generationsLimit !== undefined && { generationsLimit: dto.generationsLimit }),
         ...(dto.generationsUsed !== undefined && { generationsUsed: dto.generationsUsed }),
       },

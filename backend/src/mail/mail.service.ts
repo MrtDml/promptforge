@@ -110,6 +110,7 @@ export class MailService {
       <tr><td style="padding-top:24px;text-align:center;color:#334155;font-size:12px;line-height:1.6;">
         <p style="margin:0;">© ${new Date().getFullYear()} PromptForge · <a href="${this.frontendUrl}" style="color:#4f46e5;text-decoration:none;">promptforgeai.dev</a></p>
         <p style="margin:4px 0 0;">You're receiving this because you have an account at PromptForge.</p>
+        <p style="margin:4px 0 0;"><a href="${this.frontendUrl}/dashboard/settings?tab=notifications" style="color:#475569;text-decoration:underline;">Unsubscribe</a> from email notifications.</p>
       </td></tr>
     </table>
   </td></tr>

@@ -94,8 +94,11 @@ export class AuthService {
 
   async refreshAccessToken(refreshToken: string): Promise<{ token: string }> {
     try {
+      if (!process.env.JWT_SECRET) {
+        throw new Error('JWT_SECRET environment variable is not set');
+      }
       const payload = this.jwtService.verify(refreshToken, {
-        secret: process.env.JWT_SECRET || 'fallback-secret-change-in-production',
+        secret: process.env.JWT_SECRET,
       }) as { sub: string; email: string; type: string };
 
       if (payload.type !== 'refresh') {

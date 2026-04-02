@@ -37,6 +37,8 @@ model User {
 
   @@index([createdAt])
   @@index([referralCode])
+  @@index([subscriptionStatus])
+  @@index([emailVerified])
   @@map("users")
 }
 

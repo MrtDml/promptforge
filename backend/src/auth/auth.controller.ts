@@ -16,6 +16,14 @@ import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 
 import { AuthService } from './auth.service';
+
+interface JwtRequest {
+  user: { id: string; email: string };
+}
+
+interface OAuthRequest {
+  user: { email: string; name: string; provider: string };
+}
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
@@ -76,13 +84,13 @@ export class AuthController {
   @Post('resend-verification')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
-  async resendVerification(@Request() req: any) {
+  async resendVerification(@Request() req: JwtRequest) {
     return this.authService.resendVerificationEmail(req.user.id);
   }
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
-  async getProfile(@Request() req: any) {
+  async getProfile(@Request() req: JwtRequest) {
     return this.authService.getProfile(req.user.id);
   }
 
@@ -96,15 +104,16 @@ export class AuthController {
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  async googleCallback(@Request() req: any, @Res() res: Response) {
+  async googleCallback(@Request() req: OAuthRequest, @Res() res: Response) {
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
     try {
       const { token, refreshToken } = await this.authService.oauthLogin(req.user);
       return res.redirect(
         `${frontendUrl}/auth/oauth-callback?token=${token}&refreshToken=${refreshToken}`,
       );
-    } catch (err: any) {
-      return res.redirect(`${frontendUrl}/login?error=${encodeURIComponent(err.message)}`);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Authentication failed';
+      return res.redirect(`${frontendUrl}/login?error=${encodeURIComponent(message)}`);
     }
   }
 
@@ -118,15 +127,16 @@ export class AuthController {
 
   @Get('github/callback')
   @UseGuards(AuthGuard('github'))
-  async githubCallback(@Request() req: any, @Res() res: Response) {
+  async githubCallback(@Request() req: OAuthRequest, @Res() res: Response) {
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
     try {
       const { token, refreshToken } = await this.authService.oauthLogin(req.user);
       return res.redirect(
         `${frontendUrl}/auth/oauth-callback?token=${token}&refreshToken=${refreshToken}`,
       );
-    } catch (err: any) {
-      return res.redirect(`${frontendUrl}/login?error=${encodeURIComponent(err.message)}`);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Authentication failed';
+      return res.redirect(`${frontendUrl}/login?error=${encodeURIComponent(message)}`);
     }
   }
 }

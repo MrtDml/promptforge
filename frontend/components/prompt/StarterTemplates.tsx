@@ -13,7 +13,6 @@ interface Template {
     includeCI?: boolean;
     includeFrontend?: boolean;
     includeIyzico?: boolean;
-    includeEFatura?: boolean;
     includeKVKK?: boolean;
   };
 }
@@ -80,7 +79,7 @@ const TEMPLATES: Template[] = [
     tags: ["billing", "invoices", "finance"],
     prompt:
       "Build an invoice management SaaS API. Invoice (number, status: draft/sent/paid/cancelled, issuedAt, dueAt, subtotal, taxRate, total), InvoiceItem (invoiceId, description, quantity, unitPrice, taxRate), Client (name, email, address, taxId), and Company (name, email, address, taxId, bankAccount). Include PDF invoice generation and JWT auth.",
-    options: { includeEFatura: true, includeKVKK: true },
+    options: { includeKVKK: true },
   },
 ];
 

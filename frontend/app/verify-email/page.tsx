@@ -3,9 +3,10 @@
 import { Suspense } from "react";
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { CheckCircle2, XCircle, Loader2, Zap } from "lucide-react";
+import { CheckCircle2, XCircle, Loader2, Zap, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import apiClient from "@/lib/api";
+import { isAuthenticated } from "@/lib/auth";
 
 function VerifyEmailContent() {
   const searchParams = useSearchParams();
@@ -14,6 +15,10 @@ function VerifyEmailContent() {
 
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
   const [message, setMessage] = useState("");
+  const [resending, setResending] = useState(false);
+  const [resent, setResent] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
+  const loggedIn = isAuthenticated();
 
   useEffect(() => {
     if (!token) {
@@ -36,6 +41,27 @@ function VerifyEmailContent() {
         );
       });
   }, [token, router]);
+
+  // Cooldown countdown
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const t = setInterval(() => setCooldown((c) => Math.max(0, c - 1)), 1000);
+    return () => clearInterval(t);
+  }, [cooldown]);
+
+  async function handleResend() {
+    if (resending || cooldown > 0) return;
+    setResending(true);
+    try {
+      await apiClient.post("/api/v1/auth/resend-verification");
+      setResent(true);
+      setCooldown(60);
+    } catch {
+      // ignore
+    } finally {
+      setResending(false);
+    }
+  }
 
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-4">
@@ -70,17 +96,34 @@ function VerifyEmailContent() {
             <p className="text-white font-semibold text-lg">Verification failed</p>
             <p className="text-slate-400 text-sm mt-1">{message}</p>
           </div>
-          <div className="flex flex-col gap-2 pt-2">
+          <div className="flex flex-col gap-3 pt-2">
+            {loggedIn && (
+              resent ? (
+                <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-green-500/10 border border-green-500/30">
+                  <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" />
+                  <p className="text-green-400 text-sm">New verification email sent! Check your inbox.</p>
+                </div>
+              ) : (
+                <button
+                  onClick={handleResend}
+                  disabled={resending || cooldown > 0}
+                  className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-semibold transition-colors"
+                >
+                  {resending ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <RefreshCw className="w-4 h-4" />
+                  )}
+                  {cooldown > 0 ? `Resend in ${cooldown}s` : "Send new verification email"}
+                </button>
+              )
+            )}
             <Link
               href="/dashboard"
-              className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition-colors"
+              className="px-5 py-2.5 rounded-xl border border-slate-700 hover:border-slate-500 text-slate-300 text-sm font-semibold transition-colors text-center"
             >
               Go to Dashboard
             </Link>
-            <p className="text-xs text-slate-600">
-              Need a new link? Go to dashboard and click{" "}
-              <span className="text-slate-400">&quot;Resend verification&quot;</span>.
-            </p>
           </div>
         </>
       )}

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { parserApi, generatorApi, projectsApi } from "@/lib/api";
 import type { AppSchema, GenerateResponse, Project } from "@/types";
 import PromptForm from "@components/prompt/PromptForm";
@@ -69,22 +69,23 @@ function findSimilarProjects(projects: Project[], prompt: string): Project[] {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-export default function NewProjectPage() {
+function NewProjectContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [step, setStep] = useState<Step>("input");
-  const [prompt, setPrompt] = useState("");
+  const [prompt, setPrompt] = useState(searchParams.get("prompt") ?? "");
   const [schema, setSchema] = useState<AppSchema | null>(null);
   const [generateResult, setGenerateResult] = useState<GenerateResponse | null>(null);
   const [parseError, setParseError] = useState<string | null>(null);
   const [generateError, setGenerateError] = useState<string | null>(null);
   const [isParsing, setIsParsing] = useState(false);
+  const [generatingTooLong, setGeneratingTooLong] = useState(false);
   const [includeTests, setIncludeTests] = useState(false);
   const [includeDocker, setIncludeDocker] = useState(true);
   const [includeSwagger, setIncludeSwagger] = useState(false);
   const [includeCI, setIncludeCI] = useState(false);
   const [includeFrontend, setIncludeFrontend] = useState(false);
   const [includeIyzico, setIncludeIyzico] = useState(false);
-  const [includeEFatura, setIncludeEFatura] = useState(false);
   const [includeKVKK, setIncludeKVKK] = useState(false);
   const [framework, setFramework] = useState<"nestjs" | "express">("nestjs");
 
@@ -146,17 +147,25 @@ export default function NewProjectPage() {
     }
   }
 
+  // Timeout warning after 45s during generation
+  useEffect(() => {
+    if (step !== "generating") { setGeneratingTooLong(false); return; }
+    const t = setTimeout(() => setGeneratingTooLong(true), 45000);
+    return () => clearTimeout(t);
+  }, [step]);
+
   // Step 2 → 3 → 4: generate
   async function handleGenerate() {
     if (!schema) return;
     setGenerateError(null);
+    setGeneratingTooLong(false);
     setStep("generating");
     try {
       const response = await generatorApi.generate({
         schema,
         options: {
           includeTests, includeDocker, includeSwagger, includeCI,
-          includeFrontend, includeIyzico, includeEFatura, includeKVKK, framework,
+          includeFrontend, includeIyzico, includeKVKK, framework,
         },
       });
       setGenerateResult(response.data);
@@ -174,7 +183,7 @@ export default function NewProjectPage() {
     templatePrompt: string,
     options?: {
       includeSwagger?: boolean; includeCI?: boolean; includeFrontend?: boolean;
-      includeIyzico?: boolean; includeEFatura?: boolean; includeKVKK?: boolean;
+      includeIyzico?: boolean; includeKVKK?: boolean;
     },
     fw?: "nestjs" | "express",
   ) {
@@ -183,7 +192,6 @@ export default function NewProjectPage() {
     if (options?.includeCI !== undefined) setIncludeCI(options.includeCI);
     if (options?.includeFrontend !== undefined) setIncludeFrontend(options.includeFrontend);
     if (options?.includeIyzico !== undefined) setIncludeIyzico(options.includeIyzico);
-    if (options?.includeEFatura !== undefined) setIncludeEFatura(options.includeEFatura);
     if (options?.includeKVKK !== undefined) setIncludeKVKK(options.includeKVKK);
     if (fw) setFramework(fw);
   }
@@ -410,11 +418,10 @@ export default function NewProjectPage() {
             <div className="border-t border-slate-700/60 pt-5">
               <h4 className="font-semibold text-white text-sm mb-1">Extended Integrations</h4>
               <p className="text-slate-500 text-xs mb-4">Optional service modules added on top of the generated project.</p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
-                  { key: "includeIyzico", label: "Payment Integration", desc: "Payment service, checkout & subscription handling", checked: includeIyzico, onChange: setIncludeIyzico, icon: <CreditCard className="w-3.5 h-3.5 text-green-400" /> },
-                  { key: "includeEFatura", label: "Invoice Generator", desc: "PDF invoice generation & billing records", checked: includeEFatura, onChange: setIncludeEFatura, icon: <FileText className="w-3.5 h-3.5 text-blue-400" /> },
-                  { key: "includeKVKK", label: "Privacy Compliance", desc: "GDPR middleware & privacy policy templates", checked: includeKVKK, onChange: setIncludeKVKK, icon: <Shield className="w-3.5 h-3.5 text-purple-400" /> },
+                  { key: "includeIyzico", label: "Payment Integration", desc: "Checkout form, subscription handling & webhook callbacks", checked: includeIyzico, onChange: setIncludeIyzico, icon: <CreditCard className="w-3.5 h-3.5 text-green-400" /> },
+                  { key: "includeKVKK", label: "Privacy & GDPR Compliance", desc: "Consent middleware, cookie policy & privacy templates", checked: includeKVKK, onChange: setIncludeKVKK, icon: <Shield className="w-3.5 h-3.5 text-purple-400" /> },
                 ].map((opt) => (
                   <label key={opt.key} className="flex items-start gap-3 cursor-pointer group p-3 rounded-lg hover:bg-slate-800/50 transition-colors border border-slate-700/50">
                     <input
@@ -458,9 +465,18 @@ export default function NewProjectPage() {
             <div className="absolute inset-0 rounded-full border-2 border-indigo-500/20 animate-ping" />
           </div>
           <h3 className="text-2xl font-bold text-white mb-3">Generating your application...</h3>
-          <p className="text-slate-400 max-w-md">
-            AI is crafting your complete SaaS application. This usually takes 15–30 seconds.
-          </p>
+          {generatingTooLong ? (
+            <div className="bg-amber-950/50 border border-amber-700/50 rounded-xl px-5 py-3 max-w-md">
+              <p className="text-amber-300 text-sm font-medium">Still working…</p>
+              <p className="text-amber-400/70 text-xs mt-1">
+                Complex schemas take longer. Please keep this tab open — your project will be ready shortly.
+              </p>
+            </div>
+          ) : (
+            <p className="text-slate-400 max-w-md">
+              AI is crafting your complete SaaS application. This usually takes 15–30 seconds.
+            </p>
+          )}
           <div className="mt-10 glass-card p-5 w-full max-w-sm">
             <div className="space-y-3">
               {[
@@ -474,8 +490,7 @@ export default function NewProjectPage() {
                 includeTests ? "Writing unit tests" : null,
                 includeFrontend ? "Generating Next.js frontend" : null,
                 includeIyzico ? "Adding payment integration" : null,
-                includeEFatura ? "Adding invoice generator" : null,
-                includeKVKK ? "Adding privacy compliance layer" : null,
+                includeKVKK ? "Adding privacy & GDPR compliance" : null,
                 "Building Postman collection",
                 "Finalizing output",
               ]
@@ -538,5 +553,13 @@ export default function NewProjectPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function NewProjectPage() {
+  return (
+    <Suspense fallback={<div className="p-6 lg:p-8 max-w-5xl mx-auto" />}>
+      <NewProjectContent />
+    </Suspense>
   );
 }

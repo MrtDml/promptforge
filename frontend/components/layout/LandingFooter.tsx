@@ -53,6 +53,40 @@ export default function LandingFooter() {
           </div>
         </div>
 
+        {/* Payment security badges */}
+        <div className="border-t border-slate-800/60 pt-6 mb-6">
+          <p className="text-xs text-slate-600 uppercase tracking-wider mb-3 text-center sm:text-left">Secure payments powered by</p>
+          <div className="flex flex-wrap items-center gap-3 justify-center sm:justify-start">
+            {/* iyzico badge */}
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
+              <span className="text-[10px] font-black text-white tracking-tight">iyzico</span>
+            </div>
+            {/* Visa */}
+            <div className="flex items-center px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
+              <span className="text-[11px] font-black text-blue-400 tracking-widest italic">VISA</span>
+            </div>
+            {/* Mastercard */}
+            <div className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
+              <span className="w-4 h-4 rounded-full bg-red-500 opacity-90 inline-block -mr-2" />
+              <span className="w-4 h-4 rounded-full bg-orange-400 opacity-90 inline-block" />
+              <span className="text-[10px] text-slate-400 font-semibold ml-1.5">Mastercard</span>
+            </div>
+            {/* Troy */}
+            <div className="flex items-center px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
+              <span className="text-[11px] font-black text-slate-300 tracking-wider">TROY</span>
+            </div>
+            {/* SSL */}
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-green-800/40 bg-green-950/30">
+              <svg className="w-3 h-3 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" /></svg>
+              <span className="text-[10px] text-green-400 font-semibold">SSL Secured</span>
+            </div>
+            {/* 3D Secure */}
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
+              <span className="text-[10px] text-slate-400 font-semibold">3D Secure</span>
+            </div>
+          </div>
+        </div>
+
         <div className="border-t border-slate-800/60 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex flex-col sm:flex-row items-center gap-2 text-center sm:text-left">
             <p className="text-slate-600 text-xs">

@@ -20,6 +20,16 @@ import {
   Check,
 } from "lucide-react";
 import { getStoredUser, setStoredUser, clearAuthState } from "@/lib/auth";
+
+const PASSWORD_REQUIREMENTS = [
+  { label: "At least 8 characters", test: (p: string) => p.length >= 8 },
+  { label: "One uppercase letter", test: (p: string) => /[A-Z]/.test(p) },
+  { label: "One number", test: (p: string) => /[0-9]/.test(p) },
+];
+
+function getPasswordScore(p: string): number {
+  return PASSWORD_REQUIREMENTS.filter((r) => r.test(p)).length;
+}
 import { usersApi, stripeApi, referralApi } from "@/lib/api";
 import type { User as UserType } from "@/types";
 
@@ -300,10 +310,10 @@ export default function SettingsPage() {
       setPasswordToast({ type: "error", message: "New passwords do not match." });
       return;
     }
-    if (newPassword.length < 8) {
+    if (getPasswordScore(newPassword) < 3) {
       setPasswordToast({
         type: "error",
-        message: "New password must be at least 8 characters.",
+        message: "Password must be at least 8 characters, include an uppercase letter and a number.",
       });
       return;
     }
@@ -469,10 +479,36 @@ export default function SettingsPage() {
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
                 autoComplete="new-password"
-                minLength={8}
                 className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-indigo-500/60 transition-colors"
                 placeholder="Min. 8 characters"
               />
+              {newPassword.length > 0 && (
+                <div className="mt-2 space-y-1.5">
+                  <div className="flex gap-1">
+                    {[1, 2, 3].map((i) => {
+                      const score = getPasswordScore(newPassword);
+                      return (
+                        <div
+                          key={i}
+                          className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
+                            i <= score
+                              ? score === 1 ? "bg-red-500" : score === 2 ? "bg-yellow-500" : "bg-green-500"
+                              : "bg-slate-700"
+                          }`}
+                        />
+                      );
+                    })}
+                  </div>
+                  <div className="space-y-0.5">
+                    {PASSWORD_REQUIREMENTS.map((req) => (
+                      <div key={req.label} className="flex items-center gap-1.5">
+                        <CheckCircle2 className={`w-3 h-3 transition-colors ${req.test(newPassword) ? "text-green-400" : "text-slate-600"}`} />
+                        <span className={`text-xs transition-colors ${req.test(newPassword) ? "text-slate-300" : "text-slate-500"}`}>{req.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
             <div>
               <label className="block text-sm text-slate-300 mb-1.5 font-medium">

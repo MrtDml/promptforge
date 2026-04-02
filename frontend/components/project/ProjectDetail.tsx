@@ -314,27 +314,46 @@ function QualityScorePanel({ project, files }: { project: Project; files: Genera
         {/* Bar chart */}
         <div className="flex-1 space-y-2.5">
           {dimensions.map((d) => (
-            <div key={d.label} className="flex items-center gap-2">
-              <d.icon className={`w-3.5 h-3.5 flex-shrink-0 ${d.color}`} />
-              <span className="text-xs text-slate-400 w-24 flex-shrink-0">{d.label}</span>
-              <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
-                <div
-                  className={`h-full rounded-full transition-all duration-700 ${
-                    d.score >= 80 ? "bg-green-500" : d.score >= 55 ? "bg-yellow-500" : "bg-red-500"
-                  }`}
-                  style={{ width: `${d.score}%` }}
-                />
+            <div key={d.label}>
+              <div className="flex items-center gap-2">
+                <d.icon className={`w-3.5 h-3.5 flex-shrink-0 ${d.color}`} />
+                <span className="text-xs text-slate-400 w-24 flex-shrink-0">{d.label}</span>
+                <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all duration-700 ${
+                      d.score >= 80 ? "bg-green-500" : d.score >= 55 ? "bg-yellow-500" : "bg-red-500"
+                    }`}
+                    style={{ width: `${d.score}%` }}
+                  />
+                </div>
+                <span className="text-xs text-slate-500 w-8 text-right">{d.score}</span>
               </div>
-              <span className="text-xs text-slate-500 w-8 text-right">{d.score}</span>
+              <p className="text-xs text-slate-600 ml-5 mt-0.5">{d.tip}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <p className="text-xs text-slate-500">
-        Score is computed from architecture patterns, data model richness, API coverage, and file count.
-        {overall < 70 && " Add tests, Docker, Swagger, or more entities to improve your score."}
-      </p>
+      <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-4 space-y-1.5">
+        <p className="text-xs font-semibold text-slate-300 mb-2">How the score is calculated</p>
+        <p className="text-xs text-slate-500">
+          <span className="text-slate-400 font-medium">Architecture (35%)</span> — Auth, Docker, Swagger, Tests, CI/CD configuration
+        </p>
+        <p className="text-xs text-slate-500">
+          <span className="text-slate-400 font-medium">Data Model (25%)</span> — Number of entities and relationships
+        </p>
+        <p className="text-xs text-slate-500">
+          <span className="text-slate-400 font-medium">API Coverage (20%)</span> — CRUD endpoints per entity
+        </p>
+        <p className="text-xs text-slate-500">
+          <span className="text-slate-400 font-medium">Code Volume (20%)</span> — Total generated file count
+        </p>
+        {overall < 70 && (
+          <p className="text-xs text-yellow-400/80 pt-1 border-t border-slate-700/50 mt-2">
+            💡 Improve your score: add Tests, Docker, Swagger, CI/CD, or more entities when creating your next project.
+          </p>
+        )}
+      </div>
     </div>
   );
 }
@@ -457,6 +476,7 @@ export default function ProjectDetail({
   const [shareToken, setShareToken] = useState(project.shareToken ?? null);
   const [shareLoading, setShareLoading] = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
+  const [shareToast, setShareToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   const files = project.generatedOutput?.files ?? [];
   const fileGroups = groupFilesByDirectory(files);
@@ -489,13 +509,22 @@ export default function ProjectDetail({
 
   async function handleToggleShare() {
     setShareLoading(true);
+    setShareToast(null);
     try {
       const res = await apiClient.post(`/api/v1/projects/${project.id}/share`);
       const { isPublic: newIsPublic, shareToken: newToken } = res.data.data ?? res.data;
       setIsPublic(newIsPublic);
       setShareToken(newToken);
+      setShareToast({
+        type: "success",
+        message: newIsPublic
+          ? "Project is now public. Share the link!"
+          : "Project is now private.",
+      });
+      setTimeout(() => setShareToast(null), 3000);
     } catch {
-      // ignore
+      setShareToast({ type: "error", message: "Failed to update sharing settings." });
+      setTimeout(() => setShareToast(null), 3000);
     } finally {
       setShareLoading(false);
     }
@@ -522,6 +551,19 @@ export default function ProjectDetail({
 
   return (
     <div className="animate-fade-in space-y-6">
+      {/* Share toast */}
+      {shareToast && (
+        <div className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-sm font-medium ${
+          shareToast.type === "success"
+            ? "bg-green-500/10 border-green-500/30 text-green-400"
+            : "bg-red-500/10 border-red-500/30 text-red-400"
+        }`}>
+          {shareToast.type === "success"
+            ? <CheckCheck className="w-4 h-4 flex-shrink-0" />
+            : <AlertCircle className="w-4 h-4 flex-shrink-0" />}
+          {shareToast.message}
+        </div>
+      )}
       {/* Project header */}
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div>

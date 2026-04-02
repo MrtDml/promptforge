@@ -166,9 +166,16 @@ export default function DashboardPage() {
             <p className="text-sm text-slate-300 font-medium">
               Generation usage
             </p>
-            <p className="text-xs text-slate-500">
-              {generationsUsed} / {generationsLimit} projects
-            </p>
+            <div className="text-right">
+              <p className="text-xs text-slate-400 font-medium">
+                {generationsUsed} / {generationsLimit} used
+              </p>
+              {generationsLimit !== Infinity && (
+                <p className={`text-xs ${generationsLimit - generationsUsed <= 1 ? "text-red-400" : "text-slate-500"}`}>
+                  {Math.max(0, generationsLimit - generationsUsed)} remaining
+                </p>
+              )}
+            </div>
           </div>
           <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
             <div
@@ -350,14 +357,14 @@ export default function DashboardPage() {
             <p className="text-xs text-slate-600 uppercase tracking-wider mb-4">Try one of these ideas</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
               {[
-                { icon: CreditCard, title: "Subscription SaaS", desc: "Multi-tenant SaaS with Stripe subscriptions, user management, and dashboard" },
-                { icon: FileText, title: "Invoice Manager", desc: "Invoice creation, PDF export, payment tracking, and client portal" },
-                { icon: Shield, title: "Auth Boilerplate", desc: "Complete auth system with JWT, refresh tokens, roles, and 2FA" },
-                { icon: Braces, title: "REST API Backend", desc: "CRUD API with NestJS, Postgres, validation, Swagger docs, and Docker" },
-              ].map(({ icon: Icon, title, desc }) => (
+                { icon: CreditCard, title: "Subscription SaaS", desc: "Multi-tenant SaaS with subscriptions, user management, and dashboard", prompt: "Build a multi-tenant SaaS platform with subscription plans, user management, billing dashboard, and team workspaces" },
+                { icon: FileText, title: "Invoice Manager", desc: "Invoice creation, PDF export, payment tracking, and client portal", prompt: "Build an invoice management system with invoice creation, PDF export, payment tracking, and a client portal" },
+                { icon: Shield, title: "Auth Boilerplate", desc: "Complete auth system with JWT, refresh tokens, roles, and 2FA", prompt: "Build a complete authentication system with JWT, refresh tokens, role-based access control, email verification, and password reset" },
+                { icon: Braces, title: "REST API Backend", desc: "CRUD API with NestJS, Postgres, validation, Swagger docs, and Docker", prompt: "Build a production-ready REST API backend with NestJS, PostgreSQL, full CRUD operations, input validation, Swagger documentation, and Docker" },
+              ].map(({ icon: Icon, title, desc, prompt }) => (
                 <Link
                   key={title}
-                  href={`/dashboard/new`}
+                  href={`/dashboard/new?prompt=${encodeURIComponent(prompt)}`}
                   className="glass-card p-4 flex gap-3 hover:border-slate-600/80 transition-all group"
                 >
                   <div className="w-8 h-8 rounded-lg bg-indigo-950/60 border border-indigo-800/40 flex items-center justify-center flex-shrink-0">

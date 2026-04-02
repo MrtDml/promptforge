@@ -18,6 +18,7 @@ export default function DashboardLayout({
   const [showVerifyBanner, setShowVerifyBanner] = useState(false);
   const [resending, setResending] = useState(false);
   const [resent, setResent] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -30,11 +31,19 @@ export default function DashboardLayout({
     }
   }, [router]);
 
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const t = setInterval(() => setCooldown((c) => Math.max(0, c - 1)), 1000);
+    return () => clearInterval(t);
+  }, [cooldown]);
+
   async function handleResend() {
+    if (resending || cooldown > 0) return;
     setResending(true);
     try {
       await apiClient.post("/api/v1/auth/resend-verification");
       setResent(true);
+      setCooldown(60);
     } catch {
       // ignore
     } finally {
@@ -92,15 +101,17 @@ export default function DashboardLayout({
             <p className="text-amber-200 text-sm flex-1">
               Please verify your email address to unlock all features.{" "}
               {resent ? (
-                <span className="text-green-400 font-medium">Verification email sent!</span>
+                <span className="text-green-400 font-medium">
+                  Verification email sent!{cooldown > 0 ? ` Resend again in ${cooldown}s.` : ""}
+                </span>
               ) : (
                 <button
                   onClick={handleResend}
-                  disabled={resending}
+                  disabled={resending || cooldown > 0}
                   className="underline text-amber-300 hover:text-amber-100 transition-colors disabled:opacity-50 inline-flex items-center gap-1"
                 >
                   {resending && <Loader2 className="w-3 h-3 animate-spin" />}
-                  Resend verification email
+                  {cooldown > 0 ? `Resend in ${cooldown}s` : "Resend verification email"}
                 </button>
               )}
             </p>

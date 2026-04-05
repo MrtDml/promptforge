@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import PostHogProvider from "@components/providers/PostHogProvider";
+import PostHogPageView from "@components/providers/PostHogPageView";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -162,7 +164,10 @@ export default function RootLayout({
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebsite) }} />
       </head>
       <body className="bg-slate-950 text-slate-100 antialiased min-h-screen font-sans">
-        {children}
+        <PostHogProvider>
+          <PostHogPageView />
+          {children}
+        </PostHogProvider>
       </body>
     </html>
   );

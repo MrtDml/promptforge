@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Eye, EyeOff, UserPlus, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Eye, EyeOff, UserPlus, AlertCircle, CheckCircle2, Gift } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import OAuthButtons from "@components/ui/OAuthButtons";
 
@@ -12,8 +13,9 @@ const passwordRequirements = [
   { label: "One number", test: (p: string) => /\d/.test(p) },
 ];
 
-export default function RegisterPage() {
+function RegisterForm() {
   const { register, isLoading } = useAuth();
+  const searchParams = useSearchParams();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,6 +23,12 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showRequirements, setShowRequirements] = useState(false);
+  const [referralCode, setReferralCode] = useState("");
+
+  useEffect(() => {
+    const ref = searchParams.get("ref");
+    if (ref) setReferralCode(ref.toUpperCase());
+  }, [searchParams]);
 
   const passwordScore = passwordRequirements.filter((r) => r.test(password)).length;
 
@@ -44,7 +52,12 @@ export default function RegisterPage() {
     }
 
     try {
-      await register({ name: name.trim(), email: email.trim(), password });
+      await register({
+        name: name.trim(),
+        email: email.trim(),
+        password,
+        ...(referralCode.trim() ? { referralCode: referralCode.trim() } : {}),
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Registration failed.");
     }
@@ -61,6 +74,16 @@ export default function RegisterPage() {
           Start building SaaS apps with AI — free to try, no credit card needed.
         </p>
       </div>
+
+      {/* Referral notice */}
+      {referralCode && (
+        <div className="flex items-center gap-3 bg-indigo-500/10 border border-indigo-500/30 rounded-xl px-4 py-3 mb-5">
+          <Gift className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+          <p className="text-indigo-300 text-sm">
+            Referral code <span className="font-mono font-semibold">{referralCode}</span> applied — your friend earns bonus generations!
+          </p>
+        </div>
+      )}
 
       {/* Error */}
       {error && (
@@ -199,6 +222,25 @@ export default function RegisterPage() {
           )}
         </div>
 
+        {/* Referral code (manual entry — only shown when NOT pre-filled via URL) */}
+        {!searchParams.get("ref") && (
+          <div>
+            <label htmlFor="referralCode" className="block text-sm font-medium text-slate-300 mb-1.5">
+              Referral code <span className="text-slate-500 font-normal">(optional)</span>
+            </label>
+            <input
+              id="referralCode"
+              type="text"
+              value={referralCode}
+              onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
+              placeholder="e.g. A1B2C3D4"
+              maxLength={12}
+              className="input-base font-mono"
+              autoComplete="off"
+            />
+          </div>
+        )}
+
         <button
           type="submit"
           disabled={isLoading}
@@ -248,5 +290,13 @@ export default function RegisterPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className="animate-pulse h-96 bg-slate-800/30 rounded-xl" />}>
+      <RegisterForm />
+    </Suspense>
   );
 }

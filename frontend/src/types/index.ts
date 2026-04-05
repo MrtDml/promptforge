@@ -15,6 +15,8 @@ export interface User {
   generationsLimit?: number;
   emailVerified?: boolean;
   isActive?: boolean;
+  referralCode?: string;
+  referredById?: string;
 }
 
 // ─── Admin ───────────────────────────────────────────────────────────────────
@@ -89,6 +91,7 @@ export interface RegisterRequest {
   name: string;
   email: string;
   password: string;
+  referralCode?: string;
 }
 
 export interface AuthResponse {

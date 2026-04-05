@@ -137,7 +137,7 @@ export function useAuth(): UseAuthReturn {
           error: null,
         });
 
-        router.push("/dashboard");
+        router.push("/onboarding");
       } catch (err) {
         const axiosError = err as AxiosError<{ message: string }>;
         const message =

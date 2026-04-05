@@ -89,16 +89,17 @@ export class GenerationProcessor {
 
       await job.progress(100);
       this.logger.log(`Job ${job.id}: project ${projectId} generation completed`);
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.logger.error(
-        `Job ${job.id}: project ${projectId} generation failed — ${error.message}`,
-        error.stack,
+        `Job ${job.id}: project ${projectId} generation failed — ${err.message}`,
+        err.stack,
       );
       await this.prisma.project.update({
         where: { id: projectId },
-        data: { status: 'FAILED', errorMessage: error.message },
+        data: { status: 'FAILED', errorMessage: err.message },
       });
-      throw error; // re-throw so Bull marks job as failed and triggers retry
+      throw err; // re-throw so Bull marks job as failed and triggers retry
     }
   }
 }

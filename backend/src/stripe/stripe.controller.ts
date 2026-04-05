@@ -63,7 +63,7 @@ export class StripeController {
   async createPortalSession(
     @Req() req: Request & { user: { id: string } },
   ) {
-    const url = await this.stripeService.createPortalSession('');
+    const url = await this.stripeService.createPortalSession(req.user.id);
     return { url };
   }
 

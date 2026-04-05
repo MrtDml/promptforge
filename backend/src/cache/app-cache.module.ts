@@ -24,8 +24,9 @@ const logger = new Logger('AppCacheModule');
           });
           logger.log('Redis cache connected');
           return { store };
-        } catch (err: any) {
-          logger.error(`Redis cache connection failed: ${err.message} — falling back to in-memory`);
+        } catch (err: unknown) {
+          const message = err instanceof Error ? err.message : String(err);
+          logger.error(`Redis cache connection failed: ${message} — falling back to in-memory`);
           return { ttl: 60_000 };
         }
       },

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import apiClient from "@/lib/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -14,7 +15,6 @@ import {
   Loader2,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import { getToken } from "@/lib/auth";
 import LandingNav from "@components/layout/LandingNav";
 import LandingFooter from "@components/layout/LandingFooter";
 import AnnouncementBanner from "@components/layout/AnnouncementBanner";
@@ -217,26 +217,17 @@ export default function PricingPage() {
         return;
       }
 
-      // Logged-in user — call Stripe checkout
+      // Logged-in user — call iyzico checkout
       setLoadingTier(tier.id);
       try {
-        const { default: axios } = await import("axios");
-        const token = typeof window !== "undefined" ? getToken() : null;
-
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/api/v1/stripe/checkout`,
-          {
-            planType: tier.id,
-          },
-          {
-            headers: token ? { Authorization: `Bearer ${token}` } : {},
-          }
-        );
+        const response = await apiClient.post<{ url: string }>("/api/v1/stripe/checkout", {
+          planType: tier.id,
+        });
 
         if (response.data?.url) {
           window.location.href = response.data.url;
         }
-      } catch (err) {
+      } catch (err: unknown) {
         console.error("Checkout error:", err);
         // Fallback — redirect to register so the user can try again
         router.push("/register");
@@ -244,7 +235,7 @@ export default function PricingPage() {
         setLoadingTier(null);
       }
     },
-    [isAuthenticated, billing, router]
+    [isAuthenticated, router]
   );
 
   const pricingFaqJsonLd = {

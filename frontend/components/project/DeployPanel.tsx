@@ -213,10 +213,10 @@ export default function DeployPanel({ project, onProjectUpdate }: DeployPanelPro
     return stopPolling;
   }, [deployStatus, pollStatus, stopPolling]);
 
-  // Show advisor if already deployed
+  // Show advisor if already deployed or when status transitions to deployed
   useEffect(() => {
     if (deployStatus === "deployed") setShowAdvisor(true);
-  }, []);
+  }, [deployStatus]);
 
   async function handleDeploy() {
     if (isDeploying || deployStatus === "deploying") return;
@@ -235,8 +235,9 @@ export default function DeployPanel({ project, onProjectUpdate }: DeployPanelPro
         setShowAdvisor(true);
         onProjectUpdate?.({ deployStatus: status as DeployStatus, deployUrl: url, railwayProjectId: rpId });
       }
-    } catch (err: any) {
-      setError(err?.response?.data?.message ?? err?.message ?? "Deployment failed. Please try again.");
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } }; message?: string };
+      setError(axiosErr?.response?.data?.message ?? axiosErr?.message ?? "Deployment failed. Please try again.");
       setDeployStatus("failed");
       setIsDeploying(false);
     }

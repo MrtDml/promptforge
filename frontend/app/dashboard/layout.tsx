@@ -14,12 +14,14 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const [authChecked, setAuthChecked] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showVerifyBanner, setShowVerifyBanner] = useState(false);
   const [resending, setResending] = useState(false);
   const [resent, setResent] = useState(false);
   const [cooldown, setCooldown] = useState(0);
 
+  // Auth check — redirect to login immediately if not authenticated
   useEffect(() => {
     if (!isAuthenticated()) {
       router.replace("/login");
@@ -29,13 +31,20 @@ export default function DashboardLayout({
     if (user && user.emailVerified === false && user.role !== "ADMIN") {
       setShowVerifyBanner(true);
     }
+    setAuthChecked(true);
   }, [router]);
 
+  // Cooldown countdown for resend button
   useEffect(() => {
     if (cooldown <= 0) return;
     const t = setInterval(() => setCooldown((c) => Math.max(0, c - 1)), 1000);
     return () => clearInterval(t);
   }, [cooldown]);
+
+  // Close sidebar on route change (mobile)
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, []);
 
   async function handleResend() {
     if (resending || cooldown > 0) return;
@@ -51,10 +60,14 @@ export default function DashboardLayout({
     }
   }
 
-  // Close sidebar on route change (mobile)
-  useEffect(() => {
-    setSidebarOpen(false);
-  }, []);
+  // Block render until auth check completes — prevents flash of dashboard for unauthenticated users
+  if (!authChecked) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-slate-950">
+        <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen bg-slate-950 overflow-hidden">

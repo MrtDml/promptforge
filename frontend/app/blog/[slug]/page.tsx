@@ -12,6 +12,7 @@ interface NormalizedPost {
   title: string;
   description: string;
   date: string;
+  updatedAt?: string;
   readTime: number;
   category: string;
   content: string;
@@ -24,12 +25,13 @@ async function getApiPost(slug: string): Promise<NormalizedPost | null> {
       next: { revalidate: 300 },
     });
     if (!res.ok) return null;
-    const p = await res.json();
+    const p = await res.json() as { slug: string; title: string; description: string; createdAt: string; updatedAt?: string; readTime: number; category: string; content?: string };
     return {
       slug: p.slug,
       title: p.title,
       description: p.description,
       date: p.createdAt,
+      updatedAt: p.updatedAt ?? p.createdAt,
       readTime: p.readTime,
       category: p.category,
       content: p.content ?? "",
@@ -135,6 +137,7 @@ export default async function BlogPostPage({ params }: Props) {
     headline: post.title,
     description: post.description,
     datePublished: post.date,
+    dateModified: post.updatedAt ?? post.date,
     author: { "@type": "Organization", name: "Prompt Forge", url: "https://promptforgeai.dev" },
     publisher: {
       "@type": "Organization",

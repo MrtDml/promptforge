@@ -80,9 +80,9 @@ export const metadata: Metadata = {
     images: ["/twitter-image"],
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/apple-icon.png",
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/apple-icon",
   },
   robots: {
     index: true,

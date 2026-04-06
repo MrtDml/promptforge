@@ -22,6 +22,7 @@ import { SubscriptionGuard } from './common/guards/subscription.guard';
 import { PlanThrottlerGuard } from './common/guards/plan-throttler.guard';
 import { ReferralModule } from './referral/referral.module';
 import { AppCacheModule } from './cache/app-cache.module';
+import { AutomationModule } from './automation/automation.module';
 import { BullModule } from '@nestjs/bull';
 
 @Module({
@@ -55,6 +56,7 @@ import { BullModule } from '@nestjs/bull';
     AiModule,
     PrismaModule,
     ReferralModule,
+    AutomationModule,
   ],
   controllers: [AppController],
   providers: [

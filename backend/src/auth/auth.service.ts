@@ -41,6 +41,7 @@ export class AuthService {
     const user = await this.usersService.create({ email, password: hashedPassword, name, bio });
 
     this.logger.log(`New user registered: ${email}`);
+    this.notifyNewUser(email, name ?? 'Adsız', 'Form');
 
     // Apply referral code if provided (silently ignore invalid codes)
     if (referralCode) {
@@ -181,6 +182,7 @@ export class AuthService {
       await this.usersService.markEmailVerified(user.id);
       this.mailService.sendWelcomeEmail(email, name).catch(() => {});
       this.logger.log(`New user via ${provider} OAuth: ${email}`);
+      this.notifyNewUser(email, name ?? 'Adsız', provider);
     } else if (!user.isActive) {
       throw new UnauthorizedException('Account is deactivated. Please contact support.');
     } else if (name && (!user.name || user.name === 'User')) {
@@ -220,6 +222,16 @@ export class AuthService {
 
     this.logger.log(`Password reset completed for ${user.email}`);
     return { message: 'Password updated successfully. You can now log in.' };
+  }
+
+  private notifyNewUser(email: string, name: string, source: string): void {
+    const url = process.env.N8N_NEW_USER_WEBHOOK_URL;
+    if (!url) return;
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, name, source }),
+    }).catch(() => { /* fire and forget */ });
   }
 
   private generateToken(userId: string, email: string): string {

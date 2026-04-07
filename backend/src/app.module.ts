@@ -23,7 +23,6 @@ import { PlanThrottlerGuard } from './common/guards/plan-throttler.guard';
 import { ReferralModule } from './referral/referral.module';
 import { AppCacheModule } from './cache/app-cache.module';
 import { AutomationModule } from './automation/automation.module';
-import { BullModule } from '@nestjs/bull';
 
 @Module({
   imports: [
@@ -37,9 +36,6 @@ import { BullModule } from '@nestjs/bull';
         limit: parseInt(process.env.THROTTLE_LIMIT || '100', 10),
       },
     ]),
-    BullModule.forRoot({
-      redis: process.env.REDIS_URL || 'redis://localhost:6379',
-    }),
     AppCacheModule,
     AuthModule,
     UsersModule,

@@ -16,14 +16,6 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
-    "paths": {
-      "@common/*": ["src/common/*"],
-      "@auth/*": ["src/auth/*"],
-      "@users/*": ["src/users/*"],
-      "@parser/*": ["src/parser/*"],
-      "@generator/*": ["src/generator/*"],
-      "@projects/*": ["src/projects/*"]
-    }
+    "noFallthroughCasesInSwitch": false
   }
 }

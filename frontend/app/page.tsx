@@ -503,9 +503,9 @@ export default async function LandingPage() {
             <h2 className="text-4xl font-bold mb-4">Simple, transparent pricing</h2>
             <p className="text-slate-400 text-lg">Start free. Upgrade when you need more.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
             {/* Free */}
-            <div className="glass-card p-8">
+            <div className="glass-card p-8 flex flex-col">
               <h3 className="text-xl font-bold text-white mb-1">Free</h3>
               <p className="text-slate-400 text-sm mb-6">Try it out, no credit card needed.</p>
               <div className="mb-6">
@@ -514,7 +514,7 @@ export default async function LandingPage() {
               <Link href="/register" className="btn-ghost w-full flex items-center justify-center gap-2 mb-8">
                 Get started free
               </Link>
-              <ul className="space-y-3">
+              <ul className="space-y-3 flex-1">
                 {["3 app generations / month", "Up to 5 entities per app", "Prisma schema generation", "REST API scaffolding", "Community support"].map(f => (
                   <li key={f} className="flex items-start gap-2 text-sm text-slate-300">
                     <CheckCircle2 className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
@@ -524,7 +524,7 @@ export default async function LandingPage() {
               </ul>
             </div>
             {/* Starter */}
-            <div className="glass-card p-8 border-indigo-600/50 glow-indigo-lg relative">
+            <div className="glass-card p-8 border-indigo-600/50 glow-indigo-lg relative flex flex-col">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                 <span className="bg-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full">Most Popular</span>
               </div>
@@ -538,7 +538,7 @@ export default async function LandingPage() {
                 Get Starter
                 <ArrowRight className="w-4 h-4" />
               </Link>
-              <ul className="space-y-3">
+              <ul className="space-y-3 flex-1">
                 {["50 app generations / month", "Unlimited entities per app", "Full 1:N & M:N relation support", "AI relation detection", "Docker & CI/CD configs", "Email support (48h)"].map(f => (
                   <li key={f} className="flex items-start gap-2 text-sm text-slate-300">
                     <CheckCircle2 className="w-4 h-4 text-indigo-400 mt-0.5 flex-shrink-0" />
@@ -548,7 +548,7 @@ export default async function LandingPage() {
               </ul>
             </div>
             {/* Pro */}
-            <div className="glass-card p-8">
+            <div className="glass-card p-8 flex flex-col">
               <h3 className="text-xl font-bold text-white mb-1">Pro</h3>
               <p className="text-slate-400 text-sm mb-6">For teams and agencies building at scale.</p>
               <div className="mb-6">
@@ -558,7 +558,7 @@ export default async function LandingPage() {
               <Link href="/pricing" className="btn-ghost w-full flex items-center justify-center gap-2 mb-8">
                 Get Pro
               </Link>
-              <ul className="space-y-3">
+              <ul className="space-y-3 flex-1">
                 {["Unlimited app generations", "Everything in Starter", "Priority generation queue", "Advanced AI fine-tuning", "Team collaboration", "Priority support (4h)"].map(f => (
                   <li key={f} className="flex items-start gap-2 text-sm text-slate-300">
                     <CheckCircle2 className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />

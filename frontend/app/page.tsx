@@ -162,7 +162,7 @@ const softwareJsonLd = {
   offers: {
     "@type": "Offer",
     price: "0",
-    priceCurrency: "USD",
+    priceCurrency: "TRY",
     description: "Free plan available — no credit card required",
   },
   description: "Turn your SaaS idea into production-ready NestJS + Prisma + Docker code in under 5 minutes.",
@@ -218,7 +218,7 @@ const faqJsonLd = {
       name: "Is there a free plan?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. The free plan includes 3 app generations per month with up to 5 entities. No credit card required. Paid plans start at $29/month for unlimited entities and 50 generations.",
+        text: "Yes. The free plan includes 3 app generations per month with up to 5 entities. No credit card required. Paid plans start at ₺950/month for unlimited entities and 50 generations.",
       },
     },
   ],
@@ -509,8 +509,7 @@ export default async function LandingPage() {
               <h3 className="text-xl font-bold text-white mb-1">Free</h3>
               <p className="text-slate-400 text-sm mb-6">Try it out, no credit card needed.</p>
               <div className="mb-6">
-                <span className="text-5xl font-bold text-white">$0</span>
-                <span className="text-slate-400 text-sm ml-2">/ month</span>
+                <span className="text-5xl font-bold text-white">Ücretsiz</span>
               </div>
               <Link href="/register" className="btn-ghost w-full flex items-center justify-center gap-2 mb-8">
                 Get started free
@@ -532,8 +531,8 @@ export default async function LandingPage() {
               <h3 className="text-xl font-bold text-white mb-1">Starter</h3>
               <p className="text-slate-400 text-sm mb-6">For indie devs shipping real products.</p>
               <div className="mb-6">
-                <span className="text-5xl font-bold text-white">$29</span>
-                <span className="text-slate-400 text-sm ml-2">/ month</span>
+                <span className="text-5xl font-bold text-white">₺950</span>
+                <span className="text-slate-400 text-sm ml-2">/ ay</span>
               </div>
               <Link href="/pricing" className="btn-primary w-full flex items-center justify-center gap-2 mb-8">
                 Get Starter
@@ -553,8 +552,8 @@ export default async function LandingPage() {
               <h3 className="text-xl font-bold text-white mb-1">Pro</h3>
               <p className="text-slate-400 text-sm mb-6">For teams and agencies building at scale.</p>
               <div className="mb-6">
-                <span className="text-5xl font-bold text-white">$99</span>
-                <span className="text-slate-400 text-sm ml-2">/ month</span>
+                <span className="text-5xl font-bold text-white">₺3.250</span>
+                <span className="text-slate-400 text-sm ml-2">/ ay</span>
               </div>
               <Link href="/pricing" className="btn-ghost w-full flex items-center justify-center gap-2 mb-8">
                 Get Pro

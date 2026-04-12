@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import apiClient from "@/lib/api";
+import { useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -12,7 +11,6 @@ import {
   Sparkles,
   Building2,
   ChevronRight,
-  Loader2,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import LandingNav from "@components/layout/LandingNav";
@@ -21,13 +19,11 @@ import AnnouncementBanner from "@components/layout/AnnouncementBanner";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type BillingCycle = "monthly" | "annual";
-
 interface PricingTier {
   id: "free" | "starter" | "pro";
   name: string;
   description: string;
-  monthlyPrice: number;
+  monthlyPriceTRY: number;
   icon: React.ElementType;
   iconColor: string;
   iconBg: string;
@@ -46,78 +42,78 @@ const TIERS: PricingTier[] = [
   {
     id: "free",
     name: "Free",
-    description: "Perfect for exploring PromptForge and side projects.",
-    monthlyPrice: 0,
+    description: "PromptForge'u keşfetmek ve yan projeler için mükemmel.",
+    monthlyPriceTRY: 0,
     icon: Zap,
     iconColor: "text-slate-400",
     iconBg: "bg-slate-400/10",
-    cta: "Get Started",
+    cta: "Ücretsiz Başla",
     ctaVariant: "ghost",
     highlight: false,
     features: [
-      "3 app generations per month",
-      "Basic entity support (up to 5 entities)",
-      "Prisma schema generation",
-      "REST API scaffolding",
-      "Community support",
+      "Ayda 3 uygulama üretimi",
+      "Temel entity desteği (en fazla 5)",
+      "Prisma şema üretimi",
+      "REST API iskelet oluşturma",
+      "Topluluk desteği",
     ],
     limits: [
-      "No relation detection",
-      "No M:N relationship support",
-      "No priority queue",
-      "No team collaboration",
+      "İlişki algılama yok",
+      "M:N ilişki desteği yok",
+      "Öncelikli kuyruk yok",
+      "Takım işbirliği yok",
     ],
   },
   {
     id: "starter",
     name: "Starter",
-    description: "For indie developers shipping real products fast.",
-    monthlyPrice: 29,
+    description: "Gerçek ürünleri hızla çıkaran bağımsız geliştiriciler için.",
+    monthlyPriceTRY: 950,
     icon: Sparkles,
     iconColor: "text-indigo-400",
     iconBg: "bg-indigo-400/10",
-    badge: "Most Popular",
+    badge: "En Popüler",
     badgeColor: "bg-indigo-600 text-white",
-    cta: "Upgrade to Starter",
+    cta: "Starter'a Geç",
     ctaVariant: "primary",
     highlight: true,
     features: [
-      "50 app generations per month",
-      "Unlimited entities per app",
-      "Full 1:N & M:N relation support",
-      "Auto relation detection (AI)",
-      "Prisma schema + migrations",
-      "Full-stack code generation",
-      "Docker & CI/CD configs",
-      "Email support (48h response)",
+      "Ayda 50 uygulama üretimi",
+      "Sınırsız entity",
+      "1:N ve M:N ilişki desteği",
+      "Otomatik ilişki algılama (AI)",
+      "Prisma şema + migration",
+      "Full-stack kod üretimi",
+      "Docker ve CI/CD konfigürasyonu",
+      "E-posta desteği (48 saat yanıt)",
     ],
     limits: [
-      "Single user workspace",
-      "No custom AI model fine-tuning",
+      "Tek kullanıcı workspace",
+      "Özel AI model fine-tuning yok",
     ],
   },
   {
     id: "pro",
     name: "Pro",
-    description: "For teams and agencies building at scale.",
-    monthlyPrice: 99,
+    description: "Ölçekte üretim yapan takımlar ve ajanslar için.",
+    monthlyPriceTRY: 3250,
     icon: Building2,
     iconColor: "text-purple-400",
     iconBg: "bg-purple-400/10",
-    cta: "Contact Sales",
+    cta: "Satışa Bağlan",
     ctaVariant: "secondary",
     highlight: false,
     features: [
-      "Unlimited app generations",
-      "Unlimited entities & relations",
-      "Full 1:N, N:1, M:N support",
-      "Multi-step AI relation extraction",
-      "Team workspace (up to 10 seats)",
-      "Private code repositories",
-      "Custom deployment targets",
-      "Priority queue (< 5s generation)",
-      "Dedicated Slack channel",
-      "SLA — 99.9% uptime guarantee",
+      "Sınırsız uygulama üretimi",
+      "Sınırsız entity ve ilişki",
+      "1:N, N:1, M:N tam destek",
+      "Çok adımlı AI ilişki çıkarımı",
+      "Takım workspace (10 kullanıcıya kadar)",
+      "Özel kod depoları",
+      "Özel dağıtım hedefleri",
+      "Öncelikli kuyruk (< 5s üretim)",
+      "Özel Slack kanalı",
+      "SLA — %99.9 uptime garantisi",
     ],
     limits: [],
   },
@@ -130,61 +126,48 @@ interface ComparisonRow {
   free: string | boolean;
   starter: string | boolean;
   pro: string | boolean;
-  category?: string;
 }
 
 const COMPARISON_ROWS: ComparisonRow[] = [
-  // Generation
-  { feature: "Monthly generations", free: "3", starter: "50", pro: "Unlimited" },
-  { feature: "Entities per app", free: "Up to 5", starter: "Unlimited", pro: "Unlimited" },
-  { feature: "Generation speed", free: "Standard", starter: "Priority", pro: "< 5s guaranteed" },
-
-  // Relations
-  { feature: "1:N relationship support", free: false, starter: true, pro: true },
-  { feature: "M:N relationship support", free: false, starter: true, pro: true },
-  { feature: "Auto relation detection", free: false, starter: true, pro: true },
-  { feature: "Multi-pass AI relation extraction", free: false, starter: false, pro: true },
-
-  // Code output
-  { feature: "Prisma schema generation", free: true, starter: true, pro: true },
-  { feature: "Database migrations", free: false, starter: true, pro: true },
-  { feature: "Full-stack code (frontend + backend)", free: false, starter: true, pro: true },
-  { feature: "Docker & CI/CD configs", free: false, starter: true, pro: true },
-  { feature: "Custom deployment targets", free: false, starter: false, pro: true },
-
-  // Collaboration
-  { feature: "Team workspace seats", free: "1", starter: "1", pro: "Up to 10" },
-  { feature: "Private repositories", free: false, starter: false, pro: true },
-
-  // Support
-  { feature: "Community support", free: true, starter: true, pro: true },
-  { feature: "Email support", free: false, starter: true, pro: true },
-  { feature: "Priority Slack channel", free: false, starter: false, pro: true },
-  { feature: "SLA (99.9% uptime)", free: false, starter: false, pro: true },
+  { feature: "Aylık üretim hakkı", free: "3", starter: "50", pro: "Sınırsız" },
+  { feature: "Uygulama başına entity", free: "En fazla 5", starter: "Sınırsız", pro: "Sınırsız" },
+  { feature: "Üretim hızı", free: "Standart", starter: "Öncelikli", pro: "< 5s garantili" },
+  { feature: "1:N ilişki desteği", free: false, starter: true, pro: true },
+  { feature: "M:N ilişki desteği", free: false, starter: true, pro: true },
+  { feature: "Otomatik ilişki algılama", free: false, starter: true, pro: true },
+  { feature: "Çok geçişli AI ilişki çıkarımı", free: false, starter: false, pro: true },
+  { feature: "Prisma şema üretimi", free: true, starter: true, pro: true },
+  { feature: "Veritabanı migration", free: false, starter: true, pro: true },
+  { feature: "Full-stack kod (frontend + backend)", free: false, starter: true, pro: true },
+  { feature: "Docker ve CI/CD konfigürasyonu", free: false, starter: true, pro: true },
+  { feature: "Özel dağıtım hedefleri", free: false, starter: false, pro: true },
+  { feature: "Takım workspace kullanıcısı", free: "1", starter: "1", pro: "10'a kadar" },
+  { feature: "Özel depolar", free: false, starter: false, pro: true },
+  { feature: "Topluluk desteği", free: true, starter: true, pro: true },
+  { feature: "E-posta desteği", free: false, starter: true, pro: true },
+  { feature: "Öncelikli Slack kanalı", free: false, starter: false, pro: true },
+  { feature: "SLA (%99.9 uptime)", free: false, starter: false, pro: true },
 ];
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function formatPrice(monthlyPrice: number, cycle: BillingCycle): string {
-  if (monthlyPrice === 0) return "Free";
-  const price = cycle === "annual"
-    ? Math.round(monthlyPrice * 0.8)
-    : monthlyPrice;
-  return `$${price}`;
+function formatPrice(monthlyPriceTRY: number): string {
+  if (monthlyPriceTRY === 0) return "Ücretsiz";
+  return `₺${monthlyPriceTRY.toLocaleString("tr-TR")}`;
 }
 
-function annualSavings(monthlyPrice: number): number {
-  return monthlyPrice * 12 - Math.round(monthlyPrice * 0.8) * 12;
+function annualPrice(monthlyPriceTRY: number): number {
+  return Math.round(monthlyPriceTRY * 0.8);
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function CellValue({ value }: { value: string | boolean }) {
   if (value === true) {
-    return <Check className="w-4 h-4 text-green-400 mx-auto" aria-label="Included" />;
+    return <Check className="w-4 h-4 text-green-400 mx-auto" aria-label="Dahil" />;
   }
   if (value === false) {
-    return <X className="w-4 h-4 text-slate-600 mx-auto" aria-label="Not included" />;
+    return <X className="w-4 h-4 text-slate-600 mx-auto" aria-label="Dahil değil" />;
   }
   return <span className="text-slate-300 text-sm">{value}</span>;
 }
@@ -194,46 +177,26 @@ function CellValue({ value }: { value: string | boolean }) {
 export default function PricingPage() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
-  const [billing, setBilling] = useState<BillingCycle>("monthly");
-  const [loadingTier, setLoadingTier] = useState<string | null>(null);
 
   const handlePlanSelect = useCallback(
-    async (tier: PricingTier) => {
-      // Free plan always goes to register
+    (tier: PricingTier) => {
       if (tier.id === "free") {
         router.push("/register");
         return;
       }
 
-      // Pro plan goes to contact sales
       if (tier.id === "pro") {
-        window.location.href = "mailto:sales@promptforge.dev?subject=Pro Plan Inquiry";
+        window.location.href = "mailto:sales@promptforgeai.dev?subject=Pro Plan Talebi";
         return;
       }
 
-      // Paid plans — redirect to register if not logged in
+      // Starter — önce checkout sayfasına yönlendir
       if (!isAuthenticated) {
-        router.push("/register");
+        router.push(`/register?plan=${tier.id}`);
         return;
       }
 
-      // Logged-in user — call iyzico checkout
-      setLoadingTier(tier.id);
-      try {
-        const response = await apiClient.post<{ url: string }>("/api/v1/stripe/checkout", {
-          planType: tier.id,
-        });
-
-        if (response.data?.url) {
-          window.location.href = response.data.url;
-        }
-      } catch (err: unknown) {
-        console.error("Checkout error:", err);
-        // Fallback — redirect to register so the user can try again
-        router.push("/register");
-      } finally {
-        setLoadingTier(null);
-      }
+      router.push(`/checkout/${tier.id}`);
     },
     [isAuthenticated, router]
   );
@@ -248,46 +211,26 @@ export default function PricingPage() {
         <div className="max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-950 border border-indigo-800/60 text-indigo-300 text-sm font-medium mb-8">
             <Sparkles className="w-3.5 h-3.5" />
-            Simple, transparent pricing
+            Şeffaf ve sade fiyatlandırma
             <ChevronRight className="w-3.5 h-3.5" />
           </div>
 
           <h1 className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight mb-6">
-            Plans for every{" "}
+            Her{" "}
             <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              builder
+              geliştirici
             </span>
+            {" "}için plan
           </h1>
           <p className="text-xl text-slate-400 max-w-xl mx-auto leading-relaxed mb-10">
-            Start free, scale as you grow. No hidden fees, no credit card
-            required to begin.
+            Ücretsiz başla, büyüdükçe ölçeklen. Gizli ücret yok, başlamak için
+            kredi kartı gerekmez.
           </p>
 
-          {/* ── Billing toggle ── */}
-          <div className="inline-flex items-center gap-3 bg-slate-900 border border-slate-700/60 rounded-xl p-1.5">
-            <button
-              onClick={() => setBilling("monthly")}
-              className={`px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                billing === "monthly"
-                  ? "bg-slate-800 text-white shadow-sm"
-                  : "text-slate-400 hover:text-slate-300"
-              }`}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setBilling("annual")}
-              className={`px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
-                billing === "annual"
-                  ? "bg-slate-800 text-white shadow-sm"
-                  : "text-slate-400 hover:text-slate-300"
-              }`}
-            >
-              Annual
-              <span className="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-0.5 rounded-full">
-                Save 20%
-              </span>
-            </button>
+          {/* Currency note */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 border border-slate-700/60 text-slate-400 text-sm">
+            <span className="text-green-400 font-semibold">₺</span>
+            Tüm fiyatlar Türk Lirası (TRY) cinsinden, KDV dahil değildir.
           </div>
         </div>
       </section>
@@ -298,9 +241,11 @@ export default function PricingPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
             {TIERS.map((tier) => {
               const Icon = tier.icon;
-              const priceLabel = formatPrice(tier.monthlyPrice, billing);
-              const isLoading = loadingTier === tier.id;
-              const savings = tier.monthlyPrice > 0 ? annualSavings(tier.monthlyPrice) : 0;
+              const priceLabel = formatPrice(tier.monthlyPriceTRY);
+              const annualMonthly = tier.monthlyPriceTRY > 0 ? annualPrice(tier.monthlyPriceTRY) : 0;
+              const annualSaving = tier.monthlyPriceTRY > 0
+                ? tier.monthlyPriceTRY * 12 - annualMonthly * 12
+                : 0;
 
               return (
                 <div
@@ -341,45 +286,36 @@ export default function PricingPage() {
                       <span className="text-4xl font-extrabold text-white">
                         {priceLabel}
                       </span>
-                      {tier.monthlyPrice > 0 && (
-                        <span className="text-slate-400 text-sm mb-1.5">/mo</span>
+                      {tier.monthlyPriceTRY > 0 && (
+                        <span className="text-slate-400 text-sm mb-1.5">/ay</span>
                       )}
                     </div>
-                    {billing === "annual" && tier.monthlyPrice > 0 && (
-                      <p className="text-green-400 text-xs mt-1 font-medium">
-                        Save ${savings} per year vs monthly
-                      </p>
-                    )}
-                    {billing === "monthly" && tier.monthlyPrice > 0 && (
-                      <p className="text-slate-500 text-xs mt-1">
-                        or ${Math.round(tier.monthlyPrice * 0.8)}/mo billed annually
-                      </p>
+                    {tier.monthlyPriceTRY > 0 && (
+                      <>
+                        <p className="text-slate-500 text-xs mt-1">
+                          veya yıllık ödemede{" "}
+                          <span className="text-green-400 font-semibold">
+                            ₺{annualMonthly.toLocaleString("tr-TR")}/ay
+                          </span>
+                          {" "}— yılda ₺{annualSaving.toLocaleString("tr-TR")} tasarruf
+                        </p>
+                      </>
                     )}
                   </div>
 
                   {/* CTA Button */}
                   <button
                     onClick={() => handlePlanSelect(tier)}
-                    disabled={isLoading}
                     className={`w-full py-3 px-6 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2 mt-6 mb-8 ${
                       tier.ctaVariant === "primary"
-                        ? "bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/20 hover:shadow-indigo-500/30 disabled:opacity-60"
+                        ? "bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/20 hover:shadow-indigo-500/30"
                         : tier.ctaVariant === "secondary"
-                        ? "bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600/60 hover:border-slate-500/80 disabled:opacity-60"
-                        : "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/40 hover:border-slate-600/60 disabled:opacity-60"
+                        ? "bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600/60 hover:border-slate-500/80"
+                        : "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/40 hover:border-slate-600/60"
                     }`}
                   >
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        Redirecting...
-                      </>
-                    ) : (
-                      <>
-                        {tier.cta}
-                        <ArrowRight className="w-4 h-4" />
-                      </>
-                    )}
+                    {tier.cta}
+                    <ArrowRight className="w-4 h-4" />
                   </button>
 
                   {/* Divider */}
@@ -413,26 +349,41 @@ export default function PricingPage() {
 
           {/* Money-back guarantee note */}
           <p className="text-center text-slate-500 text-sm mt-10">
-            All paid plans include a{" "}
-            <span className="text-slate-400 font-medium">14-day money-back guarantee</span>.
-            No questions asked.
+            Tüm ücretli planlarda{" "}
+            <span className="text-slate-400 font-medium">14 gün para iade garantisi</span>{" "}
+            bulunmaktadır. Soru sorulmaz.
           </p>
 
           {/* Secure payment strip */}
           <div className="mt-10 flex flex-col items-center gap-3">
             <p className="text-xs text-slate-500 uppercase tracking-widest font-medium">
-              Secure Payment
+              Güvenli Ödeme
             </p>
             <div className="flex items-center gap-4 px-6 py-3 rounded-xl bg-slate-900/60 border border-slate-700/40">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/payment/iyzico-logo-band-white.svg"
-                alt="iyzico"
-                className="h-7 opacity-70 hover:opacity-100 transition-opacity"
-              />
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
+                <span className="text-[11px] font-black text-white tracking-tight">iyzico</span>
+              </div>
+              <div className="flex items-center px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
+                <span className="text-[11px] font-black text-blue-400 tracking-widest italic">VISA</span>
+              </div>
+              <div className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
+                <span className="w-4 h-4 rounded-full bg-red-500 opacity-90 inline-block -mr-2" />
+                <span className="w-4 h-4 rounded-full bg-orange-400 opacity-90 inline-block" />
+                <span className="text-[10px] text-slate-400 font-semibold ml-1.5">Mastercard</span>
+              </div>
+              <div className="flex items-center px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
+                <span className="text-[11px] font-black text-slate-300 tracking-wider">TROY</span>
+              </div>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-green-800/40 bg-green-950/30">
+                <svg className="w-3 h-3 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" /></svg>
+                <span className="text-[10px] text-green-400 font-semibold">SSL Güvenli</span>
+              </div>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
+                <span className="text-[10px] text-slate-400 font-semibold">3D Secure</span>
+              </div>
             </div>
             <p className="text-xs text-slate-600">
-              Payments are processed securely via iyzico virtual POS
+              Ödemeler iyzico sanal POS altyapısı üzerinden güvenle işlenir
             </p>
           </div>
         </div>
@@ -443,10 +394,10 @@ export default function PricingPage() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-white mb-3">
-              Full feature comparison
+              Tam özellik karşılaştırması
             </h2>
             <p className="text-slate-400">
-              Everything you need to make the right choice.
+              Doğru planı seçmek için ihtiyacınız olan her şey.
             </p>
           </div>
 
@@ -455,7 +406,7 @@ export default function PricingPage() {
               <thead>
                 <tr className="border-b border-slate-700/60">
                   <th className="py-5 px-6 text-slate-400 font-medium text-sm w-1/2 bg-slate-900/60">
-                    Feature
+                    Özellik
                   </th>
                   {TIERS.map((tier) => (
                     <th
@@ -499,31 +450,30 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ── FAQ teaser / CTA ── */}
+      {/* ── CTA ── */}
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
           <div className="rounded-2xl border border-indigo-500/20 bg-indigo-950/20 p-12 text-center shadow-[0_0_60px_rgba(99,102,241,0.08)]">
             <h2 className="text-3xl font-bold text-white mb-4">
-              Not sure which plan to pick?
+              Hangi planı seçeceğinizden emin değil misiniz?
             </h2>
             <p className="text-slate-400 text-lg mb-8 leading-relaxed">
-              Start with the Free plan — no credit card required. Upgrade
-              anytime as your project grows. Our team is happy to help you
-              choose.
+              Ücretsiz planla başlayın — kredi kartı gerekmez. Projeniz büyüdükçe
+              istediğiniz zaman yükseltin. Ekibimiz doğru planı seçmenizde yardımcı olmaktan mutluluk duyar.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/register"
                 className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-200 shadow-lg shadow-indigo-600/20 hover:shadow-indigo-500/30"
               >
-                Start for free
+                Ücretsiz başla
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <a
-                href="mailto:support@promptforge.dev"
+                href="mailto:support@promptforgeai.dev"
                 className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600/60 font-semibold px-8 py-3.5 rounded-xl transition-all duration-200"
               >
-                Talk to sales
+                Satışla görüş
               </a>
             </div>
           </div>

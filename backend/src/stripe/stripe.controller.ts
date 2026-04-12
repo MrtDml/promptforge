@@ -3,6 +3,7 @@ import {
   Post,
   Body,
   Req,
+  Res,
   HttpCode,
   HttpStatus,
   UseGuards,
@@ -10,7 +11,7 @@ import {
   NotFoundException,
   Logger,
 } from '@nestjs/common';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { StripeService } from './stripe.service';
 import { CreateCheckoutDto } from './dto/create-checkout.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -84,19 +85,26 @@ export class StripeController {
   /**
    * POST /api/v1/stripe/webhook
    * iyzico ödeme callback'i — form-data (application/x-www-form-urlencoded) alır.
-   * JWT gerekmez.
+   * JWT gerekmez. İşlem sonrası tarayıcıyı frontend'e yönlendirir.
    */
   @Post('webhook')
-  @HttpCode(HttpStatus.OK)
-  async handleWebhook(@Req() req: Request) {
+  async handleWebhook(@Req() req: Request, @Res() res: Response) {
     const body = req.body as Record<string, string>;
 
     if (!body || typeof body !== 'object') {
       throw new BadRequestException('Geçersiz webhook body');
     }
 
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
     this.logger.log(`iyzico webhook alındı: status=${body.status}`);
-    await this.stripeService.handleWebhookCallback(body);
-    return { received: true };
+
+    try {
+      await this.stripeService.handleWebhookCallback(body);
+      return res.redirect(302, `${frontendUrl}/payment/success`);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      this.logger.error(`iyzico webhook işlenemedi: ${message}`);
+      return res.redirect(302, `${frontendUrl}/payment/failed`);
+    }
   }
 }

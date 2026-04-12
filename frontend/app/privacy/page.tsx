@@ -12,98 +12,98 @@ export default function PrivacyPage() {
       {/* Content */}
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="mb-12">
-          <p className="text-indigo-400 text-sm font-medium mb-3">Legal</p>
-          <h1 className="text-4xl font-bold text-white mb-4">Privacy Policy</h1>
-          <p className="text-slate-400">Last updated: March 25, 2026</p>
+          <p className="text-indigo-400 text-sm font-medium mb-3">Hukuki</p>
+          <h1 className="text-4xl font-bold text-white mb-4">Gizlilik Politikası</h1>
+          <p className="text-slate-400">Son güncelleme: 25 Mart 2026</p>
         </div>
 
         <div className="prose prose-invert max-w-none space-y-10">
 
           <section>
             <p className="text-slate-300 leading-relaxed">
-              PromptForge (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform at <strong>promptforgeai.dev</strong>.
+              PromptForge (&quot;biz&quot;, &quot;bizim&quot; veya &quot;bize&quot;) gizliliğinizi korumaya kararlıdır. Bu Gizlilik Politikası, <strong>promptforgeai.dev</strong> platformumuzu kullandığınızda bilgilerinizi nasıl topladığımızı, kullandığımızı, ifşa ettiğimizi ve koruduğumuzu açıklamaktadır.
             </p>
           </section>
 
           {[
             {
-              title: "1. Information We Collect",
+              title: "1. Topladığımız Bilgiler",
               content: [
                 {
-                  subtitle: "Account Information",
-                  text: "When you register, we collect your name, email address, and a hashed version of your password. We never store your plain-text password.",
+                  subtitle: "Hesap Bilgileri",
+                  text: "Kayıt olduğunuzda adınızı, e-posta adresinizi ve şifrenizin karma halini topluyoruz. Düz metin şifrenizi hiçbir zaman saklamıyoruz.",
                 },
                 {
-                  subtitle: "Usage Data",
-                  text: "We collect data on how you use PromptForge, including the prompts you submit, the projects you generate, and feature interactions. This data helps us improve the service.",
+                  subtitle: "Kullanım Verileri",
+                  text: "PromptForge'u nasıl kullandığınıza ilişkin verileri topluyoruz; gönderdiğiniz promptlar, oluşturduğunuz projeler ve özellik etkileşimleri bunlara dahildir. Bu veriler hizmeti iyileştirmemize yardımcı olur.",
                 },
                 {
-                  subtitle: "Payment Information",
-                  text: "Payments are processed by iyzico, a PCI-DSS compliant payment infrastructure provider. We do not store your credit card number or sensitive payment details on our servers. We only retain subscription status and plan information.",
+                  subtitle: "Ödeme Bilgileri",
+                  text: "Ödemeler, PCI-DSS uyumlu bir ödeme altyapısı sağlayıcısı olan iyzico tarafından işlenmektedir. Kredi kartı numaranızı veya hassas ödeme bilgilerinizi sunucularımızda saklamıyoruz. Yalnızca abonelik durumunu ve plan bilgilerini saklıyoruz.",
                 },
                 {
-                  subtitle: "Technical Data",
-                  text: "We automatically collect IP addresses, browser type, operating system, referring URLs, and device identifiers for security and performance monitoring purposes.",
+                  subtitle: "Teknik Veriler",
+                  text: "Güvenlik ve performans izleme amacıyla IP adreslerini, tarayıcı türünü, işletim sistemini, yönlendiren URL'leri ve cihaz tanımlayıcılarını otomatik olarak topluyoruz.",
                 },
               ],
             },
             {
-              title: "2. How We Use Your Information",
+              title: "2. Bilgilerinizi Nasıl Kullanıyoruz",
               items: [
-                "To provide and maintain the PromptForge platform",
-                "To process your transactions and manage your subscription",
-                "To send transactional emails (account confirmation, password resets)",
-                "To improve our AI models and generation quality",
-                "To detect and prevent fraud or abuse",
-                "To comply with legal obligations",
+                "PromptForge platformunu sağlamak ve sürdürmek",
+                "İşlemlerinizi gerçekleştirmek ve aboneliğinizi yönetmek",
+                "İşlemsel e-postalar göndermek (hesap onayı, şifre sıfırlama)",
+                "Yapay zeka modellerimizi ve üretim kalitesini iyileştirmek",
+                "Dolandırıcılık veya kötüye kullanımı tespit etmek ve önlemek",
+                "Yasal yükümlülüklere uymak",
               ],
             },
             {
-              title: "3. Data Sharing",
+              title: "3. Veri Paylaşımı",
               content: [
                 {
-                  subtitle: "We do not sell your data.",
-                  text: "We share your information only with trusted third-party service providers who assist in operating our platform, subject to strict confidentiality agreements.",
+                  subtitle: "Verilerinizi satmıyoruz.",
+                  text: "Bilgilerinizi yalnızca platformumuzu işletmemize yardımcı olan güvenilir üçüncü taraf hizmet sağlayıcılarla, katı gizlilik anlaşmaları çerçevesinde paylaşıyoruz.",
                 },
                 {
-                  subtitle: "Third-party services we use:",
-                  text: "Railway (infrastructure hosting), Vercel (frontend hosting), Anthropic (AI processing for code generation), Stripe (payment processing). Each provider has their own privacy policy.",
+                  subtitle: "Kullandığımız üçüncü taraf hizmetler:",
+                  text: "Railway (altyapı barındırma), Vercel (ön yüz barındırma), Anthropic (kod üretimi için yapay zeka işleme), iyzico (ödeme işleme). Her sağlayıcının kendi gizlilik politikası mevcuttur.",
                 },
               ],
             },
             {
-              title: "4. Data Retention",
-              text: "We retain your account data for as long as your account is active. Generated project files are stored for your convenience and can be deleted at any time from your dashboard. Upon account deletion, we remove your personal data within 30 days.",
+              title: "4. Veri Saklama",
+              text: "Hesabınız aktif olduğu sürece hesap verilerinizi saklarız. Üretilen proje dosyaları kolaylığınız için depolanır ve istediğiniz zaman kontrol panelinden silinebilir. Hesap silme işleminin ardından kişisel verilerinizi 30 gün içinde kaldırırız.",
             },
             {
-              title: "5. Security",
-              text: "We implement industry-standard security measures including TLS encryption for data in transit, bcrypt hashing for passwords, and JWT-based authentication. However, no method of transmission over the Internet is 100% secure.",
+              title: "5. Güvenlik",
+              text: "İletim sırasındaki veriler için TLS şifrelemesi, şifreler için bcrypt karma ve JWT tabanlı kimlik doğrulama dahil olmak üzere endüstri standardı güvenlik önlemleri uyguluyoruz. Ancak İnternet üzerinden hiçbir iletim yöntemi %100 güvenli değildir.",
             },
             {
-              title: "6. Your Rights",
+              title: "6. Haklarınız",
               items: [
-                "Access: Request a copy of the personal data we hold about you",
-                "Correction: Request correction of inaccurate data",
-                "Deletion: Request deletion of your account and associated data",
-                "Portability: Request your data in a structured, machine-readable format",
-                "Objection: Object to processing of your data for certain purposes",
+                "Erişim: Hakkınızda tuttuğumuz kişisel verilerin bir kopyasını talep edebilirsiniz",
+                "Düzeltme: Hatalı verilerin düzeltilmesini talep edebilirsiniz",
+                "Silme: Hesabınızın ve ilgili verilerin silinmesini talep edebilirsiniz",
+                "Taşınabilirlik: Verilerinizi yapılandırılmış, makine tarafından okunabilir bir formatta talep edebilirsiniz",
+                "İtiraz: Belirli amaçlar için verilerinizin işlenmesine itiraz edebilirsiniz",
               ],
             },
             {
-              title: "7. Cookies",
-              text: "We use essential cookies for authentication (JWT tokens stored in localStorage) and session management. We do not use tracking or advertising cookies. You can clear cookies at any time through your browser settings.",
+              title: "7. Çerezler",
+              text: "Kimlik doğrulama (localStorage'da saklanan JWT token'ları) ve oturum yönetimi için temel çerezler kullanıyoruz. İzleme veya reklam çerezi kullanmıyoruz. Çerezleri istediğiniz zaman tarayıcı ayarlarınızdan temizleyebilirsiniz.",
             },
             {
-              title: "8. Children's Privacy",
-              text: "PromptForge is not intended for users under the age of 16. We do not knowingly collect personal data from children. If you believe a child has provided us with personal data, please contact us.",
+              title: "8. Çocukların Gizliliği",
+              text: "PromptForge, 16 yaşın altındaki kullanıcılar için tasarlanmamıştır. Çocuklardan bilerek kişisel veri toplamıyoruz. Bir çocuğun bize kişisel veri sağladığını düşünüyorsanız lütfen bizimle iletişime geçin.",
             },
             {
-              title: "9. Changes to This Policy",
-              text: "We may update this Privacy Policy from time to time. We will notify you of significant changes by email or by posting a notice on the platform. Continued use of PromptForge after changes constitutes acceptance of the updated policy.",
+              title: "9. Bu Politikadaki Değişiklikler",
+              text: "Bu Gizlilik Politikasını zaman zaman güncelleyebiliriz. Önemli değişiklikleri e-posta veya platform üzerinde yayınlanan bir bildirim aracılığıyla duyururuz. Değişikliklerin ardından PromptForge'u kullanmaya devam etmeniz güncellenmiş politikayı kabul ettiğiniz anlamına gelir.",
             },
             {
-              title: "10. Contact Us",
-              text: "If you have questions or concerns about this Privacy Policy, please contact us at hello@promptforgeai.dev or through our contact page.",
+              title: "10. Bize Ulaşın",
+              text: "Bu Gizlilik Politikası hakkında sorularınız veya endişeleriniz varsa hello@promptforgeai.dev adresine veya iletişim sayfamıza yazabilirsiniz.",
             },
           ].map((section) => (
             <section key={section.title}>
@@ -136,9 +136,9 @@ export default function PrivacyPage() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <p className="text-slate-500 text-sm">Questions? <Link href="/contact" className="text-indigo-400 hover:text-indigo-300 transition-colors">Contact us</Link></p>
+          <p className="text-slate-500 text-sm">Sorularınız mı var? <Link href="/contact" className="text-indigo-400 hover:text-indigo-300 transition-colors">Bize ulaşın</Link></p>
           <div className="flex items-center gap-6">
-            <Link href="/terms" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">Terms of Service</Link>
+            <Link href="/terms" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">Kullanım Koşulları</Link>
           </div>
         </div>
       </main>

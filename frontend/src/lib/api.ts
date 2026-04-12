@@ -265,7 +265,7 @@ export const deployApi = {
 export const stripeApi = {
   /** iyzico ödeme formunu oluşturur ve kullanıcıyı oraya yönlendirir. */
   createPortalSession: async (): Promise<void> => {
-    const response = await apiClient.post<{ url: string }>("/api/v1/stripe/portal");
+    const response = await apiClient.post<{ url: string }>("/api/v1/payment/portal");
     const { url } = response.data;
     if (url && typeof window !== "undefined") {
       window.location.href = url;
@@ -274,7 +274,7 @@ export const stripeApi = {
 
   /** Aktif aboneliği iptal eder ve free plana düşürür. */
   cancelSubscription: (): Promise<AxiosResponse<{ message: string }>> =>
-    apiClient.post("/api/v1/stripe/cancel"),
+    apiClient.post("/api/v1/payment/cancel"),
 };
 
 // ─── Admin endpoints ─────────────────────────────────────────────────────────

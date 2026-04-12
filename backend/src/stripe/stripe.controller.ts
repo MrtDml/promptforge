@@ -17,7 +17,7 @@ import { CreateCheckoutDto } from './dto/create-checkout.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { PrismaService } from '../prisma/prisma.service';
 
-@Controller('stripe')
+@Controller('payment')
 export class StripeController {
   private readonly logger = new Logger(StripeController.name);
 

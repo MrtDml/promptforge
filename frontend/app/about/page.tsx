@@ -5,36 +5,36 @@ import LandingNav from "@components/layout/LandingNav";
 import LandingFooter from "@components/layout/LandingFooter";
 
 export const metadata: Metadata = {
-  title: "About Us — Nexlora Technologies | Prompt Forge",
+  title: "Hakkımızda — Nexlora Technologies | Prompt Forge",
   description:
-    "Prompt Forge is a product of Nexlora Technologies — a global software & AI consultancy on a mission to make software creation accessible to everyone.",
+    "Prompt Forge, Nexlora Technologies'in bir ürünüdür — yazılım geliştirmeyi herkese erişilebilir kılma misyonundaki küresel bir yazılım ve yapay zeka danışmanlık şirketi.",
   openGraph: {
-    title: "About Nexlora Technologies — The company behind Prompt Forge",
+    title: "Nexlora Technologies Hakkında — Prompt Forge'un arkasındaki şirket",
     description:
-      "Nexlora Technologies builds AI-powered developer tools. Prompt Forge is our flagship product — turn any idea into production-ready code in minutes.",
+      "Nexlora Technologies, yapay zeka destekli geliştirici araçları üretir. Prompt Forge, amiral gemisi ürünümüzdür — herhangi bir fikri dakikalar içinde üretime hazır koda dönüştürün.",
   },
 };
 
 const VALUES = [
   {
     icon: Lightbulb,
-    title: "Accessibility",
-    body: "Great software shouldn't require a team of engineers. We build tools that empower anyone — entrepreneur, product manager, or solo developer — to ship production-ready code.",
+    title: "Erişilebilirlik",
+    body: "Harika yazılım bir mühendis ekibi gerektirmemelidir. Girişimci, ürün müdürü veya solo geliştirici olan herkesin üretime hazır kod çıkarabilmesini sağlayan araçlar üretiyoruz.",
   },
   {
     icon: Globe2,
-    title: "Global reach",
-    body: "We build for the world. PromptForge is designed for a global, diverse audience — from solo founders to engineering teams — and every feature reflects that commitment.",
+    title: "Küresel erişim",
+    body: "Dünya için üretiyoruz. PromptForge; solo kuruculardan mühendislik ekiplerine kadar küresel, çeşitli bir kitle için tasarlandı ve her özellik bu kararlılığı yansıtıyor.",
   },
   {
     icon: Code2,
-    title: "Engineering quality",
-    body: "Every line of code we generate meets production standards: tested, secure, and maintainable. We believe AI assistance should raise quality, not lower it.",
+    title: "Mühendislik kalitesi",
+    body: "Ürettiğimiz her kod satırı üretim standartlarını karşılar: test edilmiş, güvenli ve sürdürülebilir. Yapay zeka desteğinin kaliteyi artırması gerektiğine inanıyoruz, düşürmemesi.",
   },
   {
     icon: Users,
-    title: "Customer success",
-    body: "We succeed when our customers succeed. From free-tier hobbyists to enterprise teams, we treat every user with the same level of care and responsiveness.",
+    title: "Müşteri başarısı",
+    body: "Müşterilerimiz başardığında biz başarıyoruz. Ücretsiz plan kullanıcısından kurumsal ekibe kadar her kullanıcıya aynı özen ve hızla yaklaşıyoruz.",
   },
 ];
 
@@ -48,42 +48,37 @@ export default function AboutPage() {
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 text-center">
           <div className="inline-flex items-center gap-2 bg-indigo-600/10 border border-indigo-600/20 rounded-full px-4 py-1.5 mb-6">
             <Zap className="w-3.5 h-3.5 text-indigo-400" />
-            <span className="text-indigo-300 text-xs font-medium tracking-wide">About Nexlora Technologies</span>
+            <span className="text-indigo-300 text-xs font-medium tracking-wide">Nexlora Technologies Hakkında</span>
           </div>
 
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight tracking-tight">
-            The company behind{" "}
             <span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">
               Prompt Forge
             </span>
+            &apos;un arkasındaki şirket
           </h1>
 
           <p className="text-lg text-slate-400 leading-relaxed max-w-2xl mx-auto">
-            Nexlora Technologies is a global software & AI consultancy with a single mission: make software
-            creation accessible to every person on earth, regardless of technical background.
+            Nexlora Technologies, tek bir misyonla kurulan küresel bir yazılım ve yapay zeka danışmanlık şirketidir: teknik geçmişten bağımsız olarak dünyadaki herkese yazılım geliştirmeyi erişilebilir kılmak.
           </p>
         </section>
 
         {/* Mission */}
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
           <div className="bg-gradient-to-br from-indigo-600/10 to-violet-600/5 border border-indigo-500/20 rounded-2xl p-8 md:p-10">
-            <h2 className="text-2xl font-bold text-white mb-4">Our mission</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">Misyonumuz</h2>
             <p className="text-slate-300 leading-relaxed text-lg">
-              We believe the best ideas often come from people who can&apos;t code — and that&apos;s exactly who we build
-              for. Nexlora Technologies combines cutting-edge AI research with practical software engineering to
-              remove the barrier between idea and product.
+              En iyi fikirlerin çoğunlukla kod yazamayanlardan geldiğine inanıyoruz — ve tam olarak onlar için üretiyoruz. Nexlora Technologies, fikir ile ürün arasındaki engeli ortadan kaldırmak için son teknoloji yapay zeka araştırmalarını pratik yazılım mühendisliğiyle birleştirir.
             </p>
             <p className="text-slate-400 leading-relaxed mt-4">
-              Prompt Forge is our flagship product: describe your SaaS idea in plain English, and we generate a
-              complete, production-ready NestJS + Prisma backend in seconds. No boilerplate, no setup — just
-              working code you can ship.
+              Prompt Forge, amiral gemisi ürünümüzdür: SaaS fikrinizi düz Türkçe ile tarif edin ve saniyeler içinde eksiksiz, üretime hazır bir NestJS + Prisma backend üretelim. Şablon kod yok, kurulum yok — sadece çıkarabileceğiniz çalışan kod.
             </p>
           </div>
         </section>
 
         {/* Values */}
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-          <h2 className="text-2xl font-bold text-white mb-8 text-center">Our values</h2>
+          <h2 className="text-2xl font-bold text-white mb-8 text-center">Değerlerimiz</h2>
           <div className="grid md:grid-cols-2 gap-5">
             {VALUES.map((v) => (
               <div
@@ -108,12 +103,11 @@ export default function AboutPage() {
             </div>
             <div className="flex-1 text-center md:text-left">
               <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wider mb-1">
-                Nexlora Technologies product
+                Nexlora Technologies ürünü
               </p>
               <h3 className="text-xl font-bold text-white mb-2">Prompt Forge AI</h3>
               <p className="text-slate-400 text-sm leading-relaxed">
-                Like Claude is to Anthropic, Prompt Forge is to Nexlora. Built with the same care and engineering
-                rigour we bring to every client engagement.
+                Claude, Anthropic için ne ise Prompt Forge de Nexlora için odur. Her müşteri projesine getirdiğimiz aynı özen ve mühendislik titizliğiyle inşa edildi.
               </p>
             </div>
           </div>
@@ -121,21 +115,21 @@ export default function AboutPage() {
 
         {/* CTA */}
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Ready to build?</h2>
-          <p className="text-slate-400 mb-6">Try Prompt Forge free — no credit card required.</p>
+          <h2 className="text-2xl font-bold text-white mb-4">Geliştirmeye hazır mısınız?</h2>
+          <p className="text-slate-400 mb-6">Prompt Forge&apos;u ücretsiz deneyin — kredi kartı gerekmez.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/register"
               className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-semibold text-sm transition-colors"
             >
-              Get started free
+              Ücretsiz başla
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/contact"
               className="inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 px-6 py-3 rounded-xl font-semibold text-sm transition-colors border border-slate-700"
             >
-              Contact us
+              İletişime geç
             </Link>
           </div>
         </section>

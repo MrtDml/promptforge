@@ -9,26 +9,26 @@ import { Calendar, Clock, ArrowRight } from "lucide-react";
 export const metadata: Metadata = {
   title: "Blog – Prompt Forge",
   description:
-    "Guides, tutorials, and insights on AI code generation, NestJS, SaaS architecture, and building production-ready applications faster.",
+    "Yapay zeka destekli kod üretimi, NestJS, SaaS mimarisi ve üretime hazır uygulama geliştirme üzerine rehberler ve içgörüler.",
   keywords: [
-    "AI code generation blog",
-    "NestJS tutorials",
-    "SaaS development guide",
-    "build SaaS with AI",
-    "Prisma schema guide",
+    "AI kod üretimi blog",
+    "NestJS rehberleri",
+    "SaaS geliştirme kılavuzu",
+    "yapay zeka ile SaaS geliştirme",
+    "Prisma şema rehberi",
   ],
   alternates: { canonical: "https://promptforgeai.dev/blog" },
   openGraph: {
     title: "Blog – Prompt Forge",
     description:
-      "Guides, tutorials, and insights on AI code generation, NestJS, and SaaS architecture.",
+      "Yapay zeka destekli kod üretimi, NestJS ve SaaS mimarisi üzerine rehberler ve içgörüler.",
     url: "https://promptforgeai.dev/blog",
     images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Prompt Forge Blog" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Blog – Prompt Forge",
-    description: "Guides, tutorials, and insights on AI code generation and SaaS development.",
+    description: "Yapay zeka destekli kod üretimi ve SaaS geliştirme üzerine rehberler ve içgörüler.",
     images: ["/twitter-image"],
   },
 };
@@ -97,7 +97,7 @@ export default async function BlogPage() {
         <main className="min-h-screen bg-[#0a0b14] text-white pt-20">
           <div className="max-w-4xl mx-auto px-4 py-12">
             <h1 className="text-4xl font-bold text-white mb-3 tracking-tight">Blog</h1>
-            <p className="text-slate-400">No posts yet.</p>
+            <p className="text-slate-400">Henüz yazı yok.</p>
           </div>
         </main>
         <LandingFooter />
@@ -115,7 +115,7 @@ export default async function BlogPage() {
           <div className="mb-12">
             <h1 className="text-4xl font-bold text-white mb-3 tracking-tight">Blog</h1>
             <p className="text-slate-400 text-lg">
-              Guides, tutorials, and engineering insights on AI-powered SaaS development.
+              Yapay zeka destekli SaaS geliştirme üzerine rehberler, eğitimler ve mühendislik içgörüleri.
             </p>
           </div>
 
@@ -132,7 +132,7 @@ export default async function BlogPage() {
               >
                 {featured.category}
               </span>
-              <span className="text-xs text-slate-500">Featured</span>
+              <span className="text-xs text-slate-500">Öne Çıkan</span>
             </div>
             <h2 className="text-2xl font-bold text-white group-hover:text-indigo-300 transition-colors mb-3 leading-snug">
               {featured.title}
@@ -142,7 +142,7 @@ export default async function BlogPage() {
               <div className="flex items-center gap-4 text-xs text-slate-500">
                 <span className="flex items-center gap-1.5">
                   <Calendar className="w-3.5 h-3.5" />
-                  {new Date(featured.date).toLocaleDateString("en-US", {
+                  {new Date(featured.date).toLocaleDateString("tr-TR", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
@@ -150,11 +150,11 @@ export default async function BlogPage() {
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" />
-                  {featured.readTime} min read
+                  {featured.readTime} dk okuma
                 </span>
               </div>
               <span className="text-indigo-400 group-hover:text-indigo-300 text-sm flex items-center gap-1 transition-colors">
-                Read article <ArrowRight className="w-3.5 h-3.5" />
+                Makaleyi oku <ArrowRight className="w-3.5 h-3.5" />
               </span>
             </div>
           </Link>
@@ -185,7 +185,7 @@ export default async function BlogPage() {
                 <div className="flex items-center gap-3 text-xs text-slate-600">
                   <span className="flex items-center gap-1">
                     <Calendar className="w-3 h-3" />
-                    {new Date(post.date).toLocaleDateString("en-US", {
+                    {new Date(post.date).toLocaleDateString("tr-TR", {
                       month: "short",
                       day: "numeric",
                       year: "numeric",
@@ -193,7 +193,7 @@ export default async function BlogPage() {
                   </span>
                   <span className="flex items-center gap-1">
                     <Clock className="w-3 h-3" />
-                    {post.readTime} min
+                    {post.readTime} dk
                   </span>
                 </div>
               </Link>

@@ -13,10 +13,10 @@ const LINK_KEYS = new Set(["announcement_link", "contact_email"]);
 // Group order for display
 const GROUP_ORDER = ["announcement", "site", "plan", "other"];
 const GROUP_LABELS: Record<string, string> = {
-  announcement: "Announcement Banner",
-  site: "Site Settings",
-  plan: "Plan Limits",
-  other: "Other",
+  announcement: "Duyuru Bandı",
+  site: "Site Ayarları",
+  plan: "Plan Limitleri",
+  other: "Diğer",
 };
 
 function getGroup(key: string): string {
@@ -44,7 +44,7 @@ export default function AdminSettingsPage() {
       data.forEach((s) => { initial[s.key] = s.value; });
       setValues(initial);
     } catch {
-      setError("Failed to load settings.");
+      setError("Ayarlar yüklenemedi.");
     } finally {
       setLoading(false);
     }
@@ -65,9 +65,9 @@ export default function AdminSettingsPage() {
       const res = await adminApi.updateSettings(payload);
       const updated: SiteSetting[] = res.data;
       setSettings(updated);
-      setSuccess("Settings saved successfully.");
+      setSuccess("Ayarlar başarıyla kaydedildi.");
     } catch {
-      setError("Failed to save settings.");
+      setError("Ayarlar kaydedilemedi.");
     } finally {
       setSaving(false);
     }
@@ -97,14 +97,14 @@ export default function AdminSettingsPage() {
     <div className="p-6 max-w-2xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">Site Settings</h1>
-          <p className="text-slate-400 text-sm mt-0.5">Platform-wide configuration</p>
+          <h1 className="text-2xl font-bold text-white">Site Ayarları</h1>
+          <p className="text-slate-400 text-sm mt-0.5">Platform geneli yapılandırma</p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={fetchSettings}
             className="p-2 rounded-lg border border-slate-700 text-slate-400 hover:text-white hover:border-slate-600 transition-colors"
-            title="Reload"
+            title="Yenile"
           >
             <RefreshCw className="w-4 h-4" />
           </button>
@@ -114,7 +114,7 @@ export default function AdminSettingsPage() {
             className="flex items-center gap-2 px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white text-sm font-medium rounded-lg transition-colors disabled:opacity-50"
           >
             <Save className="w-4 h-4" />
-            {saving ? "Saving…" : "Save All"}
+            {saving ? "Kaydediliyor…" : "Tümünü Kaydet"}
           </button>
         </div>
       </div>
@@ -179,7 +179,7 @@ export default function AdminSettingsPage() {
                               />
                             </button>
                             <span className="text-sm text-slate-400 w-10">
-                              {val === "true" ? "On" : "Off"}
+                              {val === "true" ? "Açık" : "Kapalı"}
                             </span>
                           </div>
                         ) : isDate ? (

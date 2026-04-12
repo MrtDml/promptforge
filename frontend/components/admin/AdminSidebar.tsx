@@ -29,11 +29,11 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard, exact: true },
-  { label: "Users", href: "/admin/users", icon: Users },
-  { label: "Projects", href: "/admin/projects", icon: FolderOpen },
+  { label: "Kullanıcılar", href: "/admin/users", icon: Users },
+  { label: "Projeler", href: "/admin/projects", icon: FolderOpen },
   { label: "Blog", href: "/admin/blog", icon: BookOpen },
-  { label: "Testimonials", href: "/admin/testimonials", icon: Star },
-  { label: "Settings", href: "/admin/settings", icon: Settings },
+  { label: "Yorumlar", href: "/admin/testimonials", icon: Star },
+  { label: "Ayarlar", href: "/admin/settings", icon: Settings },
 ];
 
 function NavLink({ item, onClick }: { item: NavItem; onClick?: () => void }) {
@@ -89,7 +89,7 @@ export default function AdminSidebar({ onClose }: AdminSidebarProps = {}) {
             <span className="font-bold text-sm text-white tracking-tight block">
               PromptForge
             </span>
-            <span className="text-xs text-rose-400 font-medium">Admin Panel</span>
+            <span className="text-xs text-rose-400 font-medium">Yönetim Paneli</span>
           </div>
         </Link>
         {onClose && (
@@ -105,7 +105,7 @@ export default function AdminSidebar({ onClose }: AdminSidebarProps = {}) {
       {/* Navigation */}
       <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
         <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider px-3 mb-2 mt-1">
-          Management
+          Yönetim
         </p>
         {navItems.map((item) => (
           <NavLink key={item.href} item={item} onClick={onClose} />
@@ -120,14 +120,14 @@ export default function AdminSidebar({ onClose }: AdminSidebarProps = {}) {
           className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-all"
         >
           <Zap className="w-4 h-4 flex-shrink-0" />
-          <span>Back to App</span>
+          <span>Uygulamaya Dön</span>
         </Link>
         <button
           onClick={handleLogout}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-400 hover:text-red-400 hover:bg-slate-800 transition-all"
         >
           <LogOut className="w-4 h-4 flex-shrink-0" />
-          <span>Sign Out</span>
+          <span>Çıkış Yap</span>
         </button>
       </div>
     </aside>

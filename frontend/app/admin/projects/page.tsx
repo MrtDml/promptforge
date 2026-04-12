@@ -84,8 +84,8 @@ export default function AdminProjectsPage() {
     <div className="p-6 max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">Projects</h1>
-          <p className="text-slate-400 text-sm mt-0.5">{total} total projects</p>
+          <h1 className="text-2xl font-bold text-white">Projeler</h1>
+          <p className="text-slate-400 text-sm mt-0.5">{total} toplam proje</p>
         </div>
       </div>
 
@@ -98,7 +98,7 @@ export default function AdminProjectsPage() {
               type="text"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="Search by name or user…"
+              placeholder="İsim veya kullanıcı ile ara…"
               className="pl-9 pr-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-rose-500 transition-colors"
             />
           </div>
@@ -111,7 +111,7 @@ export default function AdminProjectsPage() {
         >
           {STATUS_OPTIONS.map((s) => (
             <option key={s} value={s} className="bg-slate-800">
-              {s === "" ? "All Statuses" : s}
+              {s === "" ? "Tüm Durumlar" : s}
             </option>
           ))}
         </select>
@@ -124,18 +124,18 @@ export default function AdminProjectsPage() {
             <div className="w-6 h-6 border-2 border-rose-500 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : projects.length === 0 ? (
-          <div className="text-center py-16 text-slate-500">No projects found</div>
+          <div className="text-center py-16 text-slate-500">Proje bulunamadı</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-800">
-                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Project</th>
-                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Owner</th>
-                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Status</th>
+                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Proje</th>
+                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Sahibi</th>
+                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Durum</th>
                   <th className="text-left px-4 py-3 text-slate-400 font-medium">Deploy</th>
-                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Created</th>
-                  <th className="text-right px-4 py-3 text-slate-400 font-medium">Actions</th>
+                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Oluşturulma</th>
+                  <th className="text-right px-4 py-3 text-slate-400 font-medium">İşlemler</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800">
@@ -177,7 +177,7 @@ export default function AdminProjectsPage() {
                         <button
                           onClick={() => handleDelete(project.id)}
                           disabled={deletingId === project.id}
-                          title={confirmId === project.id ? "Click again to confirm" : "Delete project"}
+                          title={confirmId === project.id ? "Onaylamak için tekrar tıklayın" : "Projeyi sil"}
                           className={`p-1.5 rounded-lg transition-colors disabled:opacity-50 ${
                             confirmId === project.id
                               ? "text-white bg-red-600 hover:bg-red-500"
@@ -191,7 +191,7 @@ export default function AdminProjectsPage() {
                           target="_blank"
                           rel="noreferrer"
                           className="p-1.5 rounded-lg text-slate-500 hover:text-white hover:bg-slate-700 transition-colors"
-                          title="View project"
+                          title="Projeyi görüntüle"
                         >
                           <ExternalLink className="w-4 h-4" />
                         </a>
@@ -209,7 +209,7 @@ export default function AdminProjectsPage() {
       {totalPages > 1 && (
         <div className="flex items-center justify-between mt-4">
           <p className="text-sm text-slate-500">
-            Page {page} of {totalPages}
+            Sayfa {page} / {totalPages}
           </p>
           <div className="flex gap-2">
             <button

@@ -145,7 +145,7 @@ export class StripeService {
           },
           pricingPlanReferenceCode: plan.iyzicoReferenceCode,
           subscriptionInitialStatus: 'ACTIVE',
-          callbackUrl: `${this.appUrl}/api/v1/stripe/webhook`,
+          callbackUrl: `${this.appUrl}/api/v1/payment/webhook`,
         },
         cb,
       ),

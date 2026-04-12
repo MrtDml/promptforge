@@ -86,14 +86,14 @@ export default function AdminBlogPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-white">Blog</h1>
-          <p className="text-slate-400 text-sm mt-0.5">{total} total posts</p>
+          <p className="text-slate-400 text-sm mt-0.5">{total} toplam yazı</p>
         </div>
         <Link
           href="/admin/blog/new"
           className="flex items-center gap-2 px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white text-sm font-medium rounded-lg transition-colors"
         >
           <Plus className="w-4 h-4" />
-          New Post
+          Yeni Yazı
         </Link>
       </div>
 
@@ -104,13 +104,13 @@ export default function AdminBlogPage() {
           </div>
         ) : posts.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-slate-500 mb-4">No blog posts yet</p>
+            <p className="text-slate-500 mb-4">Henüz blog yazısı yok</p>
             <Link
               href="/admin/blog/new"
               className="inline-flex items-center gap-2 px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white text-sm font-medium rounded-lg transition-colors"
             >
               <Plus className="w-4 h-4" />
-              Create First Post
+              İlk Yazıyı Oluştur
             </Link>
           </div>
         ) : (
@@ -118,12 +118,12 @@ export default function AdminBlogPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-800">
-                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Title</th>
-                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Category</th>
-                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Status</th>
-                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Read Time</th>
-                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Created</th>
-                  <th className="text-right px-4 py-3 text-slate-400 font-medium">Actions</th>
+                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Başlık</th>
+                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Kategori</th>
+                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Durum</th>
+                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Okuma Süresi</th>
+                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Oluşturulma</th>
+                  <th className="text-right px-4 py-3 text-slate-400 font-medium">İşlemler</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800">
@@ -153,7 +153,7 @@ export default function AdminBlogPage() {
                             : "bg-slate-800 text-slate-400 border-slate-700/50"
                         }`}
                       >
-                        {post.published ? "Published" : "Draft"}
+                        {post.published ? "Yayında" : "Taslak"}
                       </span>
                     </td>
                     <td className="px-4 py-3 text-slate-400 text-xs">
@@ -167,7 +167,7 @@ export default function AdminBlogPage() {
                         <button
                           onClick={() => togglePublished(post)}
                           disabled={togglingId === post.id}
-                          title={post.published ? "Unpublish" : "Publish"}
+                          title={post.published ? "Yayından kaldır" : "Yayınla"}
                           className="p-1.5 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-950/40 transition-colors disabled:opacity-50"
                         >
                           {post.published ? (
@@ -179,14 +179,14 @@ export default function AdminBlogPage() {
                         <Link
                           href={`/admin/blog/${post.id}/edit`}
                           className="p-1.5 rounded-lg text-slate-500 hover:text-white hover:bg-slate-700 transition-colors"
-                          title="Edit post"
+                          title="Yazıyı düzenle"
                         >
                           <Pencil className="w-4 h-4" />
                         </Link>
                         <button
                           onClick={() => handleDelete(post.id)}
                           disabled={deletingId === post.id}
-                          title={confirmId === post.id ? "Click again to confirm" : "Delete post"}
+                          title={confirmId === post.id ? "Onaylamak için tekrar tıklayın" : "Yazıyı sil"}
                           className={`p-1.5 rounded-lg transition-colors disabled:opacity-50 ${
                             confirmId === post.id
                               ? "text-white bg-red-600 hover:bg-red-500"
@@ -208,7 +208,7 @@ export default function AdminBlogPage() {
       {totalPages > 1 && (
         <div className="flex items-center justify-between mt-4">
           <p className="text-sm text-slate-500">
-            Page {page} of {totalPages}
+            Sayfa {page} / {totalPages}
           </p>
           <div className="flex gap-2">
             <button

@@ -20,86 +20,86 @@ import AnnouncementBanner from "@components/layout/AnnouncementBanner";
 const sections = [
   {
     icon: Zap,
-    title: "Quick Start",
-    description: "Build your first app in under 5 minutes.",
+    title: "Hızlı Başlangıç",
+    description: "5 dakika içinde ilk uygulamanızı geliştirin.",
     steps: [
-      'Go to your Dashboard and click "New Project".',
-      "Describe the application you want to build in plain English.",
-      "Wait for the AI to parse your prompt and review the generated schema.",
-      'Click "Generate" — code generation begins immediately.',
-      "When complete, download the ZIP or deploy directly to Railway.",
+      'Dashboard\'a gidin ve "Yeni Proje" butonuna tıklayın.',
+      "Geliştirmek istediğiniz uygulamayı doğal Türkçe ile tarif edin.",
+      "Yapay zekanın açıklamanızı ayrıştırmasını bekleyin ve üretilen şemayı inceleyin.",
+      '"Üret" butonuna tıklayın — kod üretimi hemen başlar.',
+      "Tamamlandığında ZIP dosyasını indirin veya doğrudan Railway\'e dağıtın.",
     ],
   },
   {
     icon: Lightbulb,
-    title: "Writing Great Prompts",
-    description: "Tips for getting the best results from PromptForge.",
+    title: "Etkili Prompt Yazımı",
+    description: "PromptForge\'dan en iyi sonuçları almak için ipuçları.",
     steps: [
-      "State the app's purpose clearly: \"I want an e-commerce platform\".",
-      "List your entities: \"Users, Products, Orders, and Categories\".",
-      "Specify features: \"JWT authentication, CRUD APIs, and an admin panel\".",
-      "Define relationships: \"A user can have many orders; each order has many items\".",
-      "Add tech preferences: \"Use PostgreSQL, NestJS, and Prisma\".",
+      'Uygulamanın amacını açıkça belirtin: "Bir e-ticaret platformu istiyorum".',
+      'Entity\'lerinizi listeleyin: "Kullanıcılar, Ürünler, Siparişler ve Kategoriler".',
+      'Özellikleri belirtin: "JWT kimlik doğrulama, CRUD API\'leri ve yönetim paneli".',
+      'İlişkileri tanımlayın: "Bir kullanıcının birden fazla siparişi olabilir; her siparişin birden fazla ürünü olabilir".',
+      'Teknoloji tercihlerini ekleyin: "PostgreSQL, NestJS ve Prisma kullan".',
     ],
   },
   {
     icon: Code2,
-    title: "Prompt Examples",
-    description: "Copy these as starting points for your own projects.",
+    title: "Prompt Örnekleri",
+    description: "Kendi projeleriniz için başlangıç noktası olarak kullanabilirsiniz.",
     steps: [
-      '"Build a task management app with Users, Teams, and Tasks. JWT auth, team invites, and task assignments."',
-      '"Create a blog platform with Authors, Posts, Categories, and Comments. Markdown support and role-based access."',
-      '"I need a booking system with Customers, Services, Appointments, and Payments. Stripe integration and email notifications."',
-      '"Build an inventory tracker with Products, Warehouses, and StockMovements. Low-stock alerts and CSV export."',
-      '"Create a learning platform with Courses, Lessons, Enrollments, and Quizzes. Progress tracking and certificates."',
+      '"Kullanıcılar, Takımlar ve Görevler içeren bir görev yönetim uygulaması geliştir. JWT kimlik doğrulama, takım davetleri ve görev atamaları olsun."',
+      '"Yazarlar, Yazılar, Kategoriler ve Yorumlar içeren bir blog platformu oluştur. Markdown desteği ve rol tabanlı erişim kontrolü dahil olsun."',
+      '"Müşteriler, Hizmetler, Randevular ve Ödemeler içeren bir rezervasyon sistemi istiyorum. E-posta bildirimleri dahil olsun."',
+      '"Ürünler, Depolar ve Stok Hareketleri içeren bir envanter takip sistemi geliştir. Düşük stok uyarıları ve CSV dışa aktarma özelliği olsun."',
+      '"Kurslar, Dersler, Kayıtlar ve Sınavlar içeren bir eğitim platformu oluştur. İlerleme takibi ve sertifika desteği olsun."',
     ],
   },
   {
     icon: Database,
-    title: "Generated Project Structure",
-    description: "What PromptForge produces for every project.",
+    title: "Üretilen Proje Yapısı",
+    description: "PromptForge her proje için neler üretir.",
     steps: [
-      "src/ — Full NestJS application (modules, controllers, services, guards).",
-      "prisma/schema.prisma — Database schema with all entities and relations.",
-      "Dockerfile + docker-compose.yml — Ready-to-use container configuration.",
-      ".env.example — Template for all required environment variables.",
-      "README.md — Step-by-step setup and run instructions.",
+      "src/ — Tam NestJS uygulaması (modüller, controller'lar, servisler, guard'lar).",
+      "prisma/schema.prisma — Tüm entity'ler ve ilişkilerle birlikte veritabanı şeması.",
+      "Dockerfile + docker-compose.yml — Kullanıma hazır container yapılandırması.",
+      ".env.example — Gerekli tüm ortam değişkenleri için şablon.",
+      "README.md — Adım adım kurulum ve çalıştırma talimatları.",
     ],
   },
   {
     icon: Download,
-    title: "Downloading Your Code",
-    description: "Get the generated code onto your machine.",
+    title: "Kodunuzu İndirme",
+    description: "Üretilen kodu bilgisayarınıza alın.",
     steps: [
-      "Open the project detail page from your Dashboard.",
-      'Click the "Download ZIP" button.',
-      "Extract the ZIP and open a terminal in the project folder.",
-      "Run npm install to install dependencies.",
-      "Copy .env.example to .env and fill in your values (database URL, JWT secret, etc.).",
+      "Dashboard'dan proje detay sayfasını açın.",
+      '"ZIP İndir" butonuna tıklayın.',
+      "ZIP\'i çıkartın ve proje klasöründe bir terminal açın.",
+      "Bağımlılıkları yüklemek için npm install komutunu çalıştırın.",
+      ".env.example dosyasını .env olarak kopyalayın ve değerleri doldurun (veritabanı URL'si, JWT anahtarı vb.).",
     ],
   },
   {
     icon: Rocket,
-    title: "Deploy to Railway",
-    description: "One-click cloud deployment — no DevOps required.",
+    title: "Railway'e Dağıtım",
+    description: "Tek tıkla bulut dağıtımı — DevOps gerektirmez.",
     steps: [
-      "Open the project detail page and click \"Deploy to Railway\".",
-      "Sign up at railway.app if you don't have an account.",
-      "Generate a Railway API token (Account → Tokens) and paste it into your PromptForge settings.",
-      "Deployment starts automatically — Railway provisions PostgreSQL and the app service.",
-      "Once done, your live URL appears on the project page.",
+      'Proje detay sayfasını açın ve "Railway\'e Dağıt" butonuna tıklayın.',
+      "Hesabınız yoksa railway.app adresinde kaydolun.",
+      "Bir Railway API token oluşturun (Hesap → Token'lar) ve PromptForge ayarlarınıza yapıştırın.",
+      "Dağıtım otomatik başlar — Railway PostgreSQL ve uygulama servisini hazırlar.",
+      "Tamamlandığında canlı URL'niz proje sayfasında görünür.",
     ],
   },
   {
     icon: Shield,
-    title: "Plans & Limits",
-    description: "What's included in each plan.",
+    title: "Planlar ve Limitler",
+    description: "Her plana dahil olanlar.",
     steps: [
-      "Free: 3 project generations per month — great for trying things out.",
-      "Starter ($29/mo): 50 generations per month + Railway deploy support.",
-      "Pro ($99/mo): Unlimited generations + priority support.",
-      "When you hit your limit you'll be prompted to upgrade.",
-      "Cancelling keeps your current plan active until the end of the billing period.",
+      "Ücretsiz: Ayda 3 proje üretimi — denemek için idealdir.",
+      "Starter (₺950/ay): Ayda 50 üretim + Railway dağıtım desteği.",
+      "Pro (₺3.250/ay): Sınırsız üretim + öncelikli destek.",
+      "Limitinize ulaştığınızda plan yükseltme ekranına yönlendirilirsiniz.",
+      "İptal etmeniz durumunda mevcut planınız fatura döneminin sonuna kadar aktif kalır.",
     ],
   },
 ];
@@ -116,10 +116,10 @@ export default function DocsPage() {
             <div className="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-600/30 flex items-center justify-center">
               <BookOpen className="w-5 h-5 text-indigo-400" />
             </div>
-            <h1 className="text-3xl font-bold">Documentation</h1>
+            <h1 className="text-3xl font-bold">Dokümantasyon</h1>
           </div>
           <p className="text-slate-400 text-lg">
-            Everything you need to get started with PromptForge.
+            PromptForge ile başlamak için ihtiyacınız olan her şey.
           </p>
         </div>
 
@@ -167,15 +167,15 @@ export default function DocsPage() {
         {/* Footer CTA */}
         <div className="mt-12 p-6 rounded-2xl bg-indigo-600/10 border border-indigo-600/20 text-center">
           <Terminal className="w-8 h-8 text-indigo-400 mx-auto mb-3" />
-          <h3 className="text-lg font-semibold mb-2">Still stuck?</h3>
+          <h3 className="text-lg font-semibold mb-2">Hâlâ takıldınız mı?</h3>
           <p className="text-slate-400 text-sm mb-4">
-            Our support team is here to help you build faster.
+            Destek ekibimiz daha hızlı geliştirmeniz için burada.
           </p>
           <Link
             href="/support"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors"
           >
-            Get Support
+            Destek Al
             <ChevronRight className="w-4 h-4" />
           </Link>
         </div>

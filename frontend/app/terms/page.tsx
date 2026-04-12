@@ -12,106 +12,106 @@ export default function TermsPage() {
       {/* Content */}
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="mb-12">
-          <p className="text-indigo-400 text-sm font-medium mb-3">Legal</p>
-          <h1 className="text-4xl font-bold text-white mb-4">Terms of Service</h1>
-          <p className="text-slate-400">Last updated: March 25, 2026</p>
+          <p className="text-indigo-400 text-sm font-medium mb-3">Hukuki</p>
+          <h1 className="text-4xl font-bold text-white mb-4">Kullanım Koşulları</h1>
+          <p className="text-slate-400">Son güncelleme: 25 Mart 2026</p>
         </div>
 
         <div className="space-y-10">
           <section>
             <p className="text-slate-300 leading-relaxed">
-              These Terms of Service (&quot;Terms&quot;) govern your access to and use of PromptForge (&quot;Service&quot;), operated by PromptForge (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;). By accessing or using the Service, you agree to be bound by these Terms.
+              Bu Kullanım Koşulları (&quot;Koşullar&quot;), PromptForge (&quot;Hizmet&quot;) platformuna erişiminizi ve kullanımınızı düzenlemektedir. Hizmet, PromptForge (&quot;biz&quot;, &quot;bize&quot;, &quot;bizim&quot;) tarafından işletilmektedir. Hizmete erişerek veya Hizmeti kullanarak bu Koşullara bağlı kalmayı kabul etmektesiniz.
             </p>
           </section>
 
           {[
             {
-              title: "1. Acceptance of Terms",
-              text: "By creating an account or using PromptForge, you confirm that you are at least 16 years old and have the legal capacity to enter into these Terms. If you are using the Service on behalf of an organization, you represent that you have the authority to bind that organization to these Terms.",
+              title: "1. Koşulların Kabulü",
+              text: "PromptForge'da hesap oluşturarak veya Hizmeti kullanarak en az 16 yaşında olduğunuzu ve bu Koşulları kabul etme ehliyetine sahip olduğunuzu onaylarsınız. Hizmeti bir kuruluş adına kullanıyorsanız, o kuruluşu bu Koşullarla bağlama yetkisine sahip olduğunuzu beyan edersiniz.",
             },
             {
-              title: "2. Description of Service",
-              text: "PromptForge is an AI-powered platform that generates full-stack application code from natural language prompts. The Service produces NestJS backend projects including Prisma schemas, REST API scaffolding, authentication modules, and deployment configurations. Generated code is provided as-is for use in your own projects.",
+              title: "2. Hizmetin Tanımı",
+              text: "PromptForge, doğal dil açıklamalarından full-stack uygulama kodu üreten yapay zeka destekli bir platformdur. Hizmet; Prisma şemaları, REST API iskelet yapısı, kimlik doğrulama modülleri ve dağıtım yapılandırmaları dahil olmak üzere NestJS backend projeleri üretir. Üretilen kod, kendi projelerinizde kullanmanız için olduğu haliyle sunulmaktadır.",
             },
             {
-              title: "3. Account Registration",
+              title: "3. Hesap Oluşturma",
               items: [
-                "You must provide accurate and complete registration information",
-                "You are responsible for maintaining the security of your account credentials",
-                "You must notify us immediately of any unauthorized use of your account",
-                "You may not share your account with others or create accounts on behalf of third parties without authorization",
-                "We reserve the right to refuse registration or suspend accounts at our discretion",
+                "Doğru ve eksiksiz kayıt bilgileri sağlamalısınız",
+                "Hesap kimlik bilgilerinizin güvenliğini korumaktan sorumlusunuz",
+                "Hesabınızın yetkisiz kullanımını derhal bize bildirmelisiniz",
+                "Hesabınızı başkalarıyla paylaşamaz veya izinsiz olarak üçüncü taraflar adına hesap oluşturamazsınız",
+                "Kayıt taleplerini reddetme veya hesapları askıya alma hakkımızı saklı tutarız",
               ],
             },
             {
-              title: "4. Subscription and Billing",
+              title: "4. Abonelik ve Faturalama",
               items: [
-                "Free plan: 3 app generations per month at no charge",
-                "Starter plan (₺950/month): 50 generations per month",
-                "Pro plan (₺3,250/month): Unlimited generations",
-                "Subscriptions are billed monthly and renew automatically",
-                "You may cancel your subscription at any time; cancellation takes effect at the end of the current billing period",
-                "All paid plans include a 14-day money-back guarantee",
-                "Prices may change with 30 days advance notice",
-                "Payments are processed securely via iyzico",
+                "Ücretsiz plan: Aylık 3 uygulama üretimi, ücretsiz",
+                "Starter planı (₺950/ay): Aylık 50 üretim",
+                "Pro planı (₺3.250/ay): Sınırsız üretim",
+                "Abonelikler aylık olarak faturalandırılır ve otomatik olarak yenilenir",
+                "Aboneliğinizi istediğiniz zaman iptal edebilirsiniz; iptal mevcut fatura döneminin sonunda geçerli olur",
+                "Tüm ücretli planlar 14 günlük para iade garantisi içerir",
+                "Fiyatlar 30 gün önceden bildirim yapılarak değiştirilebilir",
+                "Ödemeler iyzico aracılığıyla güvenli şekilde işlenir",
               ],
             },
             {
-              title: "5. Acceptable Use",
-              text: "You agree not to use PromptForge to:",
+              title: "5. Kabul Edilebilir Kullanım",
+              text: "PromptForge'u aşağıdaki amaçlarla kullanmamayı kabul edersiniz:",
               items: [
-                "Generate code intended for malicious purposes, malware, or cyberattacks",
-                "Violate any applicable laws or regulations",
-                "Infringe upon intellectual property rights of third parties",
-                "Attempt to reverse-engineer, scrape, or exploit the Service's infrastructure",
-                "Resell or redistribute access to the Service without written permission",
-                "Submit prompts that are offensive, harmful, or violate our community guidelines",
+                "Kötü amaçlı yazılım veya siber saldırı amacıyla kod üretmek",
+                "Yürürlükteki yasaları veya düzenlemeleri ihlal etmek",
+                "Üçüncü tarafların fikri mülkiyet haklarını çiğnemek",
+                "Hizmetin altyapısını tersine mühendislik, kazıma veya istismar yoluyla kullanmak",
+                "Yazılı izin almaksızın Hizmete erişimi yeniden satmak veya dağıtmak",
+                "Saldırgan, zararlı veya topluluk yönergelerimizi ihlal eden içerik göndermek",
               ],
             },
             {
-              title: "6. Intellectual Property",
+              title: "6. Fikri Mülkiyet",
               content: [
                 {
-                  subtitle: "Your prompts",
-                  text: "You retain ownership of the prompts you submit to PromptForge. By submitting prompts, you grant us a limited, non-exclusive license to process them solely for the purpose of providing the Service.",
+                  subtitle: "Promptlarınız",
+                  text: "PromptForge'a gönderdiğiniz promptların mülkiyeti size aittir. Prompt göndererek, yalnızca Hizmeti sağlama amacıyla bu promptları işlememiz için bize sınırlı, münhasır olmayan bir lisans vermiş olursunuz.",
                 },
                 {
-                  subtitle: "Generated code",
-                  text: "You own the code generated for you by PromptForge and may use it for any lawful purpose, including commercial projects. We do not claim ownership over your generated output.",
+                  subtitle: "Üretilen kod",
+                  text: "PromptForge tarafından sizin için üretilen kodun sahibi siz olursunuz; ticari projeler dahil her türlü yasal amaçla kullanabilirsiniz. Üretilen çıktılarınız üzerinde herhangi bir mülkiyet iddiamız yoktur.",
                 },
                 {
-                  subtitle: "PromptForge platform",
-                  text: "The PromptForge platform, including its design, algorithms, and codebase, is owned by us and protected by intellectual property laws. You may not copy or replicate the platform itself.",
+                  subtitle: "PromptForge platformu",
+                  text: "PromptForge platformu; tasarım, algoritmalar ve kod tabanı dahil olmak üzere bize aittir ve fikri mülkiyet yasalarıyla korunmaktadır. Platformun kendisini kopyalayamazsınız veya çoğaltamazsınız.",
                 },
               ],
             },
             {
-              title: "7. Availability and Service Levels",
-              text: "We strive for high availability but do not guarantee uninterrupted access. The Service is provided 'as-is' and we may perform maintenance, introduce changes, or temporarily suspend the Service. We will make reasonable efforts to notify users of planned outages.",
+              title: "7. Hizmet Kullanılabilirliği ve Düzeyleri",
+              text: "Yüksek kullanılabilirlik için çaba gösteririz; ancak kesintisiz erişimi garanti etmeyiz. Hizmet olduğu haliyle sunulmaktadır; bakım yapabilir, değişiklik yapabilir veya Hizmeti geçici olarak askıya alabiliriz. Planlı kesintiler için kullanıcıları makul ölçüde bilgilendirmeye çalışırız.",
             },
             {
-              title: "8. Limitation of Liability",
-              text: "To the maximum extent permitted by law, PromptForge shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the Service. Our total liability to you shall not exceed the amount you paid us in the 12 months preceding the claim. We are not responsible for the correctness, completeness, or fitness for purpose of generated code.",
+              title: "8. Sorumluluğun Sınırlandırılması",
+              text: "Yasaların izin verdiği azami ölçüde, PromptForge; Hizmeti kullanmanızdan kaynaklanan dolaylı, arızi, özel, sonuç niteliğindeki veya cezai zararlardan sorumlu tutulamaz. Size karşı toplam sorumluluğumuz, talep tarihinden önceki 12 ay içinde bize ödediğiniz tutarı aşmaz. Üretilen kodun doğruluğu, eksiksizliği veya amaca uygunluğundan sorumlu değiliz.",
             },
             {
-              title: "9. Disclaimer of Warranties",
-              text: "The Service is provided 'as-is' and 'as available' without warranties of any kind, either express or implied. We do not warrant that the generated code will be error-free, production-ready, or suitable for any specific purpose. You are responsible for reviewing and testing all generated code before use.",
+              title: "9. Garanti Reddi",
+              text: "Hizmet, açık veya zımni hiçbir garanti verilmeksizin olduğu haliyle ve mevcut olduğu şekliyle sunulmaktadır. Üretilen kodun hatasız, üretime hazır veya belirli bir amaca uygun olacağını garanti etmiyoruz. Üretilen tüm kodları kullanmadan önce gözden geçirme ve test etme sorumluluğu size aittir.",
             },
             {
-              title: "10. Termination",
-              text: "Either party may terminate these Terms at any time. We reserve the right to suspend or terminate your account immediately if you violate these Terms. Upon termination, your right to use the Service ceases, but provisions that should survive termination (including IP rights and limitation of liability) remain in effect.",
+              title: "10. Fesih",
+              text: "Her iki taraf da bu Koşulları istediği zaman feshedebilir. Koşulları ihlal etmeniz durumunda hesabınızı derhal askıya alma veya feshetme hakkımızı saklı tutarız. Fesih üzerine Hizmeti kullanma hakkınız sona erer; ancak fesihten sonra da geçerliliğini sürdürmesi gereken hükümler (fikri mülkiyet hakları ve sorumluluk sınırlaması dahil) yürürlükte kalmaya devam eder.",
             },
             {
-              title: "11. Changes to Terms",
-              text: "We reserve the right to modify these Terms at any time. We will notify you of material changes via email or a notice on the platform. Continued use of the Service after changes constitutes acceptance of the new Terms.",
+              title: "11. Koşullarda Değişiklik",
+              text: "Bu Koşulları istediğimiz zaman değiştirme hakkımızı saklı tutarız. Önemli değişiklikleri e-posta veya platform üzerindeki bir bildirim aracılığıyla duyururuz. Değişikliklerin ardından Hizmeti kullanmaya devam etmeniz yeni Koşulları kabul ettiğiniz anlamına gelir.",
             },
             {
-              title: "12. Governing Law",
-              text: "These Terms are governed by applicable laws. Any disputes arising from these Terms shall be resolved through good-faith negotiation. If unresolved, disputes shall be subject to binding arbitration under internationally recognized rules.",
+              title: "12. Geçerli Hukuk",
+              text: "Bu Koşullar yürürlükteki yasalara tabidir. Bu Koşullardan doğan anlaşmazlıklar öncelikle iyi niyetli müzakere yoluyla çözülmeye çalışılacaktır. Çözüme kavuşturulamaması halinde anlaşmazlıklar, uluslararası alanda tanınan kurallara göre bağlayıcı tahkime tabi olacaktır.",
             },
             {
-              title: "13. Contact",
-              text: "For questions about these Terms, please contact us at hello@promptforgeai.dev or through our contact page at promptforgeai.dev/contact.",
+              title: "13. İletişim",
+              text: "Bu Koşullar hakkındaki sorularınız için hello@promptforgeai.dev adresine veya promptforgeai.dev/contact sayfasındaki iletişim formuna ulaşabilirsiniz.",
             },
           ].map((section) => (
             <section key={section.title}>
@@ -147,9 +147,9 @@ export default function TermsPage() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <p className="text-slate-500 text-sm">Questions? <Link href="/contact" className="text-indigo-400 hover:text-indigo-300 transition-colors">Contact us</Link></p>
+          <p className="text-slate-500 text-sm">Sorularınız mı var? <Link href="/contact" className="text-indigo-400 hover:text-indigo-300 transition-colors">Bize ulaşın</Link></p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">Privacy Policy</Link>
+            <Link href="/privacy" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">Gizlilik Politikası</Link>
           </div>
         </div>
       </main>

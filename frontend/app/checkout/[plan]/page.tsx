@@ -94,7 +94,7 @@ export default function CheckoutPage() {
     setError(null);
 
     try {
-      const response = await apiClient.post<{ url: string }>("/api/v1/stripe/checkout", {
+      const response = await apiClient.post<{ url: string }>("/api/v1/payment/checkout", {
         planType: plan.id,
         billingCycle: billing,
       });

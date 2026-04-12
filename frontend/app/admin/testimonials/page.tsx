@@ -72,25 +72,25 @@ export default function TestimonialsAdminPage() {
     <div className="p-6 lg:p-8 max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-white">Testimonials</h1>
-          <p className="text-slate-400 mt-1 text-sm">Manage the reviews shown on the landing page.</p>
+          <h1 className="text-2xl font-bold text-white">Yorumlar</h1>
+          <p className="text-slate-400 mt-1 text-sm">Ana sayfada gösterilen değerlendirmeleri yönetin.</p>
         </div>
         <div className="flex items-center gap-3">
           {status === "success" && (
             <span className="flex items-center gap-1.5 text-sm text-emerald-400">
-              <CheckCircle2 className="w-4 h-4" /> Saved
+              <CheckCircle2 className="w-4 h-4" /> Kaydedildi
             </span>
           )}
           {status === "error" && (
             <span className="flex items-center gap-1.5 text-sm text-red-400">
-              <AlertCircle className="w-4 h-4" /> Error saving
+              <AlertCircle className="w-4 h-4" /> Kaydetme hatası
             </span>
           )}
           <button
             onClick={() => setItems((prev) => [...prev, newTestimonial()])}
             className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-sm transition-colors"
           >
-            <Plus className="w-4 h-4" /> Add
+            <Plus className="w-4 h-4" /> Ekle
           </button>
           <button
             onClick={save}
@@ -98,7 +98,7 @@ export default function TestimonialsAdminPage() {
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors disabled:opacity-50"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-            Save all
+            Tümünü Kaydet
           </button>
         </div>
       </div>
@@ -128,7 +128,7 @@ export default function TestimonialsAdminPage() {
             <textarea
               value={t.quote}
               onChange={(e) => update(t.id, "quote", e.target.value)}
-              placeholder="Quote..."
+              placeholder="Yorum..."
               rows={3}
               className="w-full bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500/60 resize-none mb-3"
             />
@@ -137,13 +137,13 @@ export default function TestimonialsAdminPage() {
               <input
                 value={t.author}
                 onChange={(e) => update(t.id, "author", e.target.value)}
-                placeholder="Name (e.g. James L.)"
+                placeholder="İsim (örn. Ahmet Y.)"
                 className="bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500/60"
               />
               <input
                 value={t.role}
                 onChange={(e) => update(t.id, "role", e.target.value)}
-                placeholder="Role (e.g. Senior Engineer)"
+                placeholder="Unvan (örn. Kıdemli Geliştirici)"
                 className="bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500/60"
               />
             </div>
@@ -153,9 +153,9 @@ export default function TestimonialsAdminPage() {
 
       {items.length === 0 && (
         <div className="text-center py-12 text-slate-600">
-          No testimonials yet.{" "}
+          Henüz yorum yok.{" "}
           <button onClick={() => setItems([newTestimonial()])} className="text-indigo-400 hover:text-indigo-300">
-            Add one
+            Ekle
           </button>
         </div>
       )}

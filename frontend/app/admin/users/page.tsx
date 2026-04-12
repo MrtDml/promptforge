@@ -70,8 +70,8 @@ export default function AdminUsersPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">Users</h1>
-          <p className="text-slate-400 text-sm mt-0.5">{total} total members</p>
+          <h1 className="text-2xl font-bold text-white">Kullanıcılar</h1>
+          <p className="text-slate-400 text-sm mt-0.5">{total} toplam üye</p>
         </div>
       </div>
 
@@ -83,7 +83,7 @@ export default function AdminUsersPage() {
             type="text"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="Search by name or email…"
+            placeholder="İsim veya e-posta ile ara…"
             className="w-full pl-9 pr-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-rose-500 transition-colors"
           />
         </div>
@@ -96,19 +96,19 @@ export default function AdminUsersPage() {
             <div className="w-6 h-6 border-2 border-rose-500 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : users.length === 0 ? (
-          <div className="text-center py-16 text-slate-500">No users found</div>
+          <div className="text-center py-16 text-slate-500">Kullanıcı bulunamadı</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-800">
-                  <th className="text-left px-4 py-3 text-slate-400 font-medium">User</th>
+                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Kullanıcı</th>
                   <th className="text-left px-4 py-3 text-slate-400 font-medium">Plan</th>
-                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Role</th>
-                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Generations</th>
-                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Status</th>
-                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Joined</th>
-                  <th className="text-right px-4 py-3 text-slate-400 font-medium">Actions</th>
+                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Rol</th>
+                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Üretimler</th>
+                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Durum</th>
+                  <th className="text-left px-4 py-3 text-slate-400 font-medium">Katılım</th>
+                  <th className="text-right px-4 py-3 text-slate-400 font-medium">İşlemler</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800">
@@ -149,7 +149,7 @@ export default function AdminUsersPage() {
                             : "bg-red-950 text-red-400 border border-red-800/50"
                         }`}
                       >
-                        {user.isActive ? "Active" : "Banned"}
+                        {user.isActive ? "Aktif" : "Engelli"}
                       </span>
                     </td>
                     <td className="px-4 py-3 text-slate-400 text-xs">
@@ -159,7 +159,7 @@ export default function AdminUsersPage() {
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => toggleActive(user)}
-                          title={user.isActive ? "Ban user" : "Activate user"}
+                          title={user.isActive ? "Kullanıcıyı engelle" : "Kullanıcıyı aktifleştir"}
                           className={`p-1.5 rounded-lg transition-colors ${
                             user.isActive
                               ? "text-slate-500 hover:text-red-400 hover:bg-red-950/40"
@@ -175,7 +175,7 @@ export default function AdminUsersPage() {
                         <Link
                           href={`/admin/users/${user.id}`}
                           className="p-1.5 rounded-lg text-slate-500 hover:text-white hover:bg-slate-700 transition-colors"
-                          title="View & edit"
+                          title="Görüntüle & düzenle"
                         >
                           <ExternalLink className="w-4 h-4" />
                         </Link>
@@ -193,7 +193,7 @@ export default function AdminUsersPage() {
       {totalPages > 1 && (
         <div className="flex items-center justify-between mt-4">
           <p className="text-sm text-slate-500">
-            Page {page} of {totalPages}
+            Sayfa {page} / {totalPages}
           </p>
           <div className="flex gap-2">
             <button

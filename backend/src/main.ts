@@ -22,7 +22,7 @@ async function bootstrap() {
       res: express.Response,
       next: express.NextFunction,
     ) => {
-      if (req.path === '/api/v1/stripe/webhook') {
+      if (req.path === '/api/v1/payment/webhook') {
         express.urlencoded({ extended: true })(req, res, next);
       } else {
         express.json()(req, res, next);
@@ -37,7 +37,7 @@ async function bootstrap() {
       res: express.Response,
       next: express.NextFunction,
     ) => {
-      if (req.path !== '/api/v1/stripe/webhook') {
+      if (req.path !== '/api/v1/payment/webhook') {
         express.urlencoded({ extended: true })(req, res, next);
       } else {
         next();

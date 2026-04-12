@@ -50,7 +50,7 @@ export default function AdminDashboardPage() {
     adminApi
       .getStats()
       .then((res) => setStats(res.data))
-      .catch(() => setError("Failed to load stats"))
+      .catch(() => setError("İstatistikler yüklenemedi"))
       .finally(() => setLoading(false));
   }, []);
 
@@ -64,7 +64,7 @@ export default function AdminDashboardPage() {
 
   if (error || !stats) {
     return (
-      <div className="p-8 text-center text-slate-400">{error || "No data"}</div>
+      <div className="p-8 text-center text-slate-400">{error || "Veri bulunamadı"}</div>
     );
   }
 
@@ -73,36 +73,36 @@ export default function AdminDashboardPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-        <p className="text-slate-400 text-sm mt-1">Platform overview — {formatDate(new Date().toISOString())}</p>
+        <p className="text-slate-400 text-sm mt-1">Platform özeti — {formatDate(new Date().toISOString())}</p>
       </div>
 
       {/* Stats grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard
-          title="Total Users"
+          title="Toplam Kullanıcı"
           value={stats.users.total}
-          sub={`+${stats.users.newThisWeek} this week`}
+          sub={`+${stats.users.newThisWeek} bu hafta`}
           icon={Users}
           color="bg-indigo-600"
         />
         <StatCard
-          title="Active Users"
+          title="Aktif Kullanıcı"
           value={stats.users.active}
-          sub={`${Math.round((stats.users.active / (stats.users.total || 1)) * 100)}% of total`}
+          sub={`Toplamın %${Math.round((stats.users.active / (stats.users.total || 1)) * 100)}'i`}
           icon={UserCheck}
           color="bg-emerald-600"
         />
         <StatCard
-          title="Total Projects"
+          title="Toplam Proje"
           value={stats.projects.total}
-          sub={`+${stats.projects.newThisWeek} this week`}
+          sub={`+${stats.projects.newThisWeek} bu hafta`}
           icon={FolderOpen}
           color="bg-blue-600"
         />
         <StatCard
-          title="Completed Projects"
+          title="Tamamlanan Proje"
           value={stats.projects.completed}
-          sub={`${Math.round((stats.projects.completed / (stats.projects.total || 1)) * 100)}% success rate`}
+          sub={`%${Math.round((stats.projects.completed / (stats.projects.total || 1)) * 100)} başarı oranı`}
           icon={CheckCircle}
           color="bg-violet-600"
         />
@@ -110,28 +110,28 @@ export default function AdminDashboardPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard
-          title="Blog Posts"
+          title="Blog Yazısı"
           value={stats.blog.total}
-          sub={`${stats.blog.published} published`}
+          sub={`${stats.blog.published} yayında`}
           icon={BookOpen}
           color="bg-amber-600"
         />
         <StatCard
-          title="New Users (7d)"
+          title="Yeni Kullanıcı (7g)"
           value={stats.users.newThisWeek}
           icon={TrendingUp}
           color="bg-rose-600"
         />
         <StatCard
-          title="New Projects (7d)"
+          title="Yeni Proje (7g)"
           value={stats.projects.newThisWeek}
           icon={Activity}
           color="bg-cyan-600"
         />
         <StatCard
-          title="Draft Posts"
+          title="Taslak Yazı"
           value={stats.blog.total - stats.blog.published}
-          sub="unpublished"
+          sub="yayınlanmamış"
           icon={BookOpen}
           color="bg-slate-600"
         />
@@ -139,7 +139,7 @@ export default function AdminDashboardPage() {
 
       {/* Plan breakdown */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-        <h2 className="text-base font-semibold text-white mb-4">Plan Distribution</h2>
+        <h2 className="text-base font-semibold text-white mb-4">Plan Dağılımı</h2>
         <div className="space-y-3">
           {stats.planBreakdown
             .sort((a, b) => b.count - a.count)
@@ -156,7 +156,7 @@ export default function AdminDashboardPage() {
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-sm text-slate-300 capitalize">{item.plan}</span>
                     <span className="text-sm text-slate-400">
-                      {item.count} users ({pct}%)
+                      {item.count} kullanıcı (%{pct})
                     </span>
                   </div>
                   <div className="h-2 rounded-full bg-slate-800 overflow-hidden">

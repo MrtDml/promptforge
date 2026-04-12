@@ -27,19 +27,19 @@ export default function LandingNav() {
               href="/#features"
               className="text-slate-400 hover:text-white transition-colors text-sm"
             >
-              Features
+              Özellikler
             </Link>
             <Link
               href="/#how-it-works"
               className="text-slate-400 hover:text-white transition-colors text-sm"
             >
-              How it works
+              Nasıl çalışır
             </Link>
             <Link
               href="/pricing"
               className="text-slate-400 hover:text-white transition-colors text-sm"
             >
-              Pricing
+              Fiyatlandırma
             </Link>
             <Link
               href="/blog"
@@ -55,10 +55,10 @@ export default function LandingNav() {
               href="/login"
               className="text-slate-300 hover:text-white transition-colors text-sm font-medium px-4 py-2"
             >
-              Sign in
+              Giriş yap
             </Link>
             <Link href="/register" className="btn-primary text-sm px-4 py-2">
-              Get started free
+              Ücretsiz başla
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -69,7 +69,7 @@ export default function LandingNav() {
               href="/login"
               className="text-slate-300 hover:text-white transition-colors text-sm font-medium px-3 py-2"
             >
-              Sign in
+              Giriş yap
             </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -93,21 +93,21 @@ export default function LandingNav() {
               onClick={() => setMobileMenuOpen(false)}
               className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm"
             >
-              Features
+              Özellikler
             </Link>
             <Link
               href="/#how-it-works"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm"
             >
-              How it works
+              Nasıl çalışır
             </Link>
             <Link
               href="/pricing"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm"
             >
-              Pricing
+              Fiyatlandırma
             </Link>
             <Link
               href="/blog"
@@ -122,7 +122,7 @@ export default function LandingNav() {
                 onClick={() => setMobileMenuOpen(false)}
                 className="btn-primary w-full flex items-center justify-center gap-2 text-sm"
               >
-                Get started free
+                Ücretsiz başla
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

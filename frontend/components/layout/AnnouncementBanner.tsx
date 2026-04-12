@@ -84,7 +84,7 @@ export default function AnnouncementBanner() {
               href={settings.announcement_link}
               className="ml-2 inline-flex items-center gap-1 underline underline-offset-2 hover:opacity-80 transition-opacity"
             >
-              Learn more <ArrowRight className="w-3 h-3" />
+              Daha fazla <ArrowRight className="w-3 h-3" />
             </Link>
           )}
         </p>

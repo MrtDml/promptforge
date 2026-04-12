@@ -4,9 +4,9 @@ import LandingNav from "@components/layout/LandingNav";
 import LandingFooter from "@components/layout/LandingFooter";
 
 export const metadata: Metadata = {
-  title: "Prompt Forge – Build SaaS Apps from a Single Prompt | PromptForge",
+  title: "Prompt Forge – Tek Promptla SaaS Uygulaması Geliştir | PromptForge",
   description:
-    "Prompt Forge is an AI SaaS builder that turns your idea into production-ready code in under 5 minutes. Generate a complete NestJS backend, Prisma schema, REST API, and Docker setup from plain English. Free to try.",
+    "Prompt Forge, fikirlerinizi 5 dakika içinde üretime hazır koda dönüştüren yapay zeka destekli bir SaaS oluşturucudur. Düz İngilizce'den eksiksiz bir NestJS backend, Prisma şeması, REST API ve Docker kurulumu oluşturun. Ücretsiz deneyin.",
   keywords: [
     "prompt forge",
     "promptforge",
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://promptforgeai.dev" },
   openGraph: {
-    title: "Prompt Forge – Build SaaS Apps from a Single Prompt",
+    title: "Prompt Forge – Tek Promptla SaaS Uygulaması Geliştir",
     description:
-      "Prompt Forge turns your SaaS idea into production-ready code in under 5 minutes. NestJS backend, Prisma schema, REST API, Docker — all from plain English.",
+      "Prompt Forge, SaaS fikrinizi 5 dakika içinde üretime hazır koda dönüştürür. NestJS backend, Prisma şeması, REST API, Docker — hepsi düz Türkçe açıklamadan.",
     url: "https://promptforgeai.dev",
     siteName: "Prompt Forge",
     type: "website",
@@ -37,15 +37,15 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Prompt Forge – Build SaaS Apps with AI",
+        alt: "Prompt Forge – Yapay Zeka ile SaaS Uygulaması Geliştir",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Prompt Forge – Build SaaS Apps from a Single Prompt",
+    title: "Prompt Forge – Tek Promptla SaaS Uygulaması Geliştir",
     description:
-      "Prompt Forge turns your SaaS idea into production-ready code in under 5 minutes.",
+      "Prompt Forge, SaaS fikrinizi 5 dakika içinde üretime hazır koda dönüştürür.",
     images: ["/twitter-image"],
   },
 };
@@ -66,49 +66,49 @@ import {
 const features = [
   {
     icon: Zap,
-    title: "Instant Generation",
+    title: "Anında Üretim",
     description:
-      "Describe your SaaS idea in plain English and get a complete, working application in seconds.",
+      "SaaS fikrinizi düz Türkçe olarak tarif edin ve saniyeler içinde eksiksiz, çalışan bir uygulama edinin.",
     color: "text-yellow-400",
     bg: "bg-yellow-400/10",
   },
   {
     icon: Database,
-    title: "Smart Schema Design",
+    title: "Akıllı Şema Tasarımı",
     description:
-      "Automatically designs your database schema with proper relationships, indexes, and constraints.",
+      "Veritabanı şemanızı uygun ilişkiler, indeksler ve kısıtlamalarla otomatik olarak tasarlar.",
     color: "text-blue-400",
     bg: "bg-blue-400/10",
   },
   {
     icon: Code2,
-    title: "Full-Stack Code",
+    title: "Full-Stack Kod",
     description:
-      "Generates REST APIs, database migrations, and frontend components all from one prompt.",
+      "REST API'leri, veritabanı migration'larını ve frontend bileşenlerini tek bir prompttan üretir.",
     color: "text-green-400",
     bg: "bg-green-400/10",
   },
   {
     icon: Shield,
-    title: "Auth Built-In",
+    title: "Dahili Kimlik Doğrulama",
     description:
-      "Every generated app comes with JWT authentication, role-based access control, and security best practices.",
+      "Üretilen her uygulama; JWT kimlik doğrulama, rol tabanlı erişim kontrolü ve güvenlik en iyi uygulamalarıyla birlikte gelir.",
     color: "text-purple-400",
     bg: "bg-purple-400/10",
   },
   {
     icon: Layers,
-    title: "Production Ready",
+    title: "Üretime Hazır",
     description:
-      "Generated code follows industry best practices with Docker, CI/CD configs, and environment management.",
+      "Üretilen kod; Docker, CI/CD yapılandırmaları ve ortam yönetimiyle endüstri standartlarını takip eder.",
     color: "text-indigo-400",
     bg: "bg-indigo-400/10",
   },
   {
     icon: Terminal,
-    title: "Developer Friendly",
+    title: "Geliştirici Dostu",
     description:
-      "Clean, readable code with comprehensive README, API documentation, and setup instructions.",
+      "Kapsamlı README, API dokümantasyonu ve kurulum talimatlarıyla birlikte temiz, okunabilir kod.",
     color: "text-pink-400",
     bg: "bg-pink-400/10",
   },
@@ -117,27 +117,27 @@ const features = [
 const steps = [
   {
     number: "01",
-    title: "Describe Your App",
+    title: "Uygulamanızı Tarif Edin",
     description:
-      "Type a natural language description of the SaaS product you want to build.",
+      "Geliştirmek istediğiniz SaaS ürününün doğal dil açıklamasını yazın.",
   },
   {
     number: "02",
-    title: "AI Parses Your Intent",
+    title: "Yapay Zeka Niyetinizi Anlar",
     description:
-      "Our AI extracts entities, relationships, endpoints, and features from your description.",
+      "Yapay zekamız, açıklamanızdan varlıkları, ilişkileri, endpoint'leri ve özellikleri çıkarır.",
   },
   {
     number: "03",
-    title: "Review the Schema",
+    title: "Şemayı İnceleyin",
     description:
-      "Preview the generated data model, API design, and application architecture before generating.",
+      "Üretmeden önce oluşturulan veri modelini, API tasarımını ve uygulama mimarisini önizleyin.",
   },
   {
     number: "04",
-    title: "Generate & Download",
+    title: "Üret ve İndir",
     description:
-      "Get production-ready code for your entire stack, ready to run locally or deploy to the cloud.",
+      "Tüm stack için üretime hazır kodu edinin; yerel olarak çalıştırmaya veya buluta dağıtmaya hazır.",
   },
 ];
 
@@ -246,14 +246,12 @@ export default async function LandingPage() {
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold leading-tight tracking-tight mb-6">
-            Build your SaaS app{" "}
-            <span className="gradient-text">from one sentence</span>
+            SaaS uygulamanı{" "}
+            <span className="gradient-text">tek cümleyle geliştir</span>
           </h1>
 
           <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            <strong className="text-slate-300">Prompt Forge</strong> transforms your natural language description into a
-            complete, production-ready SaaS application — backend, database
-            schema, APIs, and more.
+            <strong className="text-slate-300">Prompt Forge</strong>, doğal dil açıklamanızı eksiksiz, üretime hazır bir SaaS uygulamasına — backend, veritabanı şeması, API&apos;ler ve daha fazlasına — dönüştürür.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
@@ -261,14 +259,14 @@ export default async function LandingPage() {
               href="/register"
               className="btn-primary text-base px-8 py-3.5 glow-indigo"
             >
-              Start building for free
+              Ücretsiz geliştirmeye başla
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
               href="/login"
               className="btn-secondary text-base px-8 py-3.5"
             >
-              Sign in to dashboard
+              Dashboard&apos;a giriş yap
             </Link>
           </div>
 
@@ -283,15 +281,15 @@ export default async function LandingPage() {
             <p className="text-slate-300 text-sm font-mono mb-4 leading-relaxed">
               <span className="text-indigo-400">$</span>{" "}
               <span className="text-slate-200">
-                &quot;Build a multi-tenant project management SaaS with teams, tasks,
-                comments, file attachments, and role-based access. Include
-                Stripe billing with free and pro tiers.&quot;
+                &quot;Takımlar, görevler, yorumlar, dosya ekleri ve rol tabanlı
+                erişim kontrolüne sahip çok kiracılı bir proje yönetim SaaS&apos;ı
+                geliştir. Ücretsiz ve pro katmanlı abonelik sistemi dahil.&quot;
               </span>
             </p>
             <div className="border-t border-slate-700/60 pt-4">
               <div className="flex items-center gap-2 text-green-400 text-xs font-mono">
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                Generated 14 entities · 42 API endpoints · 18 files · Docker ready
+                14 entity üretildi · 42 API endpoint · 18 dosya · Docker hazır
               </div>
             </div>
           </div>
@@ -303,11 +301,10 @@ export default async function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">
-              Everything you need to ship faster
+              Daha hızlı çıkarmanız için ihtiyacınız olan her şey
             </h2>
             <p className="text-slate-400 text-lg max-w-xl mx-auto">
-              PromptForge handles the entire scaffolding process so you can
-              focus on what makes your product unique.
+              PromptForge tüm iskelet kurulum sürecini üstlenir; siz ürününüzü özel kılan şeylere odaklanırsınız.
             </p>
           </div>
 
@@ -338,9 +335,9 @@ export default async function LandingPage() {
       <section id="how-it-works" className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">How it works</h2>
+            <h2 className="text-4xl font-bold mb-4">Nasıl çalışır?</h2>
             <p className="text-slate-400 text-lg">
-              From idea to code in four simple steps.
+              Fikirden koda dört basit adımda.
             </p>
           </div>
 
@@ -371,12 +368,11 @@ export default async function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <h2 className="text-4xl font-bold mb-4">
-              Why teams choose{" "}
-              <span className="gradient-text">PromptForge</span>
+              Ekiplerin{" "}
+              <span className="gradient-text">PromptForge</span>&apos;u tercih etme nedeni
             </h2>
             <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-              Other AI builders generate toy code. PromptForge generates production-grade
-              architecture that your engineers can actually ship.
+              Diğer yapay zeka araçları oyuncak kod üretir. PromptForge, mühendislerinizin gerçekten çıkarabileceği üretim kalitesinde mimari oluşturur.
             </p>
           </div>
 
@@ -384,30 +380,30 @@ export default async function LandingPage() {
             {[
               {
                 icon: Zap,
-                title: "10x faster than manual",
+                title: "Manuel geliştirmeden 10 kat hızlı",
                 description:
-                  "What takes a senior engineer 2 days to scaffold — entities, relations, endpoints, auth, Docker — PromptForge delivers in under 5 minutes.",
+                  "Deneyimli bir mühendise 2 gün süren iskelet kurulumu — entity'ler, ilişkiler, endpoint'ler, auth, Docker — PromptForge ile 5 dakika altında hazır.",
                 color: "text-yellow-400",
                 bg: "bg-yellow-400/10",
-                badge: "Speed",
+                badge: "Hız",
               },
               {
                 icon: Code2,
-                title: "Real, clean code",
+                title: "Gerçek, temiz kod",
                 description:
-                  "Proper NestJS modules, DTOs, Zod validation, auth guards, Prisma migrations — not a toy scaffold. Engineers review and ship, not rewrite.",
+                  "Düzgün NestJS modülleri, DTO'lar, Zod doğrulaması, auth guard'ları, Prisma migration'ları — oyuncak iskelet değil. Mühendisler yeniden yazmaz, doğrudan çıkarır.",
                 color: "text-green-400",
                 bg: "bg-green-400/10",
-                badge: "Quality",
+                badge: "Kalite",
               },
               {
                 icon: FileText,
-                title: "You own the code",
+                title: "Kod sizin",
                 description:
-                  "Every generated file is yours. No vendor lock-in, no proprietary runtime, no monthly fee to keep your app running. Download and deploy anywhere.",
+                  "Üretilen her dosya size aittir. Vendor bağımlılığı yok, özel çalışma ortamı yok, uygulamanızı çalıştırmak için aylık ücret yok. İndirin ve istediğiniz yere dağıtın.",
                 color: "text-blue-400",
                 bg: "bg-blue-400/10",
-                badge: "Ownership",
+                badge: "Sahiplik",
               },
             ].map((item) => (
               <div
@@ -435,19 +431,18 @@ export default async function LandingPage() {
             <div className="flex flex-col md:flex-row md:items-center gap-6">
               <div className="flex-1">
                 <h3 className="text-xl font-bold text-white mb-2">
-                  PromptForge vs. the alternatives
+                  PromptForge vs. alternatifler
                 </h3>
                 <p className="text-slate-400 text-sm">
-                  Lovable, Bolt, and v0 are great for UI prototyping. PromptForge is built
-                  for backend-first teams who need production-ready APIs, not mockups.
+                  Lovable, Bolt ve v0, UI prototipleme için harika araçlar. PromptForge ise mockup değil, üretime hazır API ihtiyacı duyan backend-first ekipler için tasarlandı.
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-3 md:w-80">
                 {[
-                  { label: "Full backend output", pf: true, others: false },
-                  { label: "Prisma + migrations", pf: true, others: false },
-                  { label: "You own the code", pf: true, others: "partial" },
-                  { label: "No vendor lock-in", pf: true, others: false },
+                  { label: "Tam backend çıktısı", pf: true, others: false },
+                  { label: "Prisma + migration'lar", pf: true, others: false },
+                  { label: "Kod size ait", pf: true, others: "partial" },
+                  { label: "Vendor bağımlılığı yok", pf: true, others: false },
                 ].map((row) => (
                   <div
                     key={row.label}
@@ -473,23 +468,23 @@ export default async function LandingPage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-white mb-6 text-center">
-            What is <span className="gradient-text">Prompt Forge</span>?
+            <span className="gradient-text">Prompt Forge</span> nedir?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-slate-400 text-base leading-relaxed">
             <div>
               <p className="mb-4">
-                <strong className="text-slate-200">Prompt Forge</strong> is an AI-powered code generation platform designed for developers and startup founders who want to ship SaaS products faster. Instead of spending days writing boilerplate, you describe your application in plain English and Prompt Forge generates the entire backend stack for you.
+                <strong className="text-slate-200">Prompt Forge</strong>, SaaS ürünlerini daha hızlı çıkarmak isteyen geliştiriciler ve startup kurucuları için tasarlanmış yapay zeka destekli bir kod üretim platformudur. Şablon kod yazmak için günler harcamak yerine, uygulamanızı doğal dille tarif edersiniz ve Prompt Forge tüm backend yığınını sizin için oluşturur.
               </p>
               <p>
-                The Prompt Forge engine parses your natural language description, identifies entities, relationships, and features, then produces a complete project including NestJS modules, Prisma database schema, REST endpoints, JWT authentication, Docker configuration, and more.
+                Prompt Forge motoru, doğal dil açıklamanızı ayrıştırır; entity&apos;leri, ilişkileri ve özellikleri tespit eder, ardından NestJS modülleri, Prisma veritabanı şeması, REST endpoint&apos;leri, JWT kimlik doğrulama, Docker yapılandırması ve daha fazlasını içeren eksiksiz bir proje üretir.
               </p>
             </div>
             <div>
               <p className="mb-4">
-                Unlike general-purpose AI tools, <strong className="text-slate-200">Prompt Forge</strong> is purpose-built for backend development. Every file it generates follows production best practices — proper error handling, input validation, role-based access control, and scalable architecture patterns.
+                Genel amaçlı yapay zeka araçlarının aksine, <strong className="text-slate-200">Prompt Forge</strong> backend geliştirme için özel olarak tasarlanmıştır. Ürettiği her dosya; uygun hata yönetimi, girdi doğrulaması, rol tabanlı erişim kontrolü ve ölçeklenebilir mimari desenleriyle üretim en iyi uygulamalarını takip eder.
               </p>
               <p>
-                Prompt Forge is the fastest way to go from a SaaS idea to working code. Teams use it to prototype in hours, accelerate development cycles, and avoid the repetitive work of setting up the same infrastructure patterns project after project.
+                Prompt Forge, bir SaaS fikrinden çalışan koda geçmenin en hızlı yoludur. Ekipler onu saatler içinde prototip oluşturmak, geliştirme döngülerini hızlandırmak ve proje projeden aynı altyapı desenlerini kurmanın tekrarlayan işinden kaçınmak için kullanır.
               </p>
             </div>
           </div>
@@ -500,22 +495,22 @@ export default async function LandingPage() {
       <section id="pricing" className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Simple, transparent pricing</h2>
-            <p className="text-slate-400 text-lg">Start free. Upgrade when you need more.</p>
+            <h2 className="text-4xl font-bold mb-4">Sade ve şeffaf fiyatlandırma</h2>
+            <p className="text-slate-400 text-lg">Ücretsiz başla. İhtiyacın arttıkça yükselt.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
             {/* Free */}
             <div className="glass-card p-8 flex flex-col">
-              <h3 className="text-xl font-bold text-white mb-1">Free</h3>
-              <p className="text-slate-400 text-sm mb-6">Try it out, no credit card needed.</p>
+              <h3 className="text-xl font-bold text-white mb-1">Ücretsiz</h3>
+              <p className="text-slate-400 text-sm mb-6">Deneyin, kredi kartı gerekmez.</p>
               <div className="mb-6">
                 <span className="text-5xl font-bold text-white">Ücretsiz</span>
               </div>
               <Link href="/register" className="btn-ghost w-full flex items-center justify-center gap-2 mb-8">
-                Get started free
+                Ücretsiz başla
               </Link>
               <ul className="space-y-3 flex-1">
-                {["3 app generations / month", "Up to 5 entities per app", "Prisma schema generation", "REST API scaffolding", "Community support"].map(f => (
+                {["Ayda 3 uygulama üretimi", "Uygulama başına en fazla 5 entity", "Prisma şema üretimi", "REST API iskelet oluşturma", "Topluluk desteği"].map(f => (
                   <li key={f} className="flex items-start gap-2 text-sm text-slate-300">
                     <CheckCircle2 className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
                     {f}
@@ -526,20 +521,20 @@ export default async function LandingPage() {
             {/* Starter */}
             <div className="glass-card p-8 border-indigo-600/50 glow-indigo-lg relative flex flex-col">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <span className="bg-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full">Most Popular</span>
+                <span className="bg-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full">En Popüler</span>
               </div>
               <h3 className="text-xl font-bold text-white mb-1">Starter</h3>
-              <p className="text-slate-400 text-sm mb-6">For indie devs shipping real products.</p>
+              <p className="text-slate-400 text-sm mb-6">Gerçek ürün çıkaran bağımsız geliştiriciler için.</p>
               <div className="mb-6">
                 <span className="text-5xl font-bold text-white">₺950</span>
                 <span className="text-slate-400 text-sm ml-2">/ ay</span>
               </div>
               <Link href="/pricing" className="btn-primary w-full flex items-center justify-center gap-2 mb-8">
-                Get Starter
+                Starter&apos;a Geç
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <ul className="space-y-3 flex-1">
-                {["50 app generations / month", "Unlimited entities per app", "Full 1:N & M:N relation support", "AI relation detection", "Docker & CI/CD configs", "Email support (48h)"].map(f => (
+                {["Ayda 50 uygulama üretimi", "Sınırsız entity", "Tam 1:N ve M:N ilişki desteği", "AI ilişki algılama", "Docker ve CI/CD yapılandırmaları", "E-posta desteği (48 saat)"].map(f => (
                   <li key={f} className="flex items-start gap-2 text-sm text-slate-300">
                     <CheckCircle2 className="w-4 h-4 text-indigo-400 mt-0.5 flex-shrink-0" />
                     {f}
@@ -550,16 +545,16 @@ export default async function LandingPage() {
             {/* Pro */}
             <div className="glass-card p-8 flex flex-col">
               <h3 className="text-xl font-bold text-white mb-1">Pro</h3>
-              <p className="text-slate-400 text-sm mb-6">For teams and agencies building at scale.</p>
+              <p className="text-slate-400 text-sm mb-6">Ölçekte üretim yapan ekipler ve ajanslar için.</p>
               <div className="mb-6">
                 <span className="text-5xl font-bold text-white">₺3.250</span>
                 <span className="text-slate-400 text-sm ml-2">/ ay</span>
               </div>
               <Link href="/pricing" className="btn-ghost w-full flex items-center justify-center gap-2 mb-8">
-                Get Pro
+                Pro&apos;ya Geç
               </Link>
               <ul className="space-y-3 flex-1">
-                {["Unlimited app generations", "Everything in Starter", "Priority generation queue", "Advanced AI fine-tuning", "Team collaboration", "Priority support (4h)"].map(f => (
+                {["Sınırsız uygulama üretimi", "Starter&apos;daki her şey", "Öncelikli üretim kuyruğu", "Gelişmiş AI fine-tuning", "Takım işbirliği", "Öncelikli destek (4 saat)"].map(f => (
                   <li key={f} className="flex items-start gap-2 text-sm text-slate-300">
                     <CheckCircle2 className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
                     {f}
@@ -575,7 +570,7 @@ export default async function LandingPage() {
       <section className="py-10 px-4 border-t border-slate-800/60 bg-slate-950">
         <div className="max-w-5xl mx-auto flex flex-col items-center gap-3">
           <p className="text-xs text-slate-500 uppercase tracking-widest font-medium">
-            Secure Payment
+            Güvenli Ödeme
           </p>
           <div className="flex items-center gap-4 px-6 py-3 rounded-xl bg-slate-900/60 border border-slate-700/40">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -586,7 +581,7 @@ export default async function LandingPage() {
             />
           </div>
           <p className="text-xs text-slate-600">
-            Payments are processed securely via iyzico virtual POS
+            Ödemeler iyzico sanal POS altyapısı üzerinden güvenle işlenir
           </p>
         </div>
       </section>

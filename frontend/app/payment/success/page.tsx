@@ -66,7 +66,7 @@ export default function PaymentSuccessPage() {
             className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-200 shadow-lg shadow-indigo-600/20 w-full justify-center"
           >
             <Sparkles className="w-5 h-5" />
-            Dashboard'a Git
+            Dashboard&apos;a Git
             <ArrowRight className="w-5 h-5" />
           </Link>
 

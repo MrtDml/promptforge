@@ -322,7 +322,7 @@ export default function CheckoutPage() {
                 <Link href="/privacy" className="underline hover:text-slate-400 transition-colors">
                   Gizlilik Politikası
                 </Link>
-                'nı kabul etmiş olursunuz.
+                &apos;nı kabul etmiş olursunuz.
               </p>
             </div>
           </div>

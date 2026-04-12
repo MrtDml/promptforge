@@ -47,12 +47,13 @@ export default function TermsPage() {
               title: "4. Subscription and Billing",
               items: [
                 "Free plan: 3 app generations per month at no charge",
-                "Starter plan ($29/month): 50 generations per month",
-                "Pro plan ($99/month): Unlimited generations",
+                "Starter plan (₺950/month): 50 generations per month",
+                "Pro plan (₺3,250/month): Unlimited generations",
                 "Subscriptions are billed monthly and renew automatically",
                 "You may cancel your subscription at any time; cancellation takes effect at the end of the current billing period",
-                "We do not offer refunds for partial months",
+                "All paid plans include a 14-day money-back guarantee",
                 "Prices may change with 30 days advance notice",
+                "Payments are processed securely via iyzico",
               ],
             },
             {

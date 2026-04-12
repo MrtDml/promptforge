@@ -39,7 +39,7 @@ export default function PrivacyPage() {
                 },
                 {
                   subtitle: "Payment Information",
-                  text: "Payments are processed by Stripe. We do not store your credit card number or sensitive payment details on our servers. We only retain subscription status and plan information.",
+                  text: "Payments are processed by iyzico, a PCI-DSS compliant payment infrastructure provider. We do not store your credit card number or sensitive payment details on our servers. We only retain subscription status and plan information.",
                 },
                 {
                   subtitle: "Technical Data",

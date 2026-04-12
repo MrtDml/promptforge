@@ -59,7 +59,6 @@ import {
   Layers,
   Terminal,
   ChevronRight,
-  Star,
   CheckCircle2,
   FileText,
 } from "lucide-react";
@@ -142,60 +141,6 @@ const steps = [
   },
 ];
 
-const testimonials = [
-  {
-    quote: "I described a multi-tenant invoicing app and got a fully working NestJS backend with Prisma in under 4 minutes. Would have taken me 2 days manually.",
-    author: "James L.",
-    role: "Freelance Full-Stack Developer",
-    stars: 5,
-  },
-  {
-    quote: "The relation detection blew my mind. I typed 'users have many projects, projects have many tasks' and it generated the exact schema I had in my head.",
-    author: "Priya M.",
-    role: "CTO, Fintech Startup",
-    stars: 5,
-  },
-  {
-    quote: "We use PromptForge to prototype new features before committing to a full build. Our sprint velocity has improved noticeably since we started.",
-    author: "Thomas B.",
-    role: "Lead Backend Engineer",
-    stars: 5,
-  },
-  {
-    quote: "As a solo founder I can't afford to spend 3 days on boilerplate. PromptForge gets me to a working API in minutes. It's become part of my standard workflow.",
-    author: "Elif S.",
-    role: "Indie Hacker",
-    stars: 5,
-  },
-  {
-    quote: "Skeptical at first, but the generated code is actually clean. Proper DTOs, validation, auth guards — not just a toy scaffold.",
-    author: "David O.",
-    role: "Senior Software Engineer",
-    stars: 4,
-  },
-  {
-    quote: "We evaluated 3 different tools for our agency. PromptForge was the only one that actually understood our prompts and produced production-ready structure.",
-    author: "Mia C.",
-    role: "Tech Lead, Digital Agency",
-    stars: 5,
-  },
-];
-
-async function fetchApiTestimonials(): Promise<typeof testimonials | null> {
-  try {
-    const base = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-    const res = await fetch(`${base}/api/v1/settings/public`, {
-      next: { revalidate: 300 },
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    if (data.testimonials_json) {
-      const parsed = JSON.parse(data.testimonials_json);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-    }
-  } catch {}
-  return null;
-}
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -280,8 +225,6 @@ const faqJsonLd = {
 };
 
 export default async function LandingPage() {
-  const apiTestimonials = await fetchApiTestimonials();
-  const displayTestimonials = apiTestimonials ?? testimonials;
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       {/* ── JSON-LD Structured Data ── */}
@@ -525,22 +468,6 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* ── Stats ── */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 border-y border-slate-800/60 bg-slate-900/30">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[
-            { value: "12,400+", label: "Apps generated" },
-            { value: "3,200+", label: "Developers" },
-            { value: "< 5 min", label: "From idea to code" },
-            { value: "98%", label: "Satisfaction rate" },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <p className="text-3xl sm:text-4xl font-black text-white mb-1">{stat.value}</p>
-              <p className="text-slate-400 text-sm">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ── What is Prompt Forge ── (SEO anchor section) */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
@@ -565,34 +492,6 @@ export default async function LandingPage() {
                 Prompt Forge is the fastest way to go from a SaaS idea to working code. Teams use it to prototype in hours, accelerate development cycles, and avoid the repetitive work of setting up the same infrastructure patterns project after project.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Testimonials ── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-900/50">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Loved by developers</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {displayTestimonials.map((t) => (
-              <div key={t.author} className="glass-card p-6">
-                <div className="flex gap-0.5 mb-4">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className={`w-4 h-4 ${i < t.stars ? "fill-yellow-400 text-yellow-400" : "text-slate-700"}`} />
-                  ))}
-                </div>
-                <p className="text-slate-300 text-sm leading-relaxed mb-5">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div>
-                  <p className="font-semibold text-white text-sm">{t.author}</p>
-                  <p className="text-slate-500 text-xs">{t.role}</p>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>

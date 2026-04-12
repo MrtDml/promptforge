@@ -24,7 +24,7 @@ const VALUES = [
   {
     icon: Globe2,
     title: "Global reach",
-    body: "We build for the world. Our products are used by developers across five continents, and we design every feature with a global, diverse audience in mind.",
+    body: "We build for the world. PromptForge is designed for a global, diverse audience — from solo founders to engineering teams — and every feature reflects that commitment.",
   },
   {
     icon: Code2,

@@ -80,6 +80,7 @@ function NewProjectContent() {
   const [generateError, setGenerateError] = useState<string | null>(null);
   const [isParsing, setIsParsing] = useState(false);
   const [generatingTooLong, setGeneratingTooLong] = useState(false);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [includeTests, setIncludeTests] = useState(false);
   const [includeDocker, setIncludeDocker] = useState(true);
   const [includeSwagger, setIncludeSwagger] = useState(false);
@@ -149,9 +150,16 @@ function NewProjectContent() {
 
   // Timeout warning after 45s during generation
   useEffect(() => {
-    if (step !== "generating") { setGeneratingTooLong(false); return; }
+    if (step !== "generating") { setGeneratingTooLong(false); setElapsedSeconds(0); return; }
     const t = setTimeout(() => setGeneratingTooLong(true), 45000);
     return () => clearTimeout(t);
+  }, [step]);
+
+  // Elapsed timer during generation
+  useEffect(() => {
+    if (step !== "generating") return;
+    const interval = setInterval(() => setElapsedSeconds((s) => s + 1), 1000);
+    return () => clearInterval(interval);
   }, [step]);
 
   // Step 2 → 3 → 4: generate
@@ -328,7 +336,14 @@ function NewProjectContent() {
           {generateError && (
             <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/30 rounded-xl px-5 py-4">
               <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-red-400 text-sm">{generateError}</p>
+              <div className="flex flex-col gap-1">
+                <p className="text-red-400 text-sm">{generateError}</p>
+                {(generateError.toLowerCase().includes("limit") || generateError.toLowerCase().includes("upgrade")) && (
+                  <a href="/pricing" className="text-indigo-400 text-sm underline hover:text-indigo-300 transition-colors">
+                    Planını yükselt →
+                  </a>
+                )}
+              </div>
             </div>
           )}
 
@@ -465,16 +480,17 @@ function NewProjectContent() {
             <div className="absolute inset-0 rounded-full border-2 border-indigo-500/20 animate-ping" />
           </div>
           <h3 className="text-2xl font-bold text-white mb-3">Generating your application...</h3>
+          <p className="text-slate-500 text-sm mb-3 tabular-nums">{elapsedSeconds}s geçti</p>
           {generatingTooLong ? (
             <div className="bg-amber-950/50 border border-amber-700/50 rounded-xl px-5 py-3 max-w-md">
-              <p className="text-amber-300 text-sm font-medium">Still working…</p>
+              <p className="text-amber-300 text-sm font-medium">Hâlâ çalışıyor…</p>
               <p className="text-amber-400/70 text-xs mt-1">
-                Complex schemas take longer. Please keep this tab open — your project will be ready shortly.
+                Karmaşık şemalar daha uzun sürebilir. Bu sekmeyi açık tutun — projeniz birazdan hazır olacak.
               </p>
             </div>
           ) : (
             <p className="text-slate-400 max-w-md">
-              AI is crafting your complete SaaS application. This usually takes 15–30 seconds.
+              Yapay zeka SaaS uygulamanı oluşturuyor. Bu işlem genellikle 15–30 saniye sürer.
             </p>
           )}
           <div className="mt-10 glass-card p-5 w-full max-w-sm">

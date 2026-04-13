@@ -13,6 +13,7 @@ import {
   HttpStatus,
   Logger,
 } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { IsObject, IsOptional } from 'class-validator';
 import { Response } from 'express';
 import * as archiver from 'archiver';
@@ -55,6 +56,7 @@ export class GeneratorController {
    */
   @Post('generate')
   @HttpCode(HttpStatus.OK)
+  @Throttle({ default: { limit: 5, ttl: 60_000 } }) // max 5 generations per minute
   async generate(@Body() body: GenerateFromSchemaDto, @Request() req: JwtRequest) {
     // ── Quota check ──────────────────────────────────────────────────────────
     const user = await this.usersService.findById(req.user.id);

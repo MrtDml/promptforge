@@ -27,6 +27,25 @@ export function middleware(request: NextRequest) {
     "Permissions-Policy",
     "camera=(), microphone=(), geolocation=()"
   );
+  response.headers.set(
+    "Content-Security-Policy",
+    [
+      "default-src 'self'",
+      // Next.js requires unsafe-inline/unsafe-eval for hydration & hot reload
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.sentry.io https://cdn.vercel-insights.com https://va.vercel-scripts.com",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: blob: https:",
+      "font-src 'self'",
+      // API, Sentry, PostHog, Google OAuth, iyzico payment
+      "connect-src 'self' https://*.sentry.io https://o*.ingest.sentry.io https://app.posthog.com https://eu.posthog.com https://api.promptforgeai.dev https://accounts.google.com https://vitals.vercel-insights.com",
+      // iyzico ödeme iframe'i
+      "frame-src https://iyzicore.com https://sandbox-iyzicore.com https://www.iyzipay.com",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "upgrade-insecure-requests",
+    ].join("; ")
+  );
 
   // ── Private routes: prevent caching ───────────────────────────────────────
   const isPrivate = PRIVATE_PREFIXES.some((prefix) =>

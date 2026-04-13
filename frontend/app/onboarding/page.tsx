@@ -9,24 +9,24 @@ const STEPS = [
   {
     id: 1,
     icon: Zap,
-    title: "Welcome to Prompt Forge!",
-    subtitle: "You're one prompt away from your first SaaS app.",
+    title: "PromptForge&apos;a Hoş Geldin!",
+    subtitle: "İlk SaaS uygulamanı oluşturmak için tek bir prompt yeterli.",
     color: "text-indigo-400",
     bg: "bg-indigo-500/10 border-indigo-500/20",
   },
   {
     id: 2,
     icon: Code2,
-    title: "How it works",
-    subtitle: "Three steps from idea to code.",
+    title: "Nasıl çalışır?",
+    subtitle: "Fikirden koda üç adımda ulaş.",
     color: "text-violet-400",
     bg: "bg-violet-500/10 border-violet-500/20",
   },
   {
     id: 3,
     icon: Rocket,
-    title: "You're all set!",
-    subtitle: "Start generating your first project now.",
+    title: "Her şey hazır!",
+    subtitle: "Şimdi ilk projeini oluşturmaya başla.",
     color: "text-emerald-400",
     bg: "bg-emerald-500/10 border-emerald-500/20",
   },
@@ -35,18 +35,18 @@ const STEPS = [
 const HOW_IT_WORKS = [
   {
     num: "1",
-    title: "Describe your app",
-    body: "Write a plain-English description — entities, features, and requirements. No coding knowledge needed.",
+    title: "Uygulamanı tanımla",
+    body: "Sade bir Türkçe açıklama yaz — varlıklar, özellikler ve gereksinimler. Kodlama bilgisine gerek yok.",
   },
   {
     num: "2",
-    title: "AI generates your code",
-    body: "Prompt Forge creates a production-ready NestJS backend + Prisma schema with all your entities and relations.",
+    title: "Yapay zeka kodunu üretir",
+    body: "PromptForge, tüm varlık ve ilişkilerle birlikte üretime hazır NestJS backend + Prisma şeması oluşturur.",
   },
   {
     num: "3",
-    title: "Download, deploy, ship",
-    body: "Get a ZIP, push to GitHub with one click, or deploy to Railway directly from the dashboard.",
+    title: "İndir, deploy et, yayınla",
+    body: "ZIP olarak indir, tek tıkla GitHub&apos;a gönder veya doğrudan dashboard&apos;dan Railway&apos;e deploy et.",
   },
 ];
 
@@ -104,11 +104,11 @@ export default function OnboardingPage() {
           {step === 0 && (
             <ul className="space-y-3 text-left">
               {[
-                "Generate a full NestJS + Prisma backend from a prompt",
-                "Download production-ready code as a ZIP",
-                "Push to GitHub or deploy to Railway in one click",
-                "Use AI chat to modify your project anytime",
-                "3 free generations — no credit card required",
+                "Prompt ile tam NestJS + Prisma backend üret",
+                "Üretime hazır kodu ZIP olarak indir",
+                "Tek tıkla GitHub&apos;a gönder veya Railway&apos;e deploy et",
+                "AI chat ile projeyi istediğin zaman değiştir",
+                "3 ücretsiz üretim hakkı — kredi kartı gerekmez",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <CheckCircle2 className="w-4 h-4 text-indigo-400 mt-0.5 flex-shrink-0" />
@@ -141,11 +141,11 @@ export default function OnboardingPage() {
               <div className="bg-[#0a0b14]/60 border border-slate-800 rounded-xl p-4">
                 <p className="text-slate-300 text-sm font-medium mb-1">Example prompt:</p>
                 <p className="text-indigo-300 text-sm italic leading-relaxed">
-                  &ldquo;Build a task management app with users, projects, and tasks. Users can assign tasks to other team members, set deadlines, and track progress.&rdquo;
+                  &ldquo;Kullanıcılar, projeler ve görevlerden oluşan bir task yönetim uygulaması yap. Kullanıcılar görevleri ekip arkadaşlarına atayabilsin, son tarih belirleyebilsin ve ilerlemeyi takip edebilsin.&rdquo;
                 </p>
               </div>
               <p className="text-slate-400 text-sm text-center">
-                Paste your own description and hit Generate — it takes about 10 seconds.
+                Kendi açıklamanı yapıştır ve Oluştur&apos;a bas — yaklaşık 15 saniye sürer.
               </p>
             </div>
           )}
@@ -157,7 +157,7 @@ export default function OnboardingPage() {
             onClick={skip}
             className="text-slate-500 hover:text-slate-300 text-sm transition-colors"
           >
-            Skip intro
+            Geç
           </button>
 
           <button
@@ -166,12 +166,12 @@ export default function OnboardingPage() {
           >
             {isLast ? (
               <>
-                Create my first project
+                İlk projemi oluştur
                 <ExternalLink className="w-4 h-4" />
               </>
             ) : (
               <>
-                Next
+                İleri
                 <ArrowRight className="w-4 h-4" />
               </>
             )}
@@ -180,9 +180,9 @@ export default function OnboardingPage() {
 
         {/* Docs link */}
         <p className="text-center text-slate-600 text-xs mt-6">
-          Need help?{" "}
+          Yardıma mı ihtiyacın var?{" "}
           <Link href="/docs" className="text-indigo-400/70 hover:text-indigo-400">
-            Read the docs
+            Dokümantasyonu oku
           </Link>
         </p>
       </div>

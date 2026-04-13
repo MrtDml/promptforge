@@ -113,10 +113,10 @@ export default function DashboardLayout({
           <div className="bg-amber-950/60 border-b border-amber-800/50 px-4 py-2.5 flex items-center gap-3 flex-shrink-0">
             <MailWarning className="w-4 h-4 text-amber-400 flex-shrink-0" />
             <p className="text-amber-200 text-sm flex-1">
-              Please verify your email address to unlock all features.{" "}
+              Tüm özellikleri kullanmak için e-posta adresini doğrula.{" "}
               {resent ? (
                 <span className="text-green-400 font-medium">
-                  Verification email sent!{cooldown > 0 ? ` Resend again in ${cooldown}s.` : ""}
+                  Doğrulama e-postası gönderildi!{cooldown > 0 ? ` ${cooldown} saniye sonra tekrar gönderebilirsin.` : ""}
                 </span>
               ) : (
                 <button
@@ -125,7 +125,7 @@ export default function DashboardLayout({
                   className="underline text-amber-300 hover:text-amber-100 transition-colors disabled:opacity-50 inline-flex items-center gap-1"
                 >
                   {resending && <Loader2 className="w-3 h-3 animate-spin" />}
-                  {cooldown > 0 ? `Resend in ${cooldown}s` : "Resend verification email"}
+                  {cooldown > 0 ? `${cooldown}s sonra tekrar gönder` : "Doğrulama e-postası gönder"}
                 </button>
               )}
             </p>

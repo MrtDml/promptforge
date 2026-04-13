@@ -17,20 +17,34 @@ const QUICK_QUESTIONS = [
   "Üretilen kodu nasıl deploy ederim?",
 ];
 
+const STORAGE_KEY = "forge_assistant_history";
+const WELCOME_MESSAGE: Message = {
+  role: "assistant",
+  content:
+    "Merhaba! Ben Forge, PromptForge yapay zeka asistanıyım. 👋\n\nSaaS geliştirme, platform kullanımı veya backend teknolojileri hakkında sorularını yanıtlayabilirim. Nasıl yardımcı olabilirim?",
+};
+
 export default function AssistantWidget() {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "assistant",
-      content:
-        "Merhaba! Ben Forge, PromptForge yapay zeka asistanıyım. 👋\n\nSaaS geliştirme, platform kullanımı veya backend teknolojileri hakkında sorularını yanıtlayabilirim. Nasıl yardımcı olabilirim?",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) return JSON.parse(saved) as Message[];
+    } catch {}
+    return [WELCOME_MESSAGE];
+  });
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // localStorage'a kaydet
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+    } catch {}
+  }, [messages]);
 
   useEffect(() => {
     if (open) {
@@ -96,12 +110,21 @@ export default function AssistantWidget() {
               <p className="text-white text-sm font-semibold">Forge Asistan</p>
               <p className="text-slate-500 text-xs">PromptForge & SaaS uzmanı</p>
             </div>
-            <button
-              onClick={() => setOpen(false)}
-              className="ml-auto text-slate-500 hover:text-slate-300 transition-colors"
-            >
-              <X className="w-4 h-4" />
-            </button>
+            <div className="ml-auto flex items-center gap-2">
+              <button
+                onClick={() => setMessages([WELCOME_MESSAGE])}
+                className="text-slate-600 hover:text-slate-400 transition-colors text-xs"
+                title="Sohbeti temizle"
+              >
+                Temizle
+              </button>
+              <button
+                onClick={() => setOpen(false)}
+                className="text-slate-500 hover:text-slate-300 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
           {/* Messages */}

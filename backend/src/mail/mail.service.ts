@@ -45,20 +45,20 @@ export class MailService {
 
   async sendVerificationEmail(to: string, name: string, token: string) {
     const link = `${this.frontendUrl}/verify-email?token=${token}`;
-    await this.send(to, 'Verify your PromptForge account', this.verificationTemplate(name, link));
+    await this.send(to, 'PromptForge hesabını doğrula', this.verificationTemplate(name, link));
   }
 
   // ─── Password Reset ───────────────────────────────────────────────────────
 
   async sendPasswordResetEmail(to: string, name: string, token: string) {
     const link = `${this.frontendUrl}/reset-password?token=${token}`;
-    await this.send(to, 'Reset your PromptForge password', this.resetPasswordTemplate(name, link));
+    await this.send(to, 'PromptForge şifreni sıfırla', this.resetPasswordTemplate(name, link));
   }
 
   // ─── Welcome (after email verified) ──────────────────────────────────────
 
   async sendWelcomeEmail(to: string, name: string) {
-    await this.send(to, `Welcome to PromptForge, ${name}! 🚀`, this.welcomeTemplate(name));
+    await this.send(to, `PromptForge&apos;a hoş geldin, ${name}! 🚀`, this.welcomeTemplate(name));
   }
 
   // ─── Project Complete ─────────────────────────────────────────────────────
@@ -67,7 +67,7 @@ export class MailService {
     const link = `${this.frontendUrl}/dashboard/projects/${projectId}`;
     await this.send(
       to,
-      `✅ "${projectName}" is ready!`,
+      `✅ "${projectName}" hazır!`,
       this.projectCompleteTemplate(name, projectName, link),
     );
   }
@@ -78,7 +78,7 @@ export class MailService {
     const link = `${this.frontendUrl}/pricing`;
     await this.send(
       to,
-      "⚠️ You're running low on generations",
+      '⚠️ Üretim hakkın azalıyor',
       this.limitWarningTemplate(name, used, limit, link),
     );
   }
@@ -117,8 +117,8 @@ export class MailService {
       <!-- Footer -->
       <tr><td style="padding-top:24px;text-align:center;color:#334155;font-size:12px;line-height:1.6;">
         <p style="margin:0;">© ${new Date().getFullYear()} PromptForge · <a href="${this.frontendUrl}" style="color:#4f46e5;text-decoration:none;">promptforgeai.dev</a></p>
-        <p style="margin:4px 0 0;">You're receiving this because you have an account at PromptForge.</p>
-        <p style="margin:4px 0 0;"><a href="${this.frontendUrl}/dashboard/settings?tab=notifications" style="color:#475569;text-decoration:underline;">Unsubscribe</a> from email notifications.</p>
+        <p style="margin:4px 0 0;">Bu e-postayı PromptForge hesabın olduğu için alıyorsun.</p>
+        <p style="margin:4px 0 0;"><a href="${this.frontendUrl}/dashboard/settings?tab=notifications" style="color:#475569;text-decoration:underline;">Aboneliği iptal et</a></p>
       </td></tr>
     </table>
   </td></tr>
@@ -141,14 +141,14 @@ export class MailService {
 
   private verificationTemplate(name: string, link: string): string {
     return this.baseTemplate(`
-      ${this.h1('Verify your email address')}
-      ${this.p(`Hi ${name}, welcome to PromptForge! Please verify your email address to activate your account and start building AI-powered SaaS apps.`)}
+      ${this.h1('E-posta adresini doğrula')}
+      ${this.p(`Merhaba ${name}, PromptForge&apos;a hoş geldin! Hesabını etkinleştirmek ve AI destekli SaaS uygulamaları oluşturmaya başlamak için e-posta adresini doğrula.`)}
       <div style="text-align:center;margin:8px 0 16px;">
-        ${this.btn(link, 'Verify Email Address')}
+        ${this.btn(link, 'E-posta Adresimi Doğrula')}
       </div>
-      ${this.p('This link expires in <strong style="color:#e2e8f0;">24 hours</strong>. If you didn\'t create an account, you can safely ignore this email.')}
+      ${this.p('Bu bağlantı <strong style="color:#e2e8f0;">24 saat</strong> içinde sona erer. Hesap oluşturmadıysan bu e-postayı görmezden gelebilirsin.')}
       <div style="margin-top:24px;padding:16px;background:#0a0b14;border-radius:10px;border:1px solid #1e2235;">
-        <p style="margin:0;color:#475569;font-size:12px;">Or copy this link into your browser:</p>
+        <p style="margin:0;color:#475569;font-size:12px;">Bağlantıyı tarayıcına kopyalayabilirsin:</p>
         <p style="margin:4px 0 0;font-size:12px;word-break:break-all;"><a href="${link}" style="color:#6366f1;">${link}</a></p>
       </div>
     `);
@@ -156,30 +156,29 @@ export class MailService {
 
   private resetPasswordTemplate(name: string, link: string): string {
     return this.baseTemplate(`
-      ${this.h1('Reset your password')}
-      ${this.p(`Hi ${name}, we received a request to reset your PromptForge password. Click the button below to set a new password.`)}
+      ${this.h1('Şifreni sıfırla')}
+      ${this.p(`Merhaba ${name}, PromptForge şifreni sıfırlama talebini aldık. Yeni şifre belirlemek için aşağıdaki butona tıkla.`)}
       <div style="text-align:center;margin:8px 0 16px;">
-        ${this.btn(link, 'Reset Password')}
+        ${this.btn(link, 'Şifremi Sıfırla')}
       </div>
-      ${this.p('This link expires in <strong style="color:#e2e8f0;">1 hour</strong>. If you didn\'t request a password reset, you can safely ignore this email — your password will not change.')}
+      ${this.p('Bu bağlantı <strong style="color:#e2e8f0;">1 saat</strong> içinde sona erer. Şifre sıfırlama talebinde bulunmadıysan bu e-postayı görmezden gelebilirsin — şifren değişmeyecektir.')}
     `);
   }
 
   private welcomeTemplate(name: string): string {
-    const dashboardLink = `${this.frontendUrl}/dashboard`;
     const newProjectLink = `${this.frontendUrl}/dashboard/new`;
     return this.baseTemplate(`
-      ${this.h1(`Welcome to PromptForge, ${name}! 🚀`)}
-      ${this.p('Your account is verified and ready. You can now generate full-stack SaaS applications from plain English descriptions — no coding required.')}
+      ${this.h1(`PromptForge&apos;a hoş geldin, ${name}! 🚀`)}
+      ${this.p('Hesabın doğrulandı ve hazır. Artık sade Türkçe açıklamalardan tam yığın SaaS uygulamaları üretebilirsin — kodlama bilgisi gerekmez.')}
       <div style="margin:20px 0;padding:20px;background:#0a0b14;border-radius:12px;border:1px solid #1e2235;">
-        <p style="margin:0 0 12px;color:#e2e8f0;font-weight:600;font-size:14px;">What you can do:</p>
+        <p style="margin:0 0 12px;color:#e2e8f0;font-weight:600;font-size:14px;">Neler yapabilirsin:</p>
         <table cellpadding="0" cellspacing="0" style="width:100%;">
           ${[
-            '⚡ Generate a NestJS + Prisma backend from a prompt',
-            '🗄️ Get a database schema with entities & relations',
-            '📦 Download production-ready code as a ZIP',
-            '🐙 Push directly to a new GitHub repository',
-            '🤖 Chat with AI to modify your code',
+            '⚡ Prompt ile NestJS + Prisma backend üret',
+            '🗄️ Varlık ve ilişkilerle veritabanı şeması al',
+            '📦 Üretime hazır kodu ZIP olarak indir',
+            '🐙 Yeni bir GitHub reposuna doğrudan gönder',
+            '🤖 Kodunu AI chat ile istediğin zaman değiştir',
           ]
             .map(
               (item) => `
@@ -189,9 +188,9 @@ export class MailService {
         </table>
       </div>
       <div style="text-align:center;">
-        ${this.btn(newProjectLink, 'Create Your First Project')}
+        ${this.btn(newProjectLink, 'İlk Projemi Oluştur')}
       </div>
-      ${this.p(`You start on the <strong style="color:#e2e8f0;">Free plan</strong> with 3 generations/month. <a href="${this.frontendUrl}/pricing" style="color:#6366f1;">Upgrade anytime</a> for more.`)}
+      ${this.p(`<strong style="color:#e2e8f0;">Ücretsiz plan</strong> ile başlıyorsun — aylık 3 üretim hakkı. Daha fazlası için <a href="${this.frontendUrl}/pricing" style="color:#6366f1;">istediğin zaman yükseltebilirsin</a>.`)}
     `);
   }
 
@@ -200,12 +199,12 @@ export class MailService {
       <div style="text-align:center;margin-bottom:24px;">
         <div style="display:inline-block;background:#052e16;border:1px solid #166534;border-radius:50%;width:56px;height:56px;line-height:56px;font-size:28px;">✅</div>
       </div>
-      ${this.h1(`"${projectName}" is ready!`)}
-      ${this.p(`Hi ${name}, your project has been generated successfully. Your production-ready code is available to download or push to GitHub.`)}
+      ${this.h1(`"${projectName}" hazır!`)}
+      ${this.p(`Merhaba ${name}, projen başarıyla oluşturuldu. Üretime hazır kodun indirilebilir veya GitHub&apos;a gönderilebilir durumda.`)}
       <div style="text-align:center;margin:8px 0 16px;">
-        ${this.btn(link, 'View Project')}
+        ${this.btn(link, 'Projeyi Görüntüle')}
       </div>
-      ${this.p('You can download the full ZIP, push to GitHub with one click, or use AI chat to make modifications.')}
+      ${this.p('ZIP dosyasını indirebilir, tek tıkla GitHub&apos;a gönderebilir veya AI chat ile değişiklik yapabilirsin.')}
     `);
   }
 
@@ -215,14 +214,14 @@ export class MailService {
       <div style="text-align:center;margin-bottom:24px;">
         <div style="display:inline-block;background:#431407;border:1px solid #9a3412;border-radius:50%;width:56px;height:56px;line-height:56px;font-size:28px;">⚠️</div>
       </div>
-      ${this.h1('Running low on generations')}
-      ${this.p(`Hi ${name}, you've used <strong style="color:#e2e8f0;">${used} of ${limit}</strong> generations this month. You have <strong style="color:#fb923c;">${remaining} generation${remaining !== 1 ? 's' : ''}</strong> remaining.`)}
+      ${this.h1('Üretim hakkın azalıyor')}
+      ${this.p(`Merhaba ${name}, bu ay <strong style="color:#e2e8f0;">${limit} üretim hakkından ${used} tanesini</strong> kullandın. <strong style="color:#fb923c;">${remaining} üretim hakkın</strong> kaldı.`)}
       <div style="margin:16px 0;background:#0a0b14;border-radius:10px;overflow:hidden;border:1px solid #1e2235;">
         <div style="height:8px;background:linear-gradient(90deg,#6366f1,#f97316);width:${Math.round((used / limit) * 100)}%;border-radius:10px;"></div>
       </div>
-      ${this.p('Upgrade to Pro for unlimited generations, plus priority processing and all premium features.')}
+      ${this.p('Sınırsız üretim, öncelikli işleme ve tüm premium özellikler için Pro plana geç.')}
       <div style="text-align:center;margin:8px 0 16px;">
-        ${this.btn(link, 'Upgrade to Pro')}
+        ${this.btn(link, 'Pro&apos;ya Yükselt')}
       </div>
     `);
   }

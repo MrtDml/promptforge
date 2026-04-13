@@ -61,9 +61,9 @@ export default function DashboardPage() {
 
   const greeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 17) return "Good afternoon";
-    return "Good evening";
+    if (hour < 12) return "Günaydın";
+    if (hour < 17) return "İyi günler";
+    return "İyi akşamlar";
   };
 
   const plan = user?.plan ?? "free";

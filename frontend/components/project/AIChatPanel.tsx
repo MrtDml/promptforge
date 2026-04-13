@@ -153,7 +153,7 @@ export default function AIChatPanel({ projectId, features = [], onFilesUpdated }
         }
       }
     } catch (err: any) {
-      setError(err?.message ?? "AI request failed. Please try again.");
+      setError(err?.message ?? "AI isteği başarısız. Lütfen tekrar deneyin.");
       // Remove the empty placeholder on error
       setMessages((prev) => {
         const updated = [...prev];

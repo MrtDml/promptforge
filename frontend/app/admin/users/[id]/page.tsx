@@ -51,7 +51,7 @@ export default function AdminUserDetailPage() {
         setGenerationsLimit(u.generationsLimit);
         setGenerationsUsed(u.generationsUsed);
       })
-      .catch(() => setError("User not found"))
+      .catch(() => setError("Kullanıcı bulunamadı"))
       .finally(() => setLoading(false));
   }, [id]);
 
@@ -68,9 +68,9 @@ export default function AdminUserDetailPage() {
         generationsLimit,
         generationsUsed,
       });
-      setSuccess("Changes saved successfully.");
+      setSuccess("Değişiklikler kaydedildi.");
     } catch {
-      setError("Failed to save changes.");
+      setError("Değişiklikler kaydedilemedi.");
     } finally {
       setSaving(false);
     }
@@ -86,7 +86,7 @@ export default function AdminUserDetailPage() {
       await adminApi.deleteUser(id);
       router.push("/admin/users");
     } catch {
-      setError("Failed to delete user.");
+      setError("Kullanıcı silinemedi.");
       setDeleting(false);
     }
   }

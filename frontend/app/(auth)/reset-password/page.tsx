@@ -20,7 +20,7 @@ function ResetPasswordForm() {
 
   useEffect(() => {
     if (!token) {
-      setError("Invalid or missing reset token. Please request a new reset link.");
+      setError("Geçersiz veya eksik sıfırlama bağlantısı. Lütfen yeni bir bağlantı talep et.");
     }
   }, [token]);
 
@@ -29,11 +29,11 @@ function ResetPasswordForm() {
     setError(null);
 
     if (newPassword.length < 8) {
-      setError("Password must be at least 8 characters.");
+      setError("Şifre en az 8 karakter olmalıdır.");
       return;
     }
     if (newPassword !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError("Şifreler eşleşmiyor.");
       return;
     }
 
@@ -42,11 +42,11 @@ function ResetPasswordForm() {
       await authApi.resetPassword(token, newPassword);
       setSuccess(true);
       setTimeout(() => router.push("/login"), 3000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       const msg =
-        err?.response?.data?.message ||
-        err?.message ||
-        "Something went wrong. Please try again.";
+        (err as { response?: { data?: { message?: string } }; message?: string })?.response?.data?.message ||
+        (err instanceof Error ? err.message : null) ||
+        "Bir şeyler ters gitti. Lütfen tekrar dene.";
       setError(msg);
     } finally {
       setIsLoading(false);
@@ -59,9 +59,9 @@ function ResetPasswordForm() {
         <div className="w-14 h-14 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center mx-auto mb-5">
           <CheckCircle2 className="w-7 h-7 text-green-400" />
         </div>
-        <h2 className="text-xl font-semibold text-white mb-2">Password updated!</h2>
+        <h2 className="text-xl font-semibold text-white mb-2">Şifre güncellendi!</h2>
         <p className="text-slate-400 text-sm">
-          Your password has been reset successfully. Redirecting to sign in...
+          Şifren başarıyla sıfırlandı. Giriş sayfasına yönlendiriliyorsun...
         </p>
       </div>
     );
@@ -77,13 +77,12 @@ function ResetPasswordForm() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        {/* New password */}
         <div>
           <label
             htmlFor="newPassword"
             className="block text-sm font-medium text-slate-300 mb-1.5"
           >
-            New password
+            Yeni şifre
           </label>
           <div className="relative">
             <input
@@ -91,7 +90,7 @@ function ResetPasswordForm() {
               type={showPassword ? "text" : "password"}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              placeholder="At least 8 characters"
+              placeholder="En az 8 karakter"
               className="input-base pr-11"
               autoComplete="new-password"
               required
@@ -107,20 +106,19 @@ function ResetPasswordForm() {
           </div>
         </div>
 
-        {/* Confirm password */}
         <div>
           <label
             htmlFor="confirmPassword"
             className="block text-sm font-medium text-slate-300 mb-1.5"
           >
-            Confirm new password
+            Yeni şifre tekrar
           </label>
           <input
             id="confirmPassword"
             type={showPassword ? "text" : "password"}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Repeat your new password"
+            placeholder="Yeni şifreni tekrar gir"
             className="input-base"
             autoComplete="new-password"
             required
@@ -135,12 +133,12 @@ function ResetPasswordForm() {
           {isLoading ? (
             <>
               <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              Updating...
+              Güncelleniyor...
             </>
           ) : (
             <>
               <KeyRound className="w-4 h-4" />
-              Reset password
+              Şifremi sıfırla
             </>
           )}
         </button>
@@ -148,12 +146,12 @@ function ResetPasswordForm() {
 
       <div className="mt-6 pt-6 border-t border-slate-700/60 text-center">
         <p className="text-slate-400 text-sm">
-          Need a new link?{" "}
+          Yeni bağlantı mı gerekiyor?{" "}
           <Link
             href="/forgot-password"
             className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
           >
-            Request again
+            Tekrar iste
           </Link>
         </p>
       </div>
@@ -165,10 +163,10 @@ export default function ResetPasswordPage() {
   return (
     <div className="animate-fade-in">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2">Reset your password</h1>
-        <p className="text-slate-400">Choose a new password for your account.</p>
+        <h1 className="text-3xl font-bold text-white mb-2">Şifreni sıfırla</h1>
+        <p className="text-slate-400">Hesabın için yeni bir şifre belirle.</p>
       </div>
-      <Suspense fallback={<div className="glass-card p-8 text-center text-slate-400">Loading...</div>}>
+      <Suspense fallback={<div className="glass-card p-8 text-center text-slate-400">Yükleniyor...</div>}>
         <ResetPasswordForm />
       </Suspense>
     </div>

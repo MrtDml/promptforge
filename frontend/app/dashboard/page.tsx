@@ -121,7 +121,7 @@ export default function DashboardPage() {
         <div>
           <div className="flex items-center gap-3 flex-wrap">
             <h1 className="text-2xl font-bold text-white">
-              {greeting()}, {user?.name?.split(" ")[0] ?? "there"}
+              {greeting()}, {user?.name?.split(" ")[0] ?? "kullanıcı"}
             </h1>
             {user?.role === "ADMIN" ? (
               <span className="text-xs px-2.5 py-1 rounded-full border font-medium bg-rose-950/60 border-rose-800/50 text-rose-300">
@@ -137,8 +137,8 @@ export default function DashboardPage() {
           </div>
           <p className="text-slate-400 mt-1">
             {total > 0
-              ? `You have ${total} project${total !== 1 ? "s" : ""} in your workspace.`
-              : "Start by creating your first AI-generated project."}
+              ? `Çalışma alanında ${total} proje var.`
+              : "AI ile ilk projenizi oluşturarak başlayın."}
           </p>
         </div>
 
@@ -147,14 +147,14 @@ export default function DashboardPage() {
             onClick={refreshProjects}
             disabled={isLoading}
             className="btn-ghost gap-2"
-            title="Refresh projects"
+            title="Projeleri yenile"
           >
             <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin" : ""}`} />
-            <span className="hidden sm:inline text-sm">Refresh</span>
+            <span className="hidden sm:inline text-sm">Yenile</span>
           </button>
           <Link href="/dashboard/new" className="btn-primary">
             <Plus className="w-4 h-4" />
-            New project
+            Yeni proje
           </Link>
         </div>
       </div>
@@ -164,15 +164,15 @@ export default function DashboardPage() {
         <div className="glass-card px-5 py-4 mb-6">
           <div className="flex items-center justify-between mb-2">
             <p className="text-sm text-slate-300 font-medium">
-              Generation usage
+              Üretim hakkı kullanımı
             </p>
             <div className="text-right">
               <p className="text-xs text-slate-400 font-medium">
-                {generationsUsed} / {generationsLimit} used
+                {generationsUsed} / {generationsLimit} kullanıldı
               </p>
               {generationsLimit !== Infinity && (
                 <p className={`text-xs ${generationsLimit - generationsUsed <= 1 ? "text-red-400" : "text-slate-500"}`}>
-                  {Math.max(0, generationsLimit - generationsUsed)} remaining
+                  {Math.max(0, generationsLimit - generationsUsed)} kaldı
                 </p>
               )}
             </div>
@@ -191,11 +191,11 @@ export default function DashboardPage() {
           </div>
           {usagePct >= 80 && (
             <p className="text-xs text-yellow-400 mt-2">
-              Running low on generations.{" "}
+              Üretim hakkın azalıyor.{" "}
               <Link href="/pricing" className="underline hover:text-yellow-300">
-                Upgrade your plan
+                Planını yükselt
               </Link>{" "}
-              to get more.
+              daha fazla hak edin.
             </p>
           )}
         </div>
@@ -205,25 +205,25 @@ export default function DashboardPage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         {[
           {
-            label: "Total Projects",
+            label: "Toplam Proje",
             value: total,
             icon: Zap,
             color: "text-indigo-400",
           },
           {
-            label: "Completed",
+            label: "Tamamlanan",
             value: completedCount,
             icon: CheckCircle2,
             color: "text-green-400",
           },
           {
-            label: "In Progress",
+            label: "Devam Eden",
             value: inProgressCount,
             icon: Loader2,
             color: "text-blue-400",
           },
           {
-            label: "Failed",
+            label: "Başarısız",
             value: failedCount,
             icon: XCircle,
             color: "text-red-400",
@@ -301,7 +301,7 @@ export default function DashboardPage() {
               ) : (
                 <>
                   <p className="text-2xl font-bold text-white">—</p>
-                  <p className="text-slate-500 text-xs mt-0.5">No tags yet</p>
+                  <p className="text-slate-500 text-xs mt-0.5">Henüz etiket yok</p>
                 </>
               )}
             </div>
@@ -315,7 +315,7 @@ export default function DashboardPage() {
           <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
           <div>
             <p className="text-red-400 font-medium text-sm">
-              Failed to load projects
+              Projeler yüklenemedi
             </p>
             <p className="text-red-400/70 text-sm">{error}</p>
           </div>
@@ -345,22 +345,22 @@ export default function DashboardPage() {
           <div className="w-20 h-20 rounded-2xl bg-indigo-600/10 border border-indigo-600/20 flex items-center justify-center mb-6">
             <Zap className="w-10 h-10 text-indigo-400" />
           </div>
-          <h3 className="text-xl font-semibold text-white mb-2">No projects yet</h3>
+          <h3 className="text-xl font-semibold text-white mb-2">Henüz proje yok</h3>
           <p className="text-slate-400 max-w-sm mb-8">
-            Describe your SaaS idea in plain English and get production-ready code in seconds.
+            SaaS fikrinkizi Türkçe açıklayın, saniyeler içinde üretime hazır kod elde edin.
           </p>
           <Link href="/dashboard/new" className="btn-primary px-8 py-3 mb-10">
             <Plus className="w-4 h-4" />
-            Create your first project
+            İlk projeyi oluştur
           </Link>
           <div className="w-full max-w-2xl">
-            <p className="text-xs text-slate-600 uppercase tracking-wider mb-4">Try one of these ideas</p>
+            <p className="text-xs text-slate-600 uppercase tracking-wider mb-4">Bu fikirlerden birini dene</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
               {[
-                { icon: CreditCard, title: "Subscription SaaS", desc: "Multi-tenant SaaS with subscriptions, user management, and dashboard", prompt: "Build a multi-tenant SaaS platform with subscription plans, user management, billing dashboard, and team workspaces" },
-                { icon: FileText, title: "Invoice Manager", desc: "Invoice creation, PDF export, payment tracking, and client portal", prompt: "Build an invoice management system with invoice creation, PDF export, payment tracking, and a client portal" },
-                { icon: Shield, title: "Auth Boilerplate", desc: "Complete auth system with JWT, refresh tokens, roles, and 2FA", prompt: "Build a complete authentication system with JWT, refresh tokens, role-based access control, email verification, and password reset" },
-                { icon: Braces, title: "REST API Backend", desc: "CRUD API with NestJS, Postgres, validation, Swagger docs, and Docker", prompt: "Build a production-ready REST API backend with NestJS, PostgreSQL, full CRUD operations, input validation, Swagger documentation, and Docker" },
+                { icon: CreditCard, title: "Abonelik SaaS", desc: "Abonelik planları, kullanıcı yönetimi ve takım çalışma alanları içeren çok kiracılı SaaS", prompt: "Build a multi-tenant SaaS platform with subscription plans, user management, billing dashboard, and team workspaces" },
+                { icon: FileText, title: "Fatura Yöneticisi", desc: "Fatura oluşturma, PDF dışa aktarma, ödeme takibi ve müşteri portalı", prompt: "Build an invoice management system with invoice creation, PDF export, payment tracking, and a client portal" },
+                { icon: Shield, title: "Auth Altyapısı", desc: "JWT, refresh token, rol tabanlı erişim ve e-posta doğrulama içeren tam auth sistemi", prompt: "Build a complete authentication system with JWT, refresh tokens, role-based access control, email verification, and password reset" },
+                { icon: Braces, title: "REST API Backend", desc: "NestJS, Postgres, validasyon, Swagger dokümantasyonu ve Docker ile API", prompt: "Build a production-ready REST API backend with NestJS, PostgreSQL, full CRUD operations, input validation, Swagger documentation, and Docker" },
               ].map(({ icon: Icon, title, desc, prompt }) => (
                 <Link
                   key={title}
@@ -385,12 +385,12 @@ export default function DashboardPage() {
       {!isLoading && projects.length > 0 && (
         <>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-white">All Projects</h2>
+            <h2 className="text-lg font-semibold text-white">Tüm Projeler</h2>
             <Link
               href="/dashboard/history"
               className="text-sm text-indigo-400 hover:text-indigo-300 transition-colors flex items-center gap-1"
             >
-              Full history
+              Tüm geçmiş
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -406,7 +406,7 @@ export default function DashboardPage() {
                     : "border-slate-700 text-slate-500 hover:border-slate-600 hover:text-slate-300"
                 }`}
               >
-                All
+                Tümü
               </button>
               {allTags.map((tag) => (
                 <button
@@ -434,7 +434,7 @@ export default function DashboardPage() {
             ))}
             {filteredProjects.length === 0 && activeTag && (
               <div className="col-span-full text-center py-12 text-slate-500 text-sm">
-                No projects with tag <span className="text-slate-400 font-medium">#{activeTag}</span>.
+                <span className="text-slate-400 font-medium">#{activeTag}</span> etiketli proje bulunamadı.
               </div>
             )}
           </div>
@@ -442,7 +442,7 @@ export default function DashboardPage() {
           {/* ── Recent Activity ─────────────────────────────────────────── */}
           <div className="mb-2">
             <h2 className="text-lg font-semibold text-white mb-4">
-              Recent Activity
+              Son Aktivite
             </h2>
             <div className="glass-card divide-y divide-slate-700/40">
               {recentProjects.map((project) => (

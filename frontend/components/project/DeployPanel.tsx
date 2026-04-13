@@ -237,7 +237,7 @@ export default function DeployPanel({ project, onProjectUpdate }: DeployPanelPro
       }
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { message?: string } }; message?: string };
-      setError(axiosErr?.response?.data?.message ?? axiosErr?.message ?? "Deployment failed. Please try again.");
+      setError(axiosErr?.response?.data?.message ?? axiosErr?.message ?? "Dağıtım başarısız. Lütfen tekrar deneyin.");
       setDeployStatus("failed");
       setIsDeploying(false);
     }

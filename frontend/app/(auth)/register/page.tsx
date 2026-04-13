@@ -8,9 +8,9 @@ import { useAuth } from "@/hooks/useAuth";
 import OAuthButtons from "@components/ui/OAuthButtons";
 
 const passwordRequirements = [
-  { label: "At least 8 characters", test: (p: string) => p.length >= 8 },
-  { label: "One uppercase letter", test: (p: string) => /[A-Z]/.test(p) },
-  { label: "One number", test: (p: string) => /\d/.test(p) },
+  { label: "En az 8 karakter", test: (p: string) => p.length >= 8 },
+  { label: "Bir büyük harf", test: (p: string) => /[A-Z]/.test(p) },
+  { label: "Bir rakam", test: (p: string) => /\d/.test(p) },
 ];
 
 function RegisterForm() {
@@ -37,17 +37,17 @@ function RegisterForm() {
     setError(null);
 
     if (!name.trim() || !email.trim() || !password || !confirmPassword) {
-      setError("Please fill in all fields.");
+      setError("Lütfen tüm alanları doldurun.");
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError("Şifreler eşleşmiyor.");
       return;
     }
 
     if (passwordScore < 2) {
-      setError("Please choose a stronger password.");
+      setError("Lütfen daha güçlü bir şifre seçin.");
       return;
     }
 
@@ -59,33 +59,30 @@ function RegisterForm() {
         ...(referralCode.trim() ? { referralCode: referralCode.trim() } : {}),
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Registration failed.");
+      setError(err instanceof Error ? err.message : "Kayıt başarısız. Lütfen tekrar deneyin.");
     }
   }
 
   return (
     <div className="animate-fade-in">
-      {/* Heading */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-white mb-1.5 tracking-tight">
-          Create your account
+          Hesabını oluştur
         </h1>
         <p className="text-slate-400 text-sm">
-          Start building SaaS apps with AI — free to try, no credit card needed.
+          AI ile SaaS uygulamaları geliştirmeye başla — ücretsiz, kredi kartı gerekmez.
         </p>
       </div>
 
-      {/* Referral notice */}
       {referralCode && (
         <div className="flex items-center gap-3 bg-indigo-500/10 border border-indigo-500/30 rounded-xl px-4 py-3 mb-5">
           <Gift className="w-4 h-4 text-indigo-400 flex-shrink-0" />
           <p className="text-indigo-300 text-sm">
-            Referral code <span className="font-mono font-semibold">{referralCode}</span> applied — your friend earns bonus generations!
+            Referans kodu <span className="font-mono font-semibold">{referralCode}</span> uygulandı — arkadaşın bonus üretim hakkı kazanacak!
           </p>
         </div>
       )}
 
-      {/* Error */}
       {error && (
         <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 mb-6">
           <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
@@ -94,44 +91,41 @@ function RegisterForm() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Full name */}
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-1.5">
-            Full name
+            Ad Soyad
           </label>
           <input
             id="name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Your name"
+            placeholder="Adın Soyadın"
             className="input-base"
             autoComplete="name"
             required
           />
         </div>
 
-        {/* Email */}
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-1.5">
-            Email address
+            E-posta adresi
           </label>
           <input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
+            placeholder="sen@ornek.com"
             className="input-base"
             autoComplete="email"
             required
           />
         </div>
 
-        {/* Password */}
         <div>
           <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-1.5">
-            Password
+            Şifre
           </label>
           <div className="relative">
             <input
@@ -140,7 +134,7 @@ function RegisterForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onFocus={() => setShowRequirements(true)}
-              placeholder="Create a strong password"
+              placeholder="Güçlü bir şifre oluştur"
               className="input-base pr-11"
               autoComplete="new-password"
               required
@@ -149,13 +143,12 @@ function RegisterForm() {
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
-              aria-label={showPassword ? "Hide password" : "Show password"}
+              aria-label={showPassword ? "Şifreyi gizle" : "Şifreyi göster"}
             >
               {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           </div>
 
-          {/* Strength indicator */}
           {showRequirements && password.length > 0 && (
             <div className="mt-3 space-y-2">
               <div className="flex gap-1">
@@ -196,17 +189,16 @@ function RegisterForm() {
           )}
         </div>
 
-        {/* Confirm Password */}
         <div>
           <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-300 mb-1.5">
-            Confirm password
+            Şifre tekrar
           </label>
           <input
             id="confirmPassword"
             type={showPassword ? "text" : "password"}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Repeat your password"
+            placeholder="Şifreni tekrar gir"
             className={`input-base ${
               confirmPassword && confirmPassword !== password
                 ? "border-red-500/60 focus:ring-red-500"
@@ -218,22 +210,21 @@ function RegisterForm() {
             required
           />
           {confirmPassword && confirmPassword !== password && (
-            <p className="text-red-400 text-xs mt-1.5">Passwords do not match</p>
+            <p className="text-red-400 text-xs mt-1.5">Şifreler eşleşmiyor</p>
           )}
         </div>
 
-        {/* Referral code (manual entry — only shown when NOT pre-filled via URL) */}
         {!searchParams.get("ref") && (
           <div>
             <label htmlFor="referralCode" className="block text-sm font-medium text-slate-300 mb-1.5">
-              Referral code <span className="text-slate-500 font-normal">(optional)</span>
+              Referans kodu <span className="text-slate-500 font-normal">(isteğe bağlı)</span>
             </label>
             <input
               id="referralCode"
               type="text"
               value={referralCode}
               onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
-              placeholder="e.g. A1B2C3D4"
+              placeholder="örn. A1B2C3D4"
               maxLength={12}
               className="input-base font-mono"
               autoComplete="off"
@@ -249,43 +240,41 @@ function RegisterForm() {
           {isLoading ? (
             <>
               <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              Creating account...
+              Hesap oluşturuluyor...
             </>
           ) : (
             <>
               <UserPlus className="w-4 h-4" />
-              Create free account
+              Ücretsiz hesap oluştur
             </>
           )}
         </button>
 
         <p className="text-slate-600 text-xs text-center">
-          By creating an account you agree to our{" "}
+          Hesap oluşturarak{" "}
           <Link href="/terms" className="text-indigo-400/80 hover:text-indigo-300 hover:underline">
-            Terms of Service
-          </Link>{" "}
-          and{" "}
-          <Link href="/privacy" className="text-indigo-400/80 hover:text-indigo-300 hover:underline">
-            Privacy Policy
+            Kullanım Koşulları
           </Link>
-          .
+          {" "}ve{" "}
+          <Link href="/privacy" className="text-indigo-400/80 hover:text-indigo-300 hover:underline">
+            Gizlilik Politikası
+          </Link>
+          &apos;nı kabul etmiş olursun.
         </p>
       </form>
 
-      {/* OAuth */}
       <div className="mt-6">
-        <OAuthButtons label="sign up" />
+        <OAuthButtons label="kayıt ol" />
       </div>
 
-      {/* Divider */}
       <div className="mt-6 pt-6 border-t border-slate-800/60 text-center">
         <p className="text-slate-400 text-sm">
-          Already have an account?{" "}
+          Zaten hesabın var mı?{" "}
           <Link
             href="/login"
             className="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors"
           >
-            Sign in →
+            Giriş yap →
           </Link>
         </p>
       </div>

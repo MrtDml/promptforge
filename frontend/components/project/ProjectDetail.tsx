@@ -372,7 +372,7 @@ function AISummaryPanel({ projectId }: { projectId: string }) {
       const res = await apiClient.get(`/api/v1/ai/projects/${projectId}/summary`);
       setSummary(res.data.summary);
     } catch {
-      setError("Failed to generate summary. Please try again.");
+      setError("Özet oluşturulamadı. Lütfen tekrar deneyin.");
     } finally {
       setLoading(false);
     }

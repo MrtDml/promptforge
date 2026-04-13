@@ -33,7 +33,7 @@ export default function AdminBlogNewPage() {
 
   async function handleSave() {
     if (!title || !slug || !description || !content) {
-      setError("Title, slug, description, and content are required.");
+      setError("Başlık, slug, açıklama ve içerik zorunludur.");
       return;
     }
     setSaving(true);
@@ -52,7 +52,7 @@ export default function AdminBlogNewPage() {
       router.push("/admin/blog");
     } catch (e: any) {
       setError(
-        e?.response?.data?.message ?? "Failed to create post. Slug may already exist.",
+        e?.response?.data?.message ?? "Yazı oluşturulamadı. Slug zaten kullanımda olabilir.",
       );
     } finally {
       setSaving(false);

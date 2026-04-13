@@ -21,8 +21,8 @@ export default function GitHubExportModal({ projectId, projectName, onClose }: G
   const [repoUrl, setRepoUrl] = useState<string | null>(null);
 
   async function handleExport() {
-    if (!token.trim()) { setError("GitHub token is required."); return; }
-    if (!repoName.trim()) { setError("Repository name is required."); return; }
+    if (!token.trim()) { setError("GitHub token gereklidir."); return; }
+    if (!repoName.trim()) { setError("Depo adı gereklidir."); return; }
 
     setIsLoading(true);
     setError(null);
@@ -34,7 +34,7 @@ export default function GitHubExportModal({ projectId, projectName, onClose }: G
       });
       setRepoUrl(res.data.data.repoUrl);
     } catch (err: any) {
-      setError(err?.response?.data?.message ?? "Export failed. Check your token and try again.");
+      setError(err?.response?.data?.message ?? "Dışa aktarma başarısız. Token ve depo adını kontrol et.");
     } finally {
       setIsLoading(false);
     }
@@ -50,8 +50,8 @@ export default function GitHubExportModal({ projectId, projectName, onClose }: G
               <Github className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="text-base font-semibold text-white">Export to GitHub</h2>
-              <p className="text-xs text-slate-500">Push your generated code to a new repository</p>
+              <h2 className="text-base font-semibold text-white">GitHub&apos;a Aktar</h2>
+              <p className="text-xs text-slate-500">Oluşturulan kodu yeni bir depoya aktar</p>
             </div>
           </div>
           <button onClick={onClose} className="p-1.5 hover:bg-slate-800 rounded-lg text-slate-500 hover:text-white transition-colors">
@@ -65,7 +65,7 @@ export default function GitHubExportModal({ projectId, projectName, onClose }: G
             <div className="flex items-start gap-3 bg-green-500/10 border border-green-500/20 rounded-xl p-4">
               <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm font-medium text-green-300">Repository created!</p>
+                <p className="text-sm font-medium text-green-300">Depo oluşturuldu!</p>
                 <a href={repoUrl} target="_blank" rel="noopener noreferrer"
                   className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors inline-flex items-center gap-1 mt-1 font-mono break-all">
                   {repoUrl}
@@ -77,10 +77,10 @@ export default function GitHubExportModal({ projectId, projectName, onClose }: G
               <a href={repoUrl} target="_blank" rel="noopener noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition-colors">
                 <Github className="w-4 h-4" />
-                Open Repository
+                Depoyu Aç
               </a>
               <button onClick={onClose} className="px-4 py-2.5 rounded-xl border border-slate-700 text-slate-400 hover:text-white hover:border-slate-600 text-sm transition-colors">
-                Close
+                Kapat
               </button>
             </div>
           </div>
@@ -100,11 +100,11 @@ export default function GitHubExportModal({ projectId, projectName, onClose }: G
                 className="input-base font-mono text-sm"
               />
               <p className="text-xs text-slate-600 mt-1">
-                Needs <span className="text-slate-400 font-medium">repo</span> scope.{" "}
+                <span className="text-slate-400 font-medium">repo</span> kapsamı gerekli.{" "}
                 <a href="https://github.com/settings/tokens/new?scopes=repo&description=PromptForge"
                   target="_blank" rel="noopener noreferrer"
                   className="text-indigo-400 hover:text-indigo-300 transition-colors">
-                  Generate one →
+                  Oluştur →
                 </a>
               </p>
             </div>
@@ -112,7 +112,7 @@ export default function GitHubExportModal({ projectId, projectName, onClose }: G
             {/* Repo name */}
             <div>
               <label className="block text-xs font-medium text-slate-400 mb-1.5">
-                Repository name
+                Depo adı
               </label>
               <input
                 type="text"
@@ -172,13 +172,13 @@ export default function GitHubExportModal({ projectId, projectName, onClose }: G
                 )}
               >
                 {isLoading ? (
-                  <><Loader2 className="w-4 h-4 animate-spin" />Pushing to GitHub…</>
+                  <><Loader2 className="w-4 h-4 animate-spin" />GitHub&apos;a aktarılıyor…</>
                 ) : (
-                  <><Github className="w-4 h-4" />Push to GitHub</>
+                  <><Github className="w-4 h-4" />GitHub&apos;a Aktar</>
                 )}
               </button>
               <button onClick={onClose} className="px-4 rounded-xl border border-slate-700 text-slate-400 hover:text-white hover:border-slate-600 text-sm transition-colors">
-                Cancel
+                İptal
               </button>
             </div>
           </div>

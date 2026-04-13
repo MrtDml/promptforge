@@ -58,7 +58,7 @@ export class MailService {
   // ─── Welcome (after email verified) ──────────────────────────────────────
 
   async sendWelcomeEmail(to: string, name: string) {
-    await this.send(to, `PromptForge&apos;a hoş geldin, ${name}! 🚀`, this.welcomeTemplate(name));
+    await this.send(to, `PromptForge'a hoş geldin, ${name}! 🚀`, this.welcomeTemplate(name));
   }
 
   // ─── Project Complete ─────────────────────────────────────────────────────
@@ -142,7 +142,7 @@ export class MailService {
   private verificationTemplate(name: string, link: string): string {
     return this.baseTemplate(`
       ${this.h1('E-posta adresini doğrula')}
-      ${this.p(`Merhaba ${name}, PromptForge&apos;a hoş geldin! Hesabını etkinleştirmek ve AI destekli SaaS uygulamaları oluşturmaya başlamak için e-posta adresini doğrula.`)}
+      ${this.p(`Merhaba ${name}, PromptForge'a hoş geldin! Hesabını etkinleştirmek ve AI destekli SaaS uygulamaları oluşturmaya başlamak için e-posta adresini doğrula.`)}
       <div style="text-align:center;margin:8px 0 16px;">
         ${this.btn(link, 'E-posta Adresimi Doğrula')}
       </div>
@@ -168,7 +168,7 @@ export class MailService {
   private welcomeTemplate(name: string): string {
     const newProjectLink = `${this.frontendUrl}/dashboard/new`;
     return this.baseTemplate(`
-      ${this.h1(`PromptForge&apos;a hoş geldin, ${name}! 🚀`)}
+      ${this.h1(`PromptForge'a hoş geldin, ${name}! 🚀`)}
       ${this.p('Hesabın doğrulandı ve hazır. Artık sade Türkçe açıklamalardan tam yığın SaaS uygulamaları üretebilirsin — kodlama bilgisi gerekmez.')}
       <div style="margin:20px 0;padding:20px;background:#0a0b14;border-radius:12px;border:1px solid #1e2235;">
         <p style="margin:0 0 12px;color:#e2e8f0;font-weight:600;font-size:14px;">Neler yapabilirsin:</p>
@@ -200,11 +200,11 @@ export class MailService {
         <div style="display:inline-block;background:#052e16;border:1px solid #166534;border-radius:50%;width:56px;height:56px;line-height:56px;font-size:28px;">✅</div>
       </div>
       ${this.h1(`"${projectName}" hazır!`)}
-      ${this.p(`Merhaba ${name}, projen başarıyla oluşturuldu. Üretime hazır kodun indirilebilir veya GitHub&apos;a gönderilebilir durumda.`)}
+      ${this.p(`Merhaba ${name}, projen başarıyla oluşturuldu. Üretime hazır kodun indirilebilir veya GitHub'a gönderilebilir durumda.`)}
       <div style="text-align:center;margin:8px 0 16px;">
         ${this.btn(link, 'Projeyi Görüntüle')}
       </div>
-      ${this.p('ZIP dosyasını indirebilir, tek tıkla GitHub&apos;a gönderebilir veya AI chat ile değişiklik yapabilirsin.')}
+      ${this.p(`ZIP dosyasını indirebilir, tek tıkla GitHub'a gönderebilir veya AI chat ile değişiklik yapabilirsin.`)}
     `);
   }
 
@@ -221,7 +221,7 @@ export class MailService {
       </div>
       ${this.p('Sınırsız üretim, öncelikli işleme ve tüm premium özellikler için Pro plana geç.')}
       <div style="text-align:center;margin:8px 0 16px;">
-        ${this.btn(link, 'Pro&apos;ya Yükselt')}
+        ${this.btn(link, `Pro'ya Yükselt`)}
       </div>
     `);
   }

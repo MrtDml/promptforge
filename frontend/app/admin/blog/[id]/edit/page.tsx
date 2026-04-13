@@ -44,13 +44,13 @@ export default function AdminBlogEditPage() {
         setContent(post.content);
         setPublished(post.published);
       })
-      .catch(() => setError("Post not found"))
+      .catch(() => setError("Yazı bulunamadı"))
       .finally(() => setLoading(false));
   }, [id]);
 
   async function handleSave() {
     if (!title || !slug || !description || !content) {
-      setError("All fields are required.");
+      setError("Tüm alanlar zorunludur.");
       return;
     }
     setSaving(true);
@@ -69,7 +69,7 @@ export default function AdminBlogEditPage() {
       });
       setSuccess("Post updated successfully.");
     } catch (e: any) {
-      setError(e?.response?.data?.message ?? "Failed to update post.");
+      setError(e?.response?.data?.message ?? "Yazı güncellenemedi.");
     } finally {
       setSaving(false);
     }
@@ -85,7 +85,7 @@ export default function AdminBlogEditPage() {
       await adminApi.deleteBlogPost(id);
       router.push("/admin/blog");
     } catch {
-      setError("Failed to delete post.");
+      setError("Yazı silinemedi.");
       setDeleting(false);
     }
   }

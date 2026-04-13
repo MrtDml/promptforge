@@ -94,3 +94,4 @@ test-results/
 tmp/
 temp/
 .claude/
+n8n_backup/

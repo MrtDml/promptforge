@@ -36,6 +36,10 @@ export default withSentryConfig(nextConfig, {
   org: "promptforge-gm",
   project: "promptforge-frontend",
   silent: true,
-  disableLogger: true,
-  automaticVercelMonitors: false,
+  webpack: {
+    treeshake: {
+      removeDebugLogging: true,
+    },
+    automaticVercelMonitors: false,
+  },
 });

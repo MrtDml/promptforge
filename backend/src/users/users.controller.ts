@@ -49,14 +49,14 @@ export class UsersController {
   async getMe(@Request() req: JwtRequest) {
     const user = await this.usersService.findById(req.user.id);
     if (!user) throw new UnauthorizedException('User not found');
-    const { password: _password, ...rest } = user as any;
+    const { password: _password, ...rest } = user;
     return { ...rest, plan: rest.planType ?? 'free' };
   }
 
   @Patch('me')
   async updateMe(@Request() req: JwtRequest, @Body() dto: UpdateProfileDto) {
     const updated = await this.usersService.update(req.user.id, dto);
-    return { ...updated, plan: (updated as any).planType ?? 'free' };
+    return { ...updated, plan: updated.planType ?? 'free' };
   }
 
   @Patch('me/password')
@@ -64,7 +64,7 @@ export class UsersController {
     const user = await this.usersService.findById(req.user.id);
     if (!user) throw new UnauthorizedException('User not found');
 
-    const valid = await bcrypt.compare(dto.currentPassword, (user as any).password);
+    const valid = await bcrypt.compare(dto.currentPassword, user.password);
     if (!valid) throw new BadRequestException('Current password is incorrect');
 
     const hashed = await bcrypt.hash(dto.newPassword, 12);

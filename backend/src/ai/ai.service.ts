@@ -1,6 +1,8 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import Anthropic from '@anthropic-ai/sdk';
 import { PrismaService } from '../prisma/prisma.service';
+import type { ParsedSchema } from '../parser/dto/parse-prompt.dto';
+import type { GeneratedFile } from '../generator/generator.service';
 
 @Injectable()
 export class AiService {
@@ -46,8 +48,8 @@ Rules:
     });
     if (!project) throw new NotFoundException('Project not found');
 
-    const schema = project.parsedSchema as any;
-    const entityNames = schema?.entities?.map((e: any) => e.name).join(', ') ?? '';
+    const schema = project.parsedSchema as unknown as ParsedSchema;
+    const entityNames = schema?.entities?.map((e) => e.name).join(', ') ?? '';
 
     const response = await this.anthropic.messages.create({
       model: 'claude-haiku-4-5-20251001',
@@ -84,19 +86,19 @@ Rules:
     });
     if (!project) throw new NotFoundException('Project not found');
 
-    const schema = project.parsedSchema as any;
-    const files = (project.generatedFiles as any[]) ?? [];
+    const schema = project.parsedSchema as unknown as ParsedSchema;
+    const files = (project.generatedFiles as unknown as GeneratedFile[]) ?? [];
 
     const entitySummary =
       schema?.entities
-        ?.map((e: any) => {
-          const fieldNames = e.fields?.map((f: any) => f.name).join(', ') ?? '';
+        ?.map((e) => {
+          const fieldNames = e.fields?.map((f) => f.name).join(', ') ?? '';
           return `${e.name} (${fieldNames})`;
         })
         .join('; ') ?? 'N/A';
 
     const relations =
-      schema?.relations?.map((r: any) => `${r.from} → ${r.to} (${r.type})`).join(', ') ??
+      schema?.relations?.map((r) => `${r.from} → ${r.to} (${r.type})`).join(', ') ??
       'none detected';
 
     const features = (project.features ?? []).join(', ') || 'none';

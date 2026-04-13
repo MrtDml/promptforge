@@ -19,7 +19,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'Internal server error';
-    let errors: any = null;
+    let errors: string[] | null = null;
 
     if (exception instanceof HttpException) {
       status = exception.getStatus();
@@ -27,13 +27,15 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
       if (typeof exceptionResponse === 'string') {
         message = exceptionResponse;
-      } else if (typeof exceptionResponse === 'object') {
-        const exObj = exceptionResponse as any;
-        message = exObj.message || message;
+      } else if (typeof exceptionResponse === 'object' && exceptionResponse !== null) {
+        const exObj = exceptionResponse as { message?: string | string[] };
+        const raw = exObj.message;
         // Handle class-validator errors array
-        if (Array.isArray(exObj.message)) {
-          errors = exObj.message;
+        if (Array.isArray(raw)) {
+          errors = raw;
           message = 'Validation failed';
+        } else if (typeof raw === 'string') {
+          message = raw;
         }
       }
     } else if (exception instanceof Error) {

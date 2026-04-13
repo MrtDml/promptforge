@@ -11,9 +11,11 @@ import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { ParserService } from '../parser/parser.service';
-import { GeneratorService } from '../generator/generator.service';
+import { GeneratorService, GeneratedFile } from '../generator/generator.service';
+import { ParsedSchema } from '../parser/dto/parse-prompt.dto';
 import { CreateProjectDto, UpdateProjectDto, ProjectStatus } from './dto/create-project.dto';
 import { MailService } from '../mail/mail.service';
 
@@ -91,8 +93,8 @@ export class ProjectsService {
         where: { id: projectId },
         data: {
           status: ProjectStatus.COMPLETED,
-          parsedSchema: schema as any,
-          generatedFiles: generatedFiles as any,
+          parsedSchema: schema as unknown as Prisma.InputJsonValue,
+          generatedFiles: generatedFiles as unknown as Prisma.InputJsonValue,
           appName: schema.app_name,
           entityCount: schema.entities.length,
           fileCount: generatedFiles.length,
@@ -173,9 +175,9 @@ export class ProjectsService {
       this.prisma.project.count({ where: { userId } }),
     ]);
 
-    const normalizedItems = items.map((p: any) => ({
+    const normalizedItems = items.map((p) => ({
       ...p,
-      status: (p.status as string).toLowerCase(),
+      status: p.status.toLowerCase(),
     }));
 
     return {
@@ -201,7 +203,7 @@ export class ProjectsService {
     }
 
     // Normalize for frontend compatibility
-    const rawSchema = project.parsedSchema as any;
+    const rawSchema = project.parsedSchema as unknown as ParsedSchema & Record<string, unknown>;
     const normalizedSchema = rawSchema
       ? {
           appName: rawSchema.appName ?? rawSchema.app_name ?? '',
@@ -226,7 +228,7 @@ export class ProjectsService {
       ...project,
       status: (project.status as string).toLowerCase(),
       schema: normalizedSchema,
-      generatedOutput: project.generatedFiles ? { files: project.generatedFiles as any[] } : null,
+      generatedOutput: project.generatedFiles ? { files: project.generatedFiles as unknown as GeneratedFile[] } : null,
     };
   }
 
@@ -234,9 +236,9 @@ export class ProjectsService {
     await this.findOne(id, userId); // Ensure exists and owned
 
     const { schema, ...rest } = updateProjectDto;
-    const data: Record<string, any> = { ...rest };
+    const data: Prisma.ProjectUpdateInput = { ...rest };
     if (schema !== undefined) {
-      data.parsedSchema = schema;
+      data.parsedSchema = schema as unknown as Prisma.InputJsonValue;
     }
 
     return this.prisma.project.update({

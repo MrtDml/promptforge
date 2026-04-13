@@ -13,6 +13,7 @@ import { GithubService } from './github.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtRequest } from '../common/types/jwt-request.type';
+import type { GeneratedFile } from '../generator/generator.service';
 
 @Controller('projects')
 @UseGuards(JwtAuthGuard)
@@ -42,7 +43,7 @@ export class GithubController {
       throw new BadRequestException('Project must be completed before exporting.');
     }
 
-    const files = project.generatedFiles as any[];
+    const files = project.generatedFiles as unknown as GeneratedFile[];
     if (!files?.length) throw new BadRequestException('No generated files found.');
 
     const result = await this.githubService.exportToGithub(

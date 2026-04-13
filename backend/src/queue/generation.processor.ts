@@ -1,6 +1,7 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
 import { Job } from 'bull';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { ParserService } from '../parser/parser.service';
 import { GeneratorService } from '../generator/generator.service';
@@ -46,8 +47,8 @@ export class GenerationProcessor {
         where: { id: projectId },
         data: {
           status: 'COMPLETED',
-          parsedSchema: schema as any,
-          generatedFiles: generatedFiles as any,
+          parsedSchema: schema as unknown as Prisma.InputJsonValue,
+          generatedFiles: generatedFiles as unknown as Prisma.InputJsonValue,
           appName: schema.app_name,
           entityCount: schema.entities.length,
           fileCount: generatedFiles.length,

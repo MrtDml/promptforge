@@ -17,8 +17,9 @@ import { Throttle } from '@nestjs/throttler';
 import { IsObject, IsOptional } from 'class-validator';
 import { Response } from 'express';
 import * as archiver from 'archiver';
-import { GeneratorService } from './generator.service';
+import { GeneratorService, GeneratedFile } from './generator.service';
 import { ParsedSchema } from '../parser/dto/parse-prompt.dto';
+import { Prisma } from '@prisma/client';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { PrismaService } from '../prisma/prisma.service';
 import { UsersService } from '../users/users.service';
@@ -99,8 +100,8 @@ export class GeneratorController {
         prompt: raw.rawPrompt ?? JSON.stringify(parsedSchema),
         status: 'COMPLETED',
         userId: req.user.id,
-        parsedSchema: parsedSchema as any,
-        generatedFiles: result.files as any,
+        parsedSchema: parsedSchema as unknown as Prisma.InputJsonValue,
+        generatedFiles: result.files as unknown as Prisma.InputJsonValue,
         appName: parsedSchema.app_name,
         entityCount: result.summary.entityCount,
         fileCount: result.summary.fileCount,
@@ -184,9 +185,9 @@ export class GeneratorController {
     if (
       project.generatedFiles &&
       Array.isArray(project.generatedFiles) &&
-      (project.generatedFiles as any[]).length > 0
+      (project.generatedFiles as unknown as GeneratedFile[]).length > 0
     ) {
-      files = project.generatedFiles as any[];
+      files = project.generatedFiles as unknown as GeneratedFile[];
     } else if (project.parsedSchema) {
       const schema = project.parsedSchema as unknown as ParsedSchema;
       files = this.generatorService.generateProjectFiles(schema);

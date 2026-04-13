@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  ConflictException,
-  Logger,
-} from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException, Logger } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject } from '@nestjs/common';
@@ -344,7 +339,11 @@ export class AdminService {
   private async seedDefaultSettings() {
     const defaults = [
       { key: 'site_name', value: 'PromptForge', label: 'Site Name' },
-      { key: 'site_description', value: 'AI SaaS Builder — Build apps from natural language prompts', label: 'Site Description' },
+      {
+        key: 'site_description',
+        value: 'AI SaaS Builder — Build apps from natural language prompts',
+        label: 'Site Description',
+      },
       { key: 'contact_email', value: 'support@promptforgeai.dev', label: 'Contact Email' },
       { key: 'free_plan_limit', value: '3', label: 'Free Plan — Generation Limit' },
       { key: 'starter_plan_limit', value: '25', label: 'Starter Plan — Generation Limit' },
@@ -353,7 +352,11 @@ export class AdminService {
       { key: 'allow_registrations', value: 'true', label: 'Allow New Registrations (true/false)' },
       // Announcement banner
       { key: 'announcement_active', value: 'false', label: 'Announcement — Active (true/false)' },
-      { key: 'announcement_type', value: 'info', label: 'Announcement — Type (info/warning/success)' },
+      {
+        key: 'announcement_type',
+        value: 'info',
+        label: 'Announcement — Type (info/warning/success)',
+      },
       { key: 'announcement_message', value: '', label: 'Announcement — Message' },
       { key: 'announcement_link', value: '', label: 'Announcement — Link (optional)' },
       { key: 'announcement_start', value: '', label: 'Announcement — Start Date (ISO, optional)' },

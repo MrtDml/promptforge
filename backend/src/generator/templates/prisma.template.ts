@@ -1,4 +1,9 @@
-import { ParsedSchema, ParsedEntity, ParsedField, ParsedRelation } from '../../parser/dto/parse-prompt.dto';
+import {
+  ParsedSchema,
+  ParsedEntity,
+  ParsedField,
+  ParsedRelation,
+} from '../../parser/dto/parse-prompt.dto';
 
 const FIELD_TYPE_MAP: Record<string, string> = {
   string: 'String',
@@ -51,10 +56,7 @@ function generateFieldLine(field: ParsedField): string {
  *              author B      @relation(fields: [bId], references: [id])
  *   - B side is handled by whoever owns the 1:N of this pair (or omitted if standalone)
  */
-function buildRelationLines(
-  entityName: string,
-  relations: ParsedRelation[],
-): string[] {
+function buildRelationLines(entityName: string, relations: ParsedRelation[]): string[] {
   const lines: string[] = [];
 
   for (const rel of relations) {
@@ -106,10 +108,7 @@ function buildRelationLines(
 
 // ─── Model block generation ───────────────────────────────────────────────────
 
-function generateModelBlock(
-  entity: ParsedEntity,
-  relations: ParsedRelation[],
-): string {
+function generateModelBlock(entity: ParsedEntity, relations: ParsedRelation[]): string {
   // Ensure mandatory system fields exist (prepend them if missing)
   const hasId = entity.fields.some((f) => f.name === 'id');
   const hasCreatedAt = entity.fields.some((f) => f.name === 'createdAt');
@@ -155,16 +154,11 @@ export function generatePrismaSchema(schema: ParsedSchema): string {
     .join('\n\n');
 
   // Add a default User model when auth is a feature and no User entity exists
-  const hasUserEntity = schema.entities.some(
-    (e) => e.name.toLowerCase() === 'user',
-  );
+  const hasUserEntity = schema.entities.some((e) => e.name.toLowerCase() === 'user');
   const hasAuth = schema.features.includes('auth');
 
   // Determine if user has any relations so we can inject them into the auto-generated model
-  const userRelationLines =
-    hasAuth && !hasUserEntity
-      ? buildRelationLines('User', relations)
-      : [];
+  const userRelationLines = hasAuth && !hasUserEntity ? buildRelationLines('User', relations) : [];
 
   const userModel =
     hasAuth && !hasUserEntity

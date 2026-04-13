@@ -1,3 +1,4 @@
+import { randomBytes } from 'crypto';
 import {
   Injectable,
   NotFoundException,
@@ -66,7 +67,11 @@ export class ProjectsService {
     return project;
   }
 
-  private async parseAndGenerate(projectId: string, prompt: string, userId?: string): Promise<void> {
+  private async parseAndGenerate(
+    projectId: string,
+    prompt: string,
+    userId?: string,
+  ): Promise<void> {
     try {
       // Mark as GENERATING
       await this.prisma.project.update({
@@ -104,16 +109,30 @@ export class ProjectsService {
         this.logger.log(`Incremented generationsUsed for user ${userId}`);
 
         // Send project complete email
-        const project = await this.prisma.project.findUnique({ where: { id: projectId }, select: { name: true } });
-        this.mailService.sendProjectCompleteEmail(updatedUser.email, updatedUser.name, project?.name ?? 'Your project', projectId)
-          .catch((err) => this.logger.error(`Failed to send project complete email: ${err.message}`));
+        const project = await this.prisma.project.findUnique({
+          where: { id: projectId },
+          select: { name: true },
+        });
+        this.mailService
+          .sendProjectCompleteEmail(
+            updatedUser.email,
+            updatedUser.name,
+            project?.name ?? 'Your project',
+            projectId,
+          )
+          .catch((err) =>
+            this.logger.error(`Failed to send project complete email: ${err.message}`),
+          );
 
         // Warn if approaching limit (80% used)
         const limit = updatedUser.generationsLimit;
         const used = updatedUser.generationsUsed;
         if (limit > 0 && used / limit >= 0.8 && used < limit) {
-          this.mailService.sendLimitWarningEmail(updatedUser.email, updatedUser.name, used, limit)
-            .catch((err) => this.logger.error(`Failed to send limit warning email: ${err.message}`));
+          this.mailService
+            .sendLimitWarningEmail(updatedUser.email, updatedUser.name, used, limit)
+            .catch((err) =>
+              this.logger.error(`Failed to send limit warning email: ${err.message}`),
+            );
         }
       }
 
@@ -191,8 +210,8 @@ export class ProjectsService {
           endpoints: Array.isArray(rawSchema.endpoints)
             ? rawSchema.endpoints
             : Array.isArray(rawSchema.relations)
-            ? rawSchema.relations
-            : [],
+              ? rawSchema.relations
+              : [],
           features: Array.isArray(rawSchema.features) ? rawSchema.features : [],
           techStack: rawSchema.techStack ?? {
             backend: 'NestJS',
@@ -207,9 +226,7 @@ export class ProjectsService {
       ...project,
       status: (project.status as string).toLowerCase(),
       schema: normalizedSchema,
-      generatedOutput: project.generatedFiles
-        ? { files: project.generatedFiles as any[] }
-        : null,
+      generatedOutput: project.generatedFiles ? { files: project.generatedFiles as any[] } : null,
     };
   }
 
@@ -248,10 +265,7 @@ export class ProjectsService {
       });
     } else {
       this.parseAndGenerate(id, project.prompt, userId).catch((err) => {
-        this.logger.error(
-          `Re-generation failed for project ${id}: ${err.message}`,
-          err.stack,
-        );
+        this.logger.error(`Re-generation failed for project ${id}: ${err.message}`, err.stack);
       });
     }
 
@@ -267,9 +281,7 @@ export class ProjectsService {
     }
 
     const newIsPublic = !project.isPublic;
-    const shareToken = newIsPublic
-      ? require('crypto').randomBytes(16).toString('hex')
-      : null;
+    const shareToken = newIsPublic ? randomBytes(16).toString('hex') : null;
 
     const updated = await this.prisma.project.update({
       where: { id },

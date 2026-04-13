@@ -31,11 +31,7 @@ export class ProjectsController {
   }
 
   @Get()
-  findAll(
-    @Request() req: JwtRequest,
-    @Query('page') page = 1,
-    @Query('limit') limit = 20,
-  ) {
+  findAll(@Request() req: JwtRequest, @Query('page') page = 1, @Query('limit') limit = 20) {
     return this.projectsService.findAllByUser(req.user.id, +page, +limit);
   }
 
@@ -71,7 +67,6 @@ export class ProjectsController {
   toggleShare(@Param('id') id: string, @Request() req: JwtRequest) {
     return this.projectsService.toggleShare(id, req.user.id);
   }
-
 }
 
 @Controller('projects/public')

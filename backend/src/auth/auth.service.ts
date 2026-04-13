@@ -45,18 +45,20 @@ export class AuthService {
 
     // Apply referral code if provided (silently ignore invalid codes)
     if (referralCode) {
-      this.referralService.applyReferralCode(user.id, referralCode).catch((err) =>
-        this.logger.warn(`Referral code "${referralCode}" invalid: ${err.message}`),
-      );
+      this.referralService
+        .applyReferralCode(user.id, referralCode)
+        .catch((err) =>
+          this.logger.warn(`Referral code "${referralCode}" invalid: ${err.message}`),
+        );
     }
 
     // Send verification email
     const verifyToken = crypto.randomBytes(32).toString('hex');
     const verifyExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
     await this.usersService.setEmailVerifyToken(user.id, verifyToken, verifyExpiry);
-    this.mailService.sendVerificationEmail(email, name, verifyToken).catch((err) =>
-      this.logger.error(`Failed to send verification email: ${err.message}`),
-    );
+    this.mailService
+      .sendVerificationEmail(email, name, verifyToken)
+      .catch((err) => this.logger.error(`Failed to send verification email: ${err.message}`));
 
     const token = this.generateToken(user.id, user.email);
     const refreshToken = this.generateRefreshToken(user.id, user.email);
@@ -75,7 +77,8 @@ export class AuthService {
 
     const user = await this.usersService.findByEmail(email);
     if (!user) throw new UnauthorizedException('Invalid email or password');
-    if (!user.isActive) throw new UnauthorizedException('Account is deactivated. Please contact support.');
+    if (!user.isActive)
+      throw new UnauthorizedException('Account is deactivated. Please contact support.');
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) throw new UnauthorizedException('Invalid email or password');
@@ -144,9 +147,9 @@ export class AuthService {
     this.logger.log(`Password reset requested for ${email}`);
 
     // Send reset email
-    this.mailService.sendPasswordResetEmail(email, user.name, token).catch((err) =>
-      this.logger.error(`Failed to send password reset email: ${err.message}`),
-    );
+    this.mailService
+      .sendPasswordResetEmail(email, user.name, token)
+      .catch((err) => this.logger.error(`Failed to send password reset email: ${err.message}`));
 
     return {
       message: 'If an account with that email exists, a reset link has been sent.',
@@ -160,23 +163,28 @@ export class AuthService {
     }
     await this.usersService.markEmailVerified(user.id);
     // Send welcome email after verification
-    this.mailService.sendWelcomeEmail(user.email, user.name).catch((err) =>
-      this.logger.error(`Failed to send welcome email: ${err.message}`),
-    );
+    this.mailService
+      .sendWelcomeEmail(user.email, user.name)
+      .catch((err) => this.logger.error(`Failed to send welcome email: ${err.message}`));
     return { message: 'Email verified successfully. Welcome to PromptForge!' };
   }
 
   async oauthLogin(profile: { email: string; name: string; provider: string }) {
     const { email, name, provider } = profile;
     if (!email) {
-      throw new BadRequestException(`${provider} account has no public email. Please set a public email on ${provider} and try again.`);
+      throw new BadRequestException(
+        `${provider} account has no public email. Please set a public email on ${provider} and try again.`,
+      );
     }
 
     let user = await this.usersService.findByEmail(email);
 
     if (!user) {
       // Auto-register via OAuth — no password needed
-      const placeholder = await bcrypt.hash(crypto.randomBytes(32).toString('hex'), BCRYPT_SALT_ROUNDS);
+      const placeholder = await bcrypt.hash(
+        crypto.randomBytes(32).toString('hex'),
+        BCRYPT_SALT_ROUNDS,
+      );
       user = await this.usersService.create({ email, password: placeholder, name });
       // Mark email as verified (OAuth provider already verified it)
       await this.usersService.markEmailVerified(user.id);
@@ -203,9 +211,9 @@ export class AuthService {
     const verifyToken = crypto.randomBytes(32).toString('hex');
     const verifyExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
     await this.usersService.setEmailVerifyToken(user.id, verifyToken, verifyExpiry);
-    this.mailService.sendVerificationEmail(user.email, user.name, verifyToken).catch((err) =>
-      this.logger.error(`Failed to resend verification email: ${err.message}`),
-    );
+    this.mailService
+      .sendVerificationEmail(user.email, user.name, verifyToken)
+      .catch((err) => this.logger.error(`Failed to resend verification email: ${err.message}`));
     return { message: 'Verification email sent.' };
   }
 
@@ -231,7 +239,9 @@ export class AuthService {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, name, source }),
-    }).catch(() => { /* fire and forget */ });
+    }).catch(() => {
+      /* fire and forget */
+    });
   }
 
   private generateToken(userId: string, email: string): string {

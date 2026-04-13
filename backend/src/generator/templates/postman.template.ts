@@ -5,8 +5,12 @@
 
 import { ParsedEntity } from '../../parser/dto/parse-prompt.dto';
 
-function toPascalCase(s: string) { return s.charAt(0).toUpperCase() + s.slice(1); }
-function toKebabCase(s: string) { return s.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(); }
+function toPascalCase(s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+function toKebabCase(s: string) {
+  return s.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+}
 
 function makeId(): string {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
@@ -118,9 +122,7 @@ export function generatePostmanCollection(
     const route = toKebabCase(pascal) + 's';
     const body = exampleBody(entity);
 
-    const authHeader = hasAuth
-      ? [{ key: 'Authorization', value: 'Bearer {{TOKEN}}' }]
-      : [];
+    const authHeader = hasAuth ? [{ key: 'Authorization', value: 'Bearer {{TOKEN}}' }] : [];
     const jsonHeader = [{ key: 'Content-Type', value: 'application/json' }];
 
     items.push({
@@ -174,11 +176,7 @@ export function generatePostmanCollection(
             header: [...authHeader, ...jsonHeader],
             body: {
               mode: 'raw',
-              raw: JSON.stringify(
-                Object.fromEntries(Object.entries(body).slice(0, 2)),
-                null,
-                2,
-              ),
+              raw: JSON.stringify(Object.fromEntries(Object.entries(body).slice(0, 2)), null, 2),
               options: { raw: { language: 'json' } },
             },
             url: {

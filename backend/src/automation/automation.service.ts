@@ -114,9 +114,7 @@ export class AutomationService {
         name: s.user.name,
         plan: s.planType,
         expiresAt: s.currentPeriodEnd.toISOString(),
-        daysLeft: Math.ceil(
-          (s.currentPeriodEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
-        ),
+        daysLeft: Math.ceil((s.currentPeriodEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)),
       })),
     };
   }
@@ -131,8 +129,8 @@ export class AutomationService {
     const now = new Date();
 
     const windows: Record<number, { from: number; to: number }> = {
-      1: { from: 28, to: 20 },   // 20–28 hours ago
-      3: { from: 76, to: 68 },   // 68–76 hours ago
+      1: { from: 28, to: 20 }, // 20–28 hours ago
+      3: { from: 76, to: 68 }, // 68–76 hours ago
       7: { from: 172, to: 164 }, // 164–172 hours ago
     };
 

@@ -1,12 +1,8 @@
-import {
-  Injectable,
-  Logger,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Injectable, Logger, InternalServerErrorException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { PLANS, PlanType } from './plans.config';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const Iyzipay = require('iyzipay');
 
 type IyzipayCallback<T> = (err: { message?: string } | null, result: T) => void;
@@ -42,11 +38,9 @@ export class StripeService {
       ? 'https://api.iyzipay.com'
       : 'https://sandbox.iyzipay.com';
 
-  private readonly appUrl =
-    process.env.APP_URL || 'http://localhost:3001';
+  private readonly appUrl = process.env.APP_URL || 'http://localhost:3001';
 
-  private readonly frontendUrl =
-    process.env.FRONTEND_URL || 'http://localhost:3000';
+  private readonly frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
 
   constructor(private readonly prisma: PrismaService) {
     const apiKey = process.env.IYZICO_API_KEY;
@@ -69,9 +63,7 @@ export class StripeService {
 
   // ─── Promise wrapper ────────────────────────────────────────────────────────
 
-  private call<T extends IyzipayFormResult>(
-    method: (cb: IyzipayCallback<T>) => void,
-  ): Promise<T> {
+  private call<T extends IyzipayFormResult>(method: (cb: IyzipayCallback<T>) => void): Promise<T> {
     return new Promise((resolve, reject) => {
       method((err, result) => {
         if (err) {
@@ -93,8 +85,8 @@ export class StripeService {
    * iyzico abonelik ödeme formu oluşturur ve yönlendirme URL'si döner.
    */
   async createCheckoutSession(
-    _customerId: string,  // iyzico'da kullanılmıyor (Stripe uyumluluğu için)
-    _priceId: string,     // iyzico'da plan referansı kullanılıyor
+    _customerId: string, // iyzico'da kullanılmıyor (Stripe uyumluluğu için)
+    _priceId: string, // iyzico'da plan referansı kullanılıyor
     userId: string,
   ): Promise<string> {
     throw new InternalServerErrorException(

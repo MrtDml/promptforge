@@ -179,7 +179,11 @@ export class GeneratorController {
 
     let files: Array<{ path: string; content: string }> = [];
 
-    if (project.generatedFiles && Array.isArray(project.generatedFiles) && (project.generatedFiles as any[]).length > 0) {
+    if (
+      project.generatedFiles &&
+      Array.isArray(project.generatedFiles) &&
+      (project.generatedFiles as any[]).length > 0
+    ) {
       files = project.generatedFiles as any[];
     } else if (project.parsedSchema) {
       const schema = project.parsedSchema as unknown as ParsedSchema;

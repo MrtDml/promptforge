@@ -16,12 +16,7 @@ export class GithubService {
   private readonly logger = new Logger(GithubService.name);
   private readonly apiBase = 'https://api.github.com';
 
-  private async ghFetch(
-    method: string,
-    url: string,
-    token: string,
-    body?: object,
-  ): Promise<any> {
+  private async ghFetch(method: string, url: string, token: string, body?: object): Promise<any> {
     const res = await fetch(url, {
       method,
       headers: {
@@ -67,7 +62,9 @@ export class GithubService {
     } catch (err: any) {
       const msg: string = err?.data?.message ?? err?.message ?? '';
       if (msg.includes('already exists')) {
-        throw new BadRequestException(`Repository "${safeRepoName}" already exists in your GitHub account.`);
+        throw new BadRequestException(
+          `Repository "${safeRepoName}" already exists in your GitHub account.`,
+        );
       }
       throw new BadRequestException(`Failed to create repository: ${msg}`);
     }
@@ -104,12 +101,10 @@ export class GithubService {
     );
 
     // 6. Set main branch
-    await this.ghFetch(
-      'POST',
-      `${this.apiBase}/repos/${owner}/${safeRepoName}/git/refs`,
-      token,
-      { ref: 'refs/heads/main', sha: commit.sha },
-    );
+    await this.ghFetch('POST', `${this.apiBase}/repos/${owner}/${safeRepoName}/git/refs`, token, {
+      ref: 'refs/heads/main',
+      sha: commit.sha,
+    });
 
     this.logger.log(`Successfully pushed ${files.length} files to ${owner}/${safeRepoName}`);
 

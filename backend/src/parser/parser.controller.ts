@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Post,
-  Body,
-  UseGuards,
-  HttpCode,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
 import { ParserService } from './parser.service';
 import { ParsePromptDto } from './dto/parse-prompt.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -31,19 +24,24 @@ export class ParserController {
     if (result.features.includes('auth')) {
       endpoints.push(
         { method: 'POST', path: '/auth/register', description: 'Register new user', auth: false },
-        { method: 'POST', path: '/auth/login', description: 'Login and receive token', auth: false },
-        { method: 'GET',  path: '/auth/me',    description: 'Get current user profile', auth: true },
+        {
+          method: 'POST',
+          path: '/auth/login',
+          description: 'Login and receive token',
+          auth: false,
+        },
+        { method: 'GET', path: '/auth/me', description: 'Get current user profile', auth: true },
       );
     }
 
     for (const entity of result.entities) {
       const base = `/${entity.name.toLowerCase()}s`;
       endpoints.push(
-        { method: 'GET',    path: base,          description: `List all ${entity.name}s`,   auth: true },
-        { method: 'POST',   path: base,          description: `Create a ${entity.name}`,     auth: true },
-        { method: 'GET',    path: `${base}/:id`, description: `Get ${entity.name} by ID`,   auth: true },
-        { method: 'PATCH',  path: `${base}/:id`, description: `Update ${entity.name}`,       auth: true },
-        { method: 'DELETE', path: `${base}/:id`, description: `Delete ${entity.name}`,       auth: true },
+        { method: 'GET', path: base, description: `List all ${entity.name}s`, auth: true },
+        { method: 'POST', path: base, description: `Create a ${entity.name}`, auth: true },
+        { method: 'GET', path: `${base}/:id`, description: `Get ${entity.name} by ID`, auth: true },
+        { method: 'PATCH', path: `${base}/:id`, description: `Update ${entity.name}`, auth: true },
+        { method: 'DELETE', path: `${base}/:id`, description: `Delete ${entity.name}`, auth: true },
       );
     }
 

@@ -61,10 +61,7 @@ export class DeployService {
         body: JSON.stringify({ query, variables }),
       });
     } catch (networkError: any) {
-      this.logger.error(
-        `Railway API network error: ${networkError.message}`,
-        networkError.stack,
-      );
+      this.logger.error(`Railway API network error: ${networkError.message}`, networkError.stack);
       throw new InternalServerErrorException(
         `Failed to reach Railway API: ${networkError.message}`,
       );
@@ -72,9 +69,7 @@ export class DeployService {
 
     if (!response.ok) {
       const body = await response.text().catch(() => response.statusText);
-      throw new InternalServerErrorException(
-        `Railway API HTTP ${response.status}: ${body}`,
-      );
+      throw new InternalServerErrorException(`Railway API HTTP ${response.status}: ${body}`);
     }
 
     const body: RailwayGraphQLResponse<T> = await response.json();
@@ -85,9 +80,7 @@ export class DeployService {
     }
 
     if (!body.data) {
-      throw new InternalServerErrorException(
-        'Railway API returned an empty response.',
-      );
+      throw new InternalServerErrorException('Railway API returned an empty response.');
     }
 
     return body.data;
@@ -192,14 +185,10 @@ export class DeployService {
       );
 
       const environments = envData.project.environments.edges;
-      const defaultEnv =
-        environments.find((e) => e.node.name === 'production') ??
-        environments[0];
+      const defaultEnv = environments.find((e) => e.node.name === 'production') ?? environments[0];
 
       if (!defaultEnv) {
-        throw new InternalServerErrorException(
-          'No environments found in the Railway project.',
-        );
+        throw new InternalServerErrorException('No environments found in the Railway project.');
       }
 
       const environmentId = defaultEnv.node.id;
@@ -335,9 +324,7 @@ export class DeployService {
         },
       });
 
-      this.logger.log(
-        `Project ${projectId} deployed successfully to Railway: ${deployUrl}`,
-      );
+      this.logger.log(`Project ${projectId} deployed successfully to Railway: ${deployUrl}`);
 
       return {
         deployUrl,
@@ -438,8 +425,7 @@ export class DeployService {
 
       const services = data.project.services.edges;
       // The app service is the one that is not "postgres"
-      const appService =
-        services.find((s) => s.node.name !== 'postgres') ?? services[0];
+      const appService = services.find((s) => s.node.name !== 'postgres') ?? services[0];
 
       if (!appService) {
         return {
@@ -475,7 +461,7 @@ export class DeployService {
 
       const liveUrl = latestDeployment?.url
         ? `https://${latestDeployment.url}`
-        : project.deployUrl ?? undefined;
+        : (project.deployUrl ?? undefined);
 
       // Sync status and URL back to DB if changed
       const statusChanged = mappedStatus !== project.deployStatus;

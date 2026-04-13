@@ -13,7 +13,7 @@ import { GenerationProcessor } from './generation.processor';
         attempts: 3,
         backoff: { type: 'exponential', delay: 3000 },
         removeOnComplete: 100, // keep last 100 completed jobs
-        removeOnFail: 50,      // keep last 50 failed jobs
+        removeOnFail: 50, // keep last 50 failed jobs
       },
     }),
     ParserModule,

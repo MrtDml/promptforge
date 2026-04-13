@@ -3,7 +3,10 @@
  */
 
 export function generateGitHubActionsCI(appName: string): string {
-  const kebab = appName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  const kebab = appName
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
 
   return `name: CI
 

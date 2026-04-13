@@ -18,7 +18,11 @@ import {
 } from './templates/docker.template';
 import { generateFrontendFiles } from './templates/frontend.template';
 import { generateExpressProject } from './templates/express.template';
-import { generateGitHubActionsCI, generateGitHubActionsRelease, generateDependabotConfig } from './templates/ci.template';
+import {
+  generateGitHubActionsCI,
+  generateGitHubActionsRelease,
+  generateDependabotConfig,
+} from './templates/ci.template';
 import { generatePostmanCollection } from './templates/postman.template';
 import {
   generateIyzicoService,
@@ -185,7 +189,9 @@ docker compose up -d --build
 
 ## API Reference
 
-${hasAuth ? `### Auth
+${
+  hasAuth
+    ? `### Auth
 
 | Method | Path | Description |
 |--------|------|-------------|
@@ -195,7 +201,9 @@ ${hasAuth ? `### Auth
 
 > All entity endpoints below require \`Authorization: Bearer <token>\` header.
 
-` : ''}${entities
+`
+    : ''
+}${entities
     .map((e) => {
       const pascal = toPascalCase(e.name);
       const kebab = toKebabCase(pascal);
@@ -273,14 +281,15 @@ export class GeneratorService {
       generatedAt: new Date().toISOString(),
     };
 
-    this.logger.log(
-      `Project generated: ${result.summary.fileCount} files for ${result.appName}`,
-    );
+    this.logger.log(`Project generated: ${result.summary.fileCount} files for ${result.appName}`);
 
     return result;
   }
 
-  generateFromSchema(schema: ParsedSchema, options?: GenerateOptions): {
+  generateFromSchema(
+    schema: ParsedSchema,
+    options?: GenerateOptions,
+  ): {
     files: GeneratedFile[];
     summary: GeneratedProject['summary'];
   } {
@@ -311,8 +320,14 @@ export class GeneratorService {
       // Optionally append CI and Postman to Express projects too
       const extras: GeneratedFile[] = [];
       if (options.includeCI) {
-        extras.push({ path: '.github/workflows/ci.yml', content: generateGitHubActionsCI(schema.app_name) });
-        extras.push({ path: '.github/workflows/release.yml', content: generateGitHubActionsRelease() });
+        extras.push({
+          path: '.github/workflows/ci.yml',
+          content: generateGitHubActionsCI(schema.app_name),
+        });
+        extras.push({
+          path: '.github/workflows/release.yml',
+          content: generateGitHubActionsRelease(),
+        });
         extras.push({ path: '.github/dependabot.yml', content: generateDependabotConfig() });
       }
       const hasAuth = schema.features.includes('auth');
@@ -432,8 +447,14 @@ Thumbs.db
 
     // ── GitHub Actions CI/CD ─────────────────────────────────────────────────
     if (options.includeCI) {
-      files.push({ path: '.github/workflows/ci.yml', content: generateGitHubActionsCI(schema.app_name) });
-      files.push({ path: '.github/workflows/release.yml', content: generateGitHubActionsRelease() });
+      files.push({
+        path: '.github/workflows/ci.yml',
+        content: generateGitHubActionsCI(schema.app_name),
+      });
+      files.push({
+        path: '.github/workflows/release.yml',
+        content: generateGitHubActionsRelease(),
+      });
       files.push({ path: '.github/dependabot.yml', content: generateDependabotConfig() });
       this.logger.log('GitHub Actions CI/CD files added');
     }
@@ -445,7 +466,10 @@ Thumbs.db
     });
 
     // ── src/main.ts ──────────────────────────────────────────────────────────
-    files.push({ path: 'src/main.ts', content: generateMainTs(schema.app_name, options.includeSwagger) });
+    files.push({
+      path: 'src/main.ts',
+      content: generateMainTs(schema.app_name, options.includeSwagger),
+    });
 
     // ── src/app.module.ts ────────────────────────────────────────────────────
     files.push({
@@ -504,13 +528,19 @@ Thumbs.db
     if (options.includeEFatura) {
       files.push({ path: 'src/einvoice/efatura.service.ts', content: generateEFaturaService() });
       files.push({ path: 'src/einvoice/efatura.module.ts', content: generateEFaturaModule() });
-      files.push({ path: 'src/einvoice/efatura.controller.ts', content: generateEFaturaController() });
+      files.push({
+        path: 'src/einvoice/efatura.controller.ts',
+        content: generateEFaturaController(),
+      });
       this.logger.log('e-Fatura files added');
     }
 
     // ── KVKK Compliance (Turkish GDPR) ────────────────────────────────────────
     if (options.includeKVKK) {
-      files.push({ path: 'src/common/middleware/kvkk.middleware.ts', content: generateKVKKMiddleware() });
+      files.push({
+        path: 'src/common/middleware/kvkk.middleware.ts',
+        content: generateKVKKMiddleware(),
+      });
       files.push({ path: 'docs/KVKK.md', content: generateKVKKDoc() });
       files.push({ path: 'docs/kvkk-aydinlatma-metni.md', content: generateKVKKPrivacyText() });
       this.logger.log('KVKK compliance files added');
@@ -524,11 +554,7 @@ Thumbs.db
 
     // ── Next.js Frontend ─────────────────────────────────────────────────────
     if (options.includeFrontend) {
-      const frontendFiles = generateFrontendFiles(
-        schema.app_name,
-        schema.entities,
-        hasAuth,
-      );
+      const frontendFiles = generateFrontendFiles(schema.app_name, schema.entities, hasAuth);
       files.push(...frontendFiles);
       this.logger.log(`Next.js frontend: ${frontendFiles.length} files added`);
     }

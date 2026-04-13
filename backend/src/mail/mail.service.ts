@@ -65,14 +65,22 @@ export class MailService {
 
   async sendProjectCompleteEmail(to: string, name: string, projectName: string, projectId: string) {
     const link = `${this.frontendUrl}/dashboard/projects/${projectId}`;
-    await this.send(to, `✅ "${projectName}" is ready!`, this.projectCompleteTemplate(name, projectName, link));
+    await this.send(
+      to,
+      `✅ "${projectName}" is ready!`,
+      this.projectCompleteTemplate(name, projectName, link),
+    );
   }
 
   // ─── Generation Limit Warning ─────────────────────────────────────────────
 
   async sendLimitWarningEmail(to: string, name: string, used: number, limit: number) {
     const link = `${this.frontendUrl}/pricing`;
-    await this.send(to, '⚠️ You\'re running low on generations', this.limitWarningTemplate(name, used, limit, link));
+    await this.send(
+      to,
+      "⚠️ You're running low on generations",
+      this.limitWarningTemplate(name, used, limit, link),
+    );
   }
 
   // ─── Templates ────────────────────────────────────────────────────────────
@@ -166,8 +174,18 @@ export class MailService {
       <div style="margin:20px 0;padding:20px;background:#0a0b14;border-radius:12px;border:1px solid #1e2235;">
         <p style="margin:0 0 12px;color:#e2e8f0;font-weight:600;font-size:14px;">What you can do:</p>
         <table cellpadding="0" cellspacing="0" style="width:100%;">
-          ${['⚡ Generate a NestJS + Prisma backend from a prompt', '🗄️ Get a database schema with entities & relations', '📦 Download production-ready code as a ZIP', '🐙 Push directly to a new GitHub repository', '🤖 Chat with AI to modify your code'].map(item => `
-          <tr><td style="padding:6px 0;color:#94a3b8;font-size:14px;">${item}</td></tr>`).join('')}
+          ${[
+            '⚡ Generate a NestJS + Prisma backend from a prompt',
+            '🗄️ Get a database schema with entities & relations',
+            '📦 Download production-ready code as a ZIP',
+            '🐙 Push directly to a new GitHub repository',
+            '🤖 Chat with AI to modify your code',
+          ]
+            .map(
+              (item) => `
+          <tr><td style="padding:6px 0;color:#94a3b8;font-size:14px;">${item}</td></tr>`,
+            )
+            .join('')}
         </table>
       </div>
       <div style="text-align:center;">
@@ -200,7 +218,7 @@ export class MailService {
       ${this.h1('Running low on generations')}
       ${this.p(`Hi ${name}, you've used <strong style="color:#e2e8f0;">${used} of ${limit}</strong> generations this month. You have <strong style="color:#fb923c;">${remaining} generation${remaining !== 1 ? 's' : ''}</strong> remaining.`)}
       <div style="margin:16px 0;background:#0a0b14;border-radius:10px;overflow:hidden;border:1px solid #1e2235;">
-        <div style="height:8px;background:linear-gradient(90deg,#6366f1,#f97316);width:${Math.round((used/limit)*100)}%;border-radius:10px;"></div>
+        <div style="height:8px;background:linear-gradient(90deg,#6366f1,#f97316);width:${Math.round((used / limit) * 100)}%;border-radius:10px;"></div>
       </div>
       ${this.p('Upgrade to Pro for unlimited generations, plus priority processing and all premium features.')}
       <div style="text-align:center;margin:8px 0 16px;">

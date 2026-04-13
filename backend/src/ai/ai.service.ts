@@ -96,9 +96,8 @@ Rules:
         .join('; ') ?? 'N/A';
 
     const relations =
-      schema?.relations
-        ?.map((r: any) => `${r.from} → ${r.to} (${r.type})`)
-        .join(', ') ?? 'none detected';
+      schema?.relations?.map((r: any) => `${r.from} → ${r.to} (${r.type})`).join(', ') ??
+      'none detected';
 
     const features = (project.features ?? []).join(', ') || 'none';
     const fileCount = files.length;

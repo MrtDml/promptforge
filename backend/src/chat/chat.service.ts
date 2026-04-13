@@ -39,7 +39,11 @@ export class ChatService {
       });
 
       const fullReply = response.content[0]?.type === 'text' ? response.content[0].text : '';
-      const { cleanReply, updatedFiles } = await this.extractFileChanges(fullReply, messages, context);
+      const { cleanReply, updatedFiles } = await this.extractFileChanges(
+        fullReply,
+        messages,
+        context,
+      );
 
       return { reply: cleanReply, updatedFiles };
     } catch (err: any) {
@@ -68,10 +72,7 @@ export class ChatService {
       let fullText = '';
 
       for await (const event of stream) {
-        if (
-          event.type === 'content_block_delta' &&
-          event.delta.type === 'text_delta'
-        ) {
+        if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
           const delta = event.delta.text;
           fullText += delta;
 
@@ -190,10 +191,7 @@ IMPORTANT: When outputting file contents inside the JSON, escape all special cha
     return [{ type: 'text', text: systemText, cache_control: { type: 'ephemeral' } }];
   }
 
-  private buildMessages(
-    history: ChatMessage[],
-    userMessage: string,
-  ): Anthropic.MessageParam[] {
+  private buildMessages(history: ChatMessage[], userMessage: string): Anthropic.MessageParam[] {
     return [
       ...history.map((m) => ({ role: m.role, content: m.content })),
       { role: 'user', content: userMessage },
@@ -211,9 +209,7 @@ IMPORTANT: When outputting file contents inside the JSON, escape all special cha
   ): Promise<{ cleanReply: string; updatedFiles: Record<string, string> | null }> {
     const fileChangesMatch = fullReply.match(/<file_changes>\s*([\s\S]*?)\s*<\/file_changes>/);
 
-    const cleanReply = fullReply
-      .replace(/<file_changes>[\s\S]*?<\/file_changes>/, '')
-      .trim();
+    const cleanReply = fullReply.replace(/<file_changes>[\s\S]*?<\/file_changes>/, '').trim();
 
     if (!fileChangesMatch) {
       return { cleanReply, updatedFiles: null };

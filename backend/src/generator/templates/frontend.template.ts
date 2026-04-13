@@ -59,7 +59,7 @@ export function generateFrontendFiles(
           tailwindcss: '^3.4.0',
           postcss: '^8.4.0',
           autoprefixer: '^10.4.0',
-          'eslint': '^8.57.0',
+          eslint: '^8.57.0',
           'eslint-config-next': '^14.2.0',
         },
       },
@@ -624,7 +624,10 @@ interface ${pascal} {
   id: string;
   ${entity.fields
     .filter((f) => !['createdAt', 'updatedAt'].includes(f.name))
-    .map((f) => `${f.name}${f.required ? '' : '?'}: ${f.type === 'number' ? 'number' : f.type === 'boolean' ? 'boolean' : 'string'};`)
+    .map(
+      (f) =>
+        `${f.name}${f.required ? '' : '?'}: ${f.type === 'number' ? 'number' : f.type === 'boolean' ? 'boolean' : 'string'};`,
+    )
     .join('\n  ')}
   createdAt?: string;
 }

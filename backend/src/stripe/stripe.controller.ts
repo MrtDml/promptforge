@@ -61,9 +61,7 @@ export class StripeController {
   @Post('portal')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
-  async createPortalSession(
-    @Req() req: Request & { user: { id: string } },
-  ) {
+  async createPortalSession(@Req() req: Request & { user: { id: string } }) {
     const url = await this.stripeService.createPortalSession(req.user.id);
     return { url };
   }
@@ -75,9 +73,7 @@ export class StripeController {
   @Post('cancel')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
-  async cancelSubscription(
-    @Req() req: Request & { user: { id: string } },
-  ) {
+  async cancelSubscription(@Req() req: Request & { user: { id: string } }) {
     await this.stripeService.cancelSubscription(req.user.id);
     return { message: 'Abonelik iptal edildi. Free plana geçtiniz.' };
   }

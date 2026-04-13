@@ -50,14 +50,18 @@ const APP_SCHEMA_TOOL: Anthropic.Tool = {
       },
       relations: {
         type: 'array',
-        description: 'Relationships between entities. Do NOT add foreign-key fields to entities — express them here instead.',
+        description:
+          'Relationships between entities. Do NOT add foreign-key fields to entities — express them here instead.',
         items: {
           type: 'object',
           properties: {
             type: { type: 'string', enum: ['1:N', 'N:1', 'M:N'] },
             from: { type: 'string', description: 'Source entity name (PascalCase)' },
             to: { type: 'string', description: 'Target entity name (PascalCase)' },
-            fieldName: { type: 'string', description: 'camelCase relation field name on the "from" entity, e.g. "posts"' },
+            fieldName: {
+              type: 'string',
+              description: 'camelCase relation field name on the "from" entity, e.g. "posts"',
+            },
           },
           required: ['type', 'from', 'to', 'fieldName'],
         },
@@ -68,11 +72,13 @@ const APP_SCHEMA_TOOL: Anthropic.Tool = {
           type: 'string',
           enum: ['auth', 'dashboard', 'crud', 'api', 'deploy', 'payments', 'notifications'],
         },
-        description: 'Always include "crud" and "api". Include "auth" only when user authentication is described.',
+        description:
+          'Always include "crud" and "api". Include "auth" only when user authentication is described.',
       },
       auth_entity: {
         type: 'string',
-        description: 'PascalCase entity that represents the authenticated user. Only set when "auth" is in features.',
+        description:
+          'PascalCase entity that represents the authenticated user. Only set when "auth" is in features.',
       },
     },
     required: ['app_name', 'entities', 'features'],
@@ -119,7 +125,13 @@ const RELATION_EXTRACTION_SYSTEM = `You are a database architect. Given entity n
 // ─── Valid value sets (used in normalization) ─────────────────────────────────
 
 const VALID_FEATURES = new Set([
-  'auth', 'dashboard', 'crud', 'api', 'payments', 'notifications', 'deploy',
+  'auth',
+  'dashboard',
+  'crud',
+  'api',
+  'payments',
+  'notifications',
+  'deploy',
 ]);
 
 const VALID_FIELD_TYPES = new Set(['string', 'number', 'boolean', 'date']);
@@ -127,18 +139,38 @@ const VALID_FIELD_TYPES = new Set(['string', 'number', 'boolean', 'date']);
 const VALID_RELATION_TYPES = new Set(['1:N', 'N:1', 'M:N']);
 
 const FIELD_TYPE_ALIASES: Record<string, string> = {
-  text: 'string', varchar: 'string', char: 'string', str: 'string',
-  int: 'number', integer: 'number', float: 'number', double: 'number',
-  decimal: 'number', num: 'number',
-  bool: 'boolean', bit: 'boolean',
-  datetime: 'date', timestamp: 'date', time: 'date',
-  Date: 'date', String: 'string', Number: 'number', Boolean: 'boolean',
+  text: 'string',
+  varchar: 'string',
+  char: 'string',
+  str: 'string',
+  int: 'number',
+  integer: 'number',
+  float: 'number',
+  double: 'number',
+  decimal: 'number',
+  num: 'number',
+  bool: 'boolean',
+  bit: 'boolean',
+  datetime: 'date',
+  timestamp: 'date',
+  time: 'date',
+  Date: 'date',
+  String: 'string',
+  Number: 'number',
+  Boolean: 'boolean',
 };
 
 const RELATION_TYPE_ALIASES: Record<string, string> = {
-  'one-to-many': '1:N', 'onetomany': '1:N', 'hasMany': '1:N', 'has_many': '1:N',
-  'many-to-one': 'N:1', 'manytoone': 'N:1', 'belongsTo': 'N:1', 'belongs_to': 'N:1',
-  'many-to-many': 'M:N', 'manytomany': 'M:N',
+  'one-to-many': '1:N',
+  onetomany: '1:N',
+  hasMany: '1:N',
+  has_many: '1:N',
+  'many-to-one': 'N:1',
+  manytoone: 'N:1',
+  belongsTo: 'N:1',
+  belongs_to: 'N:1',
+  'many-to-many': 'M:N',
+  manytomany: 'M:N',
 };
 
 // ─── Service ──────────────────────────────────────────────────────────────────
@@ -172,8 +204,8 @@ export class ParserService {
         const primaryMs = Date.now() - attemptStart;
         this.logger.log(
           `[Parse] Primary parse succeeded in ${primaryMs}ms — ` +
-          `app="${schema.app_name}", entities=${schema.entities.length}, ` +
-          `relations=${schema.relations?.length ?? 0}, features=${schema.features.length}`,
+            `app="${schema.app_name}", entities=${schema.entities.length}, ` +
+            `relations=${schema.relations?.length ?? 0}, features=${schema.features.length}`,
         );
 
         const enrichedSchema = await this.maybeEnrichRelations(schema, prompt);
@@ -181,7 +213,7 @@ export class ParserService {
         const totalMs = Date.now() - overallStart;
         this.logger.log(
           `[Parse] Completed in ${totalMs}ms total — ` +
-          `final relations=${enrichedSchema.relations?.length ?? 0}`,
+            `final relations=${enrichedSchema.relations?.length ?? 0}`,
         );
 
         return enrichedSchema;
@@ -397,7 +429,10 @@ export class ParserService {
   private normalizeFieldType(type: string): 'string' | 'number' | 'boolean' | 'date' {
     if (typeof type !== 'string') return 'string';
     return (FIELD_TYPE_ALIASES[type] ?? FIELD_TYPE_ALIASES[type.toLowerCase()] ?? 'string') as
-      'string' | 'number' | 'boolean' | 'date';
+      | 'string'
+      | 'number'
+      | 'boolean'
+      | 'date';
   }
 
   private normalizeRelationType(type: unknown): string | null {

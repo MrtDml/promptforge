@@ -9,9 +9,7 @@ function toPascalCase(str: string): string {
 }
 
 function toKebabCase(str: string): string {
-  return str
-    .replace(/([a-z])([A-Z])/g, '$1-$2')
-    .toLowerCase();
+  return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 }
 
 function getTypeScriptType(type: string): string {
@@ -30,9 +28,12 @@ function generateDtoField(field: ParsedField, includeSwagger = false): string {
   const decorators: string[] = [];
 
   if (includeSwagger) {
-    const example = field.type === 'number' ? '42' : field.type === 'boolean' ? 'true' : `"${field.name} value"`;
+    const example =
+      field.type === 'number' ? '42' : field.type === 'boolean' ? 'true' : `"${field.name} value"`;
     if (isOptional) {
-      decorators.push(`  @ApiPropertyOptional({ description: '${field.name}', example: ${example} })`);
+      decorators.push(
+        `  @ApiPropertyOptional({ description: '${field.name}', example: ${example} })`,
+      );
     } else {
       decorators.push(`  @ApiProperty({ description: '${field.name}', example: ${example} })`);
     }
@@ -78,10 +79,18 @@ function generateCreateDto(entity: ParsedEntity, includeSwagger = false): string
   for (const field of userFields) {
     if (field.required === false) validatorImports.add('IsOptional');
     switch (field.type) {
-      case 'string': validatorImports.add('IsString'); break;
-      case 'number': validatorImports.add('IsNumber'); break;
-      case 'boolean': validatorImports.add('IsBoolean'); break;
-      case 'date': validatorImports.add('IsDateString'); break;
+      case 'string':
+        validatorImports.add('IsString');
+        break;
+      case 'number':
+        validatorImports.add('IsNumber');
+        break;
+      case 'boolean':
+        validatorImports.add('IsBoolean');
+        break;
+      case 'date':
+        validatorImports.add('IsDateString');
+        break;
     }
   }
 
@@ -194,16 +203,12 @@ function generateController(entity: ParsedEntity, includeSwagger = false): strin
   const swaggerImport = includeSwagger
     ? `import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';\n`
     : '';
-  const swaggerClassDec = includeSwagger
-    ? `@ApiTags('${routePath}')\n@ApiBearerAuth()\n`
-    : '';
+  const swaggerClassDec = includeSwagger ? `@ApiTags('${routePath}')\n@ApiBearerAuth()\n` : '';
 
-  const op = (summary: string) => includeSwagger
-    ? `\n  @ApiOperation({ summary: '${summary}' })`
-    : '';
-  const res = (status: number, desc: string) => includeSwagger
-    ? `\n  @ApiResponse({ status: ${status}, description: '${desc}' })`
-    : '';
+  const op = (summary: string) =>
+    includeSwagger ? `\n  @ApiOperation({ summary: '${summary}' })` : '';
+  const res = (status: number, desc: string) =>
+    includeSwagger ? `\n  @ApiResponse({ status: ${status}, description: '${desc}' })` : '';
 
   return `import {
   Controller,

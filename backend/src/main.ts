@@ -16,34 +16,22 @@ async function bootstrap() {
 
   // iyzico webhook: form-data (urlencoded) gönderir
   // Diğer route'lar: JSON
-  app.use(
-    (
-      req: express.Request,
-      res: express.Response,
-      next: express.NextFunction,
-    ) => {
-      if (req.path === '/api/v1/payment/webhook') {
-        express.urlencoded({ extended: true })(req, res, next);
-      } else {
-        express.json()(req, res, next);
-      }
-    },
-  );
+  app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if (req.path === '/api/v1/payment/webhook') {
+      express.urlencoded({ extended: true })(req, res, next);
+    } else {
+      express.json()(req, res, next);
+    }
+  });
 
   // Webhook dışındaki route'lar için urlencoded da destekle
-  app.use(
-    (
-      req: express.Request,
-      res: express.Response,
-      next: express.NextFunction,
-    ) => {
-      if (req.path !== '/api/v1/payment/webhook') {
-        express.urlencoded({ extended: true })(req, res, next);
-      } else {
-        next();
-      }
-    },
-  );
+  app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if (req.path !== '/api/v1/payment/webhook') {
+      express.urlencoded({ extended: true })(req, res, next);
+    } else {
+      next();
+    }
+  });
 
   // Global prefix (/health endpoint hariç)
   app.setGlobalPrefix('api/v1', { exclude: ['health'] });

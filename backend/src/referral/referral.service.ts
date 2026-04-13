@@ -73,6 +73,8 @@ export class ReferralService {
       data: { generationsLimit: { increment: REFERRAL_BONUS_GENERATIONS } },
     });
 
-    this.logger.log(`Referral applied: ${newUserId} referred by ${referrer.id} (+${REFERRAL_BONUS_GENERATIONS} generations)`);
+    this.logger.log(
+      `Referral applied: ${newUserId} referred by ${referrer.id} (+${REFERRAL_BONUS_GENERATIONS} generations)`,
+    );
   }
 }

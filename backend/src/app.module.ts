@@ -55,10 +55,6 @@ import { AutomationModule } from './automation/automation.module';
     AutomationModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    SubscriptionGuard,
-    { provide: APP_GUARD, useClass: PlanThrottlerGuard },
-  ],
+  providers: [AppService, SubscriptionGuard, { provide: APP_GUARD, useClass: PlanThrottlerGuard }],
 })
 export class AppModule {}

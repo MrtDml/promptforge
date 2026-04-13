@@ -19,9 +19,7 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     profile: any,
     done: (err: any, user: any) => void,
   ): void {
-    const email =
-      profile.emails?.find((e: any) => e.primary)?.value ??
-      profile.emails?.[0]?.value;
+    const email = profile.emails?.find((e: any) => e.primary)?.value ?? profile.emails?.[0]?.value;
 
     const user = {
       email,

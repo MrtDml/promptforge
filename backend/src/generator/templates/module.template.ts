@@ -12,10 +12,7 @@ function toKebabCase(str: string): string {
  * Generates the root app.module.ts that imports every entity module plus
  * the ConfigModule, ThrottlerModule, and optionally the AuthModule.
  */
-export function generateAppModule(
-  entities: ParsedEntity[],
-  hasAuth: boolean,
-): string {
+export function generateAppModule(entities: ParsedEntity[], hasAuth: boolean): string {
   const entityImports = entities
     .map((e) => {
       const pascal = toPascalCase(e.name);
@@ -24,13 +21,9 @@ export function generateAppModule(
     })
     .join('\n');
 
-  const entityModuleList = entities
-    .map((e) => `${toPascalCase(e.name)}Module`)
-    .join(',\n    ');
+  const entityModuleList = entities.map((e) => `${toPascalCase(e.name)}Module`).join(',\n    ');
 
-  const authImport = hasAuth
-    ? `import { AuthModule } from './auth/auth.module';`
-    : '';
+  const authImport = hasAuth ? `import { AuthModule } from './auth/auth.module';` : '';
 
   const authModuleEntry = hasAuth ? 'AuthModule,' : '';
 

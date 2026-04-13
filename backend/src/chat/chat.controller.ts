@@ -41,11 +41,11 @@ export class ChatController {
 
     const { project, generatedFiles } = await this.loadProject(id, req.user.id);
 
-    const { reply, updatedFiles } = await this.chatService.chat(
-      message,
-      history,
-      { name: project.name, description: project.description ?? undefined, generatedFiles },
-    );
+    const { reply, updatedFiles } = await this.chatService.chat(message, history, {
+      name: project.name,
+      description: project.description ?? undefined,
+      generatedFiles,
+    });
 
     if (updatedFiles && Object.keys(updatedFiles).length > 0) {
       await this.prisma.project.update({

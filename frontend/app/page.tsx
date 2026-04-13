@@ -4,48 +4,50 @@ import LandingNav from "@components/layout/LandingNav";
 import LandingFooter from "@components/layout/LandingFooter";
 
 export const metadata: Metadata = {
-  title: "Prompt Forge – Tek Promptla SaaS Uygulaması Geliştir | PromptForge",
+  title: "PromptForge – Yapay Zeka ile SaaS Uygulaması Oluştur | Tek Prompttan Backend",
   description:
-    "Prompt Forge, fikirlerinizi 5 dakika içinde üretime hazır koda dönüştüren yapay zeka destekli bir SaaS oluşturucudur. Düz İngilizce'den eksiksiz bir NestJS backend, Prisma şeması, REST API ve Docker kurulumu oluşturun. Ücretsiz deneyin.",
+    "PromptForge, SaaS fikrinizi 5 dakika içinde üretime hazır koda dönüştürür. Tek prompttan eksiksiz NestJS backend, Prisma şeması, REST API ve Docker kurulumu. Ücretsiz deneyin.",
   keywords: [
-    "prompt forge",
     "promptforge",
-    "prompt forge ai",
-    "AI SaaS builder",
-    "build SaaS with AI",
-    "generate SaaS from prompt",
-    "AI code generator",
+    "prompt forge",
+    "yapay zeka kod üretici",
+    "AI SaaS oluşturucu",
+    "AI ile SaaS geliştir",
+    "prompttan SaaS üret",
     "NestJS generator",
-    "Prisma schema generator",
+    "Prisma şema üretici",
     "REST API generator",
     "no-code backend",
-    "AI app builder",
+    "AI uygulama oluşturucu",
     "SaaS boilerplate generator",
-    "Lovable alternative",
-    "Bolt.new alternative",
+    "Lovable alternatif",
+    "Bolt.new alternatif",
+    "v0 alternatif",
+    "yapay zeka geliştirici aracı",
   ],
   alternates: { canonical: "https://promptforgeai.dev" },
   openGraph: {
-    title: "Prompt Forge – Tek Promptla SaaS Uygulaması Geliştir",
+    title: "PromptForge – Yapay Zeka ile SaaS Uygulaması Oluştur",
     description:
-      "Prompt Forge, SaaS fikrinizi 5 dakika içinde üretime hazır koda dönüştürür. NestJS backend, Prisma şeması, REST API, Docker — hepsi düz Türkçe açıklamadan.",
+      "SaaS fikrinizi 5 dakika içinde üretime hazır koda dönüştürün. NestJS backend, Prisma şeması, REST API, Docker — hepsi tek bir prompttan.",
     url: "https://promptforgeai.dev",
-    siteName: "Prompt Forge",
+    siteName: "PromptForge",
+    locale: "tr_TR",
     type: "website",
     images: [
       {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Prompt Forge – Yapay Zeka ile SaaS Uygulaması Geliştir",
+        alt: "PromptForge – Yapay Zeka ile SaaS Uygulaması Oluştur",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Prompt Forge – Tek Promptla SaaS Uygulaması Geliştir",
+    title: "PromptForge – Yapay Zeka ile SaaS Uygulaması Oluştur",
     description:
-      "Prompt Forge, SaaS fikrinizi 5 dakika içinde üretime hazır koda dönüştürür.",
+      "SaaS fikrinizi 5 dakika içinde üretime hazır koda dönüştürün. Ücretsiz deneyin.",
     images: ["/twitter-image"],
   },
 };

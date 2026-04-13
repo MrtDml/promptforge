@@ -1,29 +1,32 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Support & FAQ – Prompt Forge",
+  title: "Destek ve SSS — PromptForge | Sık Sorulan Sorular",
   description:
-    "Get help with Prompt Forge. Browse frequently asked questions, troubleshooting guides, and contact our support team.",
+    "PromptForge hakkında yardım alın. Sık sorulan sorular, sorun giderme rehberleri ve destek ekibimizle iletişim.",
   keywords: [
-    "prompt forge support",
-    "promptforge help",
-    "prompt forge faq",
-    "AI SaaS builder support",
+    "promptforge destek",
+    "promptforge yardım",
+    "promptforge sık sorulan sorular",
+    "AI SaaS builder destek",
+    "promptforge SSS",
+    "promptforge nasıl kullanılır",
   ],
   alternates: { canonical: "https://promptforgeai.dev/support" },
   openGraph: {
-    title: "Support & FAQ – Prompt Forge",
+    title: "Destek ve SSS — PromptForge",
     description:
-      "Get help with Prompt Forge. Browse FAQs, troubleshooting guides, and contact support.",
+      "PromptForge hakkında yardım alın. Sık sorulan sorular, sorun giderme rehberleri ve destek ekibimizle iletişim.",
     url: "https://promptforgeai.dev/support",
-    siteName: "Prompt Forge",
+    siteName: "PromptForge",
+    locale: "tr_TR",
     type: "website",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Prompt Forge Support" }],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "PromptForge Destek" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Support & FAQ – Prompt Forge",
-    description: "Get help with Prompt Forge. FAQs, troubleshooting, and contact support.",
+    title: "Destek ve SSS — PromptForge",
+    description: "PromptForge hakkında yardım alın. SSS, sorun giderme ve destek iletişimi.",
     images: ["/twitter-image"],
   },
 };

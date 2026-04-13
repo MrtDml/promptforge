@@ -7,28 +7,33 @@ import AnnouncementBanner from "@components/layout/AnnouncementBanner";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Blog – Prompt Forge",
+  title: "Blog — PromptForge | AI ile SaaS Geliştirme Rehberleri",
   description:
-    "Yapay zeka destekli kod üretimi, NestJS, SaaS mimarisi ve üretime hazır uygulama geliştirme üzerine rehberler ve içgörüler.",
+    "Yapay zeka destekli kod üretimi, NestJS, SaaS mimarisi ve üretime hazır uygulama geliştirme üzerine Türkçe rehberler ve içgörüler.",
   keywords: [
     "AI kod üretimi blog",
     "NestJS rehberleri",
     "SaaS geliştirme kılavuzu",
     "yapay zeka ile SaaS geliştirme",
     "Prisma şema rehberi",
+    "backend geliştirme blog",
+    "promptforge blog",
   ],
   alternates: { canonical: "https://promptforgeai.dev/blog" },
   openGraph: {
-    title: "Blog – Prompt Forge",
+    title: "Blog — PromptForge | AI ile SaaS Geliştirme",
     description:
-      "Yapay zeka destekli kod üretimi, NestJS ve SaaS mimarisi üzerine rehberler ve içgörüler.",
+      "Yapay zeka destekli kod üretimi, NestJS ve SaaS mimarisi üzerine Türkçe rehberler ve içgörüler.",
     url: "https://promptforgeai.dev/blog",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Prompt Forge Blog" }],
+    siteName: "PromptForge",
+    locale: "tr_TR",
+    type: "website",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "PromptForge Blog" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blog – Prompt Forge",
-    description: "Yapay zeka destekli kod üretimi ve SaaS geliştirme üzerine rehberler ve içgörüler.",
+    title: "Blog — PromptForge | AI ile SaaS Geliştirme",
+    description: "Yapay zeka destekli kod üretimi ve SaaS geliştirme üzerine Türkçe rehberler.",
     images: ["/twitter-image"],
   },
 };

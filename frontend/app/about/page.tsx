@@ -5,13 +5,32 @@ import LandingNav from "@components/layout/LandingNav";
 import LandingFooter from "@components/layout/LandingFooter";
 
 export const metadata: Metadata = {
-  title: "Hakkımızda — Dumlu Teknoloji, Yazılım ve Danışmanlık | Prompt Forge",
+  title: "Hakkımızda — PromptForge | Dumlu Teknoloji, Yazılım ve Danışmanlık",
   description:
-    "Prompt Forge, Dumlu Teknoloji, Yazılım ve Danışmanlık'in bir ürünüdür — yazılım geliştirmeyi herkese erişilebilir kılma misyonundaki küresel bir yazılım ve yapay zeka danışmanlık şirketi.",
+    "PromptForge, Dumlu Teknoloji, Yazılım ve Danışmanlık'in bir ürünüdür. Yapay zeka ile SaaS geliştirmeyi herkes için erişilebilir kılma misyonundayız.",
+  keywords: [
+    "PromptForge hakkında",
+    "Dumlu Teknoloji",
+    "yapay zeka SaaS şirketi",
+    "AI developer tools şirketi",
+    "NestJS generator şirketi",
+  ],
+  alternates: { canonical: "https://promptforgeai.dev/about" },
   openGraph: {
-    title: "Dumlu Teknoloji, Yazılım ve Danışmanlık Hakkında — Prompt Forge'un arkasındaki şirket",
+    title: "Hakkımızda — PromptForge",
     description:
-      "Dumlu Teknoloji, Yazılım ve Danışmanlık, yapay zeka destekli geliştirici araçları üretir. Prompt Forge, amiral gemisi ürünümüzdür — herhangi bir fikri dakikalar içinde üretime hazır koda dönüştürün.",
+      "Dumlu Teknoloji, Yazılım ve Danışmanlık, yapay zeka destekli geliştirici araçları üretir. PromptForge, amiral gemisi ürünümüzdür.",
+    url: "https://promptforgeai.dev/about",
+    siteName: "PromptForge",
+    locale: "tr_TR",
+    type: "website",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "PromptForge Hakkımızda" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Hakkımızda — PromptForge",
+    description: "Dumlu Teknoloji, Yazılım ve Danışmanlık. Yapay zeka ile SaaS geliştirmeyi herkes için erişilebilir kılıyoruz.",
+    images: ["/twitter-image"],
   },
 };
 

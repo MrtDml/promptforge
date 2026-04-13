@@ -42,7 +42,7 @@ export default function MesafeliSatisSozlesmesiPage() {
             <li><strong>Ticaret Unvanı:</strong> Dumlu Teknoloji, Yazılım ve Danışmanlık</li>
             <li><strong>Adres:</strong> TepeTepe Prime İş ve Yaşam Merkezi, Mustafa Kemal Mah. Dumlupınar Bulvarı, Çankaya / Ankara</li>
             <li><strong>Telefon:</strong> +90 (542) 667 42 30</li>
-            <li><strong>E-posta:</strong> info@promtforge.dev</li>
+            <li><strong>E-posta:</strong> info@promptforge.dev</li>
             <li><strong>Web Sitesi:</strong> https://promptforgeai.dev</li>
           </ul>
 
@@ -93,7 +93,7 @@ export default function MesafeliSatisSozlesmesiPage() {
           </p>
           <p>
             Cayma hakkının kullanılabilmesi için bu süre içinde SATICI&apos;ya yazılı bildirimde bulunulması yeterlidir.
-            Bildirim için <a href="mailto:info@promtforge.dev" className="text-indigo-400 hover:text-indigo-300">info@promtforge.dev</a> adresine
+            Bildirim için <a href="mailto:info@promptforge.dev" className="text-indigo-400 hover:text-indigo-300">info@promptforge.dev</a> adresine
             e-posta gönderilebilir veya hesap ayarlarından abonelik iptal edilebilir.
           </p>
           <p>
@@ -109,7 +109,7 @@ export default function MesafeliSatisSozlesmesiPage() {
           <h2>6. Abonelik Yenileme ve İptal</h2>
           <p>
             Abonelikler, seçilen dönem sonunda (aylık veya yıllık) otomatik olarak yenilenir. ALICI; aboneliğini
-            hesap ayarları sayfasından veya <a href="mailto:info@promtforge.dev" className="text-indigo-400 hover:text-indigo-300">info@promtforge.dev</a> adresine
+            hesap ayarları sayfasından veya <a href="mailto:info@promptforge.dev" className="text-indigo-400 hover:text-indigo-300">info@promptforge.dev</a> adresine
             e-posta göndererek her zaman iptal edebilir. İptal, mevcut dönem sonunda yürürlüğe girer; kalan süre
             için ücret iadesi yapılmaz.
           </p>

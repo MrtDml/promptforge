@@ -44,7 +44,7 @@ export default function KvkkPage() {
             <li><strong>Unvan:</strong> Dumlu Teknoloji, Yazılım ve Danışmanlık</li>
             <li><strong>Adres:</strong> TepeTepe Prime İş ve Yaşam Merkezi, Mustafa Kemal Mah. Dumlupınar Bulvarı, Çankaya / Ankara</li>
             <li><strong>Telefon:</strong> +90 (542) 667 42 30</li>
-            <li><strong>E-posta:</strong> info@promtforge.dev</li>
+            <li><strong>E-posta:</strong> info@promptforge.dev</li>
             <li><strong>Web Sitesi:</strong> https://promptforgeai.dev</li>
           </ul>
 
@@ -138,8 +138,8 @@ export default function KvkkPage() {
           <ul>
             <li>
               <strong>E-posta:</strong>{" "}
-              <a href="mailto:info@promtforge.dev" className="text-indigo-400 hover:text-indigo-300">
-                info@promtforge.dev
+              <a href="mailto:info@promptforge.dev" className="text-indigo-400 hover:text-indigo-300">
+                info@promptforge.dev
               </a>{" "}
               (konu: KVKK Başvurusu)
             </li>

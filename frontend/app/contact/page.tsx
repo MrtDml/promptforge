@@ -76,8 +76,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-white">E-posta</p>
-                    <a href="mailto:info@promtforge.dev" className="text-indigo-400 hover:text-indigo-300 text-sm transition-colors">
-                      info@promtforge.dev
+                    <a href="mailto:info@promptforge.dev" className="text-indigo-400 hover:text-indigo-300 text-sm transition-colors">
+                      info@promptforge.dev
                     </a>
                   </div>
                 </div>

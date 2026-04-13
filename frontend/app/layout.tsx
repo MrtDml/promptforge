@@ -18,65 +18,67 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Prompt Forge – AI SaaS Code Generator | PromptForge",
-    template: "%s | Prompt Forge",
+    default: "PromptForge – Yapay Zeka ile SaaS Uygulaması Oluştur",
+    template: "%s | PromptForge",
   },
   description:
-    "Prompt Forge is an AI-powered SaaS builder that transforms natural language prompts into production-ready full-stack applications. Generate NestJS backends, Prisma schemas, REST APIs, and Docker configs instantly.",
+    "PromptForge, SaaS fikrinizi 5 dakika içinde üretime hazır koda dönüştüren yapay zeka destekli bir uygulama oluşturucudur. Tek prompttan eksiksiz NestJS backend, Prisma şeması, REST API ve Docker kurulumu oluşturun. Ücretsiz deneyin.",
   keywords: [
-    "prompt forge",
     "promptforge",
-    "prompt forge ai",
-    "prompt forge tool",
-    "prompt forge saas",
-    "AI code generator",
-    "SaaS builder",
-    "SaaS app generator",
+    "prompt forge",
+    "yapay zeka kod üretici",
+    "AI kod üretici",
+    "SaaS oluşturucu",
     "NestJS generator",
-    "Prisma schema generator",
+    "Prisma şema üretici",
     "backend generator",
-    "AI SaaS builder",
-    "generate SaaS from prompt",
-    "no-code backend builder",
-    "AI software generator",
-    "build SaaS with AI",
-    "automatic code generation",
     "REST API generator",
-    "full-stack code generator",
+    "AI uygulama oluşturucu",
+    "kod üretici",
+    "SaaS geliştirme",
+    "yapay zeka ile uygulama geliştir",
+    "no-code backend",
+    "AI SaaS builder",
+    "NestJS boilerplate",
+    "full-stack kod üretimi",
+    "SaaS MVP generator",
+    "Lovable alternatif",
+    "Bolt.new alternatif",
+    "v0 alternatif",
     "AI developer tool",
-    "Lovable alternative",
-    "Bolt.new alternative",
-    "v0 alternative",
+    "build SaaS with AI",
+    "generate SaaS from prompt",
   ],
-  authors: [{ name: "PromptForge" }],
-  creator: "PromptForge",
+  authors: [{ name: "PromptForge", url: "https://promptforgeai.dev" }],
+  creator: "Dumlu Teknoloji, Yazılım ve Danışmanlık",
   publisher: "PromptForge",
   metadataBase: new URL("https://promptforgeai.dev"),
   alternates: {
     canonical: "https://promptforgeai.dev",
+    languages: { "tr-TR": "https://promptforgeai.dev" },
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "tr_TR",
     url: "https://promptforgeai.dev",
-    siteName: "Prompt Forge",
-    title: "Prompt Forge – AI SaaS Code Generator | PromptForge",
+    siteName: "PromptForge",
+    title: "PromptForge – Yapay Zeka ile SaaS Uygulaması Oluştur",
     description:
-      "Prompt Forge transforms natural language prompts into production-ready SaaS applications. Generate NestJS backends, Prisma schemas, REST APIs, and Docker configs instantly.",
+      "SaaS fikrinizi 5 dakika içinde üretime hazır koda dönüştürün. NestJS backend, Prisma şeması, REST API, Docker — hepsi tek bir prompttan.",
     images: [
       {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "PromptForge – Build SaaS Apps with AI",
+        alt: "PromptForge – Yapay Zeka ile SaaS Uygulaması Oluştur",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Prompt Forge – AI SaaS Code Generator",
+    title: "PromptForge – Yapay Zeka ile SaaS Uygulaması Oluştur",
     description:
-      "Prompt Forge transforms natural language prompts into production-ready SaaS applications.",
+      "SaaS fikrinizi 5 dakika içinde üretime hazır koda dönüştürün. Ücretsiz deneyin.",
     images: ["/twitter-image"],
   },
   icons: {
@@ -105,30 +107,42 @@ const jsonLdApp = {
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Web",
   url: "https://promptforgeai.dev",
+  inLanguage: "tr-TR",
   description:
-    "AI-powered platform that generates full-stack SaaS applications from natural language prompts.",
+    "Yapay zeka destekli, doğal dilden üretime hazır tam yığın SaaS uygulamaları oluşturan platform.",
   screenshot: "https://promptforgeai.dev/opengraph-image",
   offers: [
-    { "@type": "Offer", name: "Free", price: "0", priceCurrency: "USD" },
-    { "@type": "Offer", name: "Starter", price: "29", priceCurrency: "USD" },
-    { "@type": "Offer", name: "Pro", price: "99", priceCurrency: "USD" },
+    { "@type": "Offer", name: "Ücretsiz", price: "0", priceCurrency: "TRY" },
+    { "@type": "Offer", name: "Starter", price: "950", priceCurrency: "TRY" },
+    { "@type": "Offer", name: "Pro", price: "3250", priceCurrency: "TRY" },
   ],
 };
 
 const jsonLdOrg = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Prompt Forge",
+  name: "Dumlu Teknoloji, Yazılım ve Danışmanlık",
   alternateName: "PromptForge",
   url: "https://promptforgeai.dev",
   logo: "https://promptforgeai.dev/opengraph-image",
+  email: "info@promptforge.dev",
+  telephone: "+905426674230",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "TepeTepe Prime İş ve Yaşam Merkezi, Mustafa Kemal Mah. Dumlupınar Bulvarı",
+    addressLocality: "Çankaya",
+    addressRegion: "Ankara",
+    addressCountry: "TR",
+  },
   sameAs: [
     "https://github.com/MrtDml/promptforge",
     "https://twitter.com/promptforgeai",
   ],
   contactPoint: {
     "@type": "ContactPoint",
+    telephone: "+905426674230",
     contactType: "customer support",
+    availableLanguage: "Turkish",
     url: "https://promptforgeai.dev/contact",
   },
 };
@@ -136,10 +150,11 @@ const jsonLdOrg = {
 const jsonLdWebsite = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Prompt Forge",
-  alternateName: "PromptForge",
+  name: "PromptForge",
+  alternateName: "Prompt Forge",
   url: "https://promptforgeai.dev",
-  description: "Prompt Forge is an AI-powered platform that generates production-ready SaaS applications from natural language prompts.",
+  inLanguage: "tr-TR",
+  description: "PromptForge, SaaS fikrinizi 5 dakika içinde üretime hazır koda dönüştüren yapay zeka destekli platformdur.",
   potentialAction: {
     "@type": "SearchAction",
     target: {
@@ -157,7 +172,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`dark ${inter.variable} ${jetbrainsMono.variable}`}>
+    <html lang="tr" className={`dark ${inter.variable} ${jetbrainsMono.variable}`}>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdApp) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrg) }} />

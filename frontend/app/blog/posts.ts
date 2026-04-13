@@ -11,171 +11,171 @@ export interface BlogPost {
 export const posts: BlogPost[] = [
   {
     slug: "build-saas-with-ai-in-5-minutes",
-    title: "How to Build a SaaS App with AI in Under 5 Minutes",
+    title: "5 Dakikada AI ile SaaS Uygulaması Nasıl Kurulur",
     description:
-      "Stop spending weeks on boilerplate. Learn how AI code generation lets you go from idea to a production-ready NestJS + PostgreSQL backend in minutes.",
+      "Haftalarca boilerplate'le uğraşmayı bırakın. AI kod üretiminin sizi bir fikirden dakikalar içinde üretime hazır NestJS + PostgreSQL backend'ine nasıl götürdüğünü öğrenin.",
     date: "2026-03-15",
     readTime: 6,
-    category: "Tutorial",
+    category: "Eğitim",
     content: `
-<p>Building a SaaS application from scratch has always been painful. Before you write a single line of business logic, you spend days — sometimes weeks — on authentication, database schemas, API routing, Docker configuration, and documentation. Most of that work is identical across every project.</p>
+<p>Sıfırdan SaaS uygulaması geliştirmek her zaman zahmetli olmuştur. İş mantığına dair tek bir satır yazmadan önce kimlik doğrulama, veritabanı şemaları, API yönlendirme, Docker yapılandırması ve dokümantasyon için günler — bazen haftalar — harcarsınız. Bu çalışmaların büyük çoğunluğu her projede aynıdır.</p>
 
-<p>AI code generation is changing that. With PromptForge, you describe your idea in plain English and receive a complete, production-ready NestJS backend in under five minutes. Here's exactly how it works.</p>
+<p>AI kod üretimi bunu değiştiriyor. PromptForge ile fikrinizi sade bir Türkçe veya İngilizce ile anlatıyor, beş dakika içinde eksiksiz ve üretime hazır bir NestJS backend alıyorsunuz. İşte tam olarak nasıl çalıştığı.</p>
 
-<h2>Step 1: Describe Your Idea</h2>
+<h2>Adım 1: Fikrinizi Anlatın</h2>
 
-<p>Start with a clear, concrete description. The more specific you are, the better the output. Instead of "make a project management tool," try:</p>
+<p>Net ve somut bir açıklama ile başlayın. Ne kadar spesifik olursanız çıktı o kadar iyi olur. "Proje yönetim aracı yap" yerine şunu deneyin:</p>
 
-<blockquote>"A project management SaaS with user authentication, workspaces, projects, tasks with priorities and due dates, team member invitations, and a Kanban board view. Users can assign tasks to teammates and get notified when tasks are updated."</blockquote>
+<blockquote>"Kullanıcı kimlik doğrulaması, çalışma alanları, öncelikler ve bitiş tarihleri olan görevler, takım üyesi davetleri ve Kanban panosu görünümü içeren bir proje yönetim SaaS'ı. Kullanıcılar görevleri takım arkadaşlarına atayabilmeli ve görevler güncellendiğinde bildirim alabilmelidir."</blockquote>
 
-<p>PromptForge parses this into a structured schema — identifying entities (User, Workspace, Project, Task, Invitation), their relationships, and the features that need to be generated.</p>
+<p>PromptForge bunu yapılandırılmış bir şemaya dönüştürür — entity'leri (Kullanıcı, Çalışma Alanı, Proje, Görev, Davet), ilişkilerini ve üretilmesi gereken özellikleri belirler.</p>
 
-<h2>Step 2: Review the Schema</h2>
+<h2>Adım 2: Şemayı İnceleyin</h2>
 
-<p>Before generating code, PromptForge shows you the parsed data model. You can verify that it understood your intent correctly:</p>
-
-<ul>
-  <li><strong>Entities</strong>: User, Workspace, Project, Task, Invitation</li>
-  <li><strong>Relations</strong>: User → many Tasks (assigned), Workspace → many Projects</li>
-  <li><strong>Features detected</strong>: auth, crud, api, notifications</li>
-</ul>
-
-<p>This step prevents surprises. If something is off, you refine the prompt and re-parse in seconds.</p>
-
-<h2>Step 3: Generate</h2>
-
-<p>Click Generate and wait roughly 30–60 seconds. PromptForge outputs a complete project scaffold:</p>
+<p>Kod üretmeden önce PromptForge size ayrıştırılmış veri modelini gösterir. Amacınızı doğru anlayıp anlamadığını doğrulayabilirsiniz:</p>
 
 <ul>
-  <li>NestJS modules for every entity (controllers, services, DTOs, validation)</li>
-  <li>Prisma schema with all relationships and migrations</li>
-  <li>JWT authentication with refresh tokens</li>
-  <li>Swagger/OpenAPI documentation, auto-generated</li>
-  <li>Docker Compose for local development</li>
-  <li>Environment variable template (.env.example)</li>
+  <li><strong>Entity'ler</strong>: Kullanıcı, Çalışma Alanı, Proje, Görev, Davet</li>
+  <li><strong>İlişkiler</strong>: Kullanıcı → çok Görev (atanmış), Çalışma Alanı → çok Proje</li>
+  <li><strong>Tespit edilen özellikler</strong>: kimlik doğrulama, crud, api, bildirimler</li>
 </ul>
 
-<h2>Step 4: Download and Run</h2>
+<p>Bu adım sürprizleri önler. Bir şey yanlış giderse istemi birkaç saniyede düzenleyip yeniden ayrıştırırsınız.</p>
 
-<p>Download the ZIP, extract, and run:</p>
+<h2>Adım 3: Üretin</h2>
+
+<p>Üret'e tıklayın ve yaklaşık 30–60 saniye bekleyin. PromptForge eksiksiz bir proje iskeleti çıkarır:</p>
+
+<ul>
+  <li>Her entity için NestJS modülleri (controller'lar, service'ler, DTO'lar, doğrulama)</li>
+  <li>Tüm ilişkiler ve migration'larla birlikte Prisma şeması</li>
+  <li>Refresh token'lı JWT kimlik doğrulama</li>
+  <li>Otomatik oluşturulan Swagger/OpenAPI dokümantasyonu</li>
+  <li>Yerel geliştirme için Docker Compose</li>
+  <li>Ortam değişkeni şablonu (.env.example)</li>
+</ul>
+
+<h2>Adım 4: İndirin ve Çalıştırın</h2>
+
+<p>ZIP'i indirin, çıkarın ve çalıştırın:</p>
 
 <pre><code>npm install
 npx prisma migrate dev
 npm run start:dev</code></pre>
 
-<p>Your API is running. Import the Postman collection that was also generated, and you can hit every endpoint immediately.</p>
+<p>API'niz hazır ve çalışıyor. Üretilen Postman koleksiyonunu içe aktarın; her endpoint'e anında istek atabilirsiniz.</p>
 
-<h2>What You're Not Writing</h2>
+<h2>Yazmadığınız Şeyler</h2>
 
-<p>In a typical project, this boilerplate takes 3–5 days to write correctly — including setting up guards, pipes, interceptors, error handling, and tests. AI generation eliminates all of it. You start on day one writing the logic that actually differentiates your product.</p>
+<p>Tipik bir projede bu boilerplate'i doğru şekilde yazmak 3–5 gün sürer — guard'lar, pipe'lar, interceptor'lar, hata yönetimi ve testler dahil. AI üretimi bunların tümünü ortadan kaldırır. Ürününüzü gerçekten farklı kılan mantığı birinci günden yazmaya başlarsınız.</p>
 
-<h2>When AI Generation Makes Sense</h2>
+<h2>AI Üretimi Ne Zaman Mantıklı?</h2>
 
-<p>This approach works best for:</p>
+<p>Bu yaklaşım şu durumlarda en iyi çalışır:</p>
 <ul>
-  <li>Validating a new product idea quickly before committing weeks of engineering</li>
-  <li>Building an MVP for early customer feedback</li>
-  <li>Starting a new service in a microservices architecture</li>
-  <li>Freelancers who need to deliver projects faster</li>
+  <li>Haftalarca mühendislik yatırımı yapmadan önce yeni bir ürün fikrini hızla doğrulamak</li>
+  <li>Erken müşteri geri bildirimi için MVP oluşturmak</li>
+  <li>Mikro servis mimarisinde yeni bir servis başlatmak</li>
+  <li>Projeleri daha hızlı teslim etmesi gereken freelancer'lar</li>
 </ul>
 
-<p>It is not a replacement for a senior engineer's judgment on complex architectural decisions. But for the 80% of SaaS applications that follow well-established patterns, AI generation gives you a running start.</p>
+<p>Karmaşık mimari kararlar için deneyimli bir mühendis yargısının yerini tutmaz. Ancak köklü kalıpları izleyen SaaS uygulamalarının %80'i için AI üretimi size koşan bir başlangıç verir.</p>
 
-<p>Try it for your next project at <a href="https://promptforgeai.dev">promptforgeai.dev</a>. The free plan gives you three full generations — enough to validate your idea.</p>
+<p>Bir sonraki projenizde <a href="https://promptforgeai.dev">promptforgeai.dev</a> adresinde deneyin. Ücretsiz plan, fikrinizi doğrulamak için yeterli olan üç tam üretim hakkı verir.</p>
     `,
   },
 
   {
     slug: "nestjs-boilerplate-vs-generator",
-    title: "NestJS Boilerplate vs AI Generator: Which Should You Use?",
+    title: "NestJS Boilerplate ve AI Üretici: Hangisini Kullanmalısınız?",
     description:
-      "Comparing the traditional NestJS boilerplate approach with AI-powered code generation. When to use each, and what the real trade-offs are.",
+      "Geleneksel NestJS boilerplate yaklaşımını AI destekli kod üretimiyle karşılaştırıyoruz. Her birini ne zaman kullanmalı ve gerçek trade-off'lar neler.",
     date: "2026-03-08",
     readTime: 7,
-    category: "Engineering",
+    category: "Mühendislik",
     content: `
-<p>When starting a new NestJS project, developers face a familiar decision: clone a boilerplate repository, or generate what you need from scratch. Now there's a third option: AI code generation. Let's look at all three honestly.</p>
+<p>Yeni bir NestJS projesi başlatırken geliştiriciler tanıdık bir kararla karşılaşır: bir boilerplate deposu klonlamak mı, yoksa sıfırdan ihtiyaç duyduklarını oluşturmak mı? Şimdi üçüncü bir seçenek var: AI kod üretimi. Üçünü de dürüstçe inceleyelim.</p>
 
-<h2>The Traditional Boilerplate</h2>
+<h2>Geleneksel Boilerplate</h2>
 
-<p>Boilerplates like <code>nestjs/typescript-starter</code> or community repositories like <code>nestjs-boilerplate</code> give you a running start with sensible defaults. Typical inclusions:</p>
+<p><code>nestjs/typescript-starter</code> veya <code>nestjs-boilerplate</code> gibi topluluk depoları size makul varsayılanlarla hızlı bir başlangıç sağlar. Tipik içerikler:</p>
 
 <ul>
-  <li>Module structure following NestJS conventions</li>
-  <li>TypeORM or Prisma setup</li>
-  <li>JWT authentication scaffolding</li>
-  <li>Environment variable handling</li>
-  <li>Basic testing setup</li>
+  <li>NestJS kurallarına uygun modül yapısı</li>
+  <li>TypeORM veya Prisma kurulumu</li>
+  <li>JWT kimlik doğrulama iskeleti</li>
+  <li>Ortam değişkeni yönetimi</li>
+  <li>Temel test kurulumu</li>
 </ul>
 
-<p><strong>The problem:</strong> Boilerplates are generic. They don't know your entities, your business rules, or your feature set. After cloning, you spend hours deleting what you don't need and adding what you do. If the boilerplate uses TypeORM and you want Prisma, or uses class-validator but you prefer Zod, you're refactoring before you've written a line of business logic.</p>
+<p><strong>Sorun şu:</strong> Boilerplate'ler geneldir. Sizin entity'lerinizi, iş kurallarınızı veya özellik kümenizi bilmez. Klonladıktan sonra, ihtiyaç duymadıklarınızı silmek ve ihtiyaç duyduklarınızı eklemek için saatler harcarsınız. Boilerplate TypeORM kullanıyorsa ve siz Prisma istiyorsanız, ya da class-validator kullanıyorsa siz Zod'u tercih ediyorsanız, tek bir satır iş mantığı yazmadan önce yeniden yapılandırıyorsunuzdur.</p>
 
-<h2>Building From Scratch</h2>
+<h2>Sıfırdan Oluşturmak</h2>
 
-<p>Some teams — particularly those with strong NestJS experience — prefer to build from scratch using the CLI:</p>
+<p>Güçlü NestJS deneyimine sahip ekipler, CLI kullanarak sıfırdan oluşturmayı tercih eder:</p>
 
 <pre><code>nest new my-app
 nest generate module users
 nest generate controller users
 nest generate service users</code></pre>
 
-<p>This gives full control. Every decision is deliberate. But for a mid-complexity SaaS with five or six entities, you're looking at two to three days of setup before the interesting work begins. And that's assuming you know exactly what you're building from the start.</p>
+<p>Bu tam kontrol sağlar. Her karar bilinçlidir. Ancak beş veya altı entity'li orta karmaşıklıkta bir SaaS için, ilginç çalışmaya başlamadan önce iki ila üç günlük kurulum süresine bakıyorsunuzdur. Bu da başlangıçta tam olarak ne inşa ettiğinizi bildiğinizi varsayar.</p>
 
-<h2>AI Code Generation</h2>
+<h2>AI Kod Üretimi</h2>
 
-<p>AI generation sits between these approaches. You describe your application in natural language, and the generator creates a tailored scaffold — not generic, but not hand-crafted either.</p>
+<p>AI üretimi bu yaklaşımlar arasında bir yerde durur. Uygulamanızı doğal dilde tanımlarsınız, üretici size özelleştirilmiş bir iskelet oluşturur — genel değil, ama elle yapılmış da değil.</p>
 
-<p>The key difference from a boilerplate: the output matches your domain model. The generated Prisma schema has your entities and relations. The generated modules, controllers, and services match those entities. The Swagger documentation describes your actual API.</p>
+<p>Boilerplate'ten temel fark: çıktı etki alanı modelinizle örtüşür. Oluşturulan Prisma şeması sizin entity'lerinizi ve ilişkilerinizi içerir. Oluşturulan modüller, controller'lar ve service'ler bu entity'lerle örtüşür. Swagger dokümantasyonu gerçek API'nizi açıklar.</p>
 
-<p><strong>What it does well:</strong></p>
+<p><strong>İyi yaptığı şeyler:</strong></p>
 <ul>
-  <li>Zero configuration for standard patterns (CRUD, auth, relations)</li>
-  <li>Consistent code structure across all modules</li>
-  <li>Generates documentation alongside code</li>
-  <li>No cleanup needed — you only get what you asked for</li>
+  <li>Standart kalıplar için sıfır yapılandırma (CRUD, kimlik doğrulama, ilişkiler)</li>
+  <li>Tüm modüllerde tutarlı kod yapısı</li>
+  <li>Kodun yanında dokümantasyon üretir</li>
+  <li>Temizlik gerekmez — sadece istediğiniz şeyi alırsınız</li>
 </ul>
 
-<p><strong>Limitations:</strong></p>
+<p><strong>Sınırlamalar:</strong></p>
 <ul>
-  <li>Complex business logic still needs to be written manually</li>
-  <li>Highly non-standard requirements may not fit the generator's patterns</li>
-  <li>You need to understand the generated code to extend it effectively</li>
+  <li>Karmaşık iş mantığının hâlâ elle yazılması gerekir</li>
+  <li>Son derece standart dışı gereksinimler üreticinin kalıplarına uymayabilir</li>
+  <li>Oluşturulan kodu etkili şekilde genişletmek için onu anlamanız gerekir</li>
 </ul>
 
-<h2>The Right Choice</h2>
+<h2>Doğru Seçim</h2>
 
-<p>The answer depends on your situation:</p>
+<p>Yanıt durumunuza bağlıdır:</p>
 
 <ul>
-  <li><strong>Use a boilerplate</strong> if you have strong preferences about the setup and want full control from day one.</li>
-  <li><strong>Build from scratch</strong> if the application has unusual architectural requirements or your team has deep NestJS expertise and time to spare.</li>
-  <li><strong>Use AI generation</strong> if you're building a standard SaaS pattern, need to move fast, or want to validate an idea before investing in custom architecture.</li>
+  <li><strong>Boilerplate kullanın</strong> kurulum hakkında güçlü tercihleriniz varsa ve birinci günden tam kontrolü istiyorsanız.</li>
+  <li><strong>Sıfırdan oluşturun</strong> uygulamanın olağandışı mimari gereksinimleri varsa veya ekibinizin derin NestJS uzmanlığı ve harcayacak zamanı varsa.</li>
+  <li><strong>AI üretimi kullanın</strong> standart bir SaaS kalıbı inşa ediyorsanız, hızlı hareket etmeniz gerekiyorsa veya özel mimariye yatırım yapmadan önce bir fikri doğrulamak istiyorsanız.</li>
 </ul>
 
-<p>For most product teams and solo founders, AI generation wins on speed without sacrificing the quality of the output. The generated code follows NestJS best practices, uses Prisma (the current community standard for Node.js ORMs), and produces clean, readable code that experienced engineers can extend without friction.</p>
+<p>Çoğu ürün ekibi ve solo kurucu için AI üretimi, çıktı kalitesinden ödün vermeden hız açısından kazanır. Oluşturulan kod NestJS en iyi pratiklerini izler, Prisma (Node.js ORM'leri için mevcut topluluk standardı) kullanır ve deneyimli mühendislerin sorunsuzca genişletebileceği temiz, okunabilir kod üretir.</p>
     `,
   },
 
   {
     slug: "prisma-schema-generator-guide",
-    title: "Generating Prisma Schemas Automatically: A Practical Guide",
+    title: "Prisma Şemalarını Otomatik Oluşturma: Pratik Bir Kılavuz",
     description:
-      "How to stop hand-writing Prisma schemas. Learn how AI schema generation works, what it gets right, and how to handle edge cases.",
+      "Prisma şemalarını elle yazmayı bırakın. AI şema üretiminin nasıl çalıştığını, neyi doğru yaptığını ve edge case'leri nasıl yöneteceğinizi öğrenin.",
     date: "2026-02-24",
     readTime: 5,
-    category: "Tutorial",
+    category: "Eğitim",
     content: `
-<p>Prisma has become the dominant ORM for Node.js and TypeScript projects — and for good reason. Its schema language is readable, its migration system is reliable, and Prisma Client gives you type-safe database access out of the box.</p>
+<p>Prisma, Node.js ve TypeScript projeleri için baskın ORM haline geldi — bunun iyi nedenleri var. Şema dili okunabilir, migration sistemi güvenilir ve Prisma Client kutunun dışında tip güvenli veritabanı erişimi sağlıyor.</p>
 
-<p>But writing Prisma schemas by hand for a new project with multiple entities, relations, and constraints is tedious. You need to get the relation syntax exactly right, remember to add indexes for foreign keys, and ensure your field types map correctly to the target database. AI generation can handle all of this.</p>
+<p>Ancak birden fazla entity, ilişki ve kısıtlamaya sahip yeni bir proje için Prisma şemalarını elle yazmak sıkıcıdır. İlişki sözdizimini tam olarak doğru almanız, yabancı anahtarlar için indeks eklemeyi hatırlamanız ve alan türlerinizin hedef veritabanıyla doğru eşleştiğinden emin olmanız gerekir. AI üretimi bunların tümünü halledebilir.</p>
 
-<h2>What a Generated Schema Looks Like</h2>
+<h2>Oluşturulan Şema Nasıl Görünür</h2>
 
-<p>For a SaaS application with users, teams, and projects, you might describe:</p>
+<p>Kullanıcılar, takımlar ve projeler içeren bir SaaS uygulaması için şunu tanımlayabilirsiniz:</p>
 
-<blockquote>"Users belong to one team. Teams have many projects. Projects have tasks that can be assigned to users."</blockquote>
+<blockquote>"Kullanıcılar bir takıma aittir. Takımların çok sayıda projesi vardır. Projelerin kullanıcılara atanabilen görevleri vardır."</blockquote>
 
-<p>The generated schema:</p>
+<p>Oluşturulan şema:</p>
 
 <pre><code>model User {
   id        String   @id @default(cuid())
@@ -231,106 +231,106 @@ model Task {
   @@map("tasks")
 }</code></pre>
 
-<p>Notice the details the generator handles automatically: CUID identifiers, timestamps on every model, index on every foreign key, cascade deletes where appropriate, nullable optional relations, and table name mapping.</p>
+<p>Üreticinin otomatik olarak yönettiği ayrıntılara dikkat edin: CUID tanımlayıcılar, her modelde zaman damgaları, her yabancı anahtarda indeks, uygun yerlerde cascade silme, null olabilen isteğe bağlı ilişkiler ve tablo adı eşleme.</p>
 
-<h2>What to Review After Generation</h2>
+<h2>Üretimden Sonra Gözden Geçirilecekler</h2>
 
-<p>AI generation gets the structure right reliably. Review these areas manually:</p>
+<p>AI üretimi yapıyı güvenilir biçimde doğru yapar. Bu alanları elle gözden geçirin:</p>
 
 <ul>
-  <li><strong>Cascade behavior</strong>: Check that <code>onDelete</code> rules match your data retention requirements.</li>
-  <li><strong>Unique constraints</strong>: If certain field combinations need to be unique (e.g., one user per team), add <code>@@unique</code> manually.</li>
-  <li><strong>Enum values</strong>: Generated enums use sensible defaults; customize the values to match your domain vocabulary.</li>
-  <li><strong>Indexes</strong>: For high-traffic tables, consider adding indexes on fields you'll filter by frequently (e.g., <code>status</code>, <code>createdAt</code>).</li>
+  <li><strong>Cascade davranışı</strong>: <code>onDelete</code> kurallarının veri saklama gereksinimlerinizle örtüşüp örtüşmediğini kontrol edin.</li>
+  <li><strong>Benzersiz kısıtlamalar</strong>: Belirli alan kombinasyonlarının benzersiz olması gerekiyorsa (ör. takım başına bir kullanıcı), <code>@@unique</code>'i elle ekleyin.</li>
+  <li><strong>Enum değerleri</strong>: Oluşturulan enum'lar makul varsayılanlar kullanır; etki alanı sözlüğünüze uyması için değerleri özelleştirin.</li>
+  <li><strong>İndeksler</strong>: Yoğun trafik alan tablolar için sık filtrelediğiniz alanlara indeks eklemeyi düşünün (ör. <code>status</code>, <code>createdAt</code>).</li>
 </ul>
 
-<h2>Running Migrations</h2>
+<h2>Migration Çalıştırmak</h2>
 
-<p>Once you're satisfied with the schema, run migrations the standard Prisma way:</p>
+<p>Şemadan memnun olduğunuzda, standart Prisma yöntemiyle migration'ları çalıştırın:</p>
 
 <pre><code>npx prisma migrate dev --name init</code></pre>
 
-<p>The generated Prisma schema is a valid, production-ready starting point. You'll extend it as requirements evolve — but you won't be writing the tedious foundation by hand.</p>
+<p>Oluşturulan Prisma şeması geçerli ve üretime hazır bir başlangıç noktasıdır. Gereksinimler geliştikçe onu genişleteceksiniz — ancak sıkıcı temeli elle yazmak zorunda kalmayacaksınız.</p>
     `,
   },
 
   {
     slug: "promptforge-vs-lovable-bolt-v0",
-    title: "PromptForge vs Lovable vs Bolt.new vs v0: Which AI Builder is Right for Backend Developers?",
+    title: "PromptForge vs Lovable vs Bolt.new vs v0: Backend Geliştiriciler İçin Hangi AI Builder?",
     description:
-      "An honest comparison of the major AI code generation tools. Which one should backend developers choose, and why the differences matter more than the marketing.",
+      "Büyük AI kod üretim araçlarının dürüst bir karşılaştırması. Backend geliştiriciler hangisini seçmeli ve farklar neden pazarlamadan daha önemli?",
     date: "2026-02-10",
     readTime: 8,
-    category: "Comparison",
+    category: "Karşılaştırma",
     content: `
-<p>The AI code generation space is crowded. Lovable, Bolt.new, v0 by Vercel, and PromptForge all promise to turn your descriptions into working applications. But they make very different trade-offs, and choosing the wrong tool for your use case costs time rather than saving it.</p>
+<p>AI kod üretim alanı kalabalık. Lovable, Bolt.new, v0 by Vercel ve PromptForge hepsi açıklamalarınızı çalışan uygulamalara dönüştürmeyi vaat ediyor. Ancak çok farklı trade-off'lar yapıyorlar; kullanım durumunuz için yanlış aracı seçmek zaman kazandırmak yerine kaybettirir.</p>
 
-<h2>What Each Tool Focuses On</h2>
+<h2>Her Araç Neye Odaklanıyor</h2>
 
-<p><strong>v0 by Vercel</strong> is a UI component generator. Describe a component, get React/Tailwind code. It is excellent at what it does — generating clean frontend components — but it doesn't touch your backend, database, or deployment. It's a specialist tool, not a full-stack builder.</p>
+<p><strong>v0 by Vercel</strong> bir UI bileşen üreticisidir. Bir bileşeni tanımlarsınız, React/Tailwind kodu alırsınız. Yaptığı şeyde mükemmeldir — temiz frontend bileşenleri üretmek — ancak backend'inize, veritabanınıza veya deployment'ınıza dokunmaz. Tam yığın bir builder değil, uzman bir araçtır.</p>
 
-<p><strong>Lovable</strong> targets non-technical founders who want to build a complete application without writing any code. It generates full-stack apps with a visual interface and handles deployment. The trade-off: the output is a locked platform. You can't easily take the generated code, modify the architecture, and deploy it yourself. You're building on Lovable's infrastructure.</p>
+<p><strong>Lovable</strong>, tek satır kod yazmadan eksiksiz bir uygulama oluşturmak isteyen teknik olmayan kurucuları hedefler. Görsel bir arayüzle tam yığın uygulamalar üretir ve deployment'ı yönetir. Trade-off: çıktı kilitli bir platformdur. Oluşturulan kodu kolayca alıp mimariyi değiştirip kendiniz deploy edemezsiniz. Lovable'ın altyapısı üzerine inşa ediyorsunuzdur.</p>
 
-<p><strong>Bolt.new</strong> runs a full development environment in the browser, letting you describe and iterate on applications interactively. It's impressive for rapid prototyping. The output is more customizable than Lovable's, but the focus is on browser-based iteration rather than producing deployment-ready backend code.</p>
+<p><strong>Bolt.new</strong>, tarayıcıda tam bir geliştirme ortamı çalıştırarak uygulamaları etkileşimli biçimde tanımlamanıza ve üzerinde yineleme yapmanıza olanak tanır. Hızlı prototipleme için etkileyicidir. Çıktı Lovable'ınkinden daha özelleştirilebilir; ancak odak, üretime hazır backend kodu üretmek yerine tarayıcı tabanlı yinelemeye yöneliktir.</p>
 
-<p><strong>PromptForge</strong> targets developers who need a production-ready backend, not a prototype. The output is standard NestJS code with Prisma, JWT authentication, Swagger documentation, and Docker — code you own completely, can deploy anywhere, and can extend with standard development tools.</p>
+<p><strong>PromptForge</strong>, prototip değil üretime hazır backend'e ihtiyaç duyan geliştiricileri hedefler. Çıktı; Prisma, JWT kimlik doğrulama, Swagger dokümantasyonu ve Docker içeren standart NestJS kodudur — tamamen size ait, istediğiniz yerde deploy edebileceğiniz ve standart geliştirme araçlarıyla genişletebileceğiniz kod.</p>
 
-<h2>The Key Distinction: Code Ownership</h2>
+<h2>Temel Ayrım: Kod Sahipliği</h2>
 
-<p>This is the most important differentiator. When you generate code with PromptForge, you receive a ZIP file containing your project. It's yours. Deploy it on Railway, Render, AWS, your own server — wherever you want. Modify it in your editor. Run it locally. Add it to version control. It behaves like code you wrote yourself.</p>
+<p>Bu en önemli farklılaştırıcıdır. PromptForge ile kod ürettiğinizde projenizi içeren bir ZIP dosyası alırsınız. Bu size aittir. Railway, Render, AWS, kendi sunucunuzda — istediğiniz yerde deploy edin. Editörünüzde değiştirin. Yerel olarak çalıştırın. Sürüm kontrolüne ekleyin. Kendiniz yazdığınız kod gibi davranır.</p>
 
-<p>Platforms like Lovable abstract this away. That's a feature for non-technical users, but it's a constraint for developers who need control over their infrastructure, dependencies, and deployment pipeline.</p>
+<p>Lovable gibi platformlar bunu soyutlar. Bu, teknik olmayan kullanıcılar için bir özelliktir; ancak altyapıları, bağımlılıkları ve deployment pipeline'ları üzerinde kontrol isteyen geliştiriciler için bir kısıtlamadır.</p>
 
-<h2>Backend vs Frontend Focus</h2>
+<h2>Backend ve Frontend Odağı</h2>
 
 <table>
   <thead>
-    <tr><th>Tool</th><th>Backend</th><th>Frontend</th><th>Database</th><th>Deploy</th></tr>
+    <tr><th>Araç</th><th>Backend</th><th>Frontend</th><th>Veritabanı</th><th>Deploy</th></tr>
   </thead>
   <tbody>
-    <tr><td>PromptForge</td><td>✅ NestJS</td><td>Optional</td><td>✅ Prisma + PG</td><td>Any</td></tr>
-    <tr><td>Lovable</td><td>Limited</td><td>✅ React</td><td>Supabase</td><td>Lovable platform</td></tr>
-    <tr><td>Bolt.new</td><td>Basic</td><td>✅ React</td><td>Basic</td><td>Manual</td></tr>
-    <tr><td>v0</td><td>❌</td><td>✅ Components</td><td>❌</td><td>❌</td></tr>
+    <tr><td>PromptForge</td><td>✅ NestJS</td><td>İsteğe bağlı</td><td>✅ Prisma + PG</td><td>Her yer</td></tr>
+    <tr><td>Lovable</td><td>Sınırlı</td><td>✅ React</td><td>Supabase</td><td>Lovable platformu</td></tr>
+    <tr><td>Bolt.new</td><td>Temel</td><td>✅ React</td><td>Temel</td><td>Manuel</td></tr>
+    <tr><td>v0</td><td>❌</td><td>✅ Bileşenler</td><td>❌</td><td>❌</td></tr>
   </tbody>
 </table>
 
-<h2>Which Should You Use?</h2>
+<h2>Hangisini Kullanmalısınız?</h2>
 
 <ul>
-  <li><strong>You're a backend developer</strong> who needs a scaffold for a new API service → PromptForge</li>
-  <li><strong>You're a non-technical founder</strong> who wants to launch an MVP without writing code → Lovable</li>
-  <li><strong>You need a React component</strong> quickly → v0</li>
-  <li><strong>You want to prototype and iterate</strong> visually in the browser → Bolt.new</li>
+  <li><strong>Backend geliştiricisiniz</strong> ve yeni bir API servisi için iskelet gerekiyor → PromptForge</li>
+  <li><strong>Teknik olmayan bir kurucusunuz</strong> ve kod yazmadan MVP yayınlamak istiyorsunuz → Lovable</li>
+  <li><strong>Hızlıca bir React bileşenine</strong> ihtiyacınız var → v0</li>
+  <li><strong>Tarayıcıda görsel olarak prototip</strong> yapmak ve yinelemek istiyorsunuz → Bolt.new</li>
 </ul>
 
-<p>The tools serve different audiences. For developers who will deploy, maintain, and extend the code themselves, PromptForge produces output that fits naturally into a professional development workflow. For everyone else, Lovable and Bolt.new offer more hand-holding at the cost of control.</p>
+<p>Araçlar farklı kitlelere hizmet ediyor. Kodu kendileri deploy edecek, bakımını yapacak ve genişletecek geliştiriciler için PromptForge, profesyonel bir geliştirme iş akışına doğal biçimde uyan çıktı üretir. Diğerleri için Lovable ve Bolt.new, kontrol pahasına daha fazla rehberlik sunar.</p>
     `,
   },
 
   {
     slug: "rest-api-authentication-nestjs-jwt",
-    title: "REST API Authentication with NestJS and JWT: The Complete Setup",
+    title: "NestJS ve JWT ile REST API Kimlik Doğrulama: Eksiksiz Kurulum",
     description:
-      "A production-ready guide to implementing JWT authentication in NestJS — access tokens, refresh tokens, guards, and common pitfalls to avoid.",
+      "NestJS'te JWT kimlik doğrulamanın üretime hazır uygulamasına yönelik kılavuz — access token'lar, refresh token'lar, guard'lar ve kaçınılması gereken yaygın hatalar.",
     date: "2026-01-28",
     readTime: 9,
-    category: "Engineering",
+    category: "Mühendislik",
     content: `
-<p>JWT authentication is one of those things that looks simple but has a dozen ways to go wrong. After implementing it across many NestJS services — and seeing what AI generators like PromptForge produce — here's the pattern that works reliably in production.</p>
+<p>JWT kimlik doğrulama, basit görünen ama yanlış gitmenin düzinelerce yolu olan konulardan biridir. Birçok NestJS servisinde uyguladıktan — ve PromptForge gibi AI üreticilerinin ne ürettiğini gördükten — sonra, üretimde güvenilir biçimde çalışan kalıbı paylaşıyorum.</p>
 
-<h2>The Core Architecture</h2>
+<h2>Temel Mimari</h2>
 
-<p>A production-ready JWT setup requires two tokens, not one:</p>
+<p>Üretime hazır bir JWT kurulumu, tek değil iki token gerektirir:</p>
 
 <ul>
-  <li><strong>Access token</strong>: Short-lived (15 minutes to 1 hour). Sent with every API request. Stateless — no database lookup required to validate.</li>
-  <li><strong>Refresh token</strong>: Long-lived (7–30 days). Used only to obtain a new access token. Should be stored securely (httpOnly cookie or secure storage).</li>
+  <li><strong>Access token</strong>: Kısa ömürlü (15 dakika ila 1 saat). Her API isteğiyle gönderilir. Durumsuz — doğrulamak için veritabanı araması gerekmez.</li>
+  <li><strong>Refresh token</strong>: Uzun ömürlü (7–30 gün). Yalnızca yeni bir access token almak için kullanılır. Güvenli şekilde saklanmalıdır (httpOnly cookie veya güvenli depolama).</li>
 </ul>
 
-<p>Most tutorials stop at the access token. That's fine for learning, but in production it means users get logged out every hour and have no way to silently re-authenticate.</p>
+<p>Çoğu eğitim access token'da durur. Öğrenmek için bu yeterlidir; ancak üretimde kullanıcılar her saat oturumdan çıkar ve sessizce yeniden kimlik doğrulama yolu yoktur.</p>
 
-<h2>Setting Up Passport and JWT in NestJS</h2>
+<h2>NestJS'te Passport ve JWT Kurulumu</h2>
 
 <pre><code>// auth.module.ts
 @Module({
@@ -350,7 +350,7 @@ model Task {
 })
 export class AuthModule {}</code></pre>
 
-<h2>The JWT Strategy</h2>
+<h2>JWT Strategy</h2>
 
 <pre><code>// jwt.strategy.ts
 @Injectable()
@@ -368,9 +368,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 }</code></pre>
 
-<p>Notice the <code>type</code> claim check. This prevents a refresh token from being used as an access token — a subtle but real security issue if you don't distinguish them.</p>
+<p><code>type</code> claim kontrolüne dikkat edin. Bu, refresh token'ın access token olarak kullanılmasını engeller — token'ları birbirinden ayırt etmezseniz ortaya çıkan ince ama gerçek bir güvenlik sorunudur.</p>
 
-<h2>Generating Tokens</h2>
+<h2>Token Üretmek</h2>
 
 <pre><code>private generateAccessToken(userId: string, email: string): string {
   return this.jwtService.sign(
@@ -386,7 +386,7 @@ private generateRefreshToken(userId: string, email: string): string {
   );
 }</code></pre>
 
-<h2>The Refresh Endpoint</h2>
+<h2>Refresh Endpoint</h2>
 
 <pre><code>@Post('refresh')
 async refresh(@Body() body: { refreshToken: string }) {
@@ -404,130 +404,130 @@ async refresh(@Body() body: { refreshToken: string }) {
   return { token: this.generateAccessToken(user.id, user.email) };
 }</code></pre>
 
-<h2>Common Pitfalls</h2>
+<h2>Yaygın Hatalar</h2>
 
-<p><strong>1. Using the same secret for access and refresh tokens.</strong> Fine for many applications, but if you want to revoke refresh tokens independently, use separate secrets.</p>
+<p><strong>1. Access ve refresh token'lar için aynı secret kullanmak.</strong> Birçok uygulama için sorun değil; ancak refresh token'ları bağımsız olarak iptal etmek istiyorsanız ayrı secret'lar kullanın.</p>
 
-<p><strong>2. Not checking <code>isActive</code> on the refresh endpoint.</strong> If a user is banned but has a valid refresh token, they'll keep generating new access tokens indefinitely unless you check their status on each refresh.</p>
+<p><strong>2. Refresh endpoint'inde <code>isActive</code> kontrolü yapmamak.</strong> Bir kullanıcı yasaklandığında ama geçerli refresh token'ı varsa, her yenilemede durumunu kontrol etmezseniz yeni access token üretmeye devam eder.</p>
 
-<p><strong>3. Storing refresh tokens in localStorage.</strong> Vulnerable to XSS. Use httpOnly cookies for the refresh token, and keep the access token in memory (or sessionStorage at minimum).</p>
+<p><strong>3. Refresh token'ları localStorage'da saklamak.</strong> XSS'e karşı savunmasız. Refresh token için httpOnly cookie, access token için ise bellek (veya en az sessionStorage) kullanın.</p>
 
-<p><strong>4. Not handling token expiry on the client.</strong> Intercept 401 responses, call the refresh endpoint, and retry the original request. Without this, users get logged out silently whenever their access token expires.</p>
+<p><strong>4. İstemci tarafında token süresini yönetmemek.</strong> 401 yanıtlarını yakalayın, refresh endpoint'ini çağırın ve orijinal isteği yeniden deneyin. Bunu yapmazsanız access token süresi dolduğunda kullanıcılar sessizce oturumdan çıkar.</p>
 
-<h2>Generated vs Hand-Written</h2>
+<h2>Üretilen ve Elle Yazılan Kod</h2>
 
-<p>PromptForge generates this full authentication setup automatically — including the refresh token flow, the JWT guard, the strategy, and the client-side interceptor — as part of every project. For most applications, the generated code handles these cases correctly out of the box. You only need to customize when your requirements diverge from the standard pattern.</p>
+<p>PromptForge bu tam kimlik doğrulama kurulumunu otomatik olarak üretir — refresh token akışı, JWT guard, strategy ve istemci tarafı interceptor dahil. Çoğu uygulama için üretilen kod bu durumları doğru şekilde kutunun dışında ele alır. Yalnızca gereksinimleriniz standart kalıptan ayrıldığında özelleştirmeniz gerekir.</p>
     `,
   },
   // ─── Post 6 ───────────────────────────────────────────────────────────────────
   {
     slug: "nestjs-vs-express-2026",
-    title: "NestJS vs Express: Which Backend Framework to Use in 2026",
+    title: "NestJS ve Express: 2026'da Hangi Backend Framework'ü Kullanmalı",
     description:
-      "A practical comparison of NestJS and Express.js for building production APIs. We cover architecture, scalability, TypeScript support, and when to use each.",
+      "Üretim API'leri oluşturmak için NestJS ve Express.js'nin pratik karşılaştırması. Mimari, ölçeklenebilirlik, TypeScript desteği ve her birini ne zaman kullanacağınızı ele alıyoruz.",
     date: "2026-03-18",
     readTime: 8,
-    category: "Comparison",
+    category: "Karşılaştırma",
     content: `
-<p>Choosing a backend framework for your next project? NestJS and Express are the two most popular Node.js options — but they serve very different needs. This guide cuts through the marketing and tells you exactly when to use each one.</p>
+<p>Sonraki projeniz için bir backend framework mi seçiyorsunuz? NestJS ve Express, en popüler iki Node.js seçeneğidir — ancak çok farklı ihtiyaçlara hizmet ederler. Bu rehber pazarlamayı bir kenara bırakır ve her birini tam olarak ne zaman kullanmanız gerektiğini anlatır.</p>
 
-<h2>The Short Answer</h2>
+<h2>Kısa Yanıt</h2>
 
-<p><strong>Use NestJS</strong> when you're building a complex application that needs to scale — a SaaS product, an enterprise API, or anything with multiple teams working on the same codebase.</p>
+<p><strong>NestJS kullanın</strong>: Ölçeklendirilmesi gereken karmaşık bir uygulama oluşturuyorsanız — bir SaaS ürünü, kurumsal bir API veya aynı kod tabanında birden fazla ekibin çalıştığı herhangi bir şey.</p>
 
-<p><strong>Use Express</strong> when you need a lightweight, unopinionated server fast — a webhook handler, a simple REST API, or a prototype you'll throw away.</p>
+<p><strong>Express kullanın</strong>: Hızlıca hafif ve bağımsız bir sunucuya ihtiyacınız varsa — bir webhook işleyicisi, basit bir REST API veya atacağınız bir prototip.</p>
 
-<h2>Architecture</h2>
+<h2>Mimari</h2>
 
-<p>Express is a minimal HTTP library. It gives you routing and middleware, and nothing else. Every architecture decision — folder structure, dependency injection, validation, configuration — is yours to make. That's powerful for simple apps, but it becomes a liability at scale. Ten different Express projects at a company will have ten different structures.</p>
+<p>Express minimal bir HTTP kütüphanesidir. Size yönlendirme ve middleware sağlar, başka bir şey vermez. Her mimari karar — klasör yapısı, bağımlılık enjeksiyonu, doğrulama, yapılandırma — size aittir. Bu, basit uygulamalar için güçlüdür; ancak ölçekte bir yük haline gelir. Bir şirketteki on farklı Express projesi, on farklı yapıya sahip olacaktır.</p>
 
-<p>NestJS is an opinionated framework built on top of Express (or Fastify). It borrows heavily from Angular's architecture: modules, services, controllers, decorators, and dependency injection are all first-class citizens. You spend less time making architectural decisions and more time building features.</p>
+<p>NestJS, Express (veya Fastify) üzerine inşa edilmiş görüşlü bir framework'tür. Angular'ın mimarisinden büyük ölçüde etkilenmiştir: modüller, service'ler, controller'lar, dekoratörler ve bağımlılık enjeksiyonu birinci sınıf vatandaşlardır. Mimari kararlar vermek için daha az zaman harcar, özellik geliştirmeye daha fazla odaklanırsınız.</p>
 
-<h2>TypeScript Support</h2>
+<h2>TypeScript Desteği</h2>
 
-<p>Express technically works with TypeScript, but it was designed for JavaScript. You'll spend time adding type declarations, configuring tsconfig, and finding community-maintained types (<code>@types/express</code>).</p>
+<p>Express teknik olarak TypeScript ile çalışır; ancak JavaScript için tasarlanmıştır. Tip tanımlamaları eklemeye, tsconfig yapılandırmaya ve topluluk tarafından tutulan tipler bulmaya (<code>@types/express</code>) zaman harcarsınız.</p>
 
-<p>NestJS is written in TypeScript from the ground up. Decorators, metadata reflection, and type inference are built into the framework. The result is a significantly better IDE experience — autocompletion, refactoring, and compile-time error catching that Express simply can't match.</p>
+<p>NestJS en başından TypeScript ile yazılmıştır. Dekoratörler, metadata yansıması ve tip çıkarımı framework'e yerleşiktir. Sonuç, Express'in bir türlü sunamayacağı çok daha iyi bir IDE deneyimidir — otomatik tamamlama, yeniden düzenleme ve derleme zamanı hata yakalama.</p>
 
 <h2>Boilerplate</h2>
 
-<p>This is where Express wins. A working HTTP server in Express:</p>
+<p>Bu konuda Express kazanır. Express'te çalışan bir HTTP sunucusu:</p>
 
 <pre><code>const express = require('express');
 const app = express();
 app.get('/', (req, res) => res.json({ ok: true }));
 app.listen(3000);</code></pre>
 
-<p>NestJS requires a module, controller, and main.ts — more files, but each with a clear responsibility. For large projects, this structure pays dividends. For a 200-line API, it's overhead.</p>
+<p>NestJS bir modül, controller ve main.ts gerektirir — daha fazla dosya; ancak her birinin net bir sorumluluğu var. Büyük projeler için bu yapı karşılığını verir. 200 satırlık bir API için ise fazladan yük oluşturur.</p>
 
-<h2>Ecosystem and Integrations</h2>
+<h2>Ekosistem ve Entegrasyonlar</h2>
 
-<p>NestJS has first-party packages for nearly everything modern applications need: <code>@nestjs/jwt</code>, <code>@nestjs/passport</code>, <code>@nestjs/config</code>, <code>@nestjs/typeorm</code>, <code>@nestjs/prisma</code>, and more. Each follows the same module pattern, so integrations feel native rather than bolted on.</p>
+<p>NestJS'in modern uygulamaların ihtiyaç duyduğu hemen her şey için birinci parti paketleri vardır: <code>@nestjs/jwt</code>, <code>@nestjs/passport</code>, <code>@nestjs/config</code>, <code>@nestjs/typeorm</code>, <code>@nestjs/prisma</code> ve daha fazlası. Her biri aynı modül kalıbını izler; bu yüzden entegrasyonlar zorla eklenmiş değil, doğal hissettirer.</p>
 
-<p>Express relies on the broader npm ecosystem. You'll find packages for everything, but you're responsible for wiring them together consistently.</p>
+<p>Express, daha geniş npm ekosistemine dayanır. Her şey için paket bulursunuz; ancak bunları tutarlı biçimde birleştirmek sizin sorumluluğunuzdur.</p>
 
-<h2>Performance</h2>
+<h2>Performans</h2>
 
-<p>Raw Express is slightly faster than NestJS, since NestJS adds a layer of abstraction. In practice, the difference is negligible — both can handle thousands of requests per second on commodity hardware. Your database queries and external API calls will bottleneck your application long before the framework does.</p>
+<p>Ham Express, NestJS'ten biraz daha hızlıdır; çünkü NestJS bir soyutlama katmanı ekler. Pratikte fark ihmal edilebilir düzeydedir — her ikisi de ticari donanımda saniyede binlerce isteği işleyebilir. Veritabanı sorgularınız ve harici API çağrılarınız, framework'ten çok önce uygulamanızda darboğaz oluşturacaktır.</p>
 
-<p>If raw throughput matters above all else, use NestJS with Fastify as the underlying adapter instead of Express — you get the framework's structure with near-native performance.</p>
+<p>Ham verim her şeyden önemliyse, altta yatan adaptör olarak Fastify ile NestJS kullanın — framework'ün yapısını neredeyse yerel performansla elde edersiniz.</p>
 
-<h2>Learning Curve</h2>
+<h2>Öğrenme Eğrisi</h2>
 
-<p>Express is beginner-friendly. The concepts (routes, middleware, request/response) map directly to HTTP. Most developers are productive in Express within a day.</p>
+<p>Express, başlangıç dostu. Kavramlar (route'lar, middleware, istek/yanıt) doğrudan HTTP ile örtüşüyor. Çoğu geliştirici bir gün içinde Express'te üretken olur.</p>
 
-<p>NestJS has a steeper curve. Dependency injection, decorators, and module systems are powerful but unfamiliar to developers coming from plain JavaScript. Budget a few days to internalize the patterns before your velocity picks up.</p>
+<p>NestJS daha dik bir eğriye sahiptir. Bağımlılık enjeksiyonu, dekoratörler ve modül sistemleri güçlüdür; ancak sade JavaScript'ten gelen geliştiricilere yabancıdır. Hızınız artmadan önce kalıpları içselleştirmek için birkaç gün ayırın.</p>
 
-<h2>When to Use NestJS</h2>
-
-<ul>
-<li>Building a SaaS product or multi-module API</li>
-<li>Working in a team of more than two developers</li>
-<li>You want TypeScript as a first-class citizen</li>
-<li>You need built-in validation, guards, interceptors, or pipes</li>
-<li>You're generating code — AI tools like PromptForge generate NestJS because the structure is predictable and machine-readable</li>
-</ul>
-
-<h2>When to Use Express</h2>
+<h2>NestJS Ne Zaman Kullanılır</h2>
 
 <ul>
-<li>Prototyping or building an MVP you might throw away</li>
-<li>A small, single-purpose API (webhook receiver, file uploader)</li>
-<li>Migrating a legacy JavaScript project incrementally</li>
-<li>You already know Express deeply and the project scope is small</li>
+<li>Bir SaaS ürünü veya çok modüllü API inşa etmek</li>
+<li>İkiden fazla geliştiriciden oluşan bir ekipte çalışmak</li>
+<li>TypeScript'i birinci sınıf vatandaş olarak istiyorsanız</li>
+<li>Yerleşik doğrulama, guard'lar, interceptor'lar veya pipe'lara ihtiyacınız varsa</li>
+<li>Kod üretiyorsunuz — PromptForge gibi AI araçları NestJS üretir; çünkü yapı tahmin edilebilir ve makine tarafından okunabilir</li>
 </ul>
 
-<h2>The Bottom Line</h2>
+<h2>Express Ne Zaman Kullanılır</h2>
 
-<p>For any project you expect to grow, NestJS is the better default in 2026. The initial boilerplate cost is front-loaded, but it pays back quickly as your application scales. Express remains excellent for small, focused services where structure gets in the way.</p>
+<ul>
+<li>Prototip yapıyorsunuz veya atacağınız bir MVP oluşturuyorsunuz</li>
+<li>Küçük, tek amaçlı bir API (webhook alıcısı, dosya yükleyici)</li>
+<li>Eski bir JavaScript projesini kademeli olarak taşımak</li>
+<li>Express'i zaten iyi biliyorsunuz ve proje kapsamı küçük</li>
+</ul>
 
-<p>PromptForge generates production-ready NestJS projects — including modules, services, controllers, Prisma integration, JWT auth, and Docker configuration — from a single natural language prompt. If you want to skip the setup entirely, <a href="/register">try it free</a>.</p>
+<h2>Sonuç</h2>
+
+<p>Büyümesini beklediğiniz herhangi bir proje için NestJS, 2026'da daha iyi varsayılandır. İlk boilerplate maliyeti önceden ödenir; ancak uygulamanız ölçeklendikçe hızla geri döner. Express, yapının önüne geçtiği küçük, odaklı servisler için mükemmel olmaya devam eder.</p>
+
+<p>PromptForge, tek bir doğal dil promptundan modüller, service'ler, controller'lar, Prisma entegrasyonu, JWT kimlik doğrulama ve Docker yapılandırması dahil üretime hazır NestJS projeleri üretir. Kurulumu tamamen atlamak istiyorsanız <a href="/register">ücretsiz deneyin</a>.</p>
     `,
   },
 
   // ─── Post 7 ───────────────────────────────────────────────────────────────────
   {
     slug: "deploy-nestjs-to-railway",
-    title: "How to Deploy a NestJS App to Railway in 10 Minutes",
+    title: "NestJS Uygulamasını 10 Dakikada Railway'e Nasıl Deploy Edilir",
     description:
-      "Step-by-step guide to deploying a NestJS + PostgreSQL application to Railway, including environment variables, Dockerfile setup, and custom domains.",
+      "Railway'e NestJS + PostgreSQL uygulaması deploy etmek için adım adım kılavuz: ortam değişkenleri, Dockerfile kurulumu ve özel domain'ler dahil.",
     date: "2026-03-20",
     readTime: 7,
-    category: "Tutorial",
+    category: "Eğitim",
     content: `
-<p>Railway has become one of the best platforms for deploying backend applications. It's fast, the free tier is generous, and PostgreSQL is built in. This guide walks you through deploying a NestJS application from zero to production in about ten minutes.</p>
+<p>Railway, backend uygulamaları deploy etmek için en iyi platformlardan biri haline geldi. Hızlıdır, ücretsiz katmanı cömerttir ve PostgreSQL yerleşik olarak gelir. Bu kılavuz, yaklaşık on dakika içinde bir NestJS uygulamasını sıfırdan üretime almanın yolunu gösteriyor.</p>
 
-<h2>Prerequisites</h2>
+<h2>Ön Koşullar</h2>
 
 <ul>
-<li>A NestJS application in a GitHub repository</li>
-<li>A Railway account (free tier works)</li>
-<li>PostgreSQL as your database (Railway provides it)</li>
+<li>GitHub deposunda bir NestJS uygulaması</li>
+<li>Railway hesabı (ücretsiz katman yeterli)</li>
+<li>Veritabanı olarak PostgreSQL (Railway sağlar)</li>
 </ul>
 
-<h2>Step 1: Add a Dockerfile</h2>
+<h2>Adım 1: Dockerfile Ekleyin</h2>
 
-<p>Railway can detect Node.js projects automatically, but a Dockerfile gives you full control over the build. Here's a production-optimized Dockerfile for NestJS:</p>
+<p>Railway Node.js projelerini otomatik olarak algılayabilir; ancak Dockerfile derleme üzerinde tam kontrol sağlar. NestJS için üretim için optimize edilmiş bir Dockerfile:</p>
 
 <pre><code>FROM node:20-alpine AS builder
 WORKDIR /app
@@ -544,11 +544,11 @@ COPY --from=builder /app/dist ./dist
 EXPOSE 8080
 CMD ["node", "dist/main"]</code></pre>
 
-<p>This uses a multi-stage build — the first stage compiles TypeScript, the second stage copies only the compiled output and production dependencies. The final image is lean and fast to start.</p>
+<p>Bu çok aşamalı derleme kullanır — ilk aşama TypeScript'i derler, ikinci aşama yalnızca derlenmiş çıktıyı ve üretim bağımlılıklarını kopyalar. Son görüntü yalın ve hızlı başlar.</p>
 
-<h2>Step 2: Configure Your App to Listen on PORT</h2>
+<h2>Adım 2: Uygulamanızı PORT'u Dinleyecek Şekilde Yapılandırın</h2>
 
-<p>Railway assigns a dynamic port via the <code>PORT</code> environment variable. Your NestJS <code>main.ts</code> must read it:</p>
+<p>Railway, <code>PORT</code> ortam değişkeni aracılığıyla dinamik bir port atar. NestJS <code>main.ts</code>'inizin bunu okuması gerekir:</p>
 
 <pre><code>async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -558,24 +558,24 @@ CMD ["node", "dist/main"]</code></pre>
 }
 bootstrap();</code></pre>
 
-<h2>Step 3: Create a Railway Project</h2>
+<h2>Adım 3: Railway Projesi Oluşturun</h2>
 
 <ol>
-<li>Go to <strong>railway.app</strong> and sign in with GitHub</li>
-<li>Click <strong>New Project</strong> → <strong>Deploy from GitHub repo</strong></li>
-<li>Select your repository</li>
-<li>Railway will detect the Dockerfile and start building</li>
+<li><strong>railway.app</strong>'e gidin ve GitHub ile giriş yapın</li>
+<li><strong>New Project</strong> → <strong>Deploy from GitHub repo</strong>'ya tıklayın</li>
+<li>Deponuzu seçin</li>
+<li>Railway Dockerfile'ı algılayacak ve derlemeye başlayacaktır</li>
 </ol>
 
-<h2>Step 4: Add PostgreSQL</h2>
+<h2>Adım 4: PostgreSQL Ekleyin</h2>
 
 <ol>
-<li>In your Railway project, click <strong>New</strong> → <strong>Database</strong> → <strong>PostgreSQL</strong></li>
-<li>Railway creates the database and automatically provides <code>DATABASE_URL</code></li>
-<li>In your NestJS service, reference it: <code>process.env.DATABASE_URL</code></li>
+<li>Railway projenizde <strong>New</strong> → <strong>Database</strong> → <strong>PostgreSQL</strong>'e tıklayın</li>
+<li>Railway veritabanı oluşturur ve otomatik olarak <code>DATABASE_URL</code> sağlar</li>
+<li>NestJS servisinizde buna başvurun: <code>process.env.DATABASE_URL</code></li>
 </ol>
 
-<p>If you're using Prisma, add a <code>postinstall</code> script to generate the client automatically:</p>
+<p>Prisma kullanıyorsanız, istemciyi otomatik oluşturmak için <code>postinstall</code> betiği ekleyin:</p>
 
 <pre><code>// package.json
 "scripts": {
@@ -583,130 +583,130 @@ bootstrap();</code></pre>
   "build": "nest build"
 }</code></pre>
 
-<h2>Step 5: Set Environment Variables</h2>
+<h2>Adım 5: Ortam Değişkenlerini Ayarlayın</h2>
 
-<p>In Railway's dashboard, go to your service → <strong>Variables</strong> and add:</p>
+<p>Railway'in kontrol panelinde servisinize → <strong>Variables</strong>'a gidin ve şunları ekleyin:</p>
 
 <pre><code>NODE_ENV=production
 JWT_SECRET=your-secret-key
 FRONTEND_URL=https://your-frontend.vercel.app</code></pre>
 
-<p>Railway automatically injects <code>DATABASE_URL</code> from the PostgreSQL service — you don't need to set it manually.</p>
+<p>Railway, <code>DATABASE_URL</code>'yi PostgreSQL servisinden otomatik olarak enjekte eder — manuel olarak ayarlamanıza gerek yoktur.</p>
 
-<h2>Step 6: Run Prisma Migrations</h2>
+<h2>Adım 6: Prisma Migration'larını Çalıştırın</h2>
 
-<p>The safest approach is to run migrations before starting the server. Add this to your Dockerfile CMD or a start script:</p>
+<p>En güvenli yaklaşım, sunucu başlamadan önce migration'ları çalıştırmaktır. Bunu Dockerfile CMD'nize veya bir başlatma betiğine ekleyin:</p>
 
 <pre><code>CMD ["sh", "-c", "npx prisma migrate deploy && node dist/main"]</code></pre>
 
-<p>Or use Railway's <strong>Start Command</strong> override in the service settings.</p>
+<p>Ya da servis ayarlarındaki Railway'in <strong>Start Command</strong> geçersiz kılma özelliğini kullanın.</p>
 
-<h2>Step 7: Custom Domain</h2>
+<h2>Adım 7: Özel Domain</h2>
 
 <ol>
-<li>In Railway, go to your service → <strong>Settings</strong> → <strong>Networking</strong> → <strong>Custom Domain</strong></li>
-<li>Enter your domain (e.g., <code>api.yourdomain.com</code>)</li>
-<li>Add a CNAME record at your DNS provider pointing to the Railway-provided hostname</li>
-<li>Railway provisions an SSL certificate automatically</li>
+<li>Railway'de servisinize → <strong>Settings</strong> → <strong>Networking</strong> → <strong>Custom Domain</strong>'e gidin</li>
+<li>Domain'inizi girin (ör. <code>api.yourdomain.com</code>)</li>
+<li>DNS sağlayıcınızda Railway'in verdiği host adına işaret eden bir CNAME kaydı ekleyin</li>
+<li>Railway SSL sertifikasını otomatik olarak sağlar</li>
 </ol>
 
-<h2>Monitoring Your Deployment</h2>
+<h2>Deployment'ınızı İzleme</h2>
 
-<p>Railway shows real-time logs in the <strong>Deployments</strong> tab. If your build fails, the logs will tell you exactly why. Common issues:</p>
+<p>Railway, <strong>Deployments</strong> sekmesinde gerçek zamanlı loglar gösterir. Derlemeniz başarısız olursa loglar tam olarak nedenini söyleyecektir. Yaygın sorunlar:</p>
 
 <ul>
-<li><strong>PORT not set</strong>: Make sure your app reads <code>process.env.PORT</code></li>
-<li><strong>Prisma client not generated</strong>: Add <code>prisma generate</code> to your build step</li>
-<li><strong>Missing env vars</strong>: Check the Variables tab for typos</li>
+<li><strong>PORT ayarlanmamış</strong>: Uygulamanızın <code>process.env.PORT</code>'u okuduğundan emin olun</li>
+<li><strong>Prisma client oluşturulmamış</strong>: Derleme adımınıza <code>prisma generate</code> ekleyin</li>
+<li><strong>Eksik ortam değişkenleri</strong>: Variables sekmesinde yazım hatalarını kontrol edin</li>
 </ul>
 
-<h2>Automating This With PromptForge</h2>
+<h2>PromptForge ile Otomatikleştirin</h2>
 
-<p>Every project generated by PromptForge includes a production-ready Dockerfile, a <code>railway.json</code> configuration, and a Prisma setup that's compatible with Railway's PostgreSQL. You can go from prompt to deployed API in under 15 minutes — no manual configuration required. <a href="/register">Try it free</a>.</p>
+<p>PromptForge tarafından oluşturulan her proje, üretime hazır bir Dockerfile, bir <code>railway.json</code> yapılandırması ve Railway'in PostgreSQL'iyle uyumlu bir Prisma kurulumu içerir. Prompttan deploy edilmiş API'ye 15 dakikanın altında geçebilirsiniz — manuel yapılandırma gerekmez. <a href="/register">Ücretsiz deneyin</a>.</p>
     `,
   },
 
   // ─── Post 8 ───────────────────────────────────────────────────────────────────
   {
     slug: "what-is-ai-code-generation",
-    title: "What Is AI Code Generation? A Developer's Guide for 2026",
+    title: "AI Kod Üretimi Nedir? 2026 İçin Geliştirici Kılavuzu",
     description:
-      "AI code generation is transforming how developers build software. This guide explains how it works, what it's good at, its real limitations, and how to get the most out of it.",
+      "AI kod üretimi, geliştiricilerin yazılım geliştirme biçimini dönüştürüyor. Bu kılavuz nasıl çalıştığını, neyde iyi olduğunu, gerçek sınırlamalarını ve ondan en iyi şekilde nasıl yararlanacağınızı açıklıyor.",
     date: "2026-03-22",
     readTime: 9,
-    category: "Engineering",
+    category: "Mühendislik",
     content: `
-<p>AI code generation is no longer a novelty — it's a core part of how modern developers work. But there's a wide spectrum between "GitHub Copilot autocompletes a line" and "an AI builds your entire application." Understanding where tools fall on that spectrum helps you choose the right one.</p>
+<p>AI kod üretimi artık bir yenilik değil — modern geliştiricilerin çalışma biçiminin temel bir parçası. Ancak "GitHub Copilot bir satırı otomatik tamamlar" ile "bir AI uygulamanın tamamını oluşturur" arasında geniş bir yelpaze var. Araçların bu yelpazede nerede durduğunu anlamak, doğru olanı seçmenize yardımcı olur.</p>
 
-<h2>How AI Code Generation Works</h2>
+<h2>AI Kod Üretimi Nasıl Çalışır</h2>
 
-<p>Modern code generation tools are built on large language models (LLMs) trained on billions of lines of code from open-source repositories, documentation, and programming tutorials. These models learn the statistical patterns in code — which functions tend to appear together, how data structures are typically shaped, which APIs are commonly used with which libraries.</p>
+<p>Modern kod üretim araçları, açık kaynak depolardan, belgelerden ve programlama eğitimlerinden milyarlarca satır kod üzerinde eğitilmiş büyük dil modelleri (LLM'ler) üzerine inşa edilmiştir. Bu modeller, koddaki istatistiksel kalıpları öğrenir — hangi fonksiyonların birlikte görünme eğiliminde olduğunu, veri yapılarının nasıl şekillendirildiğini, hangi API'lerin hangi kütüphanelerle yaygın kullanıldığını.</p>
 
-<p>When you give a model a natural language prompt, it generates a probability distribution over possible next tokens (roughly: characters or word-pieces) and samples from that distribution to produce output. The "intelligence" in the output comes from having seen enough similar patterns during training to generate plausible completions.</p>
+<p>Bir modele doğal dil prompt'u verdiğinizde, olası sonraki token'lar (kabaca: karakterler veya sözcük parçaları) üzerinde bir olasılık dağılımı üretir ve çıktı oluşturmak için bu dağılımdan örnekler alır. Çıktıdaki "zeka", eğitim sırasında makul tamamlamalar üretebilecek kadar benzer kalıp görmüş olmaktan kaynaklanır.</p>
 
-<h2>Three Categories of Code Generation</h2>
+<h2>Üç Kod Üretim Kategorisi</h2>
 
-<p><strong>Line and function completion</strong> (GitHub Copilot, Cursor tab, IDE extensions): The AI watches what you type and suggests the next few lines. Fast, low-effort, and already standard in most editors. Best for reducing repetitive typing within a file you're already writing.</p>
+<p><strong>Satır ve fonksiyon tamamlama</strong> (GitHub Copilot, Cursor tab, IDE uzantıları): AI yazdıklarınızı izler ve sonraki birkaç satırı önerir. Hızlı, düşük çabalı ve halihazırda çoğu editörde standart. Halihazırda yazdığınız bir dosyada tekrarlayan yazmayı azaltmak için en iyisi.</p>
 
-<p><strong>Conversational coding</strong> (Claude, ChatGPT, Gemini): You describe what you want in a chat interface and the model writes or rewrites code in response. Good for generating implementations, explaining existing code, debugging, and writing tests. Requires back-and-forth to get the output right.</p>
+<p><strong>Konuşma tabanlı kodlama</strong> (Claude, ChatGPT, Gemini): Bir sohbet arayüzünde ne istediğinizi anlatırsınız, model yanıt olarak kodu yazar veya yeniden yazar. Uygulamalar oluşturmak, mevcut kodu açıklamak, hata ayıklamak ve test yazmak için iyidir. Doğru çıktıyı almak için ileri geri gerektirir.</p>
 
-<p><strong>Scaffolding and project generation</strong> (PromptForge, v0, Lovable): The AI generates an entire project structure from a high-level description — files, modules, configuration, and dependencies all at once. Best for starting new projects without spending days on boilerplate.</p>
+<p><strong>İskelet oluşturma ve proje üretimi</strong> (PromptForge, v0, Lovable): AI, üst düzey bir açıklamadan eksiksiz bir proje yapısı üretir — dosyalar, modüller, yapılandırma ve bağımlılıklar hepsi bir anda. Günler harcamadan yeni projelere başlamak için en iyisi.</p>
 
-<h2>What AI Code Generation Is Good At</h2>
-
-<ul>
-<li><strong>Boilerplate</strong>: CRUD endpoints, authentication modules, DTO classes, and configuration files are highly structured and therefore predictable. AI generates these reliably.</li>
-<li><strong>Standard patterns</strong>: RESTful APIs, database schemas, JWT auth, Docker files — well-established patterns that appear millions of times in training data.</li>
-<li><strong>Repetitive tasks</strong>: Writing tests for existing functions, converting data formats, generating documentation.</li>
-<li><strong>Unfamiliar APIs</strong>: Generating starter code for a library you haven't used before, using the library's documented patterns as a guide.</li>
-</ul>
-
-<h2>What AI Code Generation Struggles With</h2>
+<h2>AI Kod Üretiminin İyi Olduğu Şeyler</h2>
 
 <ul>
-<li><strong>Novel algorithms</strong>: If your problem requires a new approach that doesn't resemble known solutions, the model may generate plausible-looking but incorrect code.</li>
-<li><strong>Deeply custom business logic</strong>: The nuances of your specific domain, pricing rules, or legal requirements aren't in the training data.</li>
-<li><strong>Large-scale consistency</strong>: As generated code grows beyond a few hundred lines, maintaining internal consistency — naming, abstraction levels, error handling — becomes harder for the model.</li>
-<li><strong>Security-sensitive code</strong>: Generated code may contain subtle vulnerabilities. Always review auth, input validation, and cryptographic code carefully.</li>
+<li><strong>Boilerplate</strong>: CRUD endpoint'leri, kimlik doğrulama modülleri, DTO sınıfları ve yapılandırma dosyaları son derece yapılandırılmış ve dolayısıyla tahmin edilebilirdir. AI bunları güvenilir biçimde üretir.</li>
+<li><strong>Standart kalıplar</strong>: RESTful API'ler, veritabanı şemaları, JWT kimlik doğrulama, Docker dosyaları — eğitim verisinde milyonlarca kez görünen köklü kalıplar.</li>
+<li><strong>Tekrarlayan görevler</strong>: Mevcut fonksiyonlar için test yazma, veri formatlarını dönüştürme, dokümantasyon oluşturma.</li>
+<li><strong>Tanıdık olmayan API'ler</strong>: Daha önce kullanmadığınız bir kütüphane için başlangıç kodu üretme; kütüphanenin belgelenmiş kalıplarını rehber olarak kullanma.</li>
 </ul>
 
-<h2>The Right Mental Model</h2>
+<h2>AI Kod Üretiminin Zorlandığı Şeyler</h2>
 
-<p>Think of AI code generation as a very fast, very well-read junior developer. It can implement standard patterns quickly and reliably. It needs your review for anything security-sensitive or domain-specific. It works best when you give it a clear, detailed brief — vague prompts produce vague code.</p>
+<ul>
+<li><strong>Yeni algoritmalar</strong>: Probleminiz bilinen çözümlere benzemeyen yeni bir yaklaşım gerektiriyorsa model, makul görünümlü ama hatalı kod üretebilir.</li>
+<li><strong>Derin özel iş mantığı</strong>: Spesifik etki alanınızın, fiyatlandırma kurallarınızın veya yasal gereksinimlerinizin nüansları eğitim verisinde yoktur.</li>
+<li><strong>Büyük ölçekli tutarlılık</strong>: Oluşturulan kod birkaç yüz satırın ötesine geçtikçe dahili tutarlılığı korumak — adlandırma, soyutlama düzeyleri, hata yönetimi — model için zorlaşır.</li>
+<li><strong>Güvenlik hassas kod</strong>: Oluşturulan kod ince güvenlik açıkları içerebilir. Kimlik doğrulama, girdi doğrulama ve şifreleme kodlarını her zaman dikkatlice gözden geçirin.</li>
+</ul>
 
-<h2>Getting the Most Out of Code Generation</h2>
+<h2>Doğru Zihinsel Model</h2>
 
-<p><strong>Be specific.</strong> "Build a task management API" produces generic output. "Build a task management API with users, projects, tasks (with priority and due date), and team assignments. Use NestJS, Prisma, and PostgreSQL" produces something immediately useful.</p>
+<p>AI kod üretimini çok hızlı, çok iyi okumuş bir junior geliştirici olarak düşünün. Standart kalıpları hızlı ve güvenilir biçimde uygulayabilir. Güvenlik hassas veya etki alanına özgü her şey için gözden geçirmenize ihtiyaç duyar. Net ve ayrıntılı bir kısa brifing verdiğinizde en iyi şekilde çalışır — belirsiz prompt'lar belirsiz kod üretir.</p>
 
-<p><strong>Iterate.</strong> Treat the first output as a draft. Chat-based tools and specialized generators like PromptForge let you refine output in follow-up prompts.</p>
+<h2>Kod Üretiminden En İyi Şekilde Yararlanmak</h2>
 
-<p><strong>Review output.</strong> Read generated code before you run it. LLMs occasionally hallucinate method names, miss edge cases, or make incorrect assumptions about library APIs. Five minutes of review prevents hours of debugging.</p>
+<p><strong>Spesifik olun.</strong> "Görev yönetimi API'si oluştur" genel çıktı üretir. "Kullanıcılar, projeler, öncelik ve bitiş tarihi olan görevler ve takım atamalarıyla bir görev yönetimi API'si oluştur. NestJS, Prisma ve PostgreSQL kullan" anında kullanışlı bir şey üretir.</p>
 
-<p><strong>Use specialized tools for specialized tasks.</strong> A general-purpose chat model is fine for one-off scripts. For generating an entire NestJS project with a correct Prisma schema, relations, and production configuration, a specialized tool like PromptForge produces significantly better output because it's optimized for that specific task.</p>
+<p><strong>Yineleyin.</strong> İlk çıktıyı taslak olarak değerlendirin. Sohbet tabanlı araçlar ve PromptForge gibi özelleşmiş üreticiler, sonraki prompt'larda çıktıyı iyileştirmenize olanak tanır.</p>
 
-<h2>Where It's Going</h2>
+<p><strong>Çıktıyı gözden geçirin.</strong> Çalıştırmadan önce oluşturulan kodu okuyun. LLM'ler zaman zaman yöntem adlarını hayal eder, edge case'leri kaçırır veya kütüphane API'leri hakkında yanlış varsayımlar yapar. Beş dakikalık gözden geçirme, saatlerce hata ayıklamayı önler.</p>
 
-<p>Code generation accuracy is improving rapidly with each model generation. The direction is toward agents that can generate, test, debug, and deploy code autonomously — not just write it. The developers who will benefit most are those who learn to use these tools as force multipliers rather than replacements for understanding.</p>
+<p><strong>Özelleşmiş görevler için özelleşmiş araçlar kullanın.</strong> Tek seferlik betikler için genel amaçlı bir sohbet modeli yeterlidir. Doğru bir Prisma şeması, ilişkileri ve üretim yapılandırmasıyla eksiksiz bir NestJS projesi üretmek için PromptForge gibi özelleşmiş bir araç, söz konusu göreve özel optimize edildiğinden çok daha iyi çıktı üretir.</p>
 
-<p>PromptForge sits at the scaffolding end of the spectrum — it generates complete, production-ready NestJS applications from natural language so you can skip the setup and focus on what makes your product unique. <a href="/register">Start for free.</a></p>
+<h2>Gidiş Yönü</h2>
+
+<p>Kod üretim doğruluğu her model nesliyle hızla iyileşiyor. Yön, yalnızca kod yazmak değil, kod üretebilen, test edebilen, hata ayıklayabilen ve otonom olarak deploy edebilen agent'lara doğru. En çok faydalanacak geliştiriciler, bu araçları geliştirmenin yerine geçen araçlar olarak değil, çarpan olarak kullanmayı öğrenenler olacak.</p>
+
+<p>PromptForge, yelpazanin iskelet oluşturma ucunda yer alır — kurulumu atlayıp ürününüzü benzersiz kılan şeye odaklanabilmeniz için doğal dilden eksiksiz üretime hazır NestJS uygulamaları üretir. <a href="/register">Ücretsiz başlayın.</a></p>
     `,
   },
 
   // ─── Post 9 ───────────────────────────────────────────────────────────────────
   {
     slug: "nestjs-prisma-postgresql-tutorial",
-    title: "Building a REST API with NestJS, Prisma, and PostgreSQL",
+    title: "NestJS, Prisma ve PostgreSQL ile REST API Oluşturma",
     description:
-      "A complete tutorial for building a production-ready REST API using NestJS, Prisma ORM, and PostgreSQL — from schema design to running endpoints.",
+      "NestJS, Prisma ORM ve PostgreSQL kullanarak üretime hazır REST API oluşturmak için eksiksiz eğitim — şema tasarımından endpoint'leri çalıştırmaya kadar.",
     date: "2026-03-24",
     readTime: 11,
-    category: "Tutorial",
+    category: "Eğitim",
     content: `
-<p>NestJS with Prisma and PostgreSQL is one of the most productive backend stacks available in 2026. NestJS provides structure and dependency injection, Prisma handles database access with type safety, and PostgreSQL gives you a battle-tested relational database. Here's how to build a complete REST API with this stack.</p>
+<p>Prisma ve PostgreSQL ile NestJS, 2026'da mevcut en üretken backend stack'lerinden biridir. NestJS yapı ve bağımlılık enjeksiyonu sağlar, Prisma tip güvenliğiyle veritabanı erişimini yönetir ve PostgreSQL savaşta test edilmiş ilişkisel bir veritabanı sunar. İşte bu stack ile eksiksiz bir REST API nasıl oluşturulur.</p>
 
-<h2>Project Setup</h2>
+<h2>Proje Kurulumu</h2>
 
-<p>Create a new NestJS project and install Prisma:</p>
+<p>Yeni bir NestJS projesi oluşturun ve Prisma'yı yükleyin:</p>
 
 <pre><code>npm i -g @nestjs/cli
 nest new my-api
@@ -714,21 +714,21 @@ cd my-api
 npm install prisma @prisma/client
 npx prisma init</code></pre>
 
-<p>This creates a <code>prisma/schema.prisma</code> file and a <code>.env</code> with a placeholder <code>DATABASE_URL</code>.</p>
+<p>Bu işlem bir <code>prisma/schema.prisma</code> dosyası ve yer tutucu <code>DATABASE_URL</code> içeren bir <code>.env</code> oluşturur.</p>
 
-<h2>Configure the Database Connection</h2>
+<h2>Veritabanı Bağlantısını Yapılandırın</h2>
 
-<p>Update <code>.env</code> with your PostgreSQL connection string:</p>
+<p><code>.env</code>'yi PostgreSQL bağlantı dizinizle güncelleyin:</p>
 
 <pre><code>DATABASE_URL="postgresql://postgres:password@localhost:5432/myapi_db"</code></pre>
 
-<p>If you don't have PostgreSQL installed, the quickest way is Docker:</p>
+<p>PostgreSQL kurulu değilse en hızlı yol Docker'dır:</p>
 
 <pre><code>docker run --name my-postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=myapi_db -p 5432:5432 -d postgres:16</code></pre>
 
-<h2>Define Your Schema</h2>
+<h2>Şemanızı Tanımlayın</h2>
 
-<p>Open <code>prisma/schema.prisma</code> and define your models. Let's build a simple task management API:</p>
+<p><code>prisma/schema.prisma</code>'yı açın ve modellerinizi tanımlayın. Basit bir görev yönetimi API'si oluşturalım:</p>
 
 <pre><code>generator client {
   provider = "prisma-client-js"
@@ -773,13 +773,13 @@ enum TaskStatus {
   DONE
 }</code></pre>
 
-<p>Run the migration to create the tables:</p>
+<p>Tabloları oluşturmak için migration'ı çalıştırın:</p>
 
 <pre><code>npx prisma migrate dev --name init</code></pre>
 
-<h2>Create a Prisma Service</h2>
+<h2>Prisma Service Oluşturun</h2>
 
-<p>Create a shared Prisma service that the rest of your application injects:</p>
+<p>Uygulamanızın geri kalanının enjekte ettiği paylaşımlı bir Prisma servisi oluşturun:</p>
 
 <pre><code>// src/prisma/prisma.service.ts
 import { Injectable, OnModuleInit } from '@nestjs/common';
@@ -803,7 +803,7 @@ import { PrismaService } from './prisma.service';
 })
 export class PrismaModule {}</code></pre>
 
-<h2>Build the Tasks Module</h2>
+<h2>Tasks Modülünü Oluşturun</h2>
 
 <pre><code>// src/tasks/tasks.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -836,7 +836,7 @@ export class TasksService {
   }
 
   async update(id: string, userId: string, dto: Partial&lt;CreateTaskDto&gt;) {
-    await this.findOne(id, userId); // throws if not found
+    await this.findOne(id, userId); // bulunamazsa hata fırlatır
     return this.prisma.task.update({
       where: { id },
       data: dto,
@@ -849,9 +849,9 @@ export class TasksService {
   }
 }</code></pre>
 
-<h2>Validation with DTOs</h2>
+<h2>DTO'larla Doğrulama</h2>
 
-<p>Install validation packages and use class-validator decorators:</p>
+<p>Doğrulama paketlerini yükleyin ve class-validator dekoratörlerini kullanın:</p>
 
 <pre><code>npm install class-validator class-transformer</code></pre>
 
@@ -876,97 +876,97 @@ export class CreateTaskDto {
   dueDate?: string;
 }</code></pre>
 
-<p>Enable validation globally in <code>main.ts</code>:</p>
+<p><code>main.ts</code>'te doğrulamayı global olarak etkinleştirin:</p>
 
 <pre><code>app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));</code></pre>
 
-<h2>Testing Your Endpoints</h2>
+<h2>Endpoint'lerinizi Test Edin</h2>
 
-<p>Once running (<code>npm run start:dev</code>), your API is available at <code>http://localhost:3000</code>:</p>
+<p>Çalıştıktan sonra (<code>npm run start:dev</code>) API'niz <code>http://localhost:3000</code> adresinde kullanılabilir:</p>
 
-<pre><code>POST /tasks          → Create a task
-GET  /tasks          → List all tasks
-GET  /tasks/:id      → Get one task
-PATCH /tasks/:id     → Update a task
-DELETE /tasks/:id    → Delete a task</code></pre>
+<pre><code>POST /tasks          → Görev oluştur
+GET  /tasks          → Tüm görevleri listele
+GET  /tasks/:id      → Bir görevi getir
+PATCH /tasks/:id     → Görevi güncelle
+DELETE /tasks/:id    → Görevi sil</code></pre>
 
-<h2>Skip the Setup With PromptForge</h2>
+<h2>PromptForge ile Kurulumu Atlayın</h2>
 
-<p>This tutorial covered the basics of a NestJS + Prisma + PostgreSQL setup. A production application also needs authentication, rate limiting, error handling, Swagger documentation, Docker configuration, and CI/CD. Setting all of that up from scratch takes 1–2 days.</p>
+<p>Bu eğitim, NestJS + Prisma + PostgreSQL kurulumunun temellerini ele aldı. Üretime hazır bir uygulama ayrıca kimlik doğrulama, hız sınırlama, hata yönetimi, Swagger dokümantasyonu, Docker yapılandırması ve CI/CD gerektirir. Bunların tümünü sıfırdan kurmak 1–2 gün sürer.</p>
 
-<p>PromptForge generates all of it — the schema, services, controllers, auth module, Dockerfile, and documentation — from a single prompt in under five minutes. <a href="/register">Try it for free.</a></p>
+<p>PromptForge tümünü üretir — şema, service'ler, controller'lar, kimlik doğrulama modülü, Dockerfile ve dokümantasyon — tek bir prompttan beş dakika içinde. <a href="/register">Ücretsiz deneyin.</a></p>
     `,
   },
 
   // ─── Post 10 ───────────────────────────────────────────────────────────────────
   {
     slug: "saas-mvp-launch-checklist",
-    title: "The SaaS MVP Launch Checklist: 20 Things to Do Before You Ship",
+    title: "SaaS MVP Lansman Kontrol Listesi: Yayına Almadan Önce Yapılacak 20 Şey",
     description:
-      "Before you launch your SaaS MVP, make sure you've covered these 20 essentials — from auth and payments to error monitoring, legal pages, and SEO basics.",
+      "SaaS MVP'nizi yayına almadan önce bu 20 temel maddeyi tamamladığınızdan emin olun — kimlik doğrulama ve ödemelerden hata izleme, hukuki sayfalar ve SEO temellerine kadar.",
     date: "2026-03-26",
     readTime: 10,
-    category: "Engineering",
+    category: "Mühendislik",
     content: `
-<p>Most developers spend months building features and then rush the launch, skipping steps that turn out to matter. This checklist covers the 20 things you should have in place before you tell anyone about your SaaS product.</p>
+<p>Çoğu geliştirici aylarca özellik geliştirip ardından lansmanı aceleye getirerek önemli adımları atlar. Bu kontrol listesi, SaaS ürününüzden bahsetmeden önce hazır bulundurmanız gereken 20 şeyi kapsar.</p>
 
-<h2>Authentication & Access</h2>
+<h2>Kimlik Doğrulama ve Erişim</h2>
 
-<p><strong>1. Email + password auth with proper hashing.</strong> Passwords must be hashed with bcrypt (cost factor ≥ 12) or Argon2. Never store plain text. Never use MD5 or SHA-1 for passwords.</p>
+<p><strong>1. Düzgün karma ile e-posta + şifre kimlik doğrulama.</strong> Şifreler bcrypt (maliyet faktörü ≥ 12) veya Argon2 ile karma yapılmalıdır. Asla düz metin saklamayın. Şifreler için asla MD5 veya SHA-1 kullanmayın.</p>
 
-<p><strong>2. Email verification.</strong> Require users to verify their email before they can access paid features. This reduces fraud, improves deliverability when you send emails, and gives you a confirmed contact channel.</p>
+<p><strong>2. E-posta doğrulama.</strong> Kullanıcıların ücretli özelliklere erişmeden önce e-postalarını doğrulamalarını zorunlu kılın. Bu, sahtekarlığı azaltır, e-posta gönderdiğinizde iletim oranını iyileştirir ve onaylı bir iletişim kanalı sağlar.</p>
 
-<p><strong>3. Password reset flow.</strong> Test it end-to-end. The reset link should expire in 1 hour. After a reset, all existing sessions should be invalidated.</p>
+<p><strong>3. Şifre sıfırlama akışı.</strong> Uçtan uca test edin. Sıfırlama bağlantısı 1 saat içinde sona ermeli. Sıfırlama sonrasında mevcut tüm oturumlar geçersiz kılınmalı.</p>
 
-<p><strong>4. Rate limiting on auth endpoints.</strong> Without rate limiting, your login and register endpoints are targets for credential stuffing and brute force attacks. Apply at minimum 5 requests/minute per IP on auth routes.</p>
+<p><strong>4. Kimlik doğrulama endpoint'lerinde hız sınırlama.</strong> Hız sınırlaması olmadan giriş ve kayıt endpoint'leriniz kimlik bilgisi doldurma ve brute force saldırılarının hedefi olur. Kimlik doğrulama rotalarında en az IP başına 5 istek/dakika uygulayın.</p>
 
-<h2>Payments</h2>
+<h2>Ödemeler</h2>
 
-<p><strong>5. A working payment flow in production.</strong> Not sandbox — actual production. Test with a real card. Confirm the webhook fires and your database updates. This is the single most common thing that breaks on launch day.</p>
+<p><strong>5. Üretimde çalışan ödeme akışı.</strong> Sandbox değil — gerçek üretim. Gerçek kartla test edin. Webhook'un tetiklendiğini ve veritabanınızın güncellendiğini doğrulayın. Bu, lansman günü bozulan tek en yaygın şeydir.</p>
 
-<p><strong>6. Subscription management.</strong> Users need to be able to upgrade, downgrade, and cancel without emailing you. Automate it.</p>
+<p><strong>6. Abonelik yönetimi.</strong> Kullanıcıların size e-posta göndermeden yükseltme, düşürme ve iptal yapabilmesi gerekir. Otomatikleştirin.</p>
 
-<p><strong>7. Billing receipt emails.</strong> Legal requirement in most jurisdictions. Most payment processors (Stripe, Paddle) send these automatically — make sure they&apos;re configured.</p>
+<p><strong>7. Fatura makbuzu e-postaları.</strong> Çoğu hukuki sistemde yasal gereklilik. Çoğu ödeme işlemcisi (Stripe, iyzico) bunları otomatik olarak gönderir — yapılandırıldığından emin olun.</p>
 
-<h2>Error Handling & Monitoring</h2>
+<h2>Hata Yönetimi ve İzleme</h2>
 
-<p><strong>8. Error monitoring.</strong> Sentry (free tier) or Highlight.io will capture unhandled exceptions and send you alerts. Without it, you'll find out about crashes when users email you — or when they don't.</p>
+<p><strong>8. Hata izleme.</strong> Sentry (ücretsiz katman) veya Highlight.io, işlenmemiş istisnaları yakalar ve size uyarı gönderir. Bu olmadan, çökmeleri kullanıcılar size e-posta gönderdiğinde öğrenirsiniz — ya da göndermediklerinde.</p>
 
-<p><strong>9. Structured logging on the backend.</strong> Use a logger (Pino, Winston) instead of <code>console.log</code>. In production, logs should be searchable. Railway and Vercel both surface structured logs in their dashboards.</p>
+<p><strong>9. Backend'de yapılandırılmış loglama.</strong> <code>console.log</code> yerine logger (Pino, Winston) kullanın. Üretimde loglar aranabilir olmalıdır. Railway ve Vercel'in her ikisi de yapılandırılmış logları kontrol panellerinde gösterir.</p>
 
-<p><strong>10. Graceful error pages.</strong> A 500 page that says "Internal Server Error" looks unfinished. A 404 that helps users navigate back looks professional. Both are worth 20 minutes.</p>
+<p><strong>10. Zarif hata sayfaları.</strong> "Internal Server Error" yazan bir 500 sayfası bitmemiş görünür. Kullanıcıların geri gitmesine yardımcı olan bir 404 profesyonel görünür. Her ikisi de 20 dakikaya değer.</p>
 
-<h2>Security</h2>
+<h2>Güvenlik</h2>
 
-<p><strong>11. HTTPS everywhere.</strong> Every endpoint, including API callbacks and webhooks. Most hosting platforms (Railway, Vercel) handle this automatically — confirm it's enabled.</p>
+<p><strong>11. Her yerde HTTPS.</strong> API callback'leri ve webhook'lar dahil her endpoint. Çoğu hosting platformu (Railway, Vercel) bunu otomatik olarak yönetir — etkinleştirildiğini doğrulayın.</p>
 
-<p><strong>12. CORS configured correctly.</strong> Your API should only accept requests from your frontend domain in production. A wildcard <code>*</code> CORS policy is a security risk.</p>
+<p><strong>12. CORS doğru şekilde yapılandırılmış.</strong> API'niz üretimde yalnızca frontend domain'inizden gelen istekleri kabul etmelidir. Joker karakter <code>*</code> CORS politikası bir güvenlik riskidir.</p>
 
-<p><strong>13. Secrets in environment variables.</strong> No API keys, JWT secrets, or database passwords in your code or git history. Audit with <code>git log -p</code> if you're unsure.</p>
+<p><strong>13. Ortam değişkenlerindeki gizli anahtarlar.</strong> Kodunuzda veya git geçmişinizde API anahtarı, JWT secret'ı veya veritabanı parolası olmamalı. Emin değilseniz <code>git log -p</code> ile denetleyin.</p>
 
-<p><strong>14. Input validation.</strong> Validate and sanitize all user input at the API boundary. Use class-validator in NestJS, or Zod in a plain Express app. Never trust what comes from the client.</p>
+<p><strong>14. Girdi doğrulama.</strong> API sınırında tüm kullanıcı girdilerini doğrulayın ve sanitize edin. NestJS'te class-validator, sade bir Express uygulamasında Zod kullanın. İstemciden gelen verilere asla güvenmeyin.</p>
 
-<h2>Legal & Trust</h2>
+<h2>Hukuki ve Güven</h2>
 
-<p><strong>15. Privacy Policy.</strong> Required by GDPR if you have any EU users (and you will). Must explain what data you collect, how you use it, and how users can request deletion.</p>
+<p><strong>15. Gizlilik Politikası.</strong> AB kullanıcılarınız varsa GDPR gereği zorunludur (ve olacaktır). Hangi verileri topladığınızı, nasıl kullandığınızı ve kullanıcıların silme talebini nasıl yapabileceğini açıklamalıdır.</p>
 
-<p><strong>16. Terms of Service.</strong> Protects you legally. At minimum, cover acceptable use, subscription terms, limitation of liability, and governing law.</p>
+<p><strong>16. Kullanım Koşulları.</strong> Sizi hukuki olarak korur. En azından kabul edilebilir kullanım, abonelik koşulları, sorumluluk sınırlaması ve yürürlükteki hukuku kapsayın.</p>
 
-<p><strong>17. Cookie consent (if applicable).</strong> If you use analytics cookies or tracking, EU law requires consent. If you only use essential/session cookies, a simple notice in your privacy policy is sufficient.</p>
+<p><strong>17. Çerez onayı (gerekirse).</strong> Analitik çerezler veya izleme kullanıyorsanız AB mevzuatı rızayı zorunlu kılar. Yalnızca zorunlu/oturum çerezleri kullanıyorsanız gizlilik politikanızda basit bir bildirim yeterlidir.</p>
 
-<h2>SEO & Marketing Basics</h2>
+<h2>SEO ve Pazarlama Temelleri</h2>
 
-<p><strong>18. A <code>sitemap.xml</code> submitted to Google Search Console.</strong> Without it, Google may still find your pages, but it'll take longer. Submit it manually and check the coverage report after 48 hours.</p>
+<p><strong>18. Google Search Console'a gönderilmiş <code>sitemap.xml</code>.</strong> Bu olmadan Google sayfalarınızı yine bulabilir; ancak daha uzun sürer. Manuel olarak gönderin ve 48 saat sonra kapsam raporunu kontrol edin.</p>
 
-<p><strong>19. Open Graph meta tags.</strong> When someone shares your link on Twitter, LinkedIn, or Slack, the preview should show your product name, description, and a good-looking image. Without OG tags, the preview is bare text.</p>
+<p><strong>19. Open Graph meta etiketleri.</strong> Biri Twitter, LinkedIn veya Slack'te linkinizi paylaştığında, önizleme ürün adınızı, açıklamanızı ve iyi görünen bir görseli göstermelidir. OG etiketleri olmadan önizleme düz metindir.</p>
 
-<p><strong>20. A real email address for your domain.</strong> <code>hello@yourproduct.com</code> or <code>support@yourproduct.com</code>, not a Gmail. Domain-verified email improves deliverability and looks professional. Set up SPF, DKIM, and DMARC records.</p>
+<p><strong>20. Domain'iniz için gerçek bir e-posta adresi.</strong> Bir Gmail değil, <code>hello@urunüm.com</code> veya <code>destek@urunüm.com</code>. Domain doğrulamalı e-posta, iletim oranını iyileştirir ve profesyonel görünür. SPF, DKIM ve DMARC kayıtlarını ayarlayın.</p>
 
-<h2>Automate the Boilerplate</h2>
+<h2>Boilerplate'i Otomatikleştirin</h2>
 
-<p>Items 1–4 (auth), 8–14 (error handling and security), and the deployment configuration can be generated automatically. PromptForge produces NestJS applications with authentication, rate limiting, input validation, Dockerfile, and CI/CD configuration built in — so you can focus on items 5–7 (payments) and 15–20 (legal and marketing), which genuinely require your attention.</p>
+<p>1–4. maddeler (kimlik doğrulama), 8–14. maddeler (hata yönetimi ve güvenlik) ve deployment yapılandırması otomatik olarak üretilebilir. PromptForge, kimlik doğrulama, hız sınırlama, girdi doğrulama, Dockerfile ve CI/CD yapılandırması yerleşik NestJS uygulamaları üretir — böylece tek satır iş mantığı yazmadan önce bu listeden 14 maddeyi işaretleyebilirsiniz.</p>
 
-<p><a href="/register">Generate your backend for free</a> and check 14 items off this list before you write a single line of business logic.</p>
+<p><a href="/register">Backend'inizi ücretsiz oluşturun</a> ve bu listedeki 14 maddeyi tek satır iş mantığı yazmadan önce tamamlayın.</p>
     `,
   },
 ];

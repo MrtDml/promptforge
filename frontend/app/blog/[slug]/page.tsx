@@ -173,7 +173,7 @@ export default async function BlogPostPage({ params }: Props) {
             className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-300 transition-colors mb-8"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            All articles
+            Tüm makaleler
           </Link>
 
           {/* Header */}
@@ -190,7 +190,7 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="flex items-center gap-4 text-sm text-slate-500 border-t border-slate-800 pt-5">
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />
-                {new Date(post.date).toLocaleDateString("en-US", {
+                {new Date(post.date).toLocaleDateString("tr-TR", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
@@ -198,7 +198,7 @@ export default async function BlogPostPage({ params }: Props) {
               </span>
               <span className="flex items-center gap-1.5">
                 <Clock className="w-4 h-4" />
-                {post.readTime} min read
+                {post.readTime} dk okuma
               </span>
             </div>
           </header>
@@ -222,16 +222,16 @@ export default async function BlogPostPage({ params }: Props) {
           {/* CTA */}
           <div className="mt-14 rounded-xl bg-indigo-950/40 border border-indigo-800/30 p-7 text-center">
             <p className="text-white font-semibold text-lg mb-2">
-              Ready to build your SaaS with AI?
+              AI ile SaaS&apos;ınızı oluşturmaya hazır mısınız?
             </p>
             <p className="text-slate-400 text-sm mb-5">
-              Generate a complete NestJS + Prisma backend from a single prompt — free to try.
+              Tek bir prompttan eksiksiz bir NestJS + Prisma backend oluşturun — ücretsiz deneyin.
             </p>
             <Link
               href="/register"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition-colors"
             >
-              Start for free
+              Ücretsiz başla
             </Link>
           </div>
 
@@ -243,7 +243,7 @@ export default async function BlogPostPage({ params }: Props) {
                 className="flex-1 glass-card p-4 hover:border-slate-600/80 transition-all group"
               >
                 <p className="text-xs text-slate-600 mb-1 flex items-center gap-1">
-                  <ArrowLeft className="w-3 h-3" /> Previous
+                  <ArrowLeft className="w-3 h-3" /> Önceki
                 </p>
                 <p className="text-sm text-slate-300 group-hover:text-indigo-300 transition-colors font-medium line-clamp-2">
                   {prev.title}
@@ -256,7 +256,7 @@ export default async function BlogPostPage({ params }: Props) {
                 className="flex-1 glass-card p-4 hover:border-slate-600/80 transition-all group text-right"
               >
                 <p className="text-xs text-slate-600 mb-1 flex items-center gap-1 justify-end">
-                  Next <ArrowRight className="w-3 h-3" />
+                  Sonraki <ArrowRight className="w-3 h-3" />
                 </p>
                 <p className="text-sm text-slate-300 group-hover:text-indigo-300 transition-colors font-medium line-clamp-2">
                   {next.title}

@@ -40,7 +40,7 @@ export default function IadePolitikasiPage() {
             talepleri koşulsuz olarak karşılanır.
           </p>
           <p>
-            İade talebiniz için <a href="mailto:hello@promptforgeai.dev" className="text-indigo-400 hover:text-indigo-300">hello@promptforgeai.dev</a> adresine
+            İade talebiniz için <a href="mailto:info@promtforge.dev" className="text-indigo-400 hover:text-indigo-300">info@promtforge.dev</a> adresine
             e-posta gönderin veya hesap ayarlarınızdaki &quot;Aboneliği İptal Et&quot; seçeneğini kullanın.
           </p>
 
@@ -53,7 +53,7 @@ export default function IadePolitikasiPage() {
             </li>
             <li>
               <strong>E-posta ile:</strong>{" "}
-              <a href="mailto:hello@promptforgeai.dev" className="text-indigo-400 hover:text-indigo-300">hello@promptforgeai.dev</a>{" "}
+              <a href="mailto:info@promtforge.dev" className="text-indigo-400 hover:text-indigo-300">info@promtforge.dev</a>{" "}
               adresine &quot;Abonelik İptali&quot; konusuyla yazabilirsiniz.
             </li>
           </ul>
@@ -97,7 +97,7 @@ export default function IadePolitikasiPage() {
           </p>
           <ul>
             <li><strong>E-posta:</strong>{" "}
-              <a href="mailto:hello@promptforgeai.dev" className="text-indigo-400 hover:text-indigo-300">hello@promptforgeai.dev</a>
+              <a href="mailto:info@promtforge.dev" className="text-indigo-400 hover:text-indigo-300">info@promtforge.dev</a>
             </li>
             <li><strong>Yanıt süresi:</strong> En geç 2 iş günü</li>
           </ul>

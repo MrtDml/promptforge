@@ -42,8 +42,9 @@ export default function KvkkPage() {
           <h2>1. Veri Sorumlusunun Kimliği</h2>
           <ul>
             <li><strong>Unvan:</strong> Dumlu Teknoloji, Yazılım ve Danışmanlık</li>
-            <li><strong>Adres:</strong> İstanbul, Türkiye</li>
-            <li><strong>E-posta:</strong> hello@promptforgeai.dev</li>
+            <li><strong>Adres:</strong> TepeTepe Prime İş ve Yaşam Merkezi, Mustafa Kemal Mah. Dumlupınar Bulvarı, Çankaya / Ankara</li>
+            <li><strong>Telefon:</strong> +90 (542) 667 42 30</li>
+            <li><strong>E-posta:</strong> info@promtforge.dev</li>
             <li><strong>Web Sitesi:</strong> https://promptforgeai.dev</li>
           </ul>
 
@@ -137,8 +138,8 @@ export default function KvkkPage() {
           <ul>
             <li>
               <strong>E-posta:</strong>{" "}
-              <a href="mailto:hello@promptforgeai.dev" className="text-indigo-400 hover:text-indigo-300">
-                hello@promptforgeai.dev
+              <a href="mailto:info@promtforge.dev" className="text-indigo-400 hover:text-indigo-300">
+                info@promtforge.dev
               </a>{" "}
               (konu: KVKK Başvurusu)
             </li>

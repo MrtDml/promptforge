@@ -315,12 +315,16 @@ export default function CheckoutPage() {
               {/* Legal links */}
               <p className="text-xs text-slate-600 text-center mt-4">
                 Ödeme yaparak{" "}
+                <Link href="/mesafeli-satis-sozlesmesi" className="underline hover:text-slate-400 transition-colors">
+                  Mesafeli Satış Sözleşmesi
+                </Link>
+                ,{" "}
                 <Link href="/terms" className="underline hover:text-slate-400 transition-colors">
                   Kullanım Koşulları
                 </Link>
                 {" "}ve{" "}
-                <Link href="/privacy" className="underline hover:text-slate-400 transition-colors">
-                  Gizlilik Politikası
+                <Link href="/iade-politikasi" className="underline hover:text-slate-400 transition-colors">
+                  İade Politikası
                 </Link>
                 &apos;nı kabul etmiş olursunuz.
               </p>

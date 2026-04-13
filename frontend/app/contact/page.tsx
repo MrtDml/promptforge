@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Mail, MessageSquare, Clock, CheckCircle2, ArrowRight, Github, Twitter } from "lucide-react";
+import { Mail, MessageSquare, Clock, CheckCircle2, ArrowRight, Github, Twitter, MapPin, Phone } from "lucide-react";
 import LandingNav from "@components/layout/LandingNav";
 import LandingFooter from "@components/layout/LandingFooter";
 import AnnouncementBanner from "@components/layout/AnnouncementBanner";
@@ -99,6 +99,27 @@ export default function ContactPage() {
                     <Link href="/support" className="text-indigo-400 hover:text-indigo-300 text-sm transition-colors">
                       Yardım merkezini ziyaret edin →
                     </Link>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-indigo-600/10 border border-indigo-600/20 flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-5 h-5 text-indigo-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-white">Şirket</p>
+                    <p className="text-slate-400 text-sm">Dumlu Teknoloji, Yazılım ve Danışmanlık</p>
+                    <p className="text-slate-500 text-xs mt-0.5">İstanbul, Türkiye</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-indigo-600/10 border border-indigo-600/20 flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-5 h-5 text-indigo-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-white">Telefon</p>
+                    <a href="tel:+902120000000" className="text-indigo-400 hover:text-indigo-300 text-sm transition-colors">
+                      +90 (212) 000 00 00
+                    </a>
                   </div>
                 </div>
               </div>

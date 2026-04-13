@@ -48,6 +48,9 @@ export default function LandingFooter() {
             <ul className="space-y-2">
               <li><Link href="/privacy" className="text-slate-500 hover:text-slate-200 text-sm transition-colors">Gizlilik Politikası</Link></li>
               <li><Link href="/terms" className="text-slate-500 hover:text-slate-200 text-sm transition-colors">Kullanım Koşulları</Link></li>
+              <li><Link href="/kvkk" className="text-slate-500 hover:text-slate-200 text-sm transition-colors">KVKK</Link></li>
+              <li><Link href="/mesafeli-satis-sozlesmesi" className="text-slate-500 hover:text-slate-200 text-sm transition-colors">Mesafeli Satış Sözleşmesi</Link></li>
+              <li><Link href="/iade-politikasi" className="text-slate-500 hover:text-slate-200 text-sm transition-colors">İptal ve İade</Link></li>
               <li><Link href="/about" className="text-slate-500 hover:text-slate-200 text-sm transition-colors">Hakkımızda</Link></li>
             </ul>
           </div>

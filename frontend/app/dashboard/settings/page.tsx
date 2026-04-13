@@ -22,9 +22,9 @@ import {
 import { getStoredUser, setStoredUser, clearAuthState } from "@/lib/auth";
 
 const PASSWORD_REQUIREMENTS = [
-  { label: "At least 8 characters", test: (p: string) => p.length >= 8 },
-  { label: "One uppercase letter", test: (p: string) => /[A-Z]/.test(p) },
-  { label: "One number", test: (p: string) => /[0-9]/.test(p) },
+  { label: "En az 8 karakter", test: (p: string) => p.length >= 8 },
+  { label: "En az bir büyük harf", test: (p: string) => /[A-Z]/.test(p) },
+  { label: "En az bir rakam", test: (p: string) => /[0-9]/.test(p) },
 ];
 
 function getPasswordScore(p: string): number {
@@ -142,14 +142,14 @@ function DeleteModal({
           <div className="w-10 h-10 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center">
             <Trash2 className="w-5 h-5 text-red-400" />
           </div>
-          <h3 className="text-lg font-semibold text-white">Delete account</h3>
+          <h3 className="text-lg font-semibold text-white">Hesabı sil</h3>
         </div>
         <p className="text-slate-400 text-sm mb-4">
-          This action is <span className="text-white font-medium">permanent and irreversible</span>.
-          All your projects, generated code, and data will be deleted immediately.
+          Bu işlem <span className="text-white font-medium">kalıcı ve geri alınamaz</span>.
+          Tüm projeleriniz, üretilen kodlarınız ve verileriniz hemen silinecektir.
         </p>
         <p className="text-slate-400 text-sm mb-3">
-          Type <span className="text-red-400 font-mono font-bold">DELETE</span> to confirm:
+          Onaylamak için <span className="text-red-400 font-mono font-bold">DELETE</span> yazın:
         </p>
         <input
           type="text"
@@ -165,7 +165,7 @@ function DeleteModal({
             disabled={isDeleting}
             className="flex-1 btn-ghost text-sm"
           >
-            Cancel
+            Vazgeç
           </button>
           <button
             onClick={onConfirm}
@@ -177,7 +177,7 @@ function DeleteModal({
             ) : (
               <Trash2 className="w-4 h-4" />
             )}
-            Delete my account
+            Hesabımı sil
           </button>
         </div>
       </div>
@@ -275,10 +275,10 @@ export default function SettingsPage() {
     setReferralToast(null);
     try {
       await referralApi.applyCode(applyCode.trim());
-      setReferralToast({ type: "success", message: "Referral code applied! Your friend earned bonus generations." });
+      setReferralToast({ type: "success", message: "Referans kodu uygulandı! Arkadaşınız bonus üretim hakkı kazandı." });
       setApplyCode("");
     } catch (err: any) {
-      const msg = err?.response?.data?.message ?? err?.response?.data?.error ?? "Invalid referral code.";
+      const msg = err?.response?.data?.message ?? err?.response?.data?.error ?? "Geçersiz referans kodu.";
       setReferralToast({ type: "error", message: msg });
     } finally {
       setIsApplyingCode(false);
@@ -296,9 +296,9 @@ export default function SettingsPage() {
       const res = await usersApi.updateProfile({ name: name.trim() });
       setUser(res.data);
       setStoredUser(res.data);
-      setProfileToast({ type: "success", message: "Profile updated successfully." });
+      setProfileToast({ type: "success", message: "Profil başarıyla güncellendi." });
     } catch {
-      setProfileToast({ type: "error", message: "Failed to update profile. Please try again." });
+      setProfileToast({ type: "error", message: "Profil güncellenemedi. Lütfen tekrar deneyin." });
     } finally {
       setIsSavingProfile(false);
     }
@@ -307,13 +307,13 @@ export default function SettingsPage() {
   async function handleChangePassword(e: React.FormEvent) {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
-      setPasswordToast({ type: "error", message: "New passwords do not match." });
+      setPasswordToast({ type: "error", message: "Yeni şifreler eşleşmiyor." });
       return;
     }
     if (getPasswordScore(newPassword) < 3) {
       setPasswordToast({
         type: "error",
-        message: "Password must be at least 8 characters, include an uppercase letter and a number.",
+        message: "Şifre en az 8 karakter, bir büyük harf ve bir rakam içermelidir.",
       });
       return;
     }
@@ -324,11 +324,11 @@ export default function SettingsPage() {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
-      setPasswordToast({ type: "success", message: "Password changed successfully." });
+      setPasswordToast({ type: "success", message: "Şifre başarıyla değiştirildi." });
     } catch {
       setPasswordToast({
         type: "error",
-        message: "Failed to change password. Check that your current password is correct.",
+        message: "Şifre değiştirilemedi. Mevcut şifrenizin doğru olduğundan emin olun.",
       });
     } finally {
       setIsSavingPassword(false);
@@ -343,7 +343,7 @@ export default function SettingsPage() {
     } catch {
       setBillingToast({
         type: "error",
-        message: "Could not open billing portal. Please try again.",
+        message: "Faturalama portalı açılamadı. Lütfen tekrar deneyin.",
       });
       setIsPortalLoading(false);
     }
@@ -361,12 +361,12 @@ export default function SettingsPage() {
       setShowCancelConfirm(false);
       setBillingToast({
         type: "success",
-        message: "Your subscription has been cancelled. You've been moved to the Free plan.",
+        message: "Aboneliğiniz iptal edildi. Ücretsiz plana geçtiniz.",
       });
     } catch {
       setBillingToast({
         type: "error",
-        message: "Failed to cancel subscription. Please try again.",
+        message: "Abonelik iptal edilemedi. Lütfen tekrar deneyin.",
       });
     } finally {
       setIsCancelling(false);
@@ -390,22 +390,22 @@ export default function SettingsPage() {
   return (
     <div className="p-6 lg:p-8 max-w-3xl mx-auto animate-fade-in">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white">Settings</h1>
-        <p className="text-slate-400 mt-1">Manage your account, security, and subscription.</p>
+        <h1 className="text-2xl font-bold text-white">Ayarlar</h1>
+        <p className="text-slate-400 mt-1">Hesabınızı, güvenliğinizi ve aboneliğinizi yönetin.</p>
       </div>
 
       <div className="space-y-6">
         {/* ── Profile ─────────────────────────────────────────────────────── */}
         <Section
           icon={User}
-          title="Profile"
-          description="Update your display name and view account information."
+          title="Profil"
+          description="Görünen adınızı güncelleyin ve hesap bilgilerinizi görüntüleyin."
         >
           <Toast toast={profileToast} onDismiss={() => setProfileToast(null)} />
           <form onSubmit={handleSaveProfile} className="space-y-4">
             <div>
               <label className="block text-sm text-slate-300 mb-1.5 font-medium">
-                Full name
+                Ad Soyad
               </label>
               <input
                 type="text"
@@ -413,12 +413,12 @@ export default function SettingsPage() {
                 onChange={(e) => setName(e.target.value)}
                 required
                 className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/60 transition-colors"
-                placeholder="Your name"
+                placeholder="Adınız Soyadınız"
               />
             </div>
             <div>
               <label className="block text-sm text-slate-300 mb-1.5 font-medium">
-                Email address
+                E-posta adresi
               </label>
               <input
                 type="email"
@@ -427,7 +427,7 @@ export default function SettingsPage() {
                 className="w-full bg-slate-800/50 border border-slate-700/60 rounded-lg px-3 py-2.5 text-slate-400 text-sm cursor-not-allowed"
               />
               <p className="text-xs text-slate-600 mt-1.5">
-                Email cannot be changed. Contact support if needed.
+                E-posta adresi değiştirilemez. Gerekirse destek ile iletişime geçin.
               </p>
             </div>
             <div className="flex justify-end pt-1">
@@ -441,7 +441,7 @@ export default function SettingsPage() {
                 ) : (
                   <CheckCircle2 className="w-4 h-4" />
                 )}
-                Save changes
+                Değişiklikleri kaydet
               </button>
             </div>
           </form>
@@ -450,14 +450,14 @@ export default function SettingsPage() {
         {/* ── Password ─────────────────────────────────────────────────────── */}
         <Section
           icon={Lock}
-          title="Change Password"
-          description="Use a strong, unique password to keep your account secure."
+          title="Şifre Değiştir"
+          description="Hesabınızı güvende tutmak için güçlü ve benzersiz bir şifre kullanın."
         >
           <Toast toast={passwordToast} onDismiss={() => setPasswordToast(null)} />
           <form onSubmit={handleChangePassword} className="space-y-4">
             <div>
               <label className="block text-sm text-slate-300 mb-1.5 font-medium">
-                Current password
+                Mevcut şifre
               </label>
               <input
                 type="password"
@@ -471,7 +471,7 @@ export default function SettingsPage() {
             </div>
             <div>
               <label className="block text-sm text-slate-300 mb-1.5 font-medium">
-                New password
+                Yeni şifre
               </label>
               <input
                 type="password"
@@ -480,7 +480,7 @@ export default function SettingsPage() {
                 required
                 autoComplete="new-password"
                 className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-indigo-500/60 transition-colors"
-                placeholder="Min. 8 characters"
+                placeholder="En az 8 karakter"
               />
               {newPassword.length > 0 && (
                 <div className="mt-2 space-y-1.5">
@@ -512,7 +512,7 @@ export default function SettingsPage() {
             </div>
             <div>
               <label className="block text-sm text-slate-300 mb-1.5 font-medium">
-                Confirm new password
+                Yeni şifreyi onayla
               </label>
               <input
                 type="password"
@@ -521,7 +521,7 @@ export default function SettingsPage() {
                 required
                 autoComplete="new-password"
                 className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-indigo-500/60 transition-colors"
-                placeholder="Repeat new password"
+                placeholder="Yeni şifreyi tekrar girin"
               />
             </div>
             <div className="flex justify-end pt-1">
@@ -535,7 +535,7 @@ export default function SettingsPage() {
                 ) : (
                   <Lock className="w-4 h-4" />
                 )}
-                Update password
+                Şifreyi güncelle
               </button>
             </div>
           </form>
@@ -544,8 +544,8 @@ export default function SettingsPage() {
         {/* ── Subscription ─────────────────────────────────────────────────── */}
         <Section
           icon={CreditCard}
-          title="Subscription"
-          description="Manage your plan and billing details."
+          title="Abonelik"
+          description="Planınızı ve faturalama bilgilerinizi yönetin."
         >
           <Toast toast={billingToast} onDismiss={() => setBillingToast(null)} />
           <div className="space-y-5">
@@ -567,8 +567,8 @@ export default function SettingsPage() {
                 </div>
                 <p className="text-xs text-slate-500 mt-0.5">
                   {plan === "enterprise"
-                    ? "Unlimited generations included"
-                    : `${generationsLimit} project generations per month`}
+                    ? "Sınırsız üretim hakkı"
+                    : `Aylık ${generationsLimit} proje üretim hakkı`}
                 </p>
               </div>
             </div>
@@ -577,7 +577,7 @@ export default function SettingsPage() {
             {plan !== "enterprise" && (
               <div>
                 <div className="flex items-center justify-between mb-1.5 text-xs">
-                  <span className="text-slate-400 font-medium">Generations used</span>
+                  <span className="text-slate-400 font-medium">Kullanılan üretim</span>
                   <span className="text-slate-500">
                     {generationsUsed} / {generationsLimit}
                   </span>
@@ -605,7 +605,7 @@ export default function SettingsPage() {
                   className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors"
                 >
                   <ArrowUpRight className="w-4 h-4" />
-                  Upgrade Plan
+                  Planı Yükselt
                 </Link>
               )}
               {plan !== "free" && !showCancelConfirm && (
@@ -614,13 +614,13 @@ export default function SettingsPage() {
                   className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-red-500/40 text-red-400 hover:bg-red-500/10 text-sm font-medium transition-colors"
                 >
                   <CreditCard className="w-4 h-4" />
-                  Cancel Subscription
+                  Aboneliği İptal Et
                 </button>
               )}
               {plan !== "free" && showCancelConfirm && (
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-red-500/10 border border-red-500/30">
                   <p className="text-sm text-red-300 flex-1">
-                    Are you sure you want to cancel your subscription?
+                    Aboneliğinizi iptal etmek istediğinizden emin misiniz?
                   </p>
                   <button
                     onClick={handleCancelSubscription}
@@ -628,13 +628,13 @@ export default function SettingsPage() {
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-medium transition-colors disabled:opacity-50"
                   >
                     {isCancelling ? <Loader2 className="w-3 h-3 animate-spin" /> : null}
-                    Yes, Cancel
+                    Evet, İptal Et
                   </button>
                   <button
                     onClick={() => setShowCancelConfirm(false)}
                     className="px-3 py-1.5 rounded-lg border border-slate-600 text-slate-400 text-xs font-medium hover:text-white transition-colors"
                   >
-                    Keep Plan
+                    Vazgeç
                   </button>
                 </div>
               )}
@@ -645,8 +645,8 @@ export default function SettingsPage() {
         {/* ── Referral ──────────────────────────────────────────────────────── */}
         <Section
           icon={Gift}
-          title="Refer & Earn"
-          description="Invite friends and earn 3 extra generations for every successful sign-up."
+          title="Davet Et & Kazan"
+          description="Arkadaşlarınızı davet edin, her başarılı kayıt için 3 ekstra üretim hakkı kazanın."
         >
           <Toast toast={referralToast} onDismiss={() => setReferralToast(null)} />
 
@@ -654,18 +654,18 @@ export default function SettingsPage() {
           <div className="grid grid-cols-2 gap-3 mb-5">
             <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
               <p className="text-2xl font-bold text-white">{referralCount}</p>
-              <p className="text-xs text-slate-400 mt-0.5">Friends invited</p>
+              <p className="text-xs text-slate-400 mt-0.5">Davet edilen arkadaş</p>
             </div>
             <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
               <p className="text-2xl font-bold text-indigo-400">+{referralBonus}</p>
-              <p className="text-xs text-slate-400 mt-0.5">Bonus generations earned</p>
+              <p className="text-xs text-slate-400 mt-0.5">Kazanılan bonus üretim</p>
             </div>
           </div>
 
           {/* Referral link */}
           {referralLink && (
             <div className="mb-5">
-              <p className="text-sm text-slate-300 font-medium mb-2">Your referral link</p>
+              <p className="text-sm text-slate-300 font-medium mb-2">Davet bağlantınız</p>
               <div className="flex gap-2">
                 <input
                   readOnly
@@ -677,7 +677,7 @@ export default function SettingsPage() {
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800/60 hover:bg-slate-700/60 text-slate-300 text-sm font-medium transition-colors flex-shrink-0"
                 >
                   {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
-                  {copied ? "Copied!" : "Copy"}
+                  {copied ? "Kopyalandı!" : "Kopyala"}
                 </button>
               </div>
             </div>
@@ -685,12 +685,12 @@ export default function SettingsPage() {
 
           {/* Apply someone else's code */}
           <form onSubmit={handleApplyCode}>
-            <p className="text-sm text-slate-300 font-medium mb-2">Have a referral code?</p>
+            <p className="text-sm text-slate-300 font-medium mb-2">Referans kodunuz var mı?</p>
             <div className="flex gap-2">
               <input
                 value={applyCode}
                 onChange={(e) => setApplyCode(e.target.value.toUpperCase())}
-                placeholder="Enter code (e.g. A1B2C3D4)"
+                placeholder="Kodu girin (ör. A1B2C3D4)"
                 maxLength={12}
                 className="flex-1 bg-slate-800/60 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/60 font-mono"
               />
@@ -699,7 +699,7 @@ export default function SettingsPage() {
                 disabled={isApplyingCode || !applyCode.trim()}
                 className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-semibold transition-colors flex-shrink-0"
               >
-                {isApplyingCode ? <Loader2 className="w-4 h-4 animate-spin" /> : "Apply"}
+                {isApplyingCode ? <Loader2 className="w-4 h-4 animate-spin" /> : "Uygula"}
               </button>
             </div>
           </form>
@@ -712,18 +712,18 @@ export default function SettingsPage() {
               <Shield className="w-4 h-4 text-red-400" />
             </div>
             <div>
-              <h2 className="text-base font-semibold text-white">Danger Zone</h2>
+              <h2 className="text-base font-semibold text-white">Tehlikeli Bölge</h2>
               <p className="text-sm text-slate-400 mt-0.5">
-                Irreversible actions — proceed with caution.
+                Geri alınamaz işlemler — dikkatli ilerleyin.
               </p>
             </div>
           </div>
 
           <div className="flex items-center justify-between p-4 rounded-xl bg-red-500/5 border border-red-500/20">
             <div>
-              <p className="text-sm font-medium text-white">Delete account</p>
+              <p className="text-sm font-medium text-white">Hesabı sil</p>
               <p className="text-xs text-slate-500 mt-0.5">
-                Permanently delete your account and all associated data.
+                Hesabınızı ve tüm ilişkili verileri kalıcı olarak siler.
               </p>
             </div>
             <button
@@ -731,7 +731,7 @@ export default function SettingsPage() {
               className="flex items-center gap-2 px-4 py-2 rounded-lg border border-red-500/40 text-red-400 hover:bg-red-500/10 hover:text-red-300 text-sm font-medium transition-colors ml-4 flex-shrink-0"
             >
               <Trash2 className="w-4 h-4" />
-              Delete
+              Sil
             </button>
           </div>
         </div>

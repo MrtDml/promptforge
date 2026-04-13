@@ -8,7 +8,7 @@ import { slugify } from "@/lib/utils";
 import type { BlogPost } from "@/types";
 import { ArrowLeft, Save, Trash2 } from "lucide-react";
 
-const CATEGORIES = ["Tutorial", "Engineering", "Comparison", "News", "Guide"];
+const CATEGORIES = ["Başlangıç", "PromptForge", "Backend", "Girişim", "Tutorial", "Engineering", "Comparison", "News", "Guide"];
 
 export default function AdminBlogEditPage() {
   const { id } = useParams<{ id: string }>();
@@ -102,11 +102,11 @@ export default function AdminBlogEditPage() {
         className="inline-flex items-center gap-2 text-slate-400 hover:text-white text-sm mb-6 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
-        Back to Blog
+        Blog&apos;a Dön
       </Link>
 
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-white">Edit Post</h1>
+        <h1 className="text-2xl font-bold text-white">Yazıyı Düzenle</h1>
         <div className="flex items-center gap-3">
           <label className="flex items-center gap-2 cursor-pointer">
             <button
@@ -125,7 +125,7 @@ export default function AdminBlogEditPage() {
               />
             </button>
             <span className="text-sm text-slate-300">
-              {published ? "Published" : "Draft"}
+              {published ? "Yayında" : "Taslak"}
             </span>
           </label>
           <button
@@ -134,7 +134,7 @@ export default function AdminBlogEditPage() {
             className="flex items-center gap-2 px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white text-sm font-medium rounded-lg transition-colors disabled:opacity-50"
           >
             <Save className="w-4 h-4" />
-            {saving ? "Saving…" : "Save Changes"}
+            {saving ? "Kaydediliyor…" : "Değişiklikleri Kaydet"}
           </button>
         </div>
       </div>
@@ -153,7 +153,7 @@ export default function AdminBlogEditPage() {
       <div className="space-y-5">
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
           <div>
-            <label className="block text-sm text-slate-400 mb-1.5">Title *</label>
+            <label className="block text-sm text-slate-400 mb-1.5">Başlık *</label>
             <input
               value={title}
               onChange={(e) => { setTitle(e.target.value); setSlug(slugify(e.target.value)); }}
@@ -163,7 +163,7 @@ export default function AdminBlogEditPage() {
 
           <div>
             <label className="block text-sm text-slate-400 mb-1.5">
-              Slug * <span className="text-slate-600">(URL: /blog/your-slug)</span>
+              Slug * <span className="text-slate-600">(URL: /blog/slug-buraya)</span>
             </label>
             <input
               value={slug}
@@ -173,7 +173,7 @@ export default function AdminBlogEditPage() {
           </div>
 
           <div>
-            <label className="block text-sm text-slate-400 mb-1.5">Description *</label>
+            <label className="block text-sm text-slate-400 mb-1.5">Kısa Açıklama *</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -184,7 +184,7 @@ export default function AdminBlogEditPage() {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm text-slate-400 mb-1.5">Category</label>
+              <label className="block text-sm text-slate-400 mb-1.5">Kategori</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
@@ -198,7 +198,7 @@ export default function AdminBlogEditPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm text-slate-400 mb-1.5">Read Time (minutes)</label>
+              <label className="block text-sm text-slate-400 mb-1.5">Okuma Süresi (dakika)</label>
               <input
                 type="number"
                 min={1}
@@ -212,7 +212,7 @@ export default function AdminBlogEditPage() {
 
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
           <label className="block text-sm text-slate-400 mb-1.5">
-            Content * <span className="text-slate-600">(HTML supported)</span>
+            İçerik * <span className="text-slate-600">(HTML desteklenir)</span>
           </label>
           <textarea
             value={content}
@@ -225,11 +225,11 @@ export default function AdminBlogEditPage() {
         {/* Delete */}
         <div className="bg-slate-900 border border-red-900/40 rounded-xl p-5">
           <p className="text-sm text-slate-400 mb-3">
-            Permanently delete this blog post. This cannot be undone.
+            Bu blog yazısını kalıcı olarak sil. Bu işlem geri alınamaz.
           </p>
           {confirmDelete && (
             <p className="text-sm text-red-300 mb-3 font-medium">
-              Are you sure? Click again to confirm.
+              Emin misin? Onaylamak için tekrar tıkla.
             </p>
           )}
           <button
@@ -242,7 +242,7 @@ export default function AdminBlogEditPage() {
             }`}
           >
             <Trash2 className="w-4 h-4" />
-            {deleting ? "Deleting…" : confirmDelete ? "Confirm Delete" : "Delete Post"}
+            {deleting ? "Siliniyor…" : confirmDelete ? "Silmeyi Onayla" : "Yazıyı Sil"}
           </button>
         </div>
       </div>

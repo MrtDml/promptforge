@@ -7,7 +7,7 @@ import { adminApi } from "@/lib/api";
 import { slugify } from "@/lib/utils";
 import { ArrowLeft, Save } from "lucide-react";
 
-const CATEGORIES = ["Tutorial", "Engineering", "Comparison", "News", "Guide"];
+const CATEGORIES = ["Başlangıç", "PromptForge", "Backend", "Girişim", "Tutorial", "Engineering", "Comparison", "News", "Guide"];
 
 export default function AdminBlogNewPage() {
   const router = useRouter();
@@ -17,7 +17,7 @@ export default function AdminBlogNewPage() {
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("Tutorial");
+  const [category, setCategory] = useState("Başlangıç");
   const [readTime, setReadTime] = useState(5);
   const [content, setContent] = useState("");
   const [published, setPublished] = useState(false);
@@ -64,11 +64,11 @@ export default function AdminBlogNewPage() {
         className="inline-flex items-center gap-2 text-slate-400 hover:text-white text-sm mb-6 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
-        Back to Blog
+        Blog&apos;a Dön
       </Link>
 
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-white">New Blog Post</h1>
+        <h1 className="text-2xl font-bold text-white">Yeni Blog Yazısı</h1>
         <div className="flex items-center gap-3">
           <label className="flex items-center gap-2 cursor-pointer">
             <button
@@ -87,7 +87,7 @@ export default function AdminBlogNewPage() {
               />
             </button>
             <span className="text-sm text-slate-300">
-              {published ? "Published" : "Draft"}
+              {published ? "Yayında" : "Taslak"}
             </span>
           </label>
           <button
@@ -96,7 +96,7 @@ export default function AdminBlogNewPage() {
             className="flex items-center gap-2 px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white text-sm font-medium rounded-lg transition-colors disabled:opacity-50"
           >
             <Save className="w-4 h-4" />
-            {saving ? "Saving…" : "Save Post"}
+            {saving ? "Kaydediliyor…" : "Yazıyı Kaydet"}
           </button>
         </div>
       </div>
@@ -110,35 +110,35 @@ export default function AdminBlogNewPage() {
       <div className="space-y-5">
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
           <div>
-            <label className="block text-sm text-slate-400 mb-1.5">Title *</label>
+            <label className="block text-sm text-slate-400 mb-1.5">Başlık *</label>
             <input
               value={title}
               onChange={(e) => handleTitleChange(e.target.value)}
-              placeholder="How to Build a SaaS in 5 Minutes"
+              placeholder="SaaS Nedir? Sıfırdan Anlatım"
               className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-rose-500 transition-colors"
             />
           </div>
 
           <div>
             <label className="block text-sm text-slate-400 mb-1.5">
-              Slug * <span className="text-slate-600">(URL: /blog/your-slug)</span>
+              Slug * <span className="text-slate-600">(URL: /blog/slug-buraya)</span>
             </label>
             <input
               value={slug}
               onChange={(e) => { setSlug(e.target.value); setSlugEdited(true); }}
-              placeholder="how-to-build-a-saas"
+              placeholder="saas-nedir-sifirdan-anlatim"
               className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm font-mono focus:outline-none focus:border-rose-500 transition-colors"
             />
           </div>
 
           <div>
             <label className="block text-sm text-slate-400 mb-1.5">
-              Description * <span className="text-slate-600">(shown in listings)</span>
+              Kısa Açıklama * <span className="text-slate-600">(listede görünür)</span>
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="A brief description of the post…"
+              placeholder="Yazının kısa özeti…"
               rows={2}
               className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-rose-500 transition-colors resize-none"
             />
@@ -146,7 +146,7 @@ export default function AdminBlogNewPage() {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm text-slate-400 mb-1.5">Category</label>
+              <label className="block text-sm text-slate-400 mb-1.5">Kategori</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
@@ -160,7 +160,7 @@ export default function AdminBlogNewPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm text-slate-400 mb-1.5">Read Time (minutes)</label>
+              <label className="block text-sm text-slate-400 mb-1.5">Okuma Süresi (dakika)</label>
               <input
                 type="number"
                 min={1}
@@ -174,17 +174,17 @@ export default function AdminBlogNewPage() {
 
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
           <label className="block text-sm text-slate-400 mb-1.5">
-            Content * <span className="text-slate-600">(HTML supported)</span>
+            İçerik * <span className="text-slate-600">(HTML desteklenir)</span>
           </label>
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="<p>Your blog post content here…</p>"
+            placeholder="<p>Yazı içeriği buraya…</p>"
             rows={20}
             className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm font-mono focus:outline-none focus:border-rose-500 transition-colors resize-y"
           />
           <p className="text-xs text-slate-600 mt-2">
-            Use HTML tags for formatting: &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt;, &lt;code&gt;, etc.
+            HTML etiketleri kullanabilirsin: &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt;, &lt;code&gt; vb.
           </p>
         </div>
       </div>

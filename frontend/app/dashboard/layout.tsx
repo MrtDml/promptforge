@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { isAuthenticated, getStoredUser } from "@/lib/auth";
 import Sidebar from "@components/layout/Sidebar";
+import AssistantWidget from "@components/ui/AssistantWidget";
 import { Menu, Zap, MailWarning, X, Loader2 } from "lucide-react";
 import Link from "next/link";
 import apiClient from "@/lib/api";
@@ -141,6 +142,8 @@ export default function DashboardLayout({
           <div className="min-h-full">{children}</div>
         </main>
       </div>
+
+      <AssistantWidget />
     </div>
   );
 }

@@ -23,6 +23,7 @@ import { PlanThrottlerGuard } from './common/guards/plan-throttler.guard';
 import { ReferralModule } from './referral/referral.module';
 import { AppCacheModule } from './cache/app-cache.module';
 import { AutomationModule } from './automation/automation.module';
+import { AssistantModule } from './assistant/assistant.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { AutomationModule } from './automation/automation.module';
     PrismaModule,
     ReferralModule,
     AutomationModule,
+    AssistantModule,
   ],
   controllers: [AppController],
   providers: [AppService, SubscriptionGuard, { provide: APP_GUARD, useClass: PlanThrottlerGuard }],

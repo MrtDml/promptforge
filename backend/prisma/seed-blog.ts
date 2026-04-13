@@ -416,7 +416,6 @@ async login(user: User) {
 <blockquote>JWT, modern web uygulamalarının bel kemiğidir. Doğru uygulandığında hem güvenli hem de ölçeklenebilir bir auth katmanı sağlar.</blockquote>
 `,
   },
-];
 
   // ─── 6 ────────────────────────────────────────────────────────────────────
   {

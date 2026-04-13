@@ -24,7 +24,8 @@ export default function AdminBlogEditPage() {
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("Tutorial");
+  const [category, setCategory] = useState("Başlangıç");
+  const [author, setAuthor] = useState("Murat DUMLU");
   const [readTime, setReadTime] = useState(5);
   const [content, setContent] = useState("");
   const [published, setPublished] = useState(false);
@@ -38,6 +39,7 @@ export default function AdminBlogEditPage() {
         setSlug(post.slug);
         setDescription(post.description);
         setCategory(post.category);
+        setAuthor(post.author ?? "Murat DUMLU");
         setReadTime(post.readTime);
         setContent(post.content);
         setPublished(post.published);
@@ -60,6 +62,7 @@ export default function AdminBlogEditPage() {
         slug,
         description,
         category,
+        author,
         readTime,
         content,
         published,
@@ -180,6 +183,15 @@ export default function AdminBlogEditPage() {
               rows={2}
               className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-rose-500 transition-colors resize-none"
             />
+
+          <div>
+            <label className="block text-sm text-slate-400 mb-1.5">Yazar</label>
+            <input
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-rose-500 transition-colors"
+            />
+          </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">

@@ -17,6 +17,7 @@ const posts = [
     title: 'SaaS Nedir? Sıfırdan Anlatım ve Gerçek Örnekler',
     description:
       'SaaS nedir, nasıl çalışır ve hangi uygulamalar SaaS modeline girer? Gerçek dünya örnekleriyle sıfırdan kapsamlı bir rehber.',
+    author: 'Murat DUMLU',
     category: 'Başlangıç',
     readTime: 8,
     content: `
@@ -92,6 +93,7 @@ const posts = [
     title: 'NestJS Nedir, Neden Kullanmalıyım?',
     description:
       'NestJS nedir, Express.js\'den farkı nedir ve neden modern backend geliştirmede tercih edilen framework haline geldi? Kapsamlı başlangıç rehberi.',
+    author: 'Murat DUMLU',
     category: 'Başlangıç',
     readTime: 7,
     content: `
@@ -165,6 +167,7 @@ export class UsersController {
     title: 'Prisma ile Veritabanı Yönetimi: Başlangıç Rehberi',
     description:
       'Prisma ORM nedir, schema nasıl tanımlanır, migration nasıl çalışır? Node.js ve TypeScript projelerinde veritabanı yönetiminin modern yolu.',
+    author: 'Murat DUMLU',
     category: 'Başlangıç',
     readTime: 7,
     content: `
@@ -258,6 +261,7 @@ await prisma.user.delete({
     title: 'REST API Nedir? Örneklerle Açıklama',
     description:
       'REST API nedir, nasıl çalışır, HTTP metodları ne anlama gelir? Frontend ve backend arasındaki iletişimin temelini sıfırdan öğrenin.',
+    author: 'Murat DUMLU',
     category: 'Başlangıç',
     readTime: 6,
     content: `
@@ -343,6 +347,7 @@ POST   /users/:id/posts   → Kullanıcıya yeni yazı ekle</code></pre>
     title: 'JWT ile Kimlik Doğrulama Nasıl Çalışır?',
     description:
       'JWT nedir, nasıl üretilir ve doğrulanır? Session tabanlı kimlik doğrulamadan farkı nedir? SaaS uygulamalarında güvenli auth sistemi kurmanın temelleri.',
+    author: 'Murat DUMLU',
     category: 'Başlangıç',
     readTime: 7,
     content: `
@@ -423,6 +428,7 @@ async login(user: User) {
     title: 'Prompt Yazarak Backend Uygulama Geliştirmek Mümkün mü?',
     description:
       'Yapay zeka destekli kod üretimi gerçekten işe yarıyor mu? Prompt tabanlı backend geliştirmenin sınırlarını ve olanaklarını inceliyoruz.',
+    author: 'Murat DUMLU',
     category: 'PromptForge',
     readTime: 7,
     content: `
@@ -481,6 +487,7 @@ async login(user: User) {
     title: 'PromptForge ile 5 Dakikada SaaS Uygulaması Nasıl Oluşturulur?',
     description:
       'Adım adım rehber: PromptForge üzerinde hesap açmaktan tam yığın backend projenizi ZIP olarak indirmeye kadar tüm süreç.',
+    author: 'Murat DUMLU',
     category: 'PromptForge',
     readTime: 6,
     content: `
@@ -546,6 +553,7 @@ async login(user: User) {
     title: 'Yapay Zeka ile Üretilen Kodu Nasıl Özelleştirirsiniz?',
     description:
       'PromptForge\'un ürettiği NestJS kodunu kendi ihtiyaçlarınıza göre uyarlamak için pratik ipuçları ve en iyi yöntemler.',
+    author: 'Murat DUMLU',
     category: 'PromptForge',
     readTime: 8,
     content: `
@@ -635,6 +643,7 @@ PORT=3000</code></pre>
     title: "Railway'e Tek Tıkla Deploy: Adım Adım Rehber",
     description:
       "PromptForge ile oluşturduğunuz NestJS backend'i Railway'e nasıl deploy edersiniz? GitHub entegrasyonundan canlı URL'ye kadar eksiksiz rehber.",
+    author: 'Murat DUMLU',
     category: 'PromptForge',
     readTime: 7,
     content: `
@@ -721,6 +730,7 @@ git push -u origin main</code></pre>
     title: 'NestJS Boilerplate vs. Generator: Hangisi Daha İyi?',
     description:
       'NestJS projesi başlatmak için hazır boilerplate mi kullanmalısınız yoksa kod üretici mi? Her yaklaşımın avantajlarını ve dezavantajlarını karşılaştırıyoruz.',
+    author: 'Murat DUMLU',
     category: 'Backend',
     readTime: 8,
     content: `
@@ -806,6 +816,7 @@ git push -u origin main</code></pre>
     title: "Türkiye'de SaaS Girişimi Kurmak: 2026 Rehberi",
     description:
       "Türkiye'de SaaS işi kurarken dikkat etmeniz gereken yasal, teknik ve pazarlama konularını ele alan kapsamlı bir rehber.",
+    author: 'Murat DUMLU',
     category: 'Girişim',
     readTime: 10,
     content: `
@@ -889,6 +900,7 @@ git push -u origin main</code></pre>
     title: 'Docker ile NestJS Uygulaması Nasıl Containerize Edilir?',
     description:
       'NestJS uygulamanızı Docker ile paketleme, multi-stage build ile image boyutunu küçültme ve docker-compose ile lokal geliştirme ortamı kurma rehberi.',
+    author: 'Murat DUMLU',
     category: 'Backend',
     readTime: 9,
     content: `

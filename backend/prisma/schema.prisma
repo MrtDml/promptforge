@@ -112,6 +112,7 @@ model BlogPost {
   description String
   content     String   @db.Text
   category    String
+  author      String   @default("Murat DUMLU")
   readTime    Int      @default(5)
   published   Boolean  @default(false)
   createdAt   DateTime @default(now())

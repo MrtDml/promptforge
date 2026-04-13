@@ -22,6 +22,10 @@ export class CreateBlogPostDto {
   category: string;
 
   @IsOptional()
+  @IsString()
+  author?: string;
+
+  @IsOptional()
   @IsInt()
   @Min(1)
   readTime?: number;
@@ -56,6 +60,10 @@ export class UpdateBlogPostDto {
   @IsString()
   @IsNotEmpty()
   category?: string;
+
+  @IsOptional()
+  @IsString()
+  author?: string;
 
   @IsOptional()
   @IsInt()

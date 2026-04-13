@@ -63,6 +63,7 @@ export interface BlogPost {
   description: string;
   content: string;
   category: string;
+  author: string;
   readTime: number;
   published: boolean;
   createdAt: string;

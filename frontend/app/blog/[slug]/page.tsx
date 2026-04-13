@@ -15,6 +15,7 @@ interface NormalizedPost {
   updatedAt?: string;
   readTime: number;
   category: string;
+  author?: string;
   content: string;
 }
 
@@ -34,6 +35,7 @@ async function getApiPost(slug: string): Promise<NormalizedPost | null> {
       updatedAt: p.updatedAt ?? p.createdAt,
       readTime: p.readTime,
       category: p.category,
+      author: (p as { author?: string }).author,
       content: p.content ?? "",
     };
   } catch {
@@ -138,7 +140,7 @@ export default async function BlogPostPage({ params }: Props) {
     description: post.description,
     datePublished: post.date,
     dateModified: post.updatedAt ?? post.date,
-    author: { "@type": "Organization", name: "Prompt Forge", url: "https://promptforgeai.dev" },
+    author: { "@type": "Person", name: post.author ?? "Murat DUMLU", url: "https://promptforgeai.dev" },
     publisher: {
       "@type": "Organization",
       name: "Prompt Forge",
@@ -187,7 +189,10 @@ export default async function BlogPostPage({ params }: Props) {
               {post.title}
             </h1>
             <p className="text-slate-400 text-lg leading-relaxed mb-5">{post.description}</p>
-            <div className="flex items-center gap-4 text-sm text-slate-500 border-t border-slate-800 pt-5">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 border-t border-slate-800 pt-5">
+              {post.author && (
+                <span className="font-medium text-slate-400">{post.author}</span>
+              )}
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />
                 {new Date(post.date).toLocaleDateString("tr-TR", {

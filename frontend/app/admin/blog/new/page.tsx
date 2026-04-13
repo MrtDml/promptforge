@@ -18,6 +18,7 @@ export default function AdminBlogNewPage() {
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("Başlangıç");
+  const [author, setAuthor] = useState("Murat DUMLU");
   const [readTime, setReadTime] = useState(5);
   const [content, setContent] = useState("");
   const [published, setPublished] = useState(false);
@@ -43,6 +44,7 @@ export default function AdminBlogNewPage() {
         slug,
         description,
         category,
+        author,
         readTime,
         content,
         published,
@@ -141,6 +143,16 @@ export default function AdminBlogNewPage() {
               placeholder="Yazının kısa özeti…"
               rows={2}
               className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-rose-500 transition-colors resize-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-slate-400 mb-1.5">Yazar</label>
+            <input
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+              placeholder="Murat DUMLU"
+              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-rose-500 transition-colors"
             />
           </div>
 

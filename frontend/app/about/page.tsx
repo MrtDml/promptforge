@@ -5,13 +5,13 @@ import LandingNav from "@components/layout/LandingNav";
 import LandingFooter from "@components/layout/LandingFooter";
 
 export const metadata: Metadata = {
-  title: "Hakkımızda — Nexlora Technologies | Prompt Forge",
+  title: "Hakkımızda — Dumlu Teknoloji, Yazılım ve Danışmanlık | Prompt Forge",
   description:
-    "Prompt Forge, Nexlora Technologies'in bir ürünüdür — yazılım geliştirmeyi herkese erişilebilir kılma misyonundaki küresel bir yazılım ve yapay zeka danışmanlık şirketi.",
+    "Prompt Forge, Dumlu Teknoloji, Yazılım ve Danışmanlık'in bir ürünüdür — yazılım geliştirmeyi herkese erişilebilir kılma misyonundaki küresel bir yazılım ve yapay zeka danışmanlık şirketi.",
   openGraph: {
-    title: "Nexlora Technologies Hakkında — Prompt Forge'un arkasındaki şirket",
+    title: "Dumlu Teknoloji, Yazılım ve Danışmanlık Hakkında — Prompt Forge'un arkasındaki şirket",
     description:
-      "Nexlora Technologies, yapay zeka destekli geliştirici araçları üretir. Prompt Forge, amiral gemisi ürünümüzdür — herhangi bir fikri dakikalar içinde üretime hazır koda dönüştürün.",
+      "Dumlu Teknoloji, Yazılım ve Danışmanlık, yapay zeka destekli geliştirici araçları üretir. Prompt Forge, amiral gemisi ürünümüzdür — herhangi bir fikri dakikalar içinde üretime hazır koda dönüştürün.",
   },
 };
 
@@ -48,7 +48,7 @@ export default function AboutPage() {
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 text-center">
           <div className="inline-flex items-center gap-2 bg-indigo-600/10 border border-indigo-600/20 rounded-full px-4 py-1.5 mb-6">
             <Zap className="w-3.5 h-3.5 text-indigo-400" />
-            <span className="text-indigo-300 text-xs font-medium tracking-wide">Nexlora Technologies Hakkında</span>
+            <span className="text-indigo-300 text-xs font-medium tracking-wide">Dumlu Teknoloji, Yazılım ve Danışmanlık Hakkında</span>
           </div>
 
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight tracking-tight">
@@ -59,7 +59,7 @@ export default function AboutPage() {
           </h1>
 
           <p className="text-lg text-slate-400 leading-relaxed max-w-2xl mx-auto">
-            Nexlora Technologies, tek bir misyonla kurulan küresel bir yazılım ve yapay zeka danışmanlık şirketidir: teknik geçmişten bağımsız olarak dünyadaki herkese yazılım geliştirmeyi erişilebilir kılmak.
+            Dumlu Teknoloji, Yazılım ve Danışmanlık, tek bir misyonla kurulan küresel bir yazılım ve yapay zeka danışmanlık şirketidir: teknik geçmişten bağımsız olarak dünyadaki herkese yazılım geliştirmeyi erişilebilir kılmak.
           </p>
         </section>
 
@@ -68,7 +68,7 @@ export default function AboutPage() {
           <div className="bg-gradient-to-br from-indigo-600/10 to-violet-600/5 border border-indigo-500/20 rounded-2xl p-8 md:p-10">
             <h2 className="text-2xl font-bold text-white mb-4">Misyonumuz</h2>
             <p className="text-slate-300 leading-relaxed text-lg">
-              En iyi fikirlerin çoğunlukla kod yazamayanlardan geldiğine inanıyoruz — ve tam olarak onlar için üretiyoruz. Nexlora Technologies, fikir ile ürün arasındaki engeli ortadan kaldırmak için son teknoloji yapay zeka araştırmalarını pratik yazılım mühendisliğiyle birleştirir.
+              En iyi fikirlerin çoğunlukla kod yazamayanlardan geldiğine inanıyoruz — ve tam olarak onlar için üretiyoruz. Dumlu Teknoloji, Yazılım ve Danışmanlık, fikir ile ürün arasındaki engeli ortadan kaldırmak için son teknoloji yapay zeka araştırmalarını pratik yazılım mühendisliğiyle birleştirir.
             </p>
             <p className="text-slate-400 leading-relaxed mt-4">
               Prompt Forge, amiral gemisi ürünümüzdür: SaaS fikrinizi düz Türkçe ile tarif edin ve saniyeler içinde eksiksiz, üretime hazır bir NestJS + Prisma backend üretelim. Şablon kod yok, kurulum yok — sadece çıkarabileceğiniz çalışan kod.
@@ -103,7 +103,7 @@ export default function AboutPage() {
             </div>
             <div className="flex-1 text-center md:text-left">
               <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wider mb-1">
-                Nexlora Technologies ürünü
+                Dumlu Teknoloji, Yazılım ve Danışmanlık ürünü
               </p>
               <h3 className="text-xl font-bold text-white mb-2">Prompt Forge AI</h3>
               <p className="text-slate-400 text-sm leading-relaxed">

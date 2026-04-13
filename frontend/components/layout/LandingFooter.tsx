@@ -95,7 +95,7 @@ export default function LandingFooter() {
             <span className="hidden sm:inline text-slate-700 text-xs">·</span>
             <p className="text-slate-700 text-xs">
               <Link href="/about" className="hover:text-slate-500 transition-colors">
-                Nexlora Technologies
+                Dumlu Teknoloji, Yazılım ve Danışmanlık
               </Link>{" "}
               ürünüdür
             </p>

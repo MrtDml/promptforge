@@ -52,6 +52,7 @@ export const metadata: Metadata = {
   },
 };
 import AnnouncementBanner from "@components/layout/AnnouncementBanner";
+import ParticlesBackground from "@components/ui/ParticlesBackground";
 import {
   ArrowRight,
   Zap,
@@ -292,7 +293,8 @@ const howToJsonLd = {
 
 export default async function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#0a0b14] text-slate-100">
+    <div className="min-h-screen bg-[#0a0b14] text-slate-100 relative">
+      <ParticlesBackground />
       {/* ── JSON-LD Structured Data ── */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }} />

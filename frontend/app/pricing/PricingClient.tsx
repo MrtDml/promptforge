@@ -202,7 +202,7 @@ export default function PricingClient() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-[#0a0b14] text-slate-100">
       <AnnouncementBanner />
       <LandingNav />
 

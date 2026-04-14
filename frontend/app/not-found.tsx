@@ -3,9 +3,9 @@ import { Zap, ArrowLeft, Terminal } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-[#0a0b14] text-slate-100 flex flex-col">
       {/* Navbar */}
-      <nav className="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
+      <nav className="border-b border-slate-800/80 bg-[#0a0b14]/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center">
           <Link href="/" className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">

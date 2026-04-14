@@ -178,7 +178,7 @@ export default function RootLayout({
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrg) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebsite) }} />
       </head>
-      <body className="bg-slate-950 text-slate-100 antialiased min-h-screen font-sans">
+      <body className="bg-[#0a0b14] text-slate-100 antialiased min-h-screen font-sans">
         <PostHogProvider>
           <PostHogPageView />
           {children}

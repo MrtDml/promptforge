@@ -20,23 +20,23 @@ export default function GlobalError({
         <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
           <span className="text-3xl">⚠️</span>
         </div>
-        <h1 className="text-2xl font-bold text-white mb-3">Something went wrong</h1>
+        <h1 className="text-2xl font-bold text-white mb-3">Bir şeyler ters gitti</h1>
         <p className="text-slate-400 text-sm mb-8">
-          An unexpected error occurred. Please try again or contact support if
-          the problem persists.
+          Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin veya sorun devam
+          ederse destek ekibimizle iletişime geçin.
         </p>
         <div className="flex items-center justify-center gap-3">
           <button
             onClick={reset}
             className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition-colors"
           >
-            Try again
+            Tekrar dene
           </button>
           <Link
             href="/"
             className="px-5 py-2.5 bg-white/5 hover:bg-white/10 text-slate-300 text-sm font-medium rounded-lg transition-colors border border-white/10"
           >
-            Go home
+            Ana sayfaya dön
           </Link>
         </div>
         {error.digest && (

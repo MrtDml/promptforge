@@ -292,7 +292,7 @@ const howToJsonLd = {
 
 export default async function LandingPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-[#0a0b14] text-slate-100">
       {/* ── JSON-LD Structured Data ── */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }} />
@@ -634,7 +634,7 @@ export default async function LandingPage() {
       </section>
 
       {/* ── Secure Payment Strip ── */}
-      <section className="py-10 px-4 border-t border-slate-800/60 bg-slate-950">
+      <section className="py-10 px-4 border-t border-slate-800/60 bg-[#0a0b14]">
         <div className="max-w-5xl mx-auto flex flex-col items-center gap-3">
           <p className="text-xs text-slate-500 uppercase tracking-widest font-medium">
             Güvenli Ödeme

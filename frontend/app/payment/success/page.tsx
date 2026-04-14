@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function PaymentSuccessPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-[#0a0b14] text-slate-100 flex flex-col">
       <LandingNav />
 
       <main className="flex-1 flex items-center justify-center px-4 py-20">

@@ -1,30 +1,31 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Documentation – Prompt Forge",
+  title: "Dokümantasyon — PromptForge",
   description:
-    "Learn how to use Prompt Forge to generate full-stack SaaS applications from natural language prompts. Quick start guides, prompt examples, and API reference.",
+    "PromptForge'u kullanarak doğal dil promptlarından full-stack SaaS uygulamaları üretmeyi öğrenin. Hızlı başlangıç kılavuzları, prompt örnekleri ve API referansı.",
   keywords: [
-    "prompt forge documentation",
-    "prompt forge guide",
-    "promptforge docs",
-    "how to use prompt forge",
-    "AI code generator guide",
-    "SaaS generator tutorial",
+    "promptforge dokümantasyon",
+    "promptforge rehber",
+    "promptforge nasıl kullanılır",
+    "AI kod üretici kılavuzu",
+    "SaaS üretici eğitimi",
+    "NestJS generator kullanımı",
+    "prompt ile backend üretme",
   ],
   alternates: { canonical: "https://promptforgeai.dev/docs" },
   openGraph: {
-    title: "Documentation – Prompt Forge",
+    title: "Dokümantasyon — PromptForge",
     description:
-      "Learn how to use Prompt Forge to generate full-stack SaaS apps from plain English. Guides, examples, and API reference.",
+      "PromptForge ile Türkçe açıklamalardan full-stack SaaS uygulamaları üretin. Kılavuzlar, örnekler ve API referansı.",
     url: "https://promptforgeai.dev/docs",
-    siteName: "Prompt Forge",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Prompt Forge Documentation" }],
+    siteName: "PromptForge",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "PromptForge Dokümantasyon" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Documentation – Prompt Forge",
-    description: "Learn how to use Prompt Forge to generate full-stack SaaS apps from plain English.",
+    title: "Dokümantasyon — PromptForge",
+    description: "PromptForge ile Türkçe açıklamalardan full-stack SaaS uygulamaları üretin.",
     images: ["/twitter-image"],
   },
 };

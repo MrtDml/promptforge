@@ -102,9 +102,51 @@ const WHY_US = [
   "Her değişiklik için AI chat asistanı",
 ];
 
+const aboutJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "PromptForge Hakkımızda",
+  url: "https://promptforgeai.dev/about",
+  description:
+    "PromptForge, Dumlu Teknoloji, Yazılım ve Danışmanlık'in amiral gemisi ürünüdür. Yapay zeka ile SaaS geliştirmeyi herkes için erişilebilir kılma misyonundayız.",
+  mainEntity: {
+    "@type": "Organization",
+    name: "Dumlu Teknoloji, Yazılım ve Danışmanlık",
+    alternateName: "PromptForge",
+    url: "https://promptforgeai.dev",
+    logo: "https://promptforgeai.dev/opengraph-image",
+    foundingDate: "2024",
+    email: "hello@promptforgeai.dev",
+    telephone: "+905426674230",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "TepeTepe Prime İş ve Yaşam Merkezi, Mustafa Kemal Mah. Dumlupınar Bulvarı",
+      addressLocality: "Çankaya",
+      addressRegion: "Ankara",
+      addressCountry: "TR",
+    },
+    sameAs: [
+      "https://github.com/MrtDml/promptforge",
+      "https://twitter.com/promptforgeai",
+    ],
+    knowsAbout: [
+      "Yapay Zeka",
+      "SaaS Geliştirme",
+      "NestJS",
+      "Prisma ORM",
+      "Backend Kod Üretimi",
+      "TypeScript",
+    ],
+  },
+};
+
 export default function AboutPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutJsonLd) }}
+      />
       <LandingNav />
 
       <main className="bg-[#0a0b14] min-h-screen">

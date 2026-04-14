@@ -6,6 +6,21 @@ export const metadata: Metadata = {
   title: "KVKK Aydınlatma Metni — PromptForge",
   description:
     "6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında PromptForge kullanıcılarının kişisel verilerinin nasıl işlendiğine dair aydınlatma metni.",
+  alternates: { canonical: "https://promptforgeai.dev/kvkk" },
+  openGraph: {
+    title: "KVKK Aydınlatma Metni — PromptForge",
+    description:
+      "6698 sayılı KVKK kapsamında kişisel verilerinizin nasıl işlendiğini öğrenin.",
+    url: "https://promptforgeai.dev/kvkk",
+    siteName: "PromptForge",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "PromptForge KVKK" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "KVKK Aydınlatma Metni — PromptForge",
+    description: "6698 sayılı KVKK kapsamında kişisel verilerinizin işlenme bilgisi.",
+    images: ["/twitter-image"],
+  },
 };
 
 export default function KvkkPage() {

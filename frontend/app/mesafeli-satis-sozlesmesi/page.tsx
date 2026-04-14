@@ -6,6 +6,21 @@ export const metadata: Metadata = {
   title: "Mesafeli Satış Sözleşmesi — PromptForge",
   description:
     "PromptForge abonelik hizmetine ilişkin Mesafeli Satış Sözleşmesi. 6502 sayılı Tüketicinin Korunması Hakkında Kanun kapsamında hazırlanmıştır.",
+  alternates: { canonical: "https://promptforgeai.dev/mesafeli-satis-sozlesmesi" },
+  openGraph: {
+    title: "Mesafeli Satış Sözleşmesi — PromptForge",
+    description:
+      "6502 sayılı Tüketicinin Korunması Hakkında Kanun kapsamında hazırlanan PromptForge Mesafeli Satış Sözleşmesi.",
+    url: "https://promptforgeai.dev/mesafeli-satis-sozlesmesi",
+    siteName: "PromptForge",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "PromptForge Mesafeli Satış Sözleşmesi" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mesafeli Satış Sözleşmesi — PromptForge",
+    description: "6502 sayılı kanun kapsamında PromptForge Mesafeli Satış Sözleşmesi.",
+    images: ["/twitter-image"],
+  },
 };
 
 export default function MesafeliSatisSozlesmesiPage() {

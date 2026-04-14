@@ -1,11 +1,33 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import LandingNav from "@components/layout/LandingNav";
 import LandingFooter from "@components/layout/LandingFooter";
 import AnnouncementBanner from "@components/layout/AnnouncementBanner";
 
+export const metadata: Metadata = {
+  title: "Kullanım Koşulları — PromptForge",
+  description:
+    "PromptForge platformuna ait Kullanım Koşulları. Hesap oluşturma, abonelik, fikri mülkiyet ve kabul edilebilir kullanım politikalarına dair bilgiler.",
+  alternates: { canonical: "https://promptforgeai.dev/terms" },
+  openGraph: {
+    title: "Kullanım Koşulları — PromptForge",
+    description:
+      "PromptForge platformuna ait Kullanım Koşulları. Hesap, abonelik ve fikri mülkiyet politikaları.",
+    url: "https://promptforgeai.dev/terms",
+    siteName: "PromptForge",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "PromptForge Kullanım Koşulları" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kullanım Koşulları — PromptForge",
+    description: "PromptForge platformuna ait Kullanım Koşulları.",
+    images: ["/twitter-image"],
+  },
+};
+
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-[#0a0b14] text-slate-100">
       <AnnouncementBanner />
       <LandingNav />
 

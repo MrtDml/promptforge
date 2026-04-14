@@ -84,7 +84,7 @@ export default function SupportPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-[#0a0b14] text-white">
       <AnnouncementBanner />
       <LandingNav />
       <div className="max-w-3xl mx-auto px-6 py-16">

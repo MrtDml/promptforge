@@ -6,6 +6,21 @@ export const metadata: Metadata = {
   title: "İptal ve İade Politikası — PromptForge",
   description:
     "PromptForge aboneliklerine ait iptal ve iade koşulları. 14 günlük koşulsuz iade garantisi hakkında bilgi edinin.",
+  alternates: { canonical: "https://promptforgeai.dev/iade-politikasi" },
+  openGraph: {
+    title: "İptal ve İade Politikası — PromptForge",
+    description:
+      "PromptForge abonelik iptali ve 14 günlük para iade garantisi koşulları.",
+    url: "https://promptforgeai.dev/iade-politikasi",
+    siteName: "PromptForge",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "PromptForge İade Politikası" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "İptal ve İade Politikası — PromptForge",
+    description: "14 günlük koşulsuz iade garantisi ve abonelik iptal koşulları.",
+    images: ["/twitter-image"],
+  },
 };
 
 export default function IadePolitikasiPage() {

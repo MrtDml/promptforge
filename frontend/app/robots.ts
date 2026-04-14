@@ -21,6 +21,8 @@ export default function robots(): MetadataRoute.Robots {
           "/share/",
           "/download/",
           "/auth/oauth-callback",
+          "/checkout",
+          "/checkout/",
         ],
       },
     ],

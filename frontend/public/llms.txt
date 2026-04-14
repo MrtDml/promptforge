@@ -51,7 +51,7 @@ Kredi kartı gerekmez. Ücretsiz planla başla, istediğin zaman yükselt.
 
 ## Şirket Bilgisi
 
-- **Şirket**: Dumlu Teknoloji, Yazılım ve Danışmanlık
+- **Şirket**: Murat Dumlu Bilgi Teknolojileri
 - **Web**: https://promptforgeai.dev
 - **E-posta**: hello@promptforgeai.dev
 - **Telefon**: +90 542 667 42 30

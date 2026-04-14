@@ -152,7 +152,7 @@ export default function ContactClient() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-white">Adres</p>
-                    <p className="text-slate-400 text-sm">Dumlu Teknoloji, Yazılım ve Danışmanlık</p>
+                    <p className="text-slate-400 text-sm">Murat Dumlu Bilgi Teknolojileri</p>
                     <p className="text-slate-500 text-xs mt-0.5">
                       TepeTepe Prime İş ve Yaşam Merkezi,
                     </p>

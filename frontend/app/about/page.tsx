@@ -9,9 +9,9 @@ import LandingNav from "@components/layout/LandingNav";
 import LandingFooter from "@components/layout/LandingFooter";
 
 export const metadata: Metadata = {
-  title: "Hakkımızda — PromptForge | Dumlu Teknoloji, Yazılım ve Danışmanlık",
+  title: "Hakkımızda — PromptForge | Murat Dumlu Bilgi Teknolojileri",
   description:
-    "PromptForge, Dumlu Teknoloji, Yazılım ve Danışmanlık'in amiral gemisi ürünüdür. Yapay zeka ile SaaS geliştirmeyi herkes için erişilebilir kılma misyonundayız.",
+    "PromptForge, Murat Dumlu Bilgi Teknolojileri'in amiral gemisi ürünüdür. Yapay zeka ile SaaS geliştirmeyi herkes için erişilebilir kılma misyonundayız.",
   keywords: [
     "PromptForge hakkında",
     "Dumlu Teknoloji",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Hakkımızda — PromptForge",
     description:
-      "Dumlu Teknoloji, Yazılım ve Danışmanlık, yapay zeka destekli geliştirici araçları üretir. PromptForge, amiral gemisi ürünümüzdür.",
+      "Murat Dumlu Bilgi Teknolojileri, yapay zeka destekli geliştirici araçları üretir. PromptForge, amiral gemisi ürünümüzdür.",
     url: "https://promptforgeai.dev/about",
     siteName: "PromptForge",
     locale: "tr_TR",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Hakkımızda — PromptForge",
-    description: "Dumlu Teknoloji, Yazılım ve Danışmanlık. Yapay zeka ile SaaS geliştirmeyi herkes için erişilebilir kılıyoruz.",
+    description: "Murat Dumlu Bilgi Teknolojileri. Yapay zeka ile SaaS geliştirmeyi herkes için erişilebilir kılıyoruz.",
     images: ["/twitter-image"],
   },
 };
@@ -108,10 +108,10 @@ const aboutJsonLd = {
   name: "PromptForge Hakkımızda",
   url: "https://promptforgeai.dev/about",
   description:
-    "PromptForge, Dumlu Teknoloji, Yazılım ve Danışmanlık'in amiral gemisi ürünüdür. Yapay zeka ile SaaS geliştirmeyi herkes için erişilebilir kılma misyonundayız.",
+    "PromptForge, Murat Dumlu Bilgi Teknolojileri'in amiral gemisi ürünüdür. Yapay zeka ile SaaS geliştirmeyi herkes için erişilebilir kılma misyonundayız.",
   mainEntity: {
     "@type": "Organization",
-    name: "Dumlu Teknoloji, Yazılım ve Danışmanlık",
+    name: "Murat Dumlu Bilgi Teknolojileri",
     alternateName: "PromptForge",
     url: "https://promptforgeai.dev",
     logo: "https://promptforgeai.dev/opengraph-image",
@@ -161,7 +161,7 @@ export default function AboutPage() {
           <div className="relative max-w-4xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-indigo-600/10 border border-indigo-600/20 rounded-full px-4 py-1.5 mb-6">
               <Zap className="w-3.5 h-3.5 text-indigo-400" />
-              <span className="text-indigo-300 text-xs font-medium tracking-wide">Dumlu Teknoloji, Yazılım ve Danışmanlık</span>
+              <span className="text-indigo-300 text-xs font-medium tracking-wide">Murat Dumlu Bilgi Teknolojileri</span>
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight tracking-tight">

@@ -148,7 +148,7 @@ const steps = [
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Dumlu Teknoloji, Yazılım ve Danışmanlık",
+  name: "Murat Dumlu Bilgi Teknolojileri",
   alternateName: "PromptForge",
   url: "https://promptforgeai.dev",
   logo: "https://promptforgeai.dev/opengraph-image",

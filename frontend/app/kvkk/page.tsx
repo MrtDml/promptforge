@@ -49,14 +49,14 @@ export default function KvkkPage() {
           prose-strong:text-white">
 
           <p>
-            <strong>Dumlu Teknoloji, Yazılım ve Danışmanlık</strong> (&quot;Şirket&quot; veya &quot;Veri Sorumlusu&quot;) olarak,
+            <strong>Murat Dumlu Bilgi Teknolojileri</strong> (&quot;Şirket&quot; veya &quot;Veri Sorumlusu&quot;) olarak,
             6698 sayılı Kişisel Verilerin Korunması Kanunu (&quot;KVKK&quot;) uyarınca kişisel verilerinizi aşağıda
             açıklanan amaçlar doğrultusunda, hukuka ve dürüstlük kurallarına uygun şekilde işlemekteyiz.
           </p>
 
           <h2>1. Veri Sorumlusunun Kimliği</h2>
           <ul>
-            <li><strong>Unvan:</strong> Dumlu Teknoloji, Yazılım ve Danışmanlık</li>
+            <li><strong>Unvan:</strong> Murat Dumlu Bilgi Teknolojileri</li>
             <li><strong>Adres:</strong> TepeTepe Prime İş ve Yaşam Merkezi, Mustafa Kemal Mah. Dumlupınar Bulvarı, Çankaya / Ankara</li>
             <li><strong>Telefon:</strong> +90 (542) 667 42 30</li>
             <li><strong>E-posta:</strong> hello@promptforgeai.dev</li>

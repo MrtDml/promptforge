@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     "generate SaaS from prompt",
   ],
   authors: [{ name: "PromptForge", url: "https://promptforgeai.dev" }],
-  creator: "Dumlu Teknoloji, Yazılım ve Danışmanlık",
+  creator: "Murat Dumlu Bilgi Teknolojileri",
   publisher: "PromptForge",
   metadataBase: new URL("https://promptforgeai.dev"),
   alternates: {
@@ -121,7 +121,7 @@ const jsonLdApp = {
 const jsonLdOrg = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Dumlu Teknoloji, Yazılım ve Danışmanlık",
+  name: "Murat Dumlu Bilgi Teknolojileri",
   alternateName: "PromptForge",
   url: "https://promptforgeai.dev",
   logo: "https://promptforgeai.dev/opengraph-image",

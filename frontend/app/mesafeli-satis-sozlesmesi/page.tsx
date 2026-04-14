@@ -53,8 +53,8 @@ export default function MesafeliSatisSozlesmesiPage() {
 
           <h3>Satıcı Bilgileri</h3>
           <ul>
-            <li><strong>Unvan:</strong> Dumlu Teknoloji, Yazılım ve Danışmanlık</li>
-            <li><strong>Ticaret Unvanı:</strong> Dumlu Teknoloji, Yazılım ve Danışmanlık</li>
+            <li><strong>Unvan:</strong> Murat Dumlu Bilgi Teknolojileri</li>
+            <li><strong>Ticaret Unvanı:</strong> Murat Dumlu Bilgi Teknolojileri</li>
             <li><strong>Adres:</strong> TepeTepe Prime İş ve Yaşam Merkezi, Mustafa Kemal Mah. Dumlupınar Bulvarı, Çankaya / Ankara</li>
             <li><strong>Telefon:</strong> +90 (542) 667 42 30</li>
             <li><strong>E-posta:</strong> hello@promptforgeai.dev</li>

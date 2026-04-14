@@ -21,7 +21,7 @@ const contactJsonLd = {
   description: "PromptForge destek ve iletişim sayfası",
   mainEntity: {
     "@type": "Organization",
-    name: "Dumlu Teknoloji, Yazılım ve Danışmanlık",
+    name: "Murat Dumlu Bilgi Teknolojileri",
     email: "hello@promptforgeai.dev",
     telephone: "+905426674230",
     url: "https://promptforgeai.dev",

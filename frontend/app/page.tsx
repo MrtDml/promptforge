@@ -313,8 +313,8 @@ export default async function LandingPage() {
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold leading-tight tracking-tight mb-6">
-            SaaS uygulamanı{" "}
-            <span className="gradient-text">tek cümleyle geliştir</span>
+            <span className="gradient-text">SaaS</span>{" "}
+            Uygulamanı Tek Cümleyle Geliştir
           </h1>
 
           <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">

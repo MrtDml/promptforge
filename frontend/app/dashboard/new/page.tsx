@@ -350,7 +350,7 @@ function NewProjectContent() {
           {/* Framework selector */}
           <div className="glass-card p-5">
             <h3 className="font-semibold text-white mb-1">Framework</h3>
-            <p className="text-slate-500 text-xs mb-4">Üretilecek proje için backend framework'ü seç.</p>
+            <p className="text-slate-500 text-xs mb-4">Üretilecek proje için backend framework&apos;ü seç.</p>
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"

@@ -156,7 +156,7 @@ function PostDeployAdvisor({ project, deployUrl }: { project: Project; deployUrl
               className="flex items-center gap-2 mt-3 text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
             >
               <ExternalLink className="w-3 h-3" />
-              Swagger UI'ı aç: {deployUrl}/api
+              Swagger UI&apos;ı aç: {deployUrl}/api
             </a>
           )}
         </div>
@@ -255,7 +255,7 @@ export default function DeployPanel({ project, onProjectUpdate }: DeployPanelPro
             <RailwayLogo className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="text-base font-semibold text-white">Railway'e Deploy Et</h3>
+            <h3 className="text-base font-semibold text-white">Railway&apos;e Deploy Et</h3>
             <p className="text-xs text-slate-400 mt-0.5">Railway destekli tek tıkla bulut dağıtımı</p>
           </div>
         </div>

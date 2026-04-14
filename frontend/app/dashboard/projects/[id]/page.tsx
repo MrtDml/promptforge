@@ -21,7 +21,7 @@ export default function ProjectDetailPage({
         className="inline-flex items-center gap-2 text-slate-400 hover:text-slate-200 transition-colors text-sm mb-6 group"
       >
         <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-        Dashboard'a Dön
+        Dashboard&apos;a Dön
       </Link>
 
       {/* Loading */}
@@ -53,7 +53,7 @@ export default function ProjectDetailPage({
               Tekrar dene
             </button>
             <Link href="/dashboard" className="btn-primary">
-              Dashboard'a git
+              Dashboard&apos;a git
             </Link>
           </div>
         </div>

@@ -87,13 +87,13 @@ function VerifyEmailContent() {
           <div>
             <p className="text-white font-semibold text-lg">E-posta doğrulandı!</p>
             <p className="text-slate-400 text-sm mt-1">{message}</p>
-            <p className="text-slate-500 text-xs mt-3">Dashboard'a yönlendiriliyorsun…</p>
+            <p className="text-slate-500 text-xs mt-3">Dashboard&apos;a yönlendiriliyorsun…</p>
           </div>
           <Link
             href="/dashboard"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition-colors"
           >
-            Dashboard'a Git
+            Dashboard&apos;a Git
           </Link>
         </>
       )}
@@ -136,7 +136,7 @@ function VerifyEmailContent() {
               href="/dashboard"
               className="px-5 py-2.5 rounded-xl border border-slate-700 hover:border-slate-500 text-slate-300 text-sm font-semibold transition-colors text-center"
             >
-              Dashboard'a Git
+              Dashboard&apos;a Git
             </Link>
           </div>
         </>

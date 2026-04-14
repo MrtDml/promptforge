@@ -218,7 +218,7 @@ export default function AboutPage() {
               <h2 className="text-xl font-bold text-white mb-3">Hikâyemiz</h2>
               <p className="text-slate-300 leading-relaxed text-sm">
                 2024&apos;te kurulan PromptForge, bir geliştirici sorunundan doğdu:
-                her yeni SaaS projesinde aynı boilerplate'i tekrar yazmanın ne kadar zaman
+                her yeni SaaS projesinde aynı boilerplate&apos;i tekrar yazmanın ne kadar zaman
                 kaybı olduğunu fark ettik.
               </p>
               <p className="text-slate-400 leading-relaxed mt-3 text-sm">
@@ -282,7 +282,7 @@ export default function AboutPage() {
                 <h2 className="text-3xl font-bold text-white mb-4">Neden PromptForge?</h2>
                 <p className="text-slate-400 mb-8 leading-relaxed">
                   Lovable, Bolt.new veya v0 gibi araçlar çoğunlukla İngilizce içerik üretimine ve
-                  frontend'e odaklanır. PromptForge, Türk geliştirici ekosistemine özel ve
+                  frontend&apos;e odaklanır. PromptForge, Türk geliştirici ekosistemine özel ve
                   gerçekten üretime hazır backend üretimine odaklanır.
                 </p>
                 <ul className="space-y-3">

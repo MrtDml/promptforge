@@ -141,11 +141,11 @@ export default function OnboardingPage() {
               <div className="bg-[#0a0b14]/60 border border-slate-800 rounded-xl p-4">
                 <p className="text-slate-300 text-sm font-medium mb-1">Örnek prompt:</p>
                 <p className="text-indigo-300 text-sm italic leading-relaxed">
-                  "Kullanıcılar, projeler ve görevlerden oluşan bir task yönetim uygulaması yap. Kullanıcılar görevleri ekip arkadaşlarına atayabilsin, son tarih belirleyebilsin ve ilerlemeyi takip edebilsin."
+                  &ldquo;Kullanıcılar, projeler ve görevlerden oluşan bir task yönetim uygulaması yap. Kullanıcılar görevleri ekip arkadaşlarına atayabilsin, son tarih belirleyebilsin ve ilerlemeyi takip edebilsin.&rdquo;
                 </p>
               </div>
               <p className="text-slate-400 text-sm text-center">
-                Kendi açıklamanı yapıştır ve Oluştur'a bas — yaklaşık 15 saniye sürer.
+                Kendi açıklamanı yapıştır ve Oluştur&apos;a bas — yaklaşık 15 saniye sürer.
               </p>
             </div>
           )}

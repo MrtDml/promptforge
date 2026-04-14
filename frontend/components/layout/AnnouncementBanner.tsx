@@ -91,7 +91,7 @@ export default function AnnouncementBanner() {
         <button
           onClick={() => setDismissed(true)}
           className={`flex-shrink-0 p-1 rounded hover:opacity-70 transition-opacity ${style.text}`}
-          aria-label="Dismiss"
+          aria-label="Kapat"
         >
           <X className="w-3.5 h-3.5" />
         </button>

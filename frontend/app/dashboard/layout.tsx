@@ -97,7 +97,7 @@ export default function DashboardLayout({
           <button
             onClick={() => setSidebarOpen(true)}
             className="p-2 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors"
-            aria-label="Open menu"
+            aria-label="Menüyü aç"
           >
             <Menu className="w-5 h-5" />
           </button>

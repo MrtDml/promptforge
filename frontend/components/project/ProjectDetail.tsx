@@ -418,7 +418,7 @@ function AISummaryPanel({ projectId }: { projectId: string }) {
           {error}
         </div>
         <button onClick={generate} className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors">
-          Try again
+          Tekrar dene
         </button>
       </div>
     );
@@ -499,7 +499,7 @@ export default function ProjectDetail({
       const safeName = project.name.replace(/\s+/g, "-").toLowerCase();
       await generatorApi.downloadProject(project.id, `${safeName}.zip`);
     } catch (err: any) {
-      setDownloadError(err?.message ?? "Download failed. Please try again.");
+      setDownloadError(err?.message ?? "İndirme başarısız. Lütfen tekrar deneyin.");
     } finally {
       setDownloading(false);
     }
@@ -523,7 +523,7 @@ export default function ProjectDetail({
       });
       setTimeout(() => setShareToast(null), 3000);
     } catch {
-      setShareToast({ type: "error", message: "Failed to update sharing settings." });
+      setShareToast({ type: "error", message: "Paylaşım ayarları güncellenemedi." });
       setTimeout(() => setShareToast(null), 3000);
     } finally {
       setShareLoading(false);

@@ -149,7 +149,7 @@ export default function Sidebar({ onClose }: SidebarProps = {}) {
           <button
             onClick={onClose}
             className="md:hidden p-1.5 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors"
-            aria-label="Close menu"
+            aria-label="Menüyü kapat"
           >
             <X className="w-4 h-4" />
           </button>
@@ -262,7 +262,7 @@ export default function Sidebar({ onClose }: SidebarProps = {}) {
           <button
             onClick={handleLogout}
             className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:text-red-400 text-slate-500"
-            title="Sign out"
+            title="Çıkış yap"
           >
             <LogOut className="w-4 h-4" />
           </button>

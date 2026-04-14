@@ -109,7 +109,7 @@ export default function PromptForm({
       setPrompt(res.data.enhanced);
       setTimeout(() => textareaRef.current?.focus(), 50);
     } catch {
-      setEnhanceError("Could not enhance prompt. Please try again.");
+      setEnhanceError("Prompt geliştirilemedi. Lütfen tekrar deneyin.");
     } finally {
       setIsEnhancing(false);
     }

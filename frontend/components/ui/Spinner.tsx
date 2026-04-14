@@ -47,7 +47,7 @@ Spinner.displayName = "Spinner";
 
 // ─── Full-page spinner ───────────────────────────────────────────────────────
 
-export function PageSpinner({ label = "Loading..." }: { label?: string }) {
+export function PageSpinner({ label = "Yükleniyor..." }: { label?: string }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm z-50">
       <Spinner size="xl" color="indigo" label={label} />

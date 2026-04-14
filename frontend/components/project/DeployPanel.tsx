@@ -21,10 +21,10 @@ const deployStatusConfig: Record<DeployStatus, {
   label: string; color: string; bgColor: string; borderColor: string; dotColor: string;
   icon: React.ElementType; animate?: boolean;
 }> = {
-  not_deployed: { label: "Not Deployed", color: "text-slate-400", bgColor: "bg-slate-700/40", borderColor: "border-slate-600/40", dotColor: "bg-slate-400", icon: Globe },
-  deploying: { label: "Deploying…", color: "text-yellow-300", bgColor: "bg-yellow-600/15", borderColor: "border-yellow-500/30", dotColor: "bg-yellow-400", icon: Loader2, animate: true },
-  deployed: { label: "Deployed", color: "text-green-300", bgColor: "bg-green-600/15", borderColor: "border-green-500/30", dotColor: "bg-green-400", icon: CheckCircle2 },
-  failed: { label: "Failed", color: "text-red-300", bgColor: "bg-red-600/15", borderColor: "border-red-500/30", dotColor: "bg-red-400", icon: XCircle },
+  not_deployed: { label: "Dağıtılmadı", color: "text-slate-400", bgColor: "bg-slate-700/40", borderColor: "border-slate-600/40", dotColor: "bg-slate-400", icon: Globe },
+  deploying: { label: "Dağıtılıyor…", color: "text-yellow-300", bgColor: "bg-yellow-600/15", borderColor: "border-yellow-500/30", dotColor: "bg-yellow-400", icon: Loader2, animate: true },
+  deployed: { label: "Dağıtıldı", color: "text-green-300", bgColor: "bg-green-600/15", borderColor: "border-green-500/30", dotColor: "bg-green-400", icon: CheckCircle2 },
+  failed: { label: "Başarısız", color: "text-red-300", bgColor: "bg-red-600/15", borderColor: "border-red-500/30", dotColor: "bg-red-400", icon: XCircle },
 };
 
 function DeployStatusBadge({ status }: { status: DeployStatus }) {
@@ -51,56 +51,56 @@ function buildNextSteps(project: Project): NextStep[] {
   const steps: NextStep[] = [];
 
   steps.push({
-    title: "Set environment variables",
-    description: "Copy .env.example to .env and fill in DATABASE_URL, JWT_SECRET, and any integration keys before starting.",
+    title: "Ortam değişkenlerini ayarla",
+    description: ".env.example dosyasını .env olarak kopyala ve başlamadan önce DATABASE_URL, JWT_SECRET ile diğer entegrasyon anahtarlarını doldur.",
     priority: "high",
   });
 
   if (features.includes("auth")) {
     steps.push({
-      title: "Create your first admin user",
-      description: "Register via POST /api/v1/auth/register, then promote the user to ADMIN role directly in the database.",
+      title: "İlk admin kullanıcını oluştur",
+      description: "POST /api/v1/auth/register ile kayıt ol, ardından kullanıcıyı doğrudan veritabanında ADMIN rolüne yükselt.",
       priority: "high",
     });
   }
 
   steps.push({
-    title: "Run database migrations",
-    description: "Execute `npx prisma migrate deploy` to apply your schema to the production database.",
+    title: "Veritabanı migration'larını çalıştır",
+    description: "Şemayı üretim veritabanına uygulamak için `npx prisma migrate deploy` komutunu çalıştır.",
     priority: "high",
   });
 
   if (features.includes("payments")) {
     steps.push({
-      title: "Configure payment webhook",
-      description: "Register your deployed URL as a webhook endpoint in your payment provider dashboard.",
+      title: "Ödeme webhook'unu yapılandır",
+      description: "Dağıtım URL'ini ödeme sağlayıcısı dashboard'unda webhook endpoint olarak kaydet.",
       priority: "medium",
     });
   }
 
   steps.push({
-    title: "Test your API endpoints",
-    description: "Import the included Postman collection (postman_collection.json) to explore and test all endpoints.",
+    title: "API endpoint'lerini test et",
+    description: "Tüm endpoint'leri keşfetmek ve test etmek için dahil edilen Postman koleksiyonunu (postman_collection.json) içe aktar.",
     priority: "medium",
   });
 
   if (features.includes("notifications")) {
     steps.push({
-      title: "Set up email provider",
-      description: "Add your SMTP credentials or email service API key to the environment variables.",
+      title: "E-posta sağlayıcısını kur",
+      description: "SMTP kimlik bilgilerini veya e-posta servisi API anahtarını ortam değişkenlerine ekle.",
       priority: "medium",
     });
   }
 
   steps.push({
-    title: "Enable HTTPS & custom domain",
-    description: "In your Railway project settings, add a custom domain and Railway will provision a TLS certificate automatically.",
+    title: "HTTPS ve özel domain'i etkinleştir",
+    description: "Railway proje ayarlarında özel domain ekle; Railway TLS sertifikasını otomatik olarak sağlayacaktır.",
     priority: "low",
   });
 
   steps.push({
-    title: "Set up monitoring",
-    description: "Connect a logging service (e.g. Sentry, Logtail) to catch errors in production early.",
+    title: "İzleme ve loglama kur",
+    description: "Üretim ortamındaki hataları erken yakalamak için bir loglama servisi (ör. Sentry, Logtail) bağlayın.",
     priority: "low",
   });
 
@@ -126,8 +126,8 @@ function PostDeployAdvisor({ project, deployUrl }: { project: Project; deployUrl
         className="w-full flex items-center gap-2 px-5 py-3 text-left hover:bg-slate-700/20 transition-colors"
       >
         <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" />
-        <span className="text-sm font-semibold text-white flex-1">What to do next</span>
-        <span className="text-xs text-slate-500 mr-2">{steps.length} steps</span>
+        <span className="text-sm font-semibold text-white flex-1">Sonraki adımlar</span>
+        <span className="text-xs text-slate-500 mr-2">{steps.length} adım</span>
         {open ? <ChevronUp className="w-4 h-4 text-slate-500" /> : <ChevronDown className="w-4 h-4 text-slate-500" />}
       </button>
 
@@ -140,7 +140,7 @@ function PostDeployAdvisor({ project, deployUrl }: { project: Project; deployUrl
                 <div className="flex items-center gap-2 mb-0.5">
                   <p className="text-sm font-medium text-white">{step.title}</p>
                   <span className={`text-xs px-1.5 py-0.5 rounded-full border ${priorityStyles[step.priority].label}`}>
-                    {step.priority}
+                    {step.priority === "high" ? "yüksek" : step.priority === "medium" ? "orta" : "düşük"}
                   </span>
                 </div>
                 <p className="text-xs text-slate-400 leading-relaxed">{step.description}</p>
@@ -156,7 +156,7 @@ function PostDeployAdvisor({ project, deployUrl }: { project: Project; deployUrl
               className="flex items-center gap-2 mt-3 text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
             >
               <ExternalLink className="w-3 h-3" />
-              Open Swagger UI at {deployUrl}/api
+              Swagger UI'ı aç: {deployUrl}/api
             </a>
           )}
         </div>
@@ -255,8 +255,8 @@ export default function DeployPanel({ project, onProjectUpdate }: DeployPanelPro
             <RailwayLogo className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="text-base font-semibold text-white">Deploy to Railway</h3>
-            <p className="text-xs text-slate-400 mt-0.5">One-click cloud deployment powered by Railway</p>
+            <h3 className="text-base font-semibold text-white">Railway'e Deploy Et</h3>
+            <p className="text-xs text-slate-400 mt-0.5">Railway destekli tek tıkla bulut dağıtımı</p>
           </div>
         </div>
         <DeployStatusBadge status={deployStatus} />
@@ -266,15 +266,15 @@ export default function DeployPanel({ project, onProjectUpdate }: DeployPanelPro
       <div className="glass-card p-4 space-y-1">
         {deployStatus === "not_deployed" && (
           <p className="text-sm text-slate-400">
-            Your project is ready to deploy. Click <span className="text-indigo-300 font-medium">Deploy to Railway</span> to create a live environment with a PostgreSQL database and a public URL in seconds.
+            Projen dağıtıma hazır. PostgreSQL veritabanı ve public URL ile canlı ortam oluşturmak için <span className="text-indigo-300 font-medium">Railway&apos;e Deploy Et</span> butonuna tıkla.
           </p>
         )}
         {isDeployingState && (
           <div className="flex items-start gap-3">
             <Loader2 className="w-4 h-4 text-yellow-400 animate-spin mt-0.5 flex-shrink-0" />
             <div>
-              <p className="text-sm text-yellow-300 font-medium">Deployment in progress</p>
-              <p className="text-xs text-slate-400 mt-1">Railway is provisioning your services. This usually takes 30–90 seconds. Status updates every 3 seconds.</p>
+              <p className="text-sm text-yellow-300 font-medium">Dağıtım devam ediyor</p>
+              <p className="text-xs text-slate-400 mt-1">Railway servislerini hazırlıyor. Bu genellikle 30–90 saniye sürer. Durum her 3 saniyede güncellenir.</p>
             </div>
           </div>
         )}
@@ -282,7 +282,7 @@ export default function DeployPanel({ project, onProjectUpdate }: DeployPanelPro
           <div className="flex items-start gap-3">
             <CheckCircle2 className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="text-sm text-green-300 font-medium">Successfully deployed</p>
+              <p className="text-sm text-green-300 font-medium">Başarıyla dağıtıldı</p>
               <a href={deployUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 mt-1 text-xs text-indigo-400 hover:text-indigo-300 transition-colors font-mono break-all">
                 {deployUrl}
                 <ExternalLink className="w-3 h-3 flex-shrink-0" />
@@ -294,9 +294,9 @@ export default function DeployPanel({ project, onProjectUpdate }: DeployPanelPro
           <div className="flex items-start gap-3">
             <AlertCircle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
             <div>
-              <p className="text-sm text-red-300 font-medium">Deployment failed</p>
+              <p className="text-sm text-red-300 font-medium">Dağıtım başarısız</p>
               {error && <p className="text-xs text-slate-400 mt-1 break-words">{error}</p>}
-              <p className="text-xs text-slate-500 mt-1">Check your Railway API token and project configuration, then try again.</p>
+              <p className="text-xs text-slate-500 mt-1">Railway API tokenını ve proje yapılandırmanı kontrol edip tekrar dene.</p>
             </div>
           </div>
         )}
@@ -315,20 +315,20 @@ export default function DeployPanel({ project, onProjectUpdate }: DeployPanelPro
           )}
         >
           {isDeployingState ? (
-            <><Loader2 className="w-4 h-4 animate-spin" />Deploying…</>
+            <><Loader2 className="w-4 h-4 animate-spin" />Dağıtılıyor…</>
           ) : deployStatus === "failed" ? (
-            <><RefreshCw className="w-4 h-4" />Retry Deploy</>
+            <><RefreshCw className="w-4 h-4" />Tekrar Dene</>
           ) : hasBeenDeployed ? (
-            <><Rocket className="w-4 h-4" />Re-deploy</>
+            <><Rocket className="w-4 h-4" />Yeniden Deploy</>
           ) : (
-            <><Rocket className="w-4 h-4" />Deploy to Railway</>
+            <><Rocket className="w-4 h-4" />Railway&apos;e Deploy Et</>
           )}
         </button>
 
         {deployStatus === "deployed" && deployUrl && (
           <a href={deployUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm border border-green-500/30 bg-green-600/10 text-green-300 hover:bg-green-600/20 transition-all">
             <ExternalLink className="w-4 h-4" />
-            Open App
+            Uygulamayı Aç
           </a>
         )}
       </div>
@@ -336,7 +336,7 @@ export default function DeployPanel({ project, onProjectUpdate }: DeployPanelPro
       {/* Deploy history */}
       {(deployedAt || lastDeployAt || railwayProjectId) && (
         <div className="border-t border-slate-700/50 pt-5 space-y-3">
-          <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Deployment history</h4>
+          <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Dağıtım geçmişi</h4>
           <dl className="space-y-2">
             {railwayProjectId && (
               <div className="flex items-start gap-3 text-sm">
@@ -346,19 +346,19 @@ export default function DeployPanel({ project, onProjectUpdate }: DeployPanelPro
             )}
             {deployedAt && (
               <div className="flex items-center gap-3 text-sm">
-                <dt className="text-slate-500 w-36 flex-shrink-0 flex items-center gap-1.5"><Clock className="w-3 h-3" />First deployed</dt>
+                <dt className="text-slate-500 w-36 flex-shrink-0 flex items-center gap-1.5"><Clock className="w-3 h-3" />İlk dağıtım</dt>
                 <dd className="text-slate-300">{formatDate(deployedAt)} <span className="text-slate-500 text-xs">({formatRelativeTime(deployedAt)})</span></dd>
               </div>
             )}
             {lastDeployAt && (
               <div className="flex items-center gap-3 text-sm">
-                <dt className="text-slate-500 w-36 flex-shrink-0 flex items-center gap-1.5"><RefreshCw className="w-3 h-3" />Last deployed</dt>
+                <dt className="text-slate-500 w-36 flex-shrink-0 flex items-center gap-1.5"><RefreshCw className="w-3 h-3" />Son dağıtım</dt>
                 <dd className="text-slate-300">{formatDate(lastDeployAt)} <span className="text-slate-500 text-xs">({formatRelativeTime(lastDeployAt)})</span></dd>
               </div>
             )}
             {deployUrl && (
               <div className="flex items-center gap-3 text-sm">
-                <dt className="text-slate-500 w-36 flex-shrink-0 flex items-center gap-1.5"><Globe className="w-3 h-3" />Live URL</dt>
+                <dt className="text-slate-500 w-36 flex-shrink-0 flex items-center gap-1.5"><Globe className="w-3 h-3" />Canlı URL</dt>
                 <dd>
                   <a href={deployUrl} target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 transition-colors font-mono text-xs break-all inline-flex items-center gap-1">
                     {deployUrl}<ExternalLink className="w-3 h-3 flex-shrink-0" />
@@ -379,9 +379,8 @@ export default function DeployPanel({ project, onProjectUpdate }: DeployPanelPro
       <div className="flex items-center gap-2 text-xs text-slate-600 border-t border-slate-700/40 pt-4">
         <RailwayLogo className="w-3 h-3" />
         <span>
-          Deployed via{" "}
-          <a href="https://railway.app" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-400 transition-colors">Railway</a>.
-          {" "}Manage at{" "}
+          <a href="https://railway.app" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-400 transition-colors">Railway</a> üzerinden dağıtıldı.
+          {" "}Yönetim:{" "}
           <a href={railwayProjectId ? `https://railway.app/project/${railwayProjectId}` : "https://railway.app/dashboard"} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-400 transition-colors">railway.app/dashboard</a>.
         </span>
       </div>

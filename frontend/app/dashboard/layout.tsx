@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { isAuthenticated, getStoredUser } from "@/lib/auth";
 import Sidebar from "@components/layout/Sidebar";
 import AssistantWidget from "@components/ui/AssistantWidget";
+import ErrorBoundary from "@components/ui/ErrorBoundary";
 import { Menu, Zap, MailWarning, X, Loader2 } from "lucide-react";
 import Link from "next/link";
 import apiClient from "@/lib/api";
@@ -139,7 +140,9 @@ export default function DashboardLayout({
         )}
 
         <main className="flex-1 overflow-y-auto">
-          <div className="min-h-full">{children}</div>
+          <ErrorBoundary>
+            <div className="min-h-full">{children}</div>
+          </ErrorBoundary>
         </main>
       </div>
 

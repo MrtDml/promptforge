@@ -1,0 +1,83 @@
+# PromptForge
+
+> Yapay zeka destekli SaaS oluşturucu — tek bir Türkçe prompttan üretime hazır NestJS backend üretin.
+
+PromptForge, geliştiricilerin ve girişimcilerin SaaS fikirlerini saniyeler içinde eksiksiz, üretime hazır koda dönüştürmesine olanak tanıyan bir yapay zeka platformudur. Kullanıcılar, uygulamalarını sade Türkçe ile tarif eder; PromptForge, NestJS backend, Prisma şeması, REST API'leri, JWT kimlik doğrulama ve Docker yapılandırmasını otomatik olarak üretir.
+
+## Ne Yapar
+
+- Türkçe doğal dil açıklamalarından tam NestJS + Prisma backend kodu üretir
+- Varlıkları, ilişkileri ve API endpoint'lerini otomatik olarak tespit eder
+- Üretime hazır kodu ZIP olarak indir, GitHub'a gönder veya Railway'e dağıt
+- AI sohbet asistanıyla üretilen kodu anında değiştir
+- Kodlama bilgisi gerektirmez — fikrinizi tarif et, yeterli
+
+## Temel Özellikler
+
+- **Anında Üretim**: 5 dakika içinde çalışan SaaS backend'i
+- **Akıllı Şema**: Otomatik veritabanı ilişkileri, indeksler ve kısıtlamalar
+- **Full-Stack Çıktı**: REST API, Prisma migration, JWT auth, Docker, CI/CD
+- **GitHub Entegrasyonu**: Tek tıkla yeni repoya gönder
+- **Railway Dağıtımı**: Doğrudan dashboard'dan deploy
+- **AI Chat**: Üretilen kodu sohbetle değiştir
+
+## Planlar ve Fiyatlar
+
+| Plan     | Fiyat     | Üretim Hakkı | Varlık |
+|----------|-----------|--------------|--------|
+| Ücretsiz | ₺0/ay     | 3/ay         | 5'e kadar |
+| Starter  | ₺950/ay   | 50/ay        | Sınırsız |
+| Pro      | ₺3.250/ay | Sınırsız     | Sınırsız |
+
+Kredi kartı gerekmez. Ücretsiz planla başla, istediğin zaman yükselt.
+
+## Kimin İçin
+
+- Hızla MVP oluşturmak isteyen bağımsız geliştiriciler
+- SaaS ürün geliştiren startup'lar
+- Backend boilerplate yazarak zaman kaybetmek istemeyen takımlar
+- Teknik bilgisi sınırlı olan kurucu girişimciler
+- Freelancer geliştiriciler ve ajanslar
+
+## Teknoloji Yığını
+
+Üretilen kod şunları içerir:
+- **Framework**: NestJS (TypeScript, dekoratörler, modüller, DI)
+- **ORM**: Prisma (type-safe şema, migration'lar, PostgreSQL)
+- **Kimlik Doğrulama**: JWT + refresh token, rol tabanlı erişim kontrolü
+- **API**: RESTful endpoint'ler, Swagger/OpenAPI dokümantasyonu
+- **Altyapı**: Docker, docker-compose, ortam değişken yönetimi
+- **Test**: Jest unit ve e2e test iskeletleri
+
+## Şirket Bilgisi
+
+- **Şirket**: Dumlu Teknoloji, Yazılım ve Danışmanlık
+- **Web**: https://promptforgeai.dev
+- **E-posta**: info@promptforgeai.dev
+- **Telefon**: +90 542 667 42 30
+- **Adres**: TepeTepe Prime İş ve Yaşam Merkezi, Mustafa Kemal Mah. Dumlupınar Bulvarı, Çankaya, Ankara, Türkiye
+- **GitHub**: https://github.com/MrtDml/promptforge
+
+## Önemli Sayfalar
+
+- Ana Sayfa: https://promptforgeai.dev
+- Fiyatlandırma: https://promptforgeai.dev/pricing
+- Blog: https://promptforgeai.dev/blog
+- Dokümantasyon: https://promptforgeai.dev/docs
+- İletişim: https://promptforgeai.dev/contact
+- Hakkımızda: https://promptforgeai.dev/about
+
+## Nasıl Farklı
+
+PromptForge, Lovable, Bolt.new veya v0 gibi araçların aksine:
+- Türkçe açıklamalar için özel olarak optimize edilmiştir
+- Frontend değil, **backend'e** odaklanır — üretime gerçekten hazır API'ler üretir
+- Vendor lock-in yoktur — kodu indir, istediğin yere dağıt
+- Türk geliştiriciler ve startup ekosistemi için tasarlanmıştır
+
+## Lisans ve Kullanım Koşulları
+
+Üretilen kod kullanıcıya aittir. Telif hakkı veya kullanım kısıtlaması yoktur.
+Hizmet koşulları: https://promptforgeai.dev/terms
+Gizlilik politikası: https://promptforgeai.dev/privacy
+KVKK: https://promptforgeai.dev/kvkk

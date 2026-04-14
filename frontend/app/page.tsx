@@ -147,11 +147,24 @@ const steps = [
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "PromptForge",
+  name: "Dumlu Teknoloji, Yazılım ve Danışmanlık",
+  alternateName: "PromptForge",
   url: "https://promptforgeai.dev",
-  logo: "https://promptforgeai.dev/logo.png",
-  description: "AI-powered SaaS builder — generate production-ready NestJS backends from plain English.",
-  sameAs: [],
+  logo: "https://promptforgeai.dev/opengraph-image",
+  email: "info@promptforgeai.dev",
+  telephone: "+905426674230",
+  description: "Yapay zeka destekli SaaS oluşturucu — tek prompttan üretime hazır NestJS backend üretin.",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "TepeTepe Prime İş ve Yaşam Merkezi, Mustafa Kemal Mah. Dumlupınar Bulvarı",
+    addressLocality: "Çankaya",
+    addressRegion: "Ankara",
+    addressCountry: "TR",
+  },
+  sameAs: [
+    "https://github.com/MrtDml/promptforge",
+    "https://twitter.com/promptforgeai",
+  ],
 };
 
 const softwareJsonLd = {
@@ -161,21 +174,22 @@ const softwareJsonLd = {
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Web",
   url: "https://promptforgeai.dev",
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "TRY",
-    description: "Free plan available — no credit card required",
-  },
-  description: "Turn your SaaS idea into production-ready NestJS + Prisma + Docker code in under 5 minutes.",
+  inLanguage: "tr-TR",
+  offers: [
+    { "@type": "Offer", name: "Ücretsiz", price: "0", priceCurrency: "TRY", description: "Kredi kartı gerekmez — ayda 3 üretim hakkı" },
+    { "@type": "Offer", name: "Starter", price: "950", priceCurrency: "TRY", description: "Ayda 50 üretim, sınırsız varlık" },
+    { "@type": "Offer", name: "Pro", price: "3250", priceCurrency: "TRY", description: "Sınırsız üretim, öncelikli kuyruk, tüm özellikler" },
+  ],
+  description: "SaaS fikrinizi 5 dakika içinde üretime hazır NestJS + Prisma + Docker koduna dönüştürün.",
   featureList: [
-    "AI-powered schema generation",
-    "NestJS & Express.js code generation",
-    "Prisma ORM with migrations",
-    "JWT authentication",
-    "Docker & CI/CD configs",
-    "One-click Railway deployment",
-    "AI code assistant chat",
+    "Yapay zeka destekli şema üretimi",
+    "NestJS kod üretimi",
+    "Prisma ORM ve migration'lar",
+    "JWT kimlik doğrulama",
+    "Docker ve CI/CD yapılandırması",
+    "Tek tıkla Railway dağıtımı",
+    "AI kod asistanı sohbeti",
+    "GitHub entegrasyonu",
   ],
 };
 
@@ -185,43 +199,93 @@ const faqJsonLd = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "What is PromptForge?",
+      name: "PromptForge nedir?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "PromptForge is an AI-powered code generator that turns your plain English description into a complete, production-ready NestJS or Express.js SaaS backend — with Prisma schema, REST APIs, JWT auth, Docker config, and more.",
+        text: "PromptForge, Türkçe açıklamanızı eksiksiz, üretime hazır bir NestJS veya Express.js SaaS backend'ine dönüştüren yapay zeka destekli bir kod üreticisidir. Prisma şeması, REST API'leri, JWT kimlik doğrulama, Docker yapılandırması ve daha fazlasını içerir.",
       },
     },
     {
       "@type": "Question",
-      name: "How long does it take to generate an app?",
+      name: "Uygulama üretmek ne kadar sürer?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Most applications are generated in under 5 minutes. The AI parses your prompt, designs the data model, and writes all the code instantly.",
+        text: "Çoğu uygulama 5 dakika içinde üretilir. Yapay zeka promptunuzu analiz eder, veri modelini tasarlar ve tüm kodu anında yazar.",
       },
     },
     {
       "@type": "Question",
-      name: "Do I own the generated code?",
+      name: "Üretilen kod bana mı ait?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. All generated code is 100% yours. There is no vendor lock-in, no proprietary runtime, and no ongoing fee to keep your app running. Download and deploy anywhere.",
+        text: "Evet. Üretilen tüm kod %100 sizindir. Vendor lock-in yoktur, özel çalışma zamanı yoktur ve uygulamanızı çalıştırmak için süregelen bir ücret yoktur. İstediğiniz yere indirin ve dağıtın.",
       },
     },
     {
       "@type": "Question",
-      name: "What frameworks are supported?",
+      name: "Hangi framework'ler destekleniyor?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "PromptForge supports NestJS (recommended — with decorators, dependency injection, and modules) and Express.js (lightweight with Zod validation and Helmet security). Both include Prisma ORM and PostgreSQL.",
+        text: "PromptForge; dekoratörler, bağımlılık enjeksiyonu ve modüller içeren NestJS'i destekler. Her ikisi de Prisma ORM ve PostgreSQL içerir.",
       },
     },
     {
       "@type": "Question",
-      name: "Is there a free plan?",
+      name: "Ücretsiz plan var mı?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. The free plan includes 3 app generations per month with up to 5 entities. No credit card required. Paid plans start at ₺950/month for unlimited entities and 50 generations.",
+        text: "Evet. Ücretsiz plan, en fazla 5 varlıkla ayda 3 uygulama üretimi içerir. Kredi kartı gerekmez. Ücretli planlar 50 üretim ve sınırsız varlık için aylık ₺950'den başlar.",
       },
+    },
+    {
+      "@type": "Question",
+      name: "Kodlama bilgisi gerekiyor mu?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Hayır. Sadece uygulamanızı Türkçe olarak tarif edin — varlıklar, özellikler ve gereksinimler. PromptForge gerisini halleder. Ancak üretilen kodu özelleştirmek istiyorsanız geliştirici bilgisi avantaj sağlar.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Üretilen kodu nasıl dağıtabilirim?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "ZIP olarak indirebilir, tek tıkla GitHub reponuza gönderebilir veya doğrudan PromptForge dashboard'undan Railway'e dağıtabilirsiniz.",
+      },
+    },
+  ],
+};
+
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "PromptForge ile SaaS Uygulaması Nasıl Oluşturulur",
+  description: "Yapay zeka destekli PromptForge ile tek bir prompttan üretime hazır SaaS backend oluşturun.",
+  totalTime: "PT5M",
+  step: [
+    {
+      "@type": "HowToStep",
+      name: "Uygulamanızı Tanımlayın",
+      text: "Geliştirmek istediğiniz SaaS ürününü sade Türkçe ile tarif edin — varlıklar, özellikler ve gereksinimler. Kodlama bilgisi gerekmez.",
+      url: "https://promptforgeai.dev/#how-it-works",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Yapay Zeka Şemayı Üretir",
+      text: "PromptForge, açıklamanızdan varlıkları, ilişkileri ve API endpoint'lerini çıkararak veri modelini otomatik tasarlar.",
+      url: "https://promptforgeai.dev/#how-it-works",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Şemayı İnceleyin",
+      text: "Üretmeden önce oluşturulan veri modelini, API tasarımını ve uygulama mimarisini önizleyin ve onaylayın.",
+      url: "https://promptforgeai.dev/#how-it-works",
+    },
+    {
+      "@type": "HowToStep",
+      name: "İndirin ve Dağıtın",
+      text: "ZIP olarak indirin, GitHub'a gönderin veya tek tıkla Railway'e dağıtın. Uygulama tamamen hazır.",
+      url: "https://promptforgeai.dev/#how-it-works",
     },
   ],
 };
@@ -233,6 +297,7 @@ export default async function LandingPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       {/* ── Announcement Banner ── */}
       <AnnouncementBanner />
       {/* ── Navbar ── */}

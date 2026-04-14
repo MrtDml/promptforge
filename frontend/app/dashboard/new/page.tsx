@@ -27,16 +27,16 @@ interface Sector {
 }
 
 const SECTOR_MAP: Record<string, Sector> = {
-  fintech:    { label: "Fintech / Finance",     color: "text-green-300",  bg: "bg-green-500/10",  border: "border-green-500/30" },
-  ecommerce:  { label: "E-commerce / Retail",   color: "text-yellow-300", bg: "bg-yellow-500/10", border: "border-yellow-500/30" },
-  hr:         { label: "HR / Team Management",  color: "text-blue-300",   bg: "bg-blue-500/10",   border: "border-blue-500/30"   },
-  saas:       { label: "SaaS / B2B Platform",   color: "text-indigo-300", bg: "bg-indigo-500/10", border: "border-indigo-500/30" },
-  logistics:  { label: "Logistics / Delivery",  color: "text-orange-300", bg: "bg-orange-500/10", border: "border-orange-500/30" },
-  health:     { label: "Health / Medical",      color: "text-rose-300",   bg: "bg-rose-500/10",   border: "border-rose-500/30"   },
-  education:  { label: "Education / E-learning",color: "text-teal-300",   bg: "bg-teal-500/10",   border: "border-teal-500/30"   },
-  restaurant: { label: "Food & Restaurant",     color: "text-amber-300",  bg: "bg-amber-500/10",  border: "border-amber-500/30"  },
-  realestate: { label: "Real Estate",           color: "text-cyan-300",   bg: "bg-cyan-500/10",   border: "border-cyan-500/30"   },
-  general:    { label: "General SaaS",          color: "text-slate-300",  bg: "bg-slate-500/10",  border: "border-slate-600/40"  },
+  fintech:    { label: "Fintech / Finans",        color: "text-green-300",  bg: "bg-green-500/10",  border: "border-green-500/30" },
+  ecommerce:  { label: "E-ticaret / Perakende",   color: "text-yellow-300", bg: "bg-yellow-500/10", border: "border-yellow-500/30" },
+  hr:         { label: "İK / Takım Yönetimi",     color: "text-blue-300",   bg: "bg-blue-500/10",   border: "border-blue-500/30"   },
+  saas:       { label: "SaaS / B2B Platform",     color: "text-indigo-300", bg: "bg-indigo-500/10", border: "border-indigo-500/30" },
+  logistics:  { label: "Lojistik / Teslimat",     color: "text-orange-300", bg: "bg-orange-500/10", border: "border-orange-500/30" },
+  health:     { label: "Sağlık / Tıp",            color: "text-rose-300",   bg: "bg-rose-500/10",   border: "border-rose-500/30"   },
+  education:  { label: "Eğitim / E-öğrenme",      color: "text-teal-300",   bg: "bg-teal-500/10",   border: "border-teal-500/30"   },
+  restaurant: { label: "Yemek & Restoran",        color: "text-amber-300",  bg: "bg-amber-500/10",  border: "border-amber-500/30"  },
+  realestate: { label: "Gayrimenkul",             color: "text-cyan-300",   bg: "bg-cyan-500/10",   border: "border-cyan-500/30"   },
+  general:    { label: "Genel SaaS",              color: "text-slate-300",  bg: "bg-slate-500/10",  border: "border-slate-600/40"  },
 };
 
 function detectSector(schema: AppSchema | null, prompt: string): Sector {
@@ -141,7 +141,7 @@ function NewProjectContent() {
       const axiosError = err as AxiosError<{ message: string }>;
       setParseError(
         axiosError.response?.data?.message ||
-          "Failed to parse your prompt. Please try again."
+          "Prompt analiz edilemedi. Lütfen tekrar deneyin."
       );
     } finally {
       setIsParsing(false);
@@ -181,7 +181,7 @@ function NewProjectContent() {
     } catch (err) {
       const axiosError = err as AxiosError<{ message: string }>;
       setGenerateError(
-        axiosError.response?.data?.message || "Generation failed. Please try again."
+        axiosError.response?.data?.message || "Üretim başarısız oldu. Lütfen tekrar deneyin."
       );
       setStep("preview");
     }
@@ -216,19 +216,19 @@ function NewProjectContent() {
     <div className="p-6 lg:p-8 max-w-5xl mx-auto animate-fade-in">
       {/* Page title */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white">New Project</h1>
+        <h1 className="text-2xl font-bold text-white">Yeni Proje</h1>
         <p className="text-slate-400 mt-1">
-          Describe the SaaS app you want to build and let AI generate it for you.
+          Oluşturmak istediğin SaaS uygulamasını tarif et, yapay zeka senin için üretsin.
         </p>
       </div>
 
       {/* Progress steps */}
       <div className="flex items-center gap-1.5 mb-8 overflow-x-auto pb-1 scrollbar-none">
         {[
-          { id: "input", label: "Describe" },
-          { id: "preview", label: "Review" },
-          { id: "generating", label: "Generate" },
-          { id: "done", label: "Done" },
+          { id: "input", label: "Tarif Et" },
+          { id: "preview", label: "İncele" },
+          { id: "generating", label: "Üret" },
+          { id: "done", label: "Tamamlandı" },
         ].map((s, i, arr) => {
           const stepOrder = ["input", "preview", "generating", "done"];
           const currentIdx = stepOrder.indexOf(step);
@@ -271,7 +271,7 @@ function NewProjectContent() {
             <div className="mb-5 glass-card p-4">
               <div className="flex items-center gap-2 mb-3">
                 <History className="w-3.5 h-3.5 text-slate-500" />
-                <span className="text-xs font-medium text-slate-400">Similar projects you built</span>
+                <span className="text-xs font-medium text-slate-400">Daha önce oluşturduğun benzer projeler</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {similarProjects.map((p) => (
@@ -294,7 +294,7 @@ function NewProjectContent() {
               <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
               <div className="flex-1 min-w-0">
                 <p className="text-red-400 text-sm">{parseError}</p>
-                <p className="text-red-400/60 text-xs mt-0.5">Try simplifying your prompt or let AI fix it for you.</p>
+                <p className="text-red-400/60 text-xs mt-0.5">Promptu sadeleştirmeyi dene veya yapay zekanın düzeltmesine izin ver.</p>
               </div>
               <button
                 type="button"
@@ -303,9 +303,9 @@ function NewProjectContent() {
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-violet-500/50 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20 text-xs font-medium transition-all disabled:opacity-50 flex-shrink-0"
               >
                 {isFixingWithAI ? (
-                  <><Loader2 className="w-3 h-3 animate-spin" />Fixing…</>
+                  <><Loader2 className="w-3 h-3 animate-spin" />Düzeltiliyor…</>
                 ) : (
-                  <><Wand2 className="w-3 h-3" />Fix with AI & retry</>
+                  <><Wand2 className="w-3 h-3" />AI ile düzelt ve tekrar dene</>
                 )}
               </button>
             </div>
@@ -326,7 +326,7 @@ function NewProjectContent() {
             <div className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border ${detectedSector.border} ${detectedSector.bg} w-fit`}>
               <Tag className={`w-3.5 h-3.5 ${detectedSector.color}`} />
               <span className={`text-xs font-medium ${detectedSector.color}`}>
-                Detected sector: <strong>{detectedSector.label}</strong>
+                Tespit edilen sektör: <strong>{detectedSector.label}</strong>
               </span>
             </div>
           )}
@@ -350,7 +350,7 @@ function NewProjectContent() {
           {/* Framework selector */}
           <div className="glass-card p-5">
             <h3 className="font-semibold text-white mb-1">Framework</h3>
-            <p className="text-slate-500 text-xs mb-4">Choose the backend framework for your generated project.</p>
+            <p className="text-slate-500 text-xs mb-4">Üretilecek proje için backend framework'ü seç.</p>
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
@@ -362,7 +362,7 @@ function NewProjectContent() {
                 <Zap className={`w-5 h-5 flex-shrink-0 ${framework === "nestjs" ? "text-indigo-400" : "text-slate-500"}`} />
                 <div>
                   <p className={`text-sm font-semibold ${framework === "nestjs" ? "text-white" : "text-slate-300"}`}>NestJS</p>
-                  <p className="text-slate-500 text-xs">Recommended — decorators, modules, DI</p>
+                  <p className="text-slate-500 text-xs">Önerilen — dekoratörler, modüller, DI</p>
                 </div>
               </button>
               <button
@@ -375,7 +375,7 @@ function NewProjectContent() {
                 <Braces className={`w-5 h-5 flex-shrink-0 ${framework === "express" ? "text-indigo-400" : "text-slate-500"}`} />
                 <div>
                   <p className={`text-sm font-semibold ${framework === "express" ? "text-white" : "text-slate-300"}`}>Express.js</p>
-                  <p className="text-slate-500 text-xs">Lightweight — Zod, Helmet, rate-limit</p>
+                  <p className="text-slate-500 text-xs">Hafif yapı — Zod, Helmet, rate-limit</p>
                 </div>
               </button>
             </div>
@@ -384,14 +384,14 @@ function NewProjectContent() {
           {/* Generation options */}
           <div className="glass-card p-5 space-y-6">
             <div>
-              <h3 className="font-semibold text-white mb-1">Generation options</h3>
-              <p className="text-slate-500 text-xs mb-4">Customize what gets included in your generated project.</p>
+              <h3 className="font-semibold text-white mb-1">Üretim seçenekleri</h3>
+              <p className="text-slate-500 text-xs mb-4">Üretilecek projeye dahil edilecekleri özelleştir.</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
-                  { key: "includeDocker", label: "Docker & Docker Compose", desc: "Containerization config + health checks", checked: includeDocker, onChange: setIncludeDocker },
-                  { key: "includeTests", label: "Unit Tests", desc: "Jest test files for all modules", checked: includeTests, onChange: setIncludeTests },
-                  { key: "includeSwagger", label: "Swagger / OpenAPI", desc: "Auto-generated API docs at /api", checked: includeSwagger, onChange: setIncludeSwagger, icon: <Braces className="w-3.5 h-3.5 text-yellow-400" /> },
-                  { key: "includeCI", label: "GitHub Actions CI/CD", desc: "Lint, test, build & Docker push", checked: includeCI, onChange: setIncludeCI, icon: <GitBranch className="w-3.5 h-3.5 text-orange-400" /> },
+                  { key: "includeDocker", label: "Docker & Docker Compose", desc: "Container yapılandırması + health check'ler", checked: includeDocker, onChange: setIncludeDocker },
+                  { key: "includeTests", label: "Unit Testler", desc: "Tüm modüller için Jest test dosyaları", checked: includeTests, onChange: setIncludeTests },
+                  { key: "includeSwagger", label: "Swagger / OpenAPI", desc: "/api adresinde otomatik API dokümantasyonu", checked: includeSwagger, onChange: setIncludeSwagger, icon: <Braces className="w-3.5 h-3.5 text-yellow-400" /> },
+                  { key: "includeCI", label: "GitHub Actions CI/CD", desc: "Lint, test, build ve Docker push", checked: includeCI, onChange: setIncludeCI, icon: <GitBranch className="w-3.5 h-3.5 text-orange-400" /> },
                 ].map((opt) => (
                   <label key={opt.key} className="flex items-start gap-3 cursor-pointer group p-3 rounded-lg hover:bg-slate-800/50 transition-colors">
                     <input
@@ -421,9 +421,9 @@ function NewProjectContent() {
                     <div className="flex items-center gap-1.5">
                       <Globe className="w-3.5 h-3.5 text-indigo-400" />
                       <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">Frontend (Next.js)</span>
-                      <span className="text-xs bg-indigo-600/30 text-indigo-300 px-1.5 py-0.5 rounded-full">New</span>
+                      <span className="text-xs bg-indigo-600/30 text-indigo-300 px-1.5 py-0.5 rounded-full">Yeni</span>
                     </div>
-                    <p className="text-slate-500 text-xs mt-0.5">Full Next.js 14 dashboard + auth pages</p>
+                    <p className="text-slate-500 text-xs mt-0.5">Tam Next.js 14 dashboard + kimlik doğrulama sayfaları</p>
                   </div>
                 </label>
               </div>
@@ -431,12 +431,12 @@ function NewProjectContent() {
 
             {/* Extended integrations */}
             <div className="border-t border-slate-700/60 pt-5">
-              <h4 className="font-semibold text-white text-sm mb-1">Extended Integrations</h4>
-              <p className="text-slate-500 text-xs mb-4">Optional service modules added on top of the generated project.</p>
+              <h4 className="font-semibold text-white text-sm mb-1">Genişletilmiş Entegrasyonlar</h4>
+              <p className="text-slate-500 text-xs mb-4">Üretilen projeye eklenebilecek isteğe bağlı servis modülleri.</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
-                  { key: "includeIyzico", label: "Payment Integration", desc: "Checkout form, subscription handling & webhook callbacks", checked: includeIyzico, onChange: setIncludeIyzico, icon: <CreditCard className="w-3.5 h-3.5 text-green-400" /> },
-                  { key: "includeKVKK", label: "Privacy & GDPR Compliance", desc: "Consent middleware, cookie policy & privacy templates", checked: includeKVKK, onChange: setIncludeKVKK, icon: <Shield className="w-3.5 h-3.5 text-purple-400" /> },
+                  { key: "includeIyzico", label: "Ödeme Entegrasyonu", desc: "Checkout formu, abonelik yönetimi ve webhook callback'leri", checked: includeIyzico, onChange: setIncludeIyzico, icon: <CreditCard className="w-3.5 h-3.5 text-green-400" /> },
+                  { key: "includeKVKK", label: "Gizlilik & KVKK Uyumu", desc: "Onay middleware, çerez politikası ve gizlilik şablonları", checked: includeKVKK, onChange: setIncludeKVKK, icon: <Shield className="w-3.5 h-3.5 text-purple-400" /> },
                 ].map((opt) => (
                   <label key={opt.key} className="flex items-start gap-3 cursor-pointer group p-3 rounded-lg hover:bg-slate-800/50 transition-colors border border-slate-700/50">
                     <input
@@ -460,10 +460,10 @@ function NewProjectContent() {
 
           <div className="flex items-center gap-3">
             <button onClick={() => setStep("input")} className="btn-secondary">
-              Back to prompt
+              Prompta dön
             </button>
             <button onClick={handleGenerate} className="btn-primary px-8 py-3 text-base glow-indigo">
-              Generate application
+              Uygulamayı üret
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
@@ -479,7 +479,7 @@ function NewProjectContent() {
             </div>
             <div className="absolute inset-0 rounded-full border-2 border-indigo-500/20 animate-ping" />
           </div>
-          <h3 className="text-2xl font-bold text-white mb-3">Generating your application...</h3>
+          <h3 className="text-2xl font-bold text-white mb-3">Uygulamanız üretiliyor...</h3>
           <p className="text-slate-500 text-sm mb-3 tabular-nums">{elapsedSeconds}s geçti</p>
           {generatingTooLong ? (
             <div className="bg-amber-950/50 border border-amber-700/50 rounded-xl px-5 py-3 max-w-md">
@@ -496,19 +496,19 @@ function NewProjectContent() {
           <div className="mt-10 glass-card p-5 w-full max-w-sm">
             <div className="space-y-3">
               {[
-                "Analyzing schema",
-                framework === "express" ? "Generating Express.js routes" : "Generating NestJS modules",
-                "Creating API endpoints",
-                "Building service layer",
-                includeSwagger ? "Adding Swagger/OpenAPI docs" : null,
-                includeDocker ? "Setting up Docker" : null,
-                includeCI ? "Adding GitHub Actions CI/CD" : null,
-                includeTests ? "Writing unit tests" : null,
-                includeFrontend ? "Generating Next.js frontend" : null,
-                includeIyzico ? "Adding payment integration" : null,
-                includeKVKK ? "Adding privacy & GDPR compliance" : null,
-                "Building Postman collection",
-                "Finalizing output",
+                "Şema analiz ediliyor",
+                framework === "express" ? "Express.js route'ları oluşturuluyor" : "NestJS modülleri oluşturuluyor",
+                "API endpoint'leri oluşturuluyor",
+                "Servis katmanı inşa ediliyor",
+                includeSwagger ? "Swagger/OpenAPI dokümantasyonu ekleniyor" : null,
+                includeDocker ? "Docker kurulumu yapılıyor" : null,
+                includeCI ? "GitHub Actions CI/CD ekleniyor" : null,
+                includeTests ? "Unit testler yazılıyor" : null,
+                includeFrontend ? "Next.js frontend oluşturuluyor" : null,
+                includeIyzico ? "Ödeme entegrasyonu ekleniyor" : null,
+                includeKVKK ? "Gizlilik & KVKK uyumu ekleniyor" : null,
+                "Postman koleksiyonu oluşturuluyor",
+                "Çıktı tamamlanıyor",
               ]
                 .filter(Boolean)
                 .map((task, i) => (
@@ -528,19 +528,19 @@ function NewProjectContent() {
           <div className="w-20 h-20 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center mb-6">
             <CheckCircle2 className="w-10 h-10 text-green-400" />
           </div>
-          <h3 className="text-2xl font-bold text-white mb-3">Application generated!</h3>
+          <h3 className="text-2xl font-bold text-white mb-3">Uygulama üretildi!</h3>
           <p className="text-slate-400 max-w-md mb-8">
-            Your SaaS application has been successfully generated with{" "}
-            <span className="text-indigo-400 font-semibold">{generateResult.output.files.length} files</span>.
-            Review the code, download it, or deploy directly.
+            SaaS uygulamanız başarıyla{" "}
+            <span className="text-indigo-400 font-semibold">{generateResult.output.files.length} dosyayla</span>{" "}
+            oluşturuldu. Kodu incele, indir veya doğrudan deploy et.
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10 w-full max-w-lg">
             {[
-              { label: "Files", value: generateResult.output.files.length },
-              { label: "Entities", value: schema?.entities.length ?? 0 },
-              { label: "Endpoints", value: schema?.endpoints.length ?? 0 },
-              { label: "Features", value: schema?.features.length ?? 0 },
+              { label: "Dosya", value: generateResult.output.files.length },
+              { label: "Varlık", value: schema?.entities.length ?? 0 },
+              { label: "Endpoint", value: schema?.endpoints.length ?? 0 },
+              { label: "Özellik", value: schema?.features.length ?? 0 },
             ].map((stat) => (
               <div key={stat.label} className="glass-card px-4 py-3 text-center">
                 <p className="text-xl font-bold text-white">{stat.value}</p>
@@ -559,10 +559,10 @@ function NewProjectContent() {
               }}
               className="btn-secondary"
             >
-              Start new project
+              Yeni proje başlat
             </button>
             <button onClick={handleViewProject} className="btn-primary px-8 py-3">
-              View project details
+              Proje detaylarını gör
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>

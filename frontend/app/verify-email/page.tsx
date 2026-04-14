@@ -1,12 +1,10 @@
 "use client";
 
-import { Suspense } from "react";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { CheckCircle2, XCircle, Loader2, Zap, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import apiClient from "@/lib/api";
-import { isAuthenticated } from "@/lib/auth";
 
 function VerifyEmailContent() {
   const searchParams = useSearchParams();
@@ -17,32 +15,39 @@ function VerifyEmailContent() {
   const [message, setMessage] = useState("");
   const [resending, setResending] = useState(false);
   const [resent, setResent] = useState(false);
+  const [resendError, setResendError] = useState("");
   const [cooldown, setCooldown] = useState(0);
-  const loggedIn = isAuthenticated();
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Check login state client-side only to avoid hydration mismatch
+    import("@/lib/auth").then(({ isAuthenticated }) => {
+      setLoggedIn(isAuthenticated());
+    });
+  }, []);
 
   useEffect(() => {
     if (!token) {
       setStatus("error");
-      setMessage("Invalid verification link.");
+      setMessage("Geçersiz doğrulama bağlantısı.");
       return;
     }
 
     apiClient
       .get(`/api/v1/auth/verify-email?token=${token}`)
-      .then((res) => {
+      .then(() => {
         setStatus("success");
-        setMessage(res.data?.message ?? "Email verified successfully!");
+        setMessage("E-posta adresin başarıyla doğrulandı!");
         setTimeout(() => router.push("/dashboard"), 3000);
       })
       .catch((err) => {
         setStatus("error");
         setMessage(
-          err?.response?.data?.message ?? "Verification link is invalid or has expired."
+          err?.response?.data?.message ?? "Doğrulama bağlantısı geçersiz veya süresi dolmuş."
         );
       });
   }, [token, router]);
 
-  // Cooldown countdown
   useEffect(() => {
     if (cooldown <= 0) return;
     const t = setInterval(() => setCooldown((c) => Math.max(0, c - 1)), 1000);
@@ -52,12 +57,16 @@ function VerifyEmailContent() {
   async function handleResend() {
     if (resending || cooldown > 0) return;
     setResending(true);
+    setResendError("");
     try {
       await apiClient.post("/api/v1/auth/resend-verification");
       setResent(true);
       setCooldown(60);
-    } catch {
-      // ignore
+    } catch (err: unknown) {
+      setResendError(
+        (err as { response?: { data?: { message?: string } } })?.response?.data?.message ??
+        "Yeniden gönderilemedi. Lütfen tekrar deneyin."
+      );
     } finally {
       setResending(false);
     }
@@ -68,7 +77,7 @@ function VerifyEmailContent() {
       {status === "loading" && (
         <>
           <Loader2 className="w-12 h-12 text-indigo-400 animate-spin mx-auto" />
-          <p className="text-slate-300 font-medium">Verifying your email…</p>
+          <p className="text-slate-300 font-medium">E-posta doğrulanıyor…</p>
         </>
       )}
 
@@ -76,15 +85,15 @@ function VerifyEmailContent() {
         <>
           <CheckCircle2 className="w-12 h-12 text-green-400 mx-auto" />
           <div>
-            <p className="text-white font-semibold text-lg">Email verified!</p>
+            <p className="text-white font-semibold text-lg">E-posta doğrulandı!</p>
             <p className="text-slate-400 text-sm mt-1">{message}</p>
-            <p className="text-slate-500 text-xs mt-3">Redirecting to dashboard…</p>
+            <p className="text-slate-500 text-xs mt-3">Dashboard'a yönlendiriliyorsun…</p>
           </div>
           <Link
             href="/dashboard"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition-colors"
           >
-            Go to Dashboard
+            Dashboard'a Git
           </Link>
         </>
       )}
@@ -93,7 +102,7 @@ function VerifyEmailContent() {
         <>
           <XCircle className="w-12 h-12 text-red-400 mx-auto" />
           <div>
-            <p className="text-white font-semibold text-lg">Verification failed</p>
+            <p className="text-white font-semibold text-lg">Doğrulama başarısız</p>
             <p className="text-slate-400 text-sm mt-1">{message}</p>
           </div>
           <div className="flex flex-col gap-3 pt-2">
@@ -101,28 +110,33 @@ function VerifyEmailContent() {
               resent ? (
                 <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-green-500/10 border border-green-500/30">
                   <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" />
-                  <p className="text-green-400 text-sm">New verification email sent! Check your inbox.</p>
+                  <p className="text-green-400 text-sm">Yeni doğrulama e-postası gönderildi! Gelen kutunu kontrol et.</p>
                 </div>
               ) : (
-                <button
-                  onClick={handleResend}
-                  disabled={resending || cooldown > 0}
-                  className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-semibold transition-colors"
-                >
-                  {resending ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <RefreshCw className="w-4 h-4" />
+                <>
+                  {resendError && (
+                    <p className="text-red-400 text-xs">{resendError}</p>
                   )}
-                  {cooldown > 0 ? `Resend in ${cooldown}s` : "Send new verification email"}
-                </button>
+                  <button
+                    onClick={handleResend}
+                    disabled={resending || cooldown > 0}
+                    className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-semibold transition-colors"
+                  >
+                    {resending ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <RefreshCw className="w-4 h-4" />
+                    )}
+                    {cooldown > 0 ? `${cooldown} saniye bekle` : "Yeni doğrulama e-postası gönder"}
+                  </button>
+                </>
               )
             )}
             <Link
               href="/dashboard"
               className="px-5 py-2.5 rounded-xl border border-slate-700 hover:border-slate-500 text-slate-300 text-sm font-semibold transition-colors text-center"
             >
-              Go to Dashboard
+              Dashboard'a Git
             </Link>
           </div>
         </>
@@ -141,6 +155,11 @@ export default function VerifyEmailPage() {
           </div>
           <span className="font-bold text-white">PromptForge</span>
         </Link>
+
+        <div className="space-y-2 text-center">
+          <h1 className="text-2xl font-bold text-white">E-posta Doğrulama</h1>
+          <p className="text-slate-400 text-sm">Bağlantı kontrol ediliyor…</p>
+        </div>
 
         <Suspense
           fallback={

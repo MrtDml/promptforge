@@ -21,7 +21,7 @@ export default function ProjectDetailPage({
         className="inline-flex items-center gap-2 text-slate-400 hover:text-slate-200 transition-colors text-sm mb-6 group"
       >
         <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-        Back to dashboard
+        Dashboard'a Dön
       </Link>
 
       {/* Loading */}
@@ -45,15 +45,15 @@ export default function ProjectDetailPage({
             <AlertCircle className="w-8 h-8 text-red-400" />
           </div>
           <h3 className="text-xl font-semibold text-white mb-2">
-            Failed to load project
+            Proje yüklenemedi
           </h3>
           <p className="text-slate-400 mb-6">{error}</p>
           <div className="flex items-center gap-3">
             <button onClick={refreshProject} className="btn-secondary">
-              Try again
+              Tekrar dene
             </button>
             <Link href="/dashboard" className="btn-primary">
-              Go to dashboard
+              Dashboard'a git
             </Link>
           </div>
         </div>

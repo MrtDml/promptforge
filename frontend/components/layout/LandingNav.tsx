@@ -74,7 +74,8 @@ export default function LandingNav() {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors"
-              aria-label="Toggle menu"
+              aria-label={mobileMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? (
                 <X className="w-5 h-5" />

@@ -34,12 +34,12 @@ type SortDir = "asc" | "desc";
 const PAGE_SIZE = 10;
 
 const STATUS_OPTIONS: { value: ProjectStatus | "all"; label: string }[] = [
-  { value: "all", label: "All statuses" },
-  { value: "completed", label: "Completed" },
-  { value: "generating", label: "Generating" },
-  { value: "parsing", label: "Parsing" },
-  { value: "pending", label: "Pending" },
-  { value: "failed", label: "Failed" },
+  { value: "all", label: "Tüm durumlar" },
+  { value: "completed", label: "Tamamlandı" },
+  { value: "generating", label: "Üretiliyor" },
+  { value: "parsing", label: "Analiz ediliyor" },
+  { value: "pending", label: "Bekliyor" },
+  { value: "failed", label: "Başarısız" },
 ];
 
 // ─── Sort indicator ───────────────────────────────────────────────────────────
@@ -78,6 +78,8 @@ function RowActions({
   const [regenerating, setRegenerating] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [downloadError, setDownloadError] = useState(false);
+  const [confirmRegen, setConfirmRegen] = useState(false);
+  const [confirmDel, setConfirmDel] = useState(false);
 
   async function handleDownload() {
     setDownloadError(false);
@@ -93,14 +95,10 @@ function RowActions({
   }
 
   async function handleRegenerate() {
-    if (
-      !confirm(
-        `Regenerate "${project.name}"? This will overwrite the existing output.`
-      )
-    )
-      return;
+    if (!confirmRegen) { setConfirmRegen(true); setConfirmDel(false); return; }
     try {
       setRegenerating(true);
+      setConfirmRegen(false);
       await projectsApi.regenerate(project.id);
       onRegenerate(project.id);
       router.push(`/dashboard/projects/${project.id}`);
@@ -110,9 +108,10 @@ function RowActions({
   }
 
   async function handleDelete() {
-    if (!confirm(`Delete "${project.name}"? This cannot be undone.`)) return;
+    if (!confirmDel) { setConfirmDel(true); setConfirmRegen(false); return; }
     try {
       setDeleting(true);
+      setConfirmDel(false);
       await onDelete(project.id);
     } catch {
       setDeleting(false);
@@ -125,7 +124,7 @@ function RowActions({
     <div className="flex items-center gap-1 justify-end">
       <Link
         href={`/dashboard/projects/${project.id}`}
-        title="View project"
+        title="Projeyi görüntüle"
         className="p-1.5 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-slate-700/60 transition-colors"
       >
         <Eye className="w-4 h-4" />
@@ -135,7 +134,7 @@ function RowActions({
         <button
           onClick={handleDownload}
           disabled={busy}
-          title={downloadError ? "Download failed — try again" : "Download ZIP"}
+          title={downloadError ? "İndirme başarısız — tekrar dene" : "ZIP İndir"}
           className={`p-1.5 rounded-lg transition-colors disabled:opacity-40 ${
             downloadError
               ? "text-red-400 hover:text-red-300 hover:bg-red-500/10"
@@ -153,8 +152,12 @@ function RowActions({
       <button
         onClick={handleRegenerate}
         disabled={busy}
-        title="Regenerate"
-        className="p-1.5 rounded-lg text-slate-500 hover:text-indigo-300 hover:bg-indigo-600/10 transition-colors disabled:opacity-40"
+        title={confirmRegen ? "Onaylamak için tekrar tıkla" : "Yeniden üret"}
+        className={`p-1.5 rounded-lg transition-colors disabled:opacity-40 ${
+          confirmRegen
+            ? "text-indigo-400 bg-indigo-600/20 ring-1 ring-indigo-500/40"
+            : "text-slate-500 hover:text-indigo-300 hover:bg-indigo-600/10"
+        }`}
       >
         {regenerating ? (
           <RefreshCw className="w-4 h-4 animate-spin text-indigo-400" />
@@ -166,8 +169,12 @@ function RowActions({
       <button
         onClick={handleDelete}
         disabled={busy}
-        title="Delete project"
-        className="p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-40"
+        title={confirmDel ? "Onaylamak için tekrar tıkla" : "Projeyi sil"}
+        className={`p-1.5 rounded-lg transition-colors disabled:opacity-40 ${
+          confirmDel
+            ? "text-red-400 bg-red-500/20 ring-1 ring-red-500/40"
+            : "text-slate-500 hover:text-red-400 hover:bg-red-500/10"
+        }`}
       >
         {deleting ? (
           <RefreshCw className="w-4 h-4 animate-spin text-red-400" />
@@ -292,11 +299,11 @@ export default function HistoryPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-white">Project History</h1>
+          <h1 className="text-2xl font-bold text-white">Proje Geçmişi</h1>
           <p className="text-slate-400 mt-1">
             {filtered.length > 0
-              ? `${filtered.length} project${filtered.length !== 1 ? "s" : ""} found`
-              : "No projects match your filters"}
+              ? `${filtered.length} proje bulundu`
+              : "Filtreyle eşleşen proje yok"}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -306,11 +313,11 @@ export default function HistoryPage() {
             className="btn-ghost gap-2"
           >
             <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin" : ""}`} />
-            <span className="hidden sm:inline text-sm">Refresh</span>
+            <span className="hidden sm:inline text-sm">Yenile</span>
           </button>
           <Link href="/dashboard/new" className="btn-primary text-sm">
             <Zap className="w-4 h-4" />
-            New project
+            Yeni proje
           </Link>
         </div>
       </div>
@@ -323,7 +330,7 @@ export default function HistoryPage() {
             type="text"
             value={search}
             onChange={handleSearch}
-            placeholder="Search by project name..."
+            placeholder="Proje adına göre ara..."
             className="w-full bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-3 py-2.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/60 transition-colors"
           />
           {search && (
@@ -381,15 +388,14 @@ export default function HistoryPage() {
             <Clock className="w-10 h-10 text-indigo-400" />
           </div>
           <h3 className="text-xl font-semibold text-white mb-2">
-            No project history yet
+            Henüz proje geçmişi yok
           </h3>
           <p className="text-slate-400 max-w-sm mb-8">
-            Your generated projects will appear here. Start by creating your
-            first project.
+            Oluşturduğun projeler burada görünecek. İlk projeyi oluşturarak başla.
           </p>
           <Link href="/dashboard/new" className="btn-primary px-8 py-3">
             <Zap className="w-4 h-4" />
-            Create first project
+            İlk projeyi oluştur
           </Link>
         </div>
       )}
@@ -399,16 +405,16 @@ export default function HistoryPage() {
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <Search className="w-10 h-10 text-slate-600 mb-4" />
           <h3 className="text-lg font-semibold text-white mb-2">
-            No results found
+            Sonuç bulunamadı
           </h3>
           <p className="text-slate-400 text-sm">
-            Try adjusting your search or filter.
+            Arama veya filtreni ayarlamayı dene.
           </p>
           <button
             onClick={() => { setSearch(""); setStatusFilter("all"); setPage(1); }}
             className="mt-4 text-sm text-indigo-400 hover:text-indigo-300 transition-colors"
           >
-            Clear filters
+            Filtreleri temizle
           </button>
         </div>
       )}
@@ -422,14 +428,14 @@ export default function HistoryPage() {
                 <thead className="border-b border-slate-700/60 bg-slate-800/40">
                   <tr>
                     <Th field="name" className="min-w-[200px]">
-                      Project name
+                      Proje adı
                     </Th>
-                    <Th field="status">Status</Th>
-                    <Th field="entities">Entities</Th>
-                    <Th field="createdAt">Created</Th>
+                    <Th field="status">Durum</Th>
+                    <Th field="entities">Varlık</Th>
+                    <Th field="createdAt">Oluşturulma</Th>
                     <th className="px-4 py-3 text-right">
                       <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                        Actions
+                        İşlemler
                       </span>
                     </th>
                   </tr>
@@ -508,9 +514,7 @@ export default function HistoryPage() {
           {totalPages > 1 && (
             <div className="flex items-center justify-between text-sm">
               <p className="text-slate-500">
-                Showing {(page - 1) * PAGE_SIZE + 1}–
-                {Math.min(page * PAGE_SIZE, filtered.length)} of{" "}
-                {filtered.length} projects
+                {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, filtered.length)} / {filtered.length} proje gösteriliyor
               </p>
               <div className="flex items-center gap-2">
                 <button

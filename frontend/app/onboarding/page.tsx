@@ -9,7 +9,7 @@ const STEPS = [
   {
     id: 1,
     icon: Zap,
-    title: "PromptForge&apos;a Hoş Geldin!",
+    title: "PromptForge'a Hoş Geldin!",
     subtitle: "İlk SaaS uygulamanı oluşturmak için tek bir prompt yeterli.",
     color: "text-indigo-400",
     bg: "bg-indigo-500/10 border-indigo-500/20",
@@ -46,7 +46,7 @@ const HOW_IT_WORKS = [
   {
     num: "3",
     title: "İndir, deploy et, yayınla",
-    body: "ZIP olarak indir, tek tıkla GitHub&apos;a gönder veya doğrudan dashboard&apos;dan Railway&apos;e deploy et.",
+    body: "ZIP olarak indir, tek tıkla GitHub'a gönder veya doğrudan dashboard'dan Railway'e deploy et.",
   },
 ];
 
@@ -106,7 +106,7 @@ export default function OnboardingPage() {
               {[
                 "Prompt ile tam NestJS + Prisma backend üret",
                 "Üretime hazır kodu ZIP olarak indir",
-                "Tek tıkla GitHub&apos;a gönder veya Railway&apos;e deploy et",
+                "Tek tıkla GitHub'a gönder veya Railway'e deploy et",
                 "AI chat ile projeyi istediğin zaman değiştir",
                 "3 ücretsiz üretim hakkı — kredi kartı gerekmez",
               ].map((item) => (
@@ -139,13 +139,13 @@ export default function OnboardingPage() {
           {step === 2 && (
             <div className="space-y-4">
               <div className="bg-[#0a0b14]/60 border border-slate-800 rounded-xl p-4">
-                <p className="text-slate-300 text-sm font-medium mb-1">Example prompt:</p>
+                <p className="text-slate-300 text-sm font-medium mb-1">Örnek prompt:</p>
                 <p className="text-indigo-300 text-sm italic leading-relaxed">
-                  &ldquo;Kullanıcılar, projeler ve görevlerden oluşan bir task yönetim uygulaması yap. Kullanıcılar görevleri ekip arkadaşlarına atayabilsin, son tarih belirleyebilsin ve ilerlemeyi takip edebilsin.&rdquo;
+                  "Kullanıcılar, projeler ve görevlerden oluşan bir task yönetim uygulaması yap. Kullanıcılar görevleri ekip arkadaşlarına atayabilsin, son tarih belirleyebilsin ve ilerlemeyi takip edebilsin."
                 </p>
               </div>
               <p className="text-slate-400 text-sm text-center">
-                Kendi açıklamanı yapıştır ve Oluştur&apos;a bas — yaklaşık 15 saniye sürer.
+                Kendi açıklamanı yapıştır ve Oluştur'a bas — yaklaşık 15 saniye sürer.
               </p>
             </div>
           )}

@@ -344,7 +344,7 @@ export class AdminService {
         value: 'AI SaaS Builder — Build apps from natural language prompts',
         label: 'Site Description',
       },
-      { key: 'contact_email', value: 'support@promptforgeai.dev', label: 'Contact Email' },
+      { key: 'contact_email', value: 'hello@promptforgeai.dev', label: 'Contact Email' },
       { key: 'free_plan_limit', value: '3', label: 'Free Plan — Generation Limit' },
       { key: 'starter_plan_limit', value: '25', label: 'Starter Plan — Generation Limit' },
       { key: 'pro_plan_limit', value: '999', label: 'Pro Plan — Generation Limit' },

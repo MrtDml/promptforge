@@ -33,7 +33,7 @@ export default function PaymentFailedPage() {
             Kartınızdan herhangi bir ücret alınmadı. Farklı bir kart deneyebilir
             veya{" "}
             <a
-              href="mailto:support@promptforgeai.dev"
+              href="mailto:hello@promptforgeai.dev"
               className="text-indigo-400 hover:text-indigo-300 underline transition-colors"
             >
               destek ekibimizle
@@ -77,10 +77,10 @@ export default function PaymentFailedPage() {
           <p className="text-slate-600 text-xs mt-6">
             Sorun devam ederse{" "}
             <a
-              href="mailto:support@promptforgeai.dev"
+              href="mailto:hello@promptforgeai.dev"
               className="underline hover:text-slate-400 transition-colors"
             >
-              support@promptforgeai.dev
+              hello@promptforgeai.dev
             </a>{" "}
             adresine yazın.
           </p>

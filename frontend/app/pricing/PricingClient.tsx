@@ -186,7 +186,7 @@ export default function PricingClient() {
       }
 
       if (tier.id === "pro") {
-        window.location.href = "mailto:sales@promptforgeai.dev?subject=Pro Plan Talebi";
+        window.location.href = "mailto:hello@promptforgeai.dev?subject=Pro Plan Talebi";
         return;
       }
 
@@ -470,7 +470,7 @@ export default function PricingClient() {
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <a
-                href="mailto:support@promptforgeai.dev"
+                href="mailto:hello@promptforgeai.dev"
                 className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600/60 font-semibold px-8 py-3.5 rounded-xl transition-all duration-200"
               >
                 Satışla görüş

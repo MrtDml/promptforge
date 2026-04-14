@@ -125,7 +125,7 @@ const jsonLdOrg = {
   alternateName: "PromptForge",
   url: "https://promptforgeai.dev",
   logo: "https://promptforgeai.dev/opengraph-image",
-  email: "info@promptforgeai.dev",
+  email: "hello@promptforgeai.dev",
   telephone: "+905426674230",
   address: {
     "@type": "PostalAddress",

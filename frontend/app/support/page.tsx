@@ -75,7 +75,7 @@ export default function SupportPage() {
       setSent(true);
     } catch {
       // Fallback: open email client
-      const mailtoLink = `mailto:support@promptforgeai.dev?subject=${encodeURIComponent(`Support request from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
+      const mailtoLink = `mailto:hello@promptforgeai.dev?subject=${encodeURIComponent(`Support request from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
       window.location.href = mailtoLink;
       setSent(true);
     } finally {
@@ -116,7 +116,7 @@ export default function SupportPage() {
           </Link>
 
           <a
-            href="mailto:support@promptforgeai.dev"
+            href="mailto:hello@promptforgeai.dev"
             className="flex items-center gap-4 p-4 rounded-xl bg-slate-800/60 border border-slate-700/60 hover:border-indigo-500/40 hover:bg-slate-800 transition-all group"
           >
             <div className="w-10 h-10 rounded-lg bg-indigo-600/10 border border-indigo-600/20 flex items-center justify-center flex-shrink-0">
@@ -124,7 +124,7 @@ export default function SupportPage() {
             </div>
             <div>
               <p className="font-medium text-white text-sm">E-posta Desteği</p>
-              <p className="text-slate-400 text-xs mt-0.5">support@promptforgeai.dev</p>
+              <p className="text-slate-400 text-xs mt-0.5">hello@promptforgeai.dev</p>
             </div>
             <ExternalLink className="w-4 h-4 text-slate-600 ml-auto group-hover:text-slate-400 transition-colors" />
           </a>

@@ -53,7 +53,7 @@ Kredi kartı gerekmez. Ücretsiz planla başla, istediğin zaman yükselt.
 
 - **Şirket**: Dumlu Teknoloji, Yazılım ve Danışmanlık
 - **Web**: https://promptforgeai.dev
-- **E-posta**: info@promptforgeai.dev
+- **E-posta**: hello@promptforgeai.dev
 - **Telefon**: +90 542 667 42 30
 - **Adres**: TepeTepe Prime İş ve Yaşam Merkezi, Mustafa Kemal Mah. Dumlupınar Bulvarı, Çankaya, Ankara, Türkiye
 - **GitHub**: https://github.com/MrtDml/promptforge

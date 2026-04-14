@@ -151,7 +151,7 @@ const organizationJsonLd = {
   alternateName: "PromptForge",
   url: "https://promptforgeai.dev",
   logo: "https://promptforgeai.dev/opengraph-image",
-  email: "info@promptforgeai.dev",
+  email: "hello@promptforgeai.dev",
   telephone: "+905426674230",
   description: "Yapay zeka destekli SaaS oluşturucu — tek prompttan üretime hazır NestJS backend üretin.",
   address: {

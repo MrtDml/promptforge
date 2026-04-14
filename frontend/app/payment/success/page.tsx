@@ -36,7 +36,7 @@ export default function PaymentSuccessPage() {
             Birkaç saniye içinde planınız güncellenir. Herhangi bir sorun
             yaşarsanız{" "}
             <a
-              href="mailto:support@promptforgeai.dev"
+              href="mailto:hello@promptforgeai.dev"
               className="text-indigo-400 hover:text-indigo-300 underline transition-colors"
             >
               destek ekibimizle

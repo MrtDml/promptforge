@@ -45,6 +45,7 @@ interface NormalizedPost {
   date: string;
   readTime: number;
   category: string;
+  author: string;
 }
 
 async function fetchApiPosts(): Promise<NormalizedPost[]> {
@@ -53,13 +54,14 @@ async function fetchApiPosts(): Promise<NormalizedPost[]> {
     const res = await fetch(`${base}/api/v1/blog`, { next: { revalidate: 300 } });
     if (!res.ok) return [];
     const data = await res.json();
-    return data.map((p: { slug: string; title: string; description: string; createdAt: string; readTime: number; category: string }) => ({
+    return data.map((p: { slug: string; title: string; description: string; createdAt: string; readTime: number; category: string; author?: string }) => ({
       slug: p.slug,
       title: p.title,
       description: p.description,
       date: p.createdAt,
       readTime: p.readTime,
       category: p.category,
+      author: p.author ?? "Murat DUMLU",
     }));
   } catch {
     return [];
@@ -86,6 +88,7 @@ export default async function BlogPage() {
       date: p.date,
       readTime: p.readTime,
       category: p.category,
+      author: p.author ?? "Murat DUMLU",
     }));
 
   const all = [...apiPosts, ...mergedStatic].sort(
@@ -145,6 +148,7 @@ export default async function BlogPage() {
             <p className="text-slate-400 leading-relaxed mb-5">{featured.description}</p>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4 text-xs text-slate-500">
+                <span className="font-medium text-slate-400">{featured.author}</span>
                 <span className="flex items-center gap-1.5">
                   <Calendar className="w-3.5 h-3.5" />
                   {new Date(featured.date).toLocaleDateString("tr-TR", {
@@ -188,6 +192,7 @@ export default async function BlogPage() {
                   {post.description}
                 </p>
                 <div className="flex items-center gap-3 text-xs text-slate-600">
+                  <span className="text-slate-500 font-medium">{post.author}</span>
                   <span className="flex items-center gap-1">
                     <Calendar className="w-3 h-3" />
                     {new Date(post.date).toLocaleDateString("tr-TR", {

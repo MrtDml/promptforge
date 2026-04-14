@@ -5,6 +5,7 @@ export interface BlogPost {
   date: string;
   readTime: number; // minutes
   category: string;
+  author?: string;
   content: string; // HTML
 }
 

@@ -74,6 +74,7 @@ async function resolvePost(slug: string): Promise<NormalizedPost | null> {
       date: staticPost.date,
       readTime: staticPost.readTime,
       category: staticPost.category,
+      author: staticPost.author ?? "Murat DUMLU",
       content: staticPost.content,
     };
   }
@@ -103,7 +104,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `https://promptforgeai.dev/blog/${post.slug}`,
       type: "article",
       publishedTime: post.date,
-      authors: ["PromptForge"],
+      authors: [post.author ?? "Murat DUMLU"],
       images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: post.title }],
     },
     twitter: {
@@ -190,9 +191,7 @@ export default async function BlogPostPage({ params }: Props) {
             </h1>
             <p className="text-slate-400 text-lg leading-relaxed mb-5">{post.description}</p>
             <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 border-t border-slate-800 pt-5">
-              {post.author && (
-                <span className="font-medium text-slate-400">{post.author}</span>
-              )}
+              <span className="font-medium text-slate-400">{post.author ?? "Murat DUMLU"}</span>
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />
                 {new Date(post.date).toLocaleDateString("tr-TR", {

@@ -281,6 +281,10 @@ export class AdminService {
 
     const post = await this.prisma.blogPost.create({ data: dto });
     this.logger.log(`Admin created blog post: ${dto.slug}`);
+
+    // Notify Google to re-crawl the sitemap
+    fetch('https://www.google.com/ping?sitemap=https://promptforgeai.dev/sitemap.xml').catch(() => {});
+
     return post;
   }
 

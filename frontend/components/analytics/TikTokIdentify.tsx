@@ -18,8 +18,7 @@ export default function TikTokIdentify({ email, userId }: Props) {
         userId ? sha256(userId) : Promise.resolve(undefined),
       ]);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (window as any).ttq?.identify({
+      window.ttq?.identify({
         ...(hashedEmail && { email: hashedEmail }),
         ...(hashedId && { external_id: hashedId }),
       });

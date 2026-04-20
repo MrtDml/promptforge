@@ -9,8 +9,7 @@ interface Props {
 
 export default function TikTokEvent({ event, params }: Props) {
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).ttq?.track(event, params ?? {});
+    window.ttq?.track(event, params ?? {});
   }, [event, params]);
 
   return null;

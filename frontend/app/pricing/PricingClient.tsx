@@ -179,8 +179,7 @@ export default function PricingClient() {
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).ttq?.track("ViewContent", { content_name: "Pricing Page" });
+    window.ttq?.track("ViewContent", { content_name: "Pricing Page" });
   }, []);
 
   const handlePlanSelect = useCallback(

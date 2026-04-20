@@ -31,9 +31,9 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://analytics.tiktok.com https://ads.tiktok.com https://connect.facebook.net https://www.googletagmanager.com",
-              "connect-src 'self' https://analytics.tiktok.com https://ads.tiktok.com https://connect.facebook.net",
-              "img-src 'self' data: blob: https://analytics.tiktok.com https://ads.tiktok.com https://www.facebook.com",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.tiktok.com https://connect.facebook.net https://www.googletagmanager.com",
+              "connect-src 'self' https://*.tiktok.com https://connect.facebook.net",
+              "img-src 'self' data: blob: https://*.tiktok.com https://www.facebook.com",
               "frame-src 'none'",
               "style-src 'self' 'unsafe-inline'",
               "font-src 'self' data:",

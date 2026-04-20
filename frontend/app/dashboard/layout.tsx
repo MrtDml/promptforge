@@ -6,6 +6,7 @@ import { isAuthenticated, getStoredUser } from "@/lib/auth";
 import Sidebar from "@components/layout/Sidebar";
 import AssistantWidget from "@components/ui/AssistantWidget";
 import ErrorBoundary from "@components/ui/ErrorBoundary";
+import TikTokIdentify from "@components/analytics/TikTokIdentify";
 import { Menu, Zap, MailWarning, X, Loader2 } from "lucide-react";
 import Link from "next/link";
 import apiClient from "@/lib/api";
@@ -22,6 +23,8 @@ export default function DashboardLayout({
   const [resending, setResending] = useState(false);
   const [resent, setResent] = useState(false);
   const [cooldown, setCooldown] = useState(0);
+
+  const storedUser = authChecked ? getStoredUser() : null;
 
   // Auth check — redirect to login immediately if not authenticated
   useEffect(() => {
@@ -73,6 +76,7 @@ export default function DashboardLayout({
 
   return (
     <div className="flex h-screen bg-slate-950 overflow-hidden">
+      <TikTokIdentify email={storedUser?.email} userId={storedUser?.id} />
       {/* Mobile backdrop overlay */}
       {sidebarOpen && (
         <div

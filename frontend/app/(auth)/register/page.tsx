@@ -60,6 +60,8 @@ function RegisterForm() {
       });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window as any).ttq?.track("CompleteRegistration");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (window as any).ttq?.track("Lead", { content_name: "Free Registration" });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Kayıt başarısız. Lütfen tekrar deneyin.");
     }

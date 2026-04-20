@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -177,6 +177,11 @@ function CellValue({ value }: { value: string | boolean }) {
 export default function PricingClient() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).ttq?.track("ViewContent", { content_name: "Pricing Page" });
+  }, []);
 
   const handlePlanSelect = useCallback(
     (tier: PricingTier) => {

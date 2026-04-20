@@ -58,6 +58,8 @@ function RegisterForm() {
         password,
         ...(referralCode.trim() ? { referralCode: referralCode.trim() } : {}),
       });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (window as any).ttq?.track("CompleteRegistration");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Kayıt başarısız. Lütfen tekrar deneyin.");
     }

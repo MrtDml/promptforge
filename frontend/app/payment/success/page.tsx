@@ -3,6 +3,7 @@ import { CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
 import type { Metadata } from "next";
 import LandingNav from "@components/layout/LandingNav";
 import LandingFooter from "@components/layout/LandingFooter";
+import TikTokEvent from "@components/analytics/TikTokEvent";
 
 export const metadata: Metadata = {
   title: "Ödeme Başarılı — PromptForge",
@@ -14,6 +15,7 @@ export default function PaymentSuccessPage() {
     <div className="min-h-screen bg-[#0a0b14] text-slate-100 flex flex-col">
       <LandingNav />
 
+      <TikTokEvent event="Purchase" />
       <main className="flex-1 flex items-center justify-center px-4 py-20">
         <div className="max-w-md w-full text-center">
           {/* Success icon */}

@@ -93,6 +93,13 @@ export default function CheckoutPage() {
     setLoading(true);
     setError(null);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).ttq?.track("InitiateCheckout", {
+      value: billing === "monthly" ? plan.monthlyPriceTRY : plan.annualPriceTRY,
+      currency: "TRY",
+      contents: [{ content_id: plan.id, content_name: `PromptForge ${plan.name}` }],
+    });
+
     try {
       const response = await apiClient.post<{ url: string }>("/api/v1/payment/checkout", {
         planType: plan.id,

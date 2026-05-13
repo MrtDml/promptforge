@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Zap, ArrowRight, Menu, X } from "lucide-react";
+import { Zap, ArrowRight, Menu, X, LayoutDashboard } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function LandingNav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, isAuthenticated, isLoading } = useAuth();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
@@ -23,110 +25,101 @@ export default function LandingNav() {
 
           {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-8">
-            <Link
-              href="/#features"
-              className="text-slate-400 hover:text-white transition-colors text-sm"
-            >
+            <Link href="/#features" className="text-slate-400 hover:text-white transition-colors text-sm">
               Özellikler
             </Link>
-            <Link
-              href="/#how-it-works"
-              className="text-slate-400 hover:text-white transition-colors text-sm"
-            >
+            <Link href="/#how-it-works" className="text-slate-400 hover:text-white transition-colors text-sm">
               Nasıl çalışır
             </Link>
-            <Link
-              href="/pricing"
-              className="text-slate-400 hover:text-white transition-colors text-sm"
-            >
+            <Link href="/pricing" className="text-slate-400 hover:text-white transition-colors text-sm">
               Fiyatlandırma
             </Link>
-            <Link
-              href="/blog"
-              className="text-slate-400 hover:text-white transition-colors text-sm"
-            >
+            <Link href="/blog" className="text-slate-400 hover:text-white transition-colors text-sm">
               Blog
             </Link>
           </div>
 
-          {/* Desktop CTA buttons */}
+          {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/login"
-              className="text-slate-300 hover:text-white transition-colors text-sm font-medium px-4 py-2"
-            >
-              Giriş yap
-            </Link>
-            <Link href="/register" className="btn-primary text-sm px-4 py-2">
-              Ücretsiz başla
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            {!isLoading && (
+              isAuthenticated ? (
+                <>
+                  <span className="text-slate-400 text-sm truncate max-w-[140px]">
+                    {user?.name}
+                  </span>
+                  <Link
+                    href="/dashboard"
+                    className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all duration-200"
+                  >
+                    <LayoutDashboard className="w-4 h-4" />
+                    Dashboard
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/login" className="text-slate-300 hover:text-white transition-colors text-sm font-medium px-4 py-2">
+                    Giriş yap
+                  </Link>
+                  <Link href="/register" className="btn-primary text-sm px-4 py-2">
+                    Ücretsiz başla
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </>
+              )
+            )}
           </div>
 
-          {/* Mobile: Sign in + hamburger */}
+          {/* Mobile: auth button + hamburger */}
           <div className="flex md:hidden items-center gap-1">
-            <Link
-              href="/login"
-              className="text-slate-300 hover:text-white transition-colors text-sm font-medium px-3 py-2"
-            >
-              Giriş yap
-            </Link>
+            {!isLoading && (
+              isAuthenticated ? (
+                <Link
+                  href="/dashboard"
+                  className="inline-flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors text-sm font-medium px-3 py-2"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  Dashboard
+                </Link>
+              ) : (
+                <Link href="/login" className="text-slate-300 hover:text-white transition-colors text-sm font-medium px-3 py-2">
+                  Giriş yap
+                </Link>
+              )
+            )}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors"
               aria-label={mobileMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
               aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <Menu className="w-5 h-5" />
-              )}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile dropdown menu */}
+        {/* Mobile dropdown */}
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-slate-800/80 py-3 space-y-1">
-            <Link
-              href="/#features"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm"
-            >
+            <Link href="/#features" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm">
               Özellikler
             </Link>
-            <Link
-              href="/#how-it-works"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm"
-            >
+            <Link href="/#how-it-works" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm">
               Nasıl çalışır
             </Link>
-            <Link
-              href="/pricing"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm"
-            >
+            <Link href="/pricing" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm">
               Fiyatlandırma
             </Link>
-            <Link
-              href="/blog"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm"
-            >
+            <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-lg transition-colors text-sm">
               Blog
             </Link>
-            <div className="pt-2 pb-1 border-t border-slate-800/60 mt-2">
-              <Link
-                href="/register"
-                onClick={() => setMobileMenuOpen(false)}
-                className="btn-primary w-full flex items-center justify-center gap-2 text-sm"
-              >
-                Ücretsiz başla
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+            {!isAuthenticated && (
+              <div className="pt-2 pb-1 border-t border-slate-800/60 mt-2">
+                <Link href="/register" onClick={() => setMobileMenuOpen(false)} className="btn-primary w-full flex items-center justify-center gap-2 text-sm">
+                  Ücretsiz başla
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            )}
           </div>
         )}
       </div>

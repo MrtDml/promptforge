@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -11,6 +11,7 @@ import {
   Sparkles,
   Building2,
   AlertCircle,
+  X,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import apiClient from "@/lib/api";
@@ -73,8 +74,11 @@ export default function CheckoutPage() {
   const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [paytrToken, setPaytrToken] = useState<string | null>(null);
 
-  // Redirect if not authenticated (after auth check)
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  // Redirect if not authenticated
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
       router.push(`/login?redirect=/checkout/${planKey}`);
@@ -88,6 +92,25 @@ export default function CheckoutPage() {
     }
   }, [plan, router]);
 
+  // PayTR iFrameResizer yükle ve başlat
+  useEffect(() => {
+    if (!paytrToken) return;
+
+    const script = document.createElement("script");
+    script.src = "https://www.paytr.com/js/iframeResizer.min.js";
+    script.onload = () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (window as any).iFrameResize({}, "#paytriframe");
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
+    };
+  }, [paytrToken]);
+
   const handlePay = useCallback(async () => {
     if (!plan) return;
     setLoading(true);
@@ -100,15 +123,15 @@ export default function CheckoutPage() {
     });
 
     try {
-      const response = await apiClient.post<{ url: string }>("/api/v1/payment/checkout", {
+      const response = await apiClient.post<{ token: string }>("/api/v1/payment/checkout", {
         planType: plan.id,
         billingCycle: billing,
       });
 
-      if (response.data?.url) {
-        window.location.href = response.data.url;
+      if (response.data?.token) {
+        setPaytrToken(response.data.token);
       } else {
-        setError("Ödeme sayfası oluşturulamadı. Lütfen tekrar deneyin.");
+        setError("Ödeme formu oluşturulamadı. Lütfen tekrar deneyin.");
       }
     } catch (err: unknown) {
       const message =
@@ -153,7 +176,7 @@ export default function CheckoutPage() {
             <div>
               <h1 className="text-3xl font-extrabold text-white mb-1">Siparişinizi tamamlayın</h1>
               <p className="text-slate-400">
-                Ödemeniz iyzico güvenli altyapısı üzerinden işlenecektir.
+                Ödemeniz PayTR güvenli altyapısı üzerinden işlenecektir.
               </p>
             </div>
 
@@ -249,92 +272,125 @@ export default function CheckoutPage() {
 
           {/* ── Payment panel (right) ── */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/50 p-6 sticky top-24">
-              {/* Customer info */}
-              <div className="mb-5">
-                <p className="text-xs text-slate-500 uppercase tracking-wider font-medium mb-3">Hesap bilgileri</p>
-                <div className="rounded-xl bg-slate-800/60 border border-slate-700/40 px-4 py-3">
-                  <p className="text-white text-sm font-medium">{user?.name || "Kullanıcı"}</p>
-                  <p className="text-slate-400 text-xs mt-0.5">{user?.email}</p>
+            {paytrToken ? (
+              /* PayTR iFrame */
+              <div className="rounded-2xl border border-slate-700/60 bg-slate-900/50 overflow-hidden">
+                <div className="px-4 py-3 border-b border-slate-700/60 flex items-center gap-2">
+                  <Lock className="w-4 h-4 text-green-400" />
+                  <span className="text-sm text-slate-300 font-medium">Güvenli Ödeme</span>
+                  <span className="ml-auto text-xs font-bold text-white bg-slate-700 px-2 py-0.5 rounded-full">
+                    PayTR
+                  </span>
+                </div>
+                <iframe
+                  ref={iframeRef}
+                  src={`https://www.paytr.com/odeme/guvenli/${paytrToken}`}
+                  id="paytriframe"
+                  frameBorder={0}
+                  scrolling="no"
+                  style={{ width: "100%", minHeight: "500px", display: "block" }}
+                />
+                <div className="px-4 py-3 border-t border-slate-700/60">
+                  <button
+                    onClick={() => { setPaytrToken(null); setError(null); }}
+                    className="w-full flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm transition-colors"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                    Ödemeyi iptal et
+                  </button>
                 </div>
               </div>
-
-              {/* Error message */}
-              {error && (
-                <div className="mb-4 rounded-xl border border-red-800/40 bg-red-950/20 px-4 py-3 flex items-start gap-2.5">
-                  <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-red-300 text-sm">{error}</p>
+            ) : (
+              /* Pay button panel */
+              <div className="rounded-2xl border border-slate-700/60 bg-slate-900/50 p-6 sticky top-24">
+                {/* Customer info */}
+                <div className="mb-5">
+                  <p className="text-xs text-slate-500 uppercase tracking-wider font-medium mb-3">Hesap bilgileri</p>
+                  <div className="rounded-xl bg-slate-800/60 border border-slate-700/40 px-4 py-3">
+                    <p className="text-white text-sm font-medium">{user?.name || "Kullanıcı"}</p>
+                    <p className="text-slate-400 text-xs mt-0.5">{user?.email}</p>
+                  </div>
                 </div>
-              )}
 
-              {/* Pay button */}
-              <button
-                onClick={handlePay}
-                disabled={loading}
-                className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 text-white font-semibold py-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/20 hover:shadow-indigo-500/30 text-base"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    Yönlendiriliyor...
-                  </>
-                ) : (
-                  <>
-                    <Lock className="w-4 h-4" />
-                    iyzico ile Güvenli Öde
-                  </>
+                {/* Error message */}
+                {error && (
+                  <div className="mb-4 rounded-xl border border-red-800/40 bg-red-950/20 px-4 py-3 flex items-start gap-2.5">
+                    <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
+                    <p className="text-red-300 text-sm">{error}</p>
+                  </div>
                 )}
-              </button>
 
-              <p className="text-xs text-slate-500 text-center mt-3">
-                Ödeme sayfasına yönlendirileceksiniz
-              </p>
+                {/* Pay button */}
+                <button
+                  onClick={handlePay}
+                  disabled={loading}
+                  className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 text-white font-semibold py-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/20 hover:shadow-indigo-500/30 text-base"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Hazırlanıyor...
+                    </>
+                  ) : (
+                    <>
+                      <Lock className="w-4 h-4" />
+                      PayTR ile Güvenli Öde
+                    </>
+                  )}
+                </button>
 
-              {/* iyzico branding */}
-              <div className="mt-5 pt-5 border-t border-slate-700/60">
-                <p className="text-xs text-slate-600 text-center mb-3">Güvenli ödeme altyapısı</p>
-                <div className="flex items-center justify-center gap-2 flex-wrap">
-                  <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
-                    <span className="text-[10px] font-black text-white tracking-tight">iyzico</span>
-                  </div>
-                  <div className="flex items-center px-2.5 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
-                    <span className="text-[10px] font-black text-blue-400 tracking-widest italic">VISA</span>
-                  </div>
-                  <div className="flex items-center gap-0.5 px-2.5 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
-                    <span className="w-3.5 h-3.5 rounded-full bg-red-500 opacity-90 inline-block -mr-1.5" />
-                    <span className="w-3.5 h-3.5 rounded-full bg-orange-400 opacity-90 inline-block" />
-                    <span className="text-[9px] text-slate-400 font-semibold ml-1">MC</span>
-                  </div>
-                  <div className="flex items-center px-2.5 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
-                    <span className="text-[10px] font-black text-slate-300 tracking-wider">TROY</span>
-                  </div>
-                  <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-green-800/40 bg-green-950/30">
-                    <svg className="w-2.5 h-2.5 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" /></svg>
-                    <span className="text-[9px] text-green-400 font-semibold">SSL</span>
-                  </div>
-                  <div className="flex items-center px-2.5 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
-                    <span className="text-[9px] text-slate-400 font-semibold">3D Secure</span>
+                <p className="text-xs text-slate-500 text-center mt-3">
+                  Ödeme formu bu sayfada açılacak
+                </p>
+
+                {/* PayTR branding */}
+                <div className="mt-5 pt-5 border-t border-slate-700/60">
+                  <p className="text-xs text-slate-600 text-center mb-3">Güvenli ödeme altyapısı</p>
+                  <div className="flex items-center justify-center gap-2 flex-wrap">
+                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
+                      <span className="text-[10px] font-black text-white tracking-tight">PayTR</span>
+                    </div>
+                    <div className="flex items-center px-2.5 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
+                      <span className="text-[10px] font-black text-blue-400 tracking-widest italic">VISA</span>
+                    </div>
+                    <div className="flex items-center gap-0.5 px-2.5 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
+                      <span className="w-3.5 h-3.5 rounded-full bg-red-500 opacity-90 inline-block -mr-1.5" />
+                      <span className="w-3.5 h-3.5 rounded-full bg-orange-400 opacity-90 inline-block" />
+                      <span className="text-[9px] text-slate-400 font-semibold ml-1">MC</span>
+                    </div>
+                    <div className="flex items-center px-2.5 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
+                      <span className="text-[10px] font-black text-slate-300 tracking-wider">TROY</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-green-800/40 bg-green-950/30">
+                      <svg className="w-2.5 h-2.5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-[9px] text-green-400 font-semibold">SSL</span>
+                    </div>
+                    <div className="flex items-center px-2.5 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/40">
+                      <span className="text-[9px] text-slate-400 font-semibold">3D Secure</span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Legal links */}
-              <p className="text-xs text-slate-600 text-center mt-4">
-                Ödeme yaparak{" "}
-                <Link href="/mesafeli-satis-sozlesmesi" className="underline hover:text-slate-400 transition-colors">
-                  Mesafeli Satış Sözleşmesi
-                </Link>
-                ,{" "}
-                <Link href="/terms" className="underline hover:text-slate-400 transition-colors">
-                  Kullanım Koşulları
-                </Link>
-                {" "}ve{" "}
-                <Link href="/iade-politikasi" className="underline hover:text-slate-400 transition-colors">
-                  İade Politikası
-                </Link>
-                &apos;nı kabul etmiş olursunuz.
-              </p>
-            </div>
+                {/* Legal links */}
+                <p className="text-xs text-slate-600 text-center mt-4">
+                  Ödeme yaparak{" "}
+                  <Link href="/mesafeli-satis-sozlesmesi" className="underline hover:text-slate-400 transition-colors">
+                    Mesafeli Satış Sözleşmesi
+                  </Link>
+                  ,{" "}
+                  <Link href="/terms" className="underline hover:text-slate-400 transition-colors">
+                    Kullanım Koşulları
+                  </Link>
+                  {" "}ve{" "}
+                  <Link href="/iade-politikasi" className="underline hover:text-slate-400 transition-colors">
+                    İade Politikası
+                  </Link>
+                  &apos;nı kabul etmiş olursunuz.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </main>

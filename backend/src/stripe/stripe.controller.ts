@@ -27,8 +27,8 @@ export class StripeController {
   ) {}
 
   /**
-   * POST /api/v1/stripe/checkout
-   * iyzico abonelik ödeme formu oluşturur ve yönlendirme URL'si döner.
+   * POST /api/v1/payment/checkout
+   * PayTR iFrame token oluşturur. Frontend token'ı iFrame URL'si için kullanır.
    */
   @Post('checkout')
   @UseGuards(JwtAuthGuard)
@@ -43,19 +43,25 @@ export class StripeController {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user) throw new NotFoundException('Kullanıcı bulunamadı');
 
-    const url = await this.stripeService.createIyzicoCheckout(
+    const userIp =
+      (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() ||
+      req.ip ||
+      '127.0.0.1';
+
+    const token = await this.stripeService.createPaytrToken(
       userId,
       email,
       name || user.name,
       planType,
+      userIp,
     );
 
-    this.logger.log(`iyzico checkout oluşturuldu: kullanıcı=${userId}, plan=${planType}`);
-    return { url };
+    this.logger.log(`PayTR checkout oluşturuldu: kullanıcı=${userId}, plan=${planType}`);
+    return { token };
   }
 
   /**
-   * POST /api/v1/stripe/portal
+   * POST /api/v1/payment/portal
    * Kullanıcıyı abonelik yönetim sayfasına yönlendirir.
    */
   @Post('portal')
@@ -67,7 +73,7 @@ export class StripeController {
   }
 
   /**
-   * POST /api/v1/stripe/cancel
+   * POST /api/v1/payment/cancel
    * Kullanıcının aktif aboneliğini iptal eder.
    */
   @Post('cancel')
@@ -79,9 +85,9 @@ export class StripeController {
   }
 
   /**
-   * POST /api/v1/stripe/webhook
-   * iyzico ödeme callback'i — form-data (application/x-www-form-urlencoded) alır.
-   * JWT gerekmez. İşlem sonrası tarayıcıyı frontend'e yönlendirir.
+   * POST /api/v1/payment/webhook
+   * PayTR ödeme sonucu bildirimi — form-data (application/x-www-form-urlencoded) alır.
+   * JWT gerekmez. PayTR MUTLAKA "OK" text yanıtı bekler.
    */
   @Post('webhook')
   async handleWebhook(@Req() req: Request, @Res() res: Response) {
@@ -91,16 +97,16 @@ export class StripeController {
       throw new BadRequestException('Geçersiz webhook body');
     }
 
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
-    this.logger.log(`iyzico webhook alındı: status=${body.status}`);
+    this.logger.log(`PayTR webhook alındı: status=${body.status}, oid=${body.merchant_oid}`);
 
     try {
       await this.stripeService.handleWebhookCallback(body);
-      return res.redirect(302, `${frontendUrl}/payment/success`);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
-      this.logger.error(`iyzico webhook işlenemedi: ${message}`);
-      return res.redirect(302, `${frontendUrl}/payment/failed`);
+      this.logger.error(`PayTR webhook işlenemedi: ${message}`);
     }
+
+    // PayTR "OK" yanıtı almazsa ödemeyi tekrar gönderir
+    return res.send('OK');
   }
 }

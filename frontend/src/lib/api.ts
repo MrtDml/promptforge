@@ -260,10 +260,10 @@ export const deployApi = {
     apiClient.get(`/api/v1/deploy/${projectId}/status`),
 };
 
-// ─── iyzico / Ödeme endpoints ─────────────────────────────────────────────────
+// ─── PayTR / Ödeme endpoints ──────────────────────────────────────────────────
 
 export const stripeApi = {
-  /** iyzico ödeme formunu oluşturur ve kullanıcıyı oraya yönlendirir. */
+  /** Abonelik yönetim sayfasına yönlendirir. */
   createPortalSession: async (): Promise<void> => {
     const response = await apiClient.post<{ url: string }>("/api/v1/payment/portal");
     const { url } = response.data;

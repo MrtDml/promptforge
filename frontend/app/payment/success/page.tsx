@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import LandingNav from "@components/layout/LandingNav";
 import LandingFooter from "@components/layout/LandingFooter";
 import TikTokEvent from "@components/analytics/TikTokEvent";
+import IFrameBreaker from "@components/IFrameBreaker";
 
 export const metadata: Metadata = {
   title: "Ödeme Başarılı — PromptForge",
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
 export default function PaymentSuccessPage() {
   return (
     <div className="min-h-screen bg-[#0a0b14] text-slate-100 flex flex-col">
+      <IFrameBreaker />
       <LandingNav />
 
       <TikTokEvent event="Purchase" />

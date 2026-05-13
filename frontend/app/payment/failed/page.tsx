@@ -3,6 +3,7 @@ import { XCircle, ArrowRight, RotateCcw } from "lucide-react";
 import type { Metadata } from "next";
 import LandingNav from "@components/layout/LandingNav";
 import LandingFooter from "@components/layout/LandingFooter";
+import IFrameBreaker from "@components/IFrameBreaker";
 
 export const metadata: Metadata = {
   title: "Ödeme Başarısız — PromptForge",
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
 export default function PaymentFailedPage() {
   return (
     <div className="min-h-screen bg-[#0a0b14] text-slate-100 flex flex-col">
+      <IFrameBreaker />
       <LandingNav />
 
       <main className="flex-1 flex items-center justify-center px-4 py-20">

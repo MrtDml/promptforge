@@ -27,9 +27,10 @@ const contactJsonLd = {
     url: "https://promptforgeai.dev",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "TepeTepe Prime İş ve Yaşam Merkezi, Mustafa Kemal Mah. Dumlupınar Bulvarı",
-      addressLocality: "Çankaya",
-      addressRegion: "Ankara",
+      streetAddress: "Lalapaşa Mah. 1. Sümbül Sk. Sünbül Apt. B Blok No: 5 İç Kapı No: 4",
+      addressLocality: "Yakutiye",
+      addressRegion: "Erzurum",
+      postalCode: "25070",
       addressCountry: "TR",
     },
     contactPoint: {

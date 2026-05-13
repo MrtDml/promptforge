@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Zap } from "lucide-react";
+import { Zap, MapPin } from "lucide-react";
 
 export default function LandingFooter() {
   const year = new Date().getFullYear();
@@ -19,6 +19,14 @@ export default function LandingFooter() {
             <p className="text-slate-500 text-sm leading-relaxed max-w-xs">
               SaaS fikrinizi yapay zeka ile dakikalar içinde üretime hazır koda dönüştürün.
             </p>
+            <div className="mt-4 flex items-start gap-1.5">
+              <MapPin className="w-3.5 h-3.5 text-slate-700 mt-0.5 flex-shrink-0" />
+              <address className="not-italic text-slate-700 text-xs leading-relaxed">
+                Lalapaşa Mah. 1. Sümbül Sk.<br />
+                Sünbül Apt. B Blok No: 5 İç: 4<br />
+                Yakutiye / Erzurum, Türkiye
+              </address>
+            </div>
           </div>
 
           {/* Product */}

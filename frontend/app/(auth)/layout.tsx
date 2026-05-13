@@ -7,10 +7,10 @@ export const metadata: Metadata = {
 };
 
 const features = [
-  "From plain English to production-ready backend",
-  "Prisma, REST API, auth, Docker — all included",
-  "JWT auth and role-based access control built-in",
-  "Ship your SaaS in minutes, not months",
+  "Tek cümleyle üretime hazır backend kodu",
+  "Prisma, REST API, kimlik doğrulama, Docker — hepsi dahil",
+  "JWT auth ve rol tabanlı erişim kontrolü hazır",
+  "SaaS'ını aylarca değil, dakikalar içinde çıkar",
 ];
 
 export default function AuthLayout({
@@ -48,14 +48,14 @@ export default function AuthLayout({
           {/* Bottom content */}
           <div className="mt-auto">
             <h2 className="text-3xl xl:text-4xl font-extrabold text-white leading-tight tracking-tight mb-4">
-              Ship your SaaS in{" "}
-              <span className="text-indigo-400">minutes,</span>
+              SaaS&apos;ını aylarca değil,{" "}
+              <span className="text-indigo-400">dakikalar</span>
               <br />
-              not months.
+              içinde çıkar.
             </h2>
             <p className="text-slate-300 text-base mb-8 leading-relaxed">
-              Turn a plain-English description into a complete,
-              production-ready backend. No boilerplate. No manual setup.
+              Tek cümlelik açıklamanı eksiksiz, üretime hazır backend koda
+              dönüştür. Şablon kod yok. Manuel kurulum yok.
             </p>
             <ul className="space-y-3">
               {features.map((f) => (
@@ -94,20 +94,20 @@ export default function AuthLayout({
         <footer className="px-6 py-5 border-t border-slate-800/40">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-2 max-w-[420px] mx-auto sm:max-w-none">
             <p className="text-slate-600 text-xs">
-              © {new Date().getFullYear()} PromptForge. All rights reserved.
+              © {new Date().getFullYear()} PromptForge. Tüm hakları saklıdır.
             </p>
             <div className="flex items-center gap-4">
               <Link
                 href="/privacy"
                 className="text-slate-600 hover:text-slate-400 text-xs transition-colors"
               >
-                Privacy
+                Gizlilik
               </Link>
               <Link
                 href="/terms"
                 className="text-slate-600 hover:text-slate-400 text-xs transition-colors"
               >
-                Terms
+                Kullanım Koşulları
               </Link>
             </div>
           </div>

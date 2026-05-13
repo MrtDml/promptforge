@@ -7,7 +7,7 @@ export default function OAuthButtons({ label = "sign in" }: { label?: string }) 
     <div className="space-y-3">
       <div className="relative flex items-center gap-3">
         <div className="flex-1 h-px bg-slate-800" />
-        <span className="text-slate-500 text-xs font-medium">or {label} with</span>
+        <span className="text-slate-500 text-xs font-medium">veya {label} ile devam et</span>
         <div className="flex-1 h-px bg-slate-800" />
       </div>
 

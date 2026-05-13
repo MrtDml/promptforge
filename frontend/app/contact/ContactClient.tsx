@@ -154,10 +154,10 @@ export default function ContactClient() {
                     <p className="text-sm font-medium text-white">Adres</p>
                     <p className="text-slate-400 text-sm">Murat Dumlu Bilgi Teknolojileri</p>
                     <p className="text-slate-500 text-xs mt-0.5">
-                      TepeTepe Prime İş ve Yaşam Merkezi,
+                      Lalapaşa Mah. 1. Sümbül Sk.
                     </p>
-                    <p className="text-slate-500 text-xs">Mustafa Kemal Mah. Dumlupınar Bulvarı</p>
-                    <p className="text-slate-500 text-xs">Çankaya / Ankara, Türkiye</p>
+                    <p className="text-slate-500 text-xs">Sünbül Apt. B Blok No: 5 İç Kapı No: 4</p>
+                    <p className="text-slate-500 text-xs">Yakutiye / Erzurum, Türkiye</p>
                   </div>
                 </div>
 
@@ -367,17 +367,16 @@ export default function ContactClient() {
               </form>
             )}
 
-            {/* Google Maps embed */}
+            {/* OpenStreetMap embed — Yakutiye / Erzurum */}
             <div className="rounded-xl overflow-hidden border border-slate-800">
               <iframe
-                title="PromptForge Ankara Ofis"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3060.6!2d32.7970!3d39.9032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d34f7b3b3b3b3b%3A0x0!2sTepeTepe+Prime+%C4%B0%C5%9F+ve+Ya%C5%9Fam+Merkezi%2C+Mustafa+Kemal+Mah.+Dumlup%C4%B1nar+Bulvar%C4%B1%2C+%C3%87ankaya%2C+Ankara!5e0!3m2!1str!2str!4v1700000000000!5m2!1str!2str"
+                title="PromptForge Erzurum Ofis"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=41.2481%2C39.8865%2C41.2981%2C39.9265&amp;layer=mapnik&amp;marker=39.9065%2C41.2681"
                 width="100%"
                 height="220"
                 style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)" }}
                 allowFullScreen
                 loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
           </div>

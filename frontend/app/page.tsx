@@ -64,6 +64,13 @@ import {
   ChevronRight,
   CheckCircle2,
   FileText,
+  Brain,
+  Building2,
+  ShoppingCart,
+  Share2,
+  Package,
+  Map,
+  Lightbulb,
 } from "lucide-react";
 
 const features = [
@@ -145,6 +152,51 @@ const steps = [
 ];
 
 
+const saasCategories = [
+  {
+    icon: Brain,
+    title: "AI Destekli Sistemler",
+    color: "text-purple-400",
+    bg: "bg-purple-400/10",
+    items: ["Blog yazı oluşturucu", "Reklam metni üretici", "AI chatbot sistemi", "AI CV hazırlayıcı", "AI ürün açıklama aracı"],
+  },
+  {
+    icon: Building2,
+    title: "Küçük İşletme SaaS",
+    color: "text-blue-400",
+    bg: "bg-blue-400/10",
+    items: ["QR menü sistemi", "Online randevu sistemi", "Kafe sipariş sistemi", "Mini muhasebe yazılımı", "Stok yönetim paneli"],
+  },
+  {
+    icon: ShoppingCart,
+    title: "E-Ticaret Araçları",
+    color: "text-green-400",
+    bg: "bg-green-400/10",
+    items: ["Rakip fiyat analiz sistemi", "XML ürün dönüştürücü", "Kargo takip paneli", "Sipariş yönetim sistemi", "Trend ürün analizi"],
+  },
+  {
+    icon: Share2,
+    title: "Sosyal Medya & İçerik",
+    color: "text-pink-400",
+    bg: "bg-pink-400/10",
+    items: ["Sosyal medya planlayıcı", "Hashtag üretici", "TikTok analiz sistemi", "YouTube SEO aracı", "İçerik performans paneli"],
+  },
+  {
+    icon: Package,
+    title: "Mikro SaaS Projeleri",
+    color: "text-orange-400",
+    bg: "bg-orange-400/10",
+    items: ["Link kısaltma servisi", "QR kod üretici", "Dijital kartvizit platformu", "Form oluşturucu", "AI makale özetleyici"],
+  },
+  {
+    icon: Map,
+    title: "Türkiye'ye Özel SaaS",
+    color: "text-red-400",
+    bg: "bg-red-400/10",
+    items: ["E-fatura çözümleri", "Esnaf otomasyon sistemi", "Emlak ofisi yönetimi", "KOBİ dijitalleşme araçları", "Yerel kargo entegrasyonları"],
+  },
+];
+
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -157,9 +209,10 @@ const organizationJsonLd = {
   description: "Yapay zeka destekli SaaS oluşturucu — tek prompttan üretime hazır NestJS backend üretin.",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "TepeTepe Prime İş ve Yaşam Merkezi, Mustafa Kemal Mah. Dumlupınar Bulvarı",
-    addressLocality: "Çankaya",
-    addressRegion: "Ankara",
+    streetAddress: "Lalapaşa Mah. 1. Sümbül Sk. Sünbül Apt. B Blok No: 5 İç Kapı No: 4",
+    addressLocality: "Yakutiye",
+    addressRegion: "Erzurum",
+    postalCode: "25070",
     addressCountry: "TR",
   },
   sameAs: [
@@ -361,6 +414,92 @@ export default async function LandingPage() {
                 14 entity üretildi · 42 API endpoint · 18 dosya · Docker hazır
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SaaS Ideas Showcase ── */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600/10 border border-indigo-600/20 text-indigo-400 text-sm font-medium mb-6">
+              <Lightbulb className="w-4 h-4" />
+              AI SaaS Rehberi — 2026
+            </div>
+            <h2 className="text-4xl font-bold mb-4">
+              Hangi{" "}
+              <span className="gradient-text">SaaS Fikrini</span>{" "}
+              Hayata Geçireceksin?
+            </h2>
+            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+              PromptForge ile aşağıdaki kategorilerden herhangi bir fikri tek cümleyle tanımla — dakikalar içinde üretime hazır backend kodu sende.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-14">
+            {saasCategories.map((cat) => (
+              <div
+                key={cat.title}
+                className="glass-card p-5 hover:border-slate-600/80 transition-all duration-300 group"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div
+                    className={`w-10 h-10 rounded-xl ${cat.bg} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}
+                  >
+                    <cat.icon className={`w-5 h-5 ${cat.color}`} />
+                  </div>
+                  <h3 className="font-semibold text-white text-sm">{cat.title}</h3>
+                </div>
+                <ul className="space-y-1.5">
+                  {cat.items.map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-xs text-slate-500">
+                      <span className="w-1 h-1 rounded-full bg-indigo-500/50 flex-shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* SaaS açıklama + adımlar */}
+          <div className="glass-card p-6 md:p-10 border-indigo-600/20 bg-indigo-950/10 mb-8">
+            <div className="flex flex-col lg:flex-row lg:items-start gap-8">
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold text-white mb-3">SaaS Nedir? Neden AI ile?</h3>
+                <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                  <strong className="text-slate-200">SaaS (Software as a Service)</strong>, kullanıcıların program kurmadan internet üzerinden eriştiği yazılım sistemidir. Günümüzde yapay zeka ile birleşen SaaS projeleri; otomasyon, gelir modeli ve ölçeklenebilirlik açısından teknoloji dünyasının en güçlü girişim alanlarından biri haline gelmiştir.
+                </p>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  <strong className="text-slate-200">promptforgeai.dev</strong>, kullanıcıların yeni nesil AI destekli SaaS proje fikirleri üretmesine, sistem mimarileri oluşturmasına ve dijital girişimlerini planlamasına yardımcı olmak amacıyla geliştirilmiştir. Tek cümlelik bir açıklamadan NestJS backend, Prisma şeması, REST API ve Docker kurulumu dakikalar içinde hazır.
+                </p>
+              </div>
+              <div className="lg:w-72 space-y-3">
+                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Nasıl çalışır?</p>
+                {[
+                  { n: "01", label: "Problem belirle", sub: "Hedef sektörü ve kullanıcı ihtiyacını tanımla" },
+                  { n: "02", label: "Prompt yaz", sub: "Uygulamanı sade Türkçe ile tek cümleyle anlat" },
+                  { n: "03", label: "Şemayı onayla", sub: "Entity'leri, ilişkileri ve API'leri önizle" },
+                  { n: "04", label: "İndir veya dağıt", sub: "ZIP al, GitHub'a gönder ya da Railway'e dağıt" },
+                ].map((step) => (
+                  <div key={step.n} className="flex items-start gap-3">
+                    <span className="text-2xl font-black text-indigo-600/30 font-mono w-8 flex-shrink-0">{step.n}</span>
+                    <div>
+                      <p className="text-sm font-semibold text-white">{step.label}</p>
+                      <p className="text-xs text-slate-500">{step.sub}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <p className="text-slate-500 text-sm mb-4">Yukarıdaki fikirlerden birini geliştirmek ister misin?</p>
+            <Link href="/register" className="btn-primary inline-flex items-center gap-2">
+              Ücretsiz Üretmeye Başla
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>

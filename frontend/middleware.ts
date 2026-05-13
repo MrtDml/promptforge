@@ -32,7 +32,7 @@ export function middleware(request: NextRequest) {
     [
       "default-src 'self'",
       // Next.js requires unsafe-inline/unsafe-eval for hydration & hot reload
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.sentry.io https://cdn.vercel-insights.com https://va.vercel-scripts.com https://analytics.tiktok.com https://ads.tiktok.com https://connect.facebook.net https://www.googletagmanager.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.sentry.io https://cdn.vercel-insights.com https://va.vercel-scripts.com https://analytics.tiktok.com https://ads.tiktok.com https://connect.facebook.net https://www.googletagmanager.com https://www.paytr.com",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
       "font-src 'self'",

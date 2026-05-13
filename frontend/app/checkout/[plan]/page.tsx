@@ -287,7 +287,7 @@ export default function CheckoutPage() {
                   id="paytriframe"
                   frameBorder={0}
                   scrolling="no"
-                  style={{ width: "100%", minHeight: "500px", display: "block" }}
+                  style={{ width: "100%", minHeight: "800px", display: "block" }}
                 />
                 <div className="px-4 py-3 border-t border-slate-700/60">
                   <button

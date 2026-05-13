@@ -33,10 +33,11 @@ export class StripeService {
     const plan = PLANS[planType];
     const amountKurus = plan.priceTRY * 100;
 
-    // merchant_oid: PF-{P|S}-{cuid}-{epochSeconds}
-    // cuid contains no hyphens — safe to split by '-' in webhook
+    // merchant_oid: PF{P|S}{epochSeconds}{cuid} — sadece alfanümerik (PayTR zorunluluğu)
+    // Parse: [2]=planCode, [3..12]=epoch(10 rakam), [13..]=userId(cuid)
     const planCode = planType === 'starter' ? 'S' : 'P';
-    const merchantOid = `PF-${planCode}-${userId}-${Math.floor(Date.now() / 1000)}`;
+    const epochSec = Math.floor(Date.now() / 1000);
+    const merchantOid = `PF${planCode}${epochSec}${userId}`;
 
     const userBasket = Buffer.from(
       JSON.stringify([[`PromptForge ${plan.name}`, plan.priceTRY.toFixed(2), 1]]),
@@ -124,15 +125,14 @@ export class StripeService {
       return;
     }
 
-    // merchant_oid parse: PF-{P|S}-{cuid}-{epochSeconds}
-    const parts = merchant_oid.split('-');
-    if (parts.length !== 4 || parts[0] !== 'PF') {
+    // merchant_oid parse: PF{P|S}{epoch10}{cuid}
+    if (!merchant_oid.startsWith('PF') || merchant_oid.length < 14) {
       this.logger.error(`Geçersiz merchant_oid formatı: ${merchant_oid}`);
       return;
     }
 
-    const planCode = parts[1];
-    const userId = parts[2];
+    const planCode = merchant_oid[2];
+    const userId = merchant_oid.slice(13);
     const planType: PlanType = planCode === 'S' ? 'starter' : 'pro';
     const plan = PLANS[planType];
 

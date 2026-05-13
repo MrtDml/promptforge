@@ -36,10 +36,10 @@ export function middleware(request: NextRequest) {
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
       "font-src 'self'",
-      // API, Sentry, PostHog, Google OAuth, iyzico payment, TikTok Pixel, Meta Pixel
-      "connect-src 'self' https://*.sentry.io https://o*.ingest.sentry.io https://app.posthog.com https://eu.posthog.com https://api.promptforgeai.dev https://accounts.google.com https://vitals.vercel-insights.com https://analytics.tiktok.com https://ads.tiktok.com https://business-api.tiktok.com https://connect.facebook.net https://www.facebook.com",
-      // iyzico ödeme iframe'i
-      "frame-src https://iyzicore.com https://sandbox-iyzicore.com https://www.iyzipay.com",
+      // API, Sentry, PostHog, Google OAuth, PayTR, TikTok Pixel, Meta Pixel
+      "connect-src 'self' https://*.sentry.io https://o*.ingest.sentry.io https://app.posthog.com https://eu.posthog.com https://api.promptforgeai.dev https://accounts.google.com https://vitals.vercel-insights.com https://analytics.tiktok.com https://ads.tiktok.com https://business-api.tiktok.com https://connect.facebook.net https://www.facebook.com https://www.paytr.com",
+      // PayTR ödeme iframe'i
+      "frame-src https://www.paytr.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",

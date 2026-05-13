@@ -99,8 +99,7 @@ export default function CheckoutPage() {
     const script = document.createElement("script");
     script.src = "https://www.paytr.com/js/iframeResizer.min.js";
     script.onload = () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (window as any).iFrameResize({}, "#paytriframe");
+      (window as unknown as { iFrameResize: (opts: object, sel: string) => void }).iFrameResize({}, "#paytriframe");
     };
     document.head.appendChild(script);
 
